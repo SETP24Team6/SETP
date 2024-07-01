@@ -1,0 +1,45 @@
+name: on pull request
+on:
+  pull_request:
+    types: [opened]
+
+jobs:
+  notify_pull_request:
+    name: Notify Pull Request
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send Telegram message on pull request via curl
+        env:
+          TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ vars.TELEGRAM_CHAT_ID }}
+          TELEGRAM_THREAD_ID: ${{ vars.TELEGRAM_THREAD_ID_PULL_REQUESTS }}
+          PR_TITLE: ${{ github.event.pull_request.title }}
+          PR_STATE: ${{ github.event.pull_request.state }}
+          PR_LABELS: ${{ join(github.event.pull_request.labels.*.name, ', ') }}
+          PR_ASSIGNEES: ${{ join(github.event.pull_request.assignees.*.login, ', ') }}
+          PR_REVIEWERS: ${{ join(github.event.pull_request.requested_reviewers.*.login, ', ') }}
+          REPOSITORY: ${{ github.repository }}
+          ACTOR: ${{ github.actor }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          
+        run: |
+          curl -s -X POST "https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage" \
+          -d chat_id="${TELEGRAM_CHAT_ID}" \
+          -d message_thread_id="${TELEGRAM_THREAD_ID}" \
+          -d parse_mode="Markdown" \
+          -d text="*${ACTOR} created a pull request*
+  
+          *Title*: \`${PR_TITLE}\`
+  
+          *Status*: ${PR_STATE}
+  
+          *Labels*: ${PR_LABELS}
+  
+          *Assignees*: ${PR_ASSIGNEES}
+  
+          *Reviewers*: ${PR_REVIEWERS}
+  
+          *Repository*: \`${REPOSITORY}\`
+  
+          [View Pull Request](https://github.com/${REPOSITORY}/pull/${PR_NUMBER})"
+  

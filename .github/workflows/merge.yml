@@ -1,0 +1,36 @@
+name: on merge
+on:
+  pull_request:
+    types: [closed]
+
+jobs:
+  notify_pull_request_merge:
+    name: Notify Pull Request Merge
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+  
+      - name: Send Telegram message on pull request merge via curl
+        env:
+          TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ vars.TELEGRAM_CHAT_ID }}
+          TELEGRAM_THREAD_ID: ${{ vars.TELEGRAM_THREAD_ID_PR }}
+          PR_TITLE: ${{ github.event.pull_request.title }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          REPOSITORY: ${{ github.repository }}
+          ACTOR: ${{ github.actor }}
+        run: |
+          curl -s -X POST "https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage" \
+          -d chat_id="${TELEGRAM_CHAT_ID}" \
+          -d message_thread_id="${TELEGRAM_THREAD_ID}" \
+          -d parse_mode="Markdown" \
+          -d text="*${ACTOR} merged a pull request*
+  
+          *Title*: \`${PR_TITLE}\`
+  
+          *Repository*: \`${REPOSITORY}\`
+  
+          [View Pull Request](https://github.com/${REPOSITORY}/pull/${PR_NUMBER})"
+  
