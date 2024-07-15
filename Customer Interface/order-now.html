@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Now</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="scripts.js" defer></script>
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1>Order Now</h1>
+        </header>
+        <nav>
+            <button class="tab active">Pickup</button>
+        </nav>
+        <main>
+            <p>Select a store to order from</p>
+            <div class="dropdown">
+                <button class="dropbtn">
+                    <span class="location-icon">📍</span>
+                    <span id="selected-location">Choose Location</span>
+                    <span class="dropdown-arrow">▼</span>
+                </button>
+                <div class="dropdown-content">
+                    <a href="#" data-location="Bite & Delight Expo">Bite & Delight Expo</a>
+                    <a href="#" data-location="Bite & Delight Bugis">Bite & Delight Bugis</a>
+                    <a href="#" data-location="Bite & Delight Chinatown">Bite & Delight Chinatown</a>
+                    <a href="#" data-location="Bite & Delight Downtown">Bite & Delight Downtown</a>
+                    <a href="#" data-location="Bite & Delight Eunos">Bite & Delight Eunos</a>
+                </div>
+            </div>
+            <button class="order-button" id="start-order">Start order</button>
+        </main>
+    </div>
+
+    <!-- The Modal -->
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <div class="signup-login-container">
+                <div class="image-section">
+                    <div class="image-wrapper">
+                        <img src="/Customer Interface/asset/sandwich.jpg" alt="Mindful eating" class="signup-image">
+                        <div class="image-text">Embrace the art of mindful eating, where flavours come alive!</div>
+                    </div>
+                </div>
+                <div class="form-section">
+                    <span class="form-close">&times;</span>
+                    <h2 id="form-title">Login</h2>
+                    <form id="auth-form" class="auth-form">
+                        <label for="email">Email:</label>
+                        <input type="email" id="email" name="email" required>
+                        <label for="password">Password:</label>
+                        <input type="password" id="password" name="password" required>
+                        <button type="button" class="switch-button" id="switch-to-signup">No account? Sign up</button>
+                        <button type="submit" class="submit-button">Submit</button>
+                    </form>
+                    <form id="signup-form" class="auth-form" style="display:none;">
+                        <h2 id="signup-title" style="display:none;">Sign Up</h2>
+                        <label for="first-name">First Name:</label>
+                        <input type="text" id="first-name" name="first-name" required>
+                        <label for="last-name">Last Name:</label>
+                        <input type="text" id="last-name" name="last-name" required>
+                        <label for="phone">Phone Number:</label>
+                        <input type="tel" id="phone" name="phone" required>
+                        <label for="email-signup">Email:</label>
+                        <input type="email" id="email-signup" name="email-signup" required>
+                        <label for="password-signup">Password:</label>
+                        <input type="password" id="password-signup" name="password-signup" required>
+                        <button type="button" class="switch-button" id="switch-to-login">Already have an account? Log
+                            in</button>
+                        <button type="submit" class="submit-button">Sign Up</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>

@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menu</title>
+    <link rel="stylesheet" href="create-sandwich.css">
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav>
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="#customise">Make your sandwich</a></li>
+            <li><a href="cart.html">Cart</a></li>
+        </ul>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Personalized Recommendations Section -->
+        <section id="recommendations">
+            <h2>Personalized Recommendations</h2>
+            <div class="recommendations-list">
+                <!-- List of personalized recommended sandwiches will go here -->
+            </div>
+        </section>
+
+        <!-- Customizing Menu Section -->
+        <section id="customise" class="create-sandwich">
+            <div class="overlay">
+                <div class="options">
+                    <div class="option" id="sandwich-option">
+                        <img src="asset/sandwich-icon.png" alt="Sandwich Icon">
+                        <h3>Sandwich</h3>
+                    </div>
+                    <div class="option">
+                        <img src="asset/smoothie-icon.png" alt="Smoothie Icon">
+                        <h3>Smoothie</h3>
+                    </div>
+                </div>
+                <div id="customize-sandwich-content" class="hidden">
+                    <p>Freshly baked bread layered with grilled herb-spiced chicken and crisp, garden-fresh vegetables.
+                        Select your preferred sauces and toppings to create an exceptionally tasty sandwich.</p>
+                    <!-- Arrow Icon to move to next section -->
+                    <div class="arrow-icon" id="arrow-icon">
+                        Customise Your Sandwich
+                        <div class="arrow"></div>
+                    </div>
+                    <!-- Step 1: Pick Your Bread -->
+                    <div id="step-1" class="step hidden">
+                        <h2>Step 1: Pick Your Bread</h2>
+                        <div class="choices">
+                            <div class="choice" data-choice="Sourdough">
+                                <img src="asset/sourdough.jpg" alt="Sourdough">
+                                <h3>Sourdough</h3>
+                            </div>
+                            <div class="choice" data-choice="Wholemeal">
+                                <img src="asset/wholemeal.jpg" alt="Wholemeal">
+                                <h3>Wholemeal</h3>
+                            </div>
+                            <div class="choice" data-choice="Oat Bread">
+                                <img src="asset/oatbread.jpg" alt="Oat Bread">
+                                <h3>Oat Bread</h3>
+                            </div>
+                            <div class="choice" data-choice="Italian Herb">
+                                <img src="asset/italianherb.jpg" alt="Italian Herb">
+                                <h3>Italian Herb</h3>
+                            </div>
+                        </div>
+                        <div class="navigation-buttons">
+                            <div class="arrow-icon next-step-arrow hidden" id="arrow-icon-1">
+                                Next Step
+                                <div class="arrow"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Step 2: Pick Your Protein -->
+                    <div id="step-2" class="step hidden">
+                        <div class="navigation-buttons">
+                            <div class="arrow-icon back-arrow" id="back-arrow-2">
+                                <div class="arrow left"></div>
+                                Back
+                            </div>
+                            <div class="arrow-icon next-step-arrow hidden" id="arrow-icon-2">
+                                Next Step
+                                <div class="arrow"></div>
+                            </div>
+                        </div>
+                        <h2>Step 2: Pick Your Protein</h2>
+                        <div class="choices">
+                            <div class="choice" data-choice="Pulled Lamb">
+                                <img src="asset/pulled-lamb.jpg" alt="Pulled Lamb">
+                                <h3>Pulled Lamb</h3>
+                            </div>
+                            <div class="choice" data-choice="Chicken">
+                                <img src="asset/chickenbreast.jpg" alt="Chicken">
+                                <h3>Teriyaki Chicken</h3>
+                            </div>
+                            <div class="choice" data-choice="Beef">
+                                <img src="asset/beef.jpg" alt="Beef">
+                                <h3>Ultimate Beef</h3>
+                            </div>
+                            <div class="choice" data-choice="Smoked Salmon">
+                                <img src="asset/smokedsalmon.jpg" alt="Smoked Salmon">
+                                <h3>Smoked Salmon</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Step 3: Pick Your Veggies -->
+                    <div id="step-3" class="step hidden multiple-selection">
+                        <div class="navigation-buttons">
+                            <div class="arrow-icon back-arrow" id="back-arrow-3">
+                                <div class="arrow left"></div>
+                                Back
+                            </div>
+                            <div class="arrow-icon next-step-arrow hidden" id="arrow-icon-3">
+                                Next Step
+                                <div class="arrow"></div>
+                            </div>
+                        </div>
+                        <h2>Step 3: Pick Your Veggies</h2>
+                        <div class="choices">
+                            <div class="choice" data-choice="Lettuce">
+                                <img src="asset/iceberge-lettuce.png" alt="Lettuce">
+                                <h3>Lettuce</h3>
+                            </div>
+                            <div class="choice" data-choice="Tomato">
+                                <img src="asset/tomato.png" alt="Tomato">
+                                <h3>Tomato</h3>
+                            </div>
+                            <div class="choice" data-choice="Cucumber">
+                                <img src="asset/cucumber.png" alt="Cucumber">
+                                <h3>Cucumber</h3>
+                            </div>
+                            <div class="choice" data-choice="Onion">
+                                <img src="asset/onion.png" alt="Onion">
+                                <h3>Onion</h3>
+                            </div>
+                            <div class="choice" data-choice="Bell Peppers">
+                                <img src="asset/bellpeppers.jpg" alt="Bell Peppers">
+                                <h3>Bell Peppers</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Step 4: Pick Your Sauce -->
+                    <div id="step-4" class="step hidden multiple-selection">
+                        <div class="navigation-buttons">
+                            <div class="arrow-icon back-arrow" id="back-arrow-4">
+                                <div class="arrow left"></div>
+                                Back
+                            </div>
+                            <div class="arrow-icon next-step-arrow hidden" id="arrow-icon-4">
+                                Finish
+                                <div class="arrow"></div>
+                            </div>
+                        </div>
+                        <h2>Step 4: Pick Your Sauce</h2>
+                        <div class="choices">
+                            <div class="choice" data-choice="Mayo">
+                                <img src="asset/Mayocucumber.png" alt="Mayo">
+                                <h3>Mayo Cucumber</h3>
+                            </div>
+                            <div class="choice" data-choice="Mustard">
+                                <img src="asset/honeymustard.png" alt="Mustard">
+                                <h3>Honey Mustard</h3>
+                            </div>
+                            <div class="choice" data-choice="Honey Mustard">
+                                <img src="asset/Habenaro.png" alt="Honey Mustard">
+                                <h3>Habanero</h3>
+                            </div>
+                            <div class="choice" data-choice="BBQ Sauce">
+                                <img src="asset/avocado.webp" alt="BBQ Sauce">
+                                <h3>Avocado Lime Crema</h3>
+                            </div>
+                            <div class="choice" data-choice="BBQ Sauce">
+                                <img src="asset/bbq.jpg" alt="BBQ Sauce">
+                                <h3>BBQ</h3>
+                            </div>
+                            <div class="choice" data-choice="Wasabi Mayo">
+                                <img src="asset/wasabimayo.png" alt="Wasabi Mayo">
+                                <h3>Wasabi Mayo</h3>
+                            </div>
+                            <div class="choice" data-choice="Sweet Thai">
+                                <img src="asset/Sweetthai.png" alt="Sweet Thai">
+                                <h3>Sweet Thai</h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="summary" class="hidden">
+                <h3>Your Sandwich Summary</h3>
+                <div id="summary-steps"></div>
+                <button id="back-to-selection">Back to Selection</button>
+                <button id="complete-order">Complete</button>
+            </div>
+        </section>
+    </div>
+
+    <!-- Takeaway Modal -->
+    <div id="takeaway-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h3>Takeaway</h3>
+            <p>You have selected Cross Street</p>
+            <p>Select Takeaway Date</p>
+            <div class="date-selection">
+                <button class="date-button">TODAY 14 JUL</button>
+                <button class="date-button">MON 15 JUL</button>
+                <button class="date-button">TUE 16 JUL</button>
+                <button class="date-button">WED 17 JUL</button>
+                <button class="date-button">THU 18 JUL</button>
+            </div>
+            <p>Select Takeaway Time</p>
+            <select id="takeaway-time">
+                <option value="8:00 AM to 8:30 AM">8:00 AM to 8:30 AM</option>
+                <option value="8:30 AM to 9:00 AM">8:30 AM to 9:00 AM</option>
+                <option value="9:00 AM to 9:30 AM">9:00 AM to 9:30 AM</option>
+                <option value="9:30 AM to 10:00 AM">9:30 AM to 10:00 AM</option>
+            </select>
+            <button id="confirm-takeaway">Confirm</button>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="create-sandwich.js"></script>
+</body>
+
+</html>
