@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Staff Registration - Good Eats</title>
+    <link rel="stylesheet" href="../BiteNDelights/style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">
+            <h1>GoodEats</h1>
+        </div>
+       
+    </nav>
+    <div class="registration-container">
+        <h1>GoodEats Family Registration</h1>
+        
+        <form id="registration-form">
+            <div class="form-group">
+                <label for="first-name">First Name:</label>
+                <input type="text" id="first-name" name="first_name" required>
+            </div>
+            <div class="form-group">
+                <label for="last-name">Last Name:</label>
+                <input type="text" id="last-name" name="last_name" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            <div class="form-group">
+                <label for="confirm-password">Confirm Password:</label>
+                <input type="password" id="confirm-password" name="confirm_password" required>
+            </div>
+            <div class="form-group">
+                <label for="phone">Phone Number:</label>
+                <input type="tel" id="phone" name="phone" required>
+            </div>
+            <div class="form-group">
+                <label for="address-line1">Address Line 1:</label>
+                <input type="text" id="address-line1" name="address_line1" required>
+            </div>
+            <div class="form-group">
+                <label for="address-line2">Address Line 2:</label>
+                <input type="text" id="address-line2" name="address_line2">
+            </div>
+            <div class="form-group">
+                <label for="city">City:</label>
+                <input type="text" id="city" name="city" required>
+            </div>
+            <div class="form-group">
+                <label for="state">State/Province/Region:</label>
+                <input type="text" id="state" name="state" required>
+            </div>
+            <div class="form-group">
+                <label for="postal-code">Postal/Zip Code:</label>
+                <input type="text" id="postal-code" name="postal_code" required>
+            </div>
+            <div class="form-group">
+                <label for="country">Country:</label>
+                <select id="country" name="country" required>
+                    <option value="">Select Country</option>
+                    <!-- Add country options here -->
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="dob">Date of Birth:</label>
+                <input type="date" id="dob" name="dob">
+            </div>
+            <div class="form-group">
+                <label for="gender">Gender:</label>
+                <select id="gender" name="gender">
+                    <option value="">Select Gender</option>
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                    <option value="other">Other</option>
+                </select>
+            </div>  
+        </form>
+    </div>
+    <div class="hero-section">
+        <div class="hero-content">
+          
+            <p id="typewriter-text"></p><span id="cursor">|</span>
+        </div>
+        <div class="button-container">
+            <button class="customer-btn"><a href="staffdashboard.html" >Register</a></button>
+           
+        </div>
+       
+    <script src="script.js"></script>
+</body>
+
+</html>
