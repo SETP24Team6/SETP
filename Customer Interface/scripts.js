@@ -95,14 +95,14 @@ document.addEventListener("DOMContentLoaded", function () {
         event.preventDefault();
         // Add your login functionality here
         alert('Logged in successfully!');
-        modal.style.display = 'none';
+        window.location.href = 'create-sandwich.html';
     };
 
     signupForm.onsubmit = function (event) {
         event.preventDefault();
         // Add your sign-up functionality here
         alert('Account created successfully!');
-        modal.style.display = 'none';
+        window.location.href = 'create-sandwich.html';
     };
 
     forgotPasswordForm.onsubmit = function (event) {

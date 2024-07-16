@@ -65,6 +65,25 @@ nav ul li a:hover {
     padding: 20px;
     border-radius: 10px;
     height: 100%;
+    text-align: center;
+}
+
+.create-sandwich .section-title {
+    font-size: 48px;
+    margin-bottom: 20px;
+    font-weight: bold;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+    position: absolute;
+    top: 0;
+    /* Adjust as needed */
+    left: 20px;
+    /* Adjust as needed */
+    background-color: rgba(0, 0, 0, 0.5);
+    /* Optional: to add background to the title */
+    padding: 10px;
+    /* Optional: to add padding around the title */
+    border-radius: 5px;
+    /* Optional: to round the corners of the background */
 }
 
 .create-sandwich h2 {

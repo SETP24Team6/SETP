@@ -15,7 +15,12 @@ document.addEventListener('DOMContentLoaded', function () {
     const confirmTakeawayButton = document.getElementById('confirm-takeaway');
 
     let currentStep = 0;
-    let selectedChoices = [];
+    let selectedChoices = {
+        bread: '',
+        protein: '',
+        veggies: [],
+        sauces: []
+    };
 
     sandwichOption.addEventListener('click', () => {
         customizeSandwichContent.classList.remove('hidden');
@@ -62,6 +67,8 @@ document.addEventListener('DOMContentLoaded', function () {
                 if (selected > 3) {
                     choice.classList.remove('selected');
                 }
+
+                updateSelectedChoices(choice, 'veggies');
             } else if (choice.parentNode.parentNode.id === 'step-4') {
                 // Handle multiple selection for sauces
                 choice.classList.toggle('selected');
@@ -76,6 +83,8 @@ document.addEventListener('DOMContentLoaded', function () {
                 if (selected > 2) {
                     choice.classList.remove('selected');
                 }
+
+                updateSelectedChoices(choice, 'sauces');
             } else {
                 // Handle single selection for steps 1 and 2
                 choices.forEach(c => c.classList.remove('selected'));
