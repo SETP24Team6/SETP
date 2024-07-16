@@ -22,8 +22,6 @@ body {
     margin-bottom: 20px;
 }
 
-
-
 header h1 {
     font-family: 'Brush Script MT', cursive;
     color: #205522;
@@ -231,7 +229,8 @@ main p {
 }
 
 #form-title,
-#signup-title {
+#signup-title,
+#forgot-password-title {
     color: #205522;
     margin-bottom: 20px;
     text-align: center;
@@ -253,7 +252,8 @@ main p {
 }
 
 .submit-button,
-.switch-button {
+.switch-button,
+.forgot-password {
     background-color: #205522;
     border: none;
     border-radius: 25px;
@@ -273,6 +273,13 @@ main p {
     color: #205522;
     border: 2px solid #205522;
     margin-top: 10px;
+    display: block;
+    width: 100%;
+    padding: 15px 30px;
+    font-size: 18px;
+    cursor: pointer;
+    outline: none;
+    border-radius: 25px;
 }
 
 .switch-button:disabled,

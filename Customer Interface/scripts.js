@@ -1,4 +1,3 @@
-// Newly added event listeners and functions for forgot password
 document.addEventListener("DOMContentLoaded", function () {
     const dropdownContent = document.querySelectorAll('.dropdown-content a');
     const selectedLocation = document.getElementById('selected-location');
@@ -15,7 +14,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const formTitle = document.getElementById('form-title');
     const signupTitle = document.getElementById('signup-title');
     const forgotPasswordTitle = document.getElementById('forgot-password-title');
-    
+
     dropdownContent.forEach(item => {
         item.addEventListener('click', function (event) {
             event.preventDefault();
@@ -59,6 +58,7 @@ document.addEventListener("DOMContentLoaded", function () {
     switchToSignup.onclick = function () {
         authForm.style.display = 'none';
         signupForm.style.display = 'block';
+        forgotPasswordForm.style.display = 'none';
         formTitle.style.display = 'none';
         signupTitle.style.display = 'block';
         forgotPasswordTitle.style.display = 'none';
@@ -67,6 +67,7 @@ document.addEventListener("DOMContentLoaded", function () {
     switchToLogin.onclick = function () {
         signupForm.style.display = 'none';
         authForm.style.display = 'block';
+        forgotPasswordForm.style.display = 'none';
         formTitle.style.display = 'block';
         signupTitle.style.display = 'none';
         forgotPasswordTitle.style.display = 'none';
@@ -81,10 +82,20 @@ document.addEventListener("DOMContentLoaded", function () {
         forgotPasswordTitle.style.display = 'none';
     };
 
+    forgotPassword.onclick = function () {
+        authForm.style.display = 'none';
+        signupForm.style.display = 'none';
+        forgotPasswordForm.style.display = 'block';
+        formTitle.style.display = 'none';
+        signupTitle.style.display = 'none';
+        forgotPasswordTitle.style.display = 'block';
+    };
+
     authForm.onsubmit = function (event) {
         event.preventDefault();
         // Add your login functionality here
-        window.location.href = "create-sandwich.html";
+        alert('Logged in successfully!');
+        modal.style.display = 'none';
     };
 
     signupForm.onsubmit = function (event) {
