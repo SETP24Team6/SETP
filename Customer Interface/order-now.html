@@ -43,7 +43,7 @@
             <div class="signup-login-container">
                 <div class="image-section">
                     <div class="image-wrapper">
-                        <img src="/Customer Interface/asset/sandwich.jpg" alt="Mindful eating" class="signup-image">
+                        <img src="asset/sandwich.jpg" alt="Mindful eating" class="signup-image">
                         <div class="image-text">Embrace the art of mindful eating, where flavours come alive!</div>
                     </div>
                 </div>
@@ -65,8 +65,10 @@
                         <input type="text" id="first-name" name="first-name" required>
                         <label for="last-name">Last Name:</label>
                         <input type="text" id="last-name" name="last-name" required>
+                        <label for="birthday">Birthday (DD/MM/YYYY):</label>
+                        <input type="text" id="birthday" name="birthday" pattern="\d{2}/\d{2}/\d{4}" required>
                         <label for="phone">Phone Number:</label>
-                        <input type="tel" id="phone" name="phone" required>
+                        <input type="tel" id="phone" name="phone" pattern="\d{8}" maxlength="8" required>
                         <label for="email-signup">Email:</label>
                         <input type="email" id="email-signup" name="email-signup" required>
                         <label for="password-signup">Password:</label>
