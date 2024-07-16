@@ -267,13 +267,15 @@ main p {
     width: 100%;
 }
 
-.switch-button {
+.switch-button,
+.forgot-password {
     background-color: transparent;
     color: #205522;
     border: 2px solid #205522;
     margin-top: 10px;
 }
 
-.switch-button:disabled {
+.switch-button:disabled,
+.forgot-password:disabled {
     display: none;
 }

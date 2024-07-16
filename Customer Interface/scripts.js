@@ -1,3 +1,4 @@
+// Newly added event listeners and functions for forgot password
 document.addEventListener("DOMContentLoaded", function () {
     const dropdownContent = document.querySelectorAll('.dropdown-content a');
     const selectedLocation = document.getElementById('selected-location');
@@ -6,11 +7,15 @@ document.addEventListener("DOMContentLoaded", function () {
     const closeElements = document.querySelectorAll('.close, .form-close'); // Combine both close buttons
     const authForm = document.getElementById('auth-form');
     const signupForm = document.getElementById('signup-form');
+    const forgotPasswordForm = document.getElementById('forgot-password-form');
     const switchToSignup = document.getElementById('switch-to-signup');
     const switchToLogin = document.getElementById('switch-to-login');
+    const switchToLoginFromForgot = document.getElementById('switch-to-login-from-forgot');
+    const forgotPassword = document.getElementById('forgot-password');
     const formTitle = document.getElementById('form-title');
     const signupTitle = document.getElementById('signup-title');
-
+    const forgotPasswordTitle = document.getElementById('forgot-password-title');
+    
     dropdownContent.forEach(item => {
         item.addEventListener('click', function (event) {
             event.preventDefault();
@@ -56,6 +61,7 @@ document.addEventListener("DOMContentLoaded", function () {
         signupForm.style.display = 'block';
         formTitle.style.display = 'none';
         signupTitle.style.display = 'block';
+        forgotPasswordTitle.style.display = 'none';
     };
 
     switchToLogin.onclick = function () {
@@ -63,6 +69,16 @@ document.addEventListener("DOMContentLoaded", function () {
         authForm.style.display = 'block';
         formTitle.style.display = 'block';
         signupTitle.style.display = 'none';
+        forgotPasswordTitle.style.display = 'none';
+    };
+
+    switchToLoginFromForgot.onclick = function () {
+        signupForm.style.display = 'none';
+        authForm.style.display = 'block';
+        forgotPasswordForm.style.display = 'none';
+        formTitle.style.display = 'block';
+        signupTitle.style.display = 'none';
+        forgotPasswordTitle.style.display = 'none';
     };
 
     authForm.onsubmit = function (event) {
@@ -75,6 +91,13 @@ document.addEventListener("DOMContentLoaded", function () {
         event.preventDefault();
         // Add your sign-up functionality here
         alert('Account created successfully!');
+        modal.style.display = 'none';
+    };
+
+    forgotPasswordForm.onsubmit = function (event) {
+        event.preventDefault();
+        // Add your forgot password functionality here
+        alert('Password reset successfully!');
         modal.style.display = 'none';
     };
 
