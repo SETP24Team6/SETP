@@ -1,4 +1,43 @@
 document.addEventListener('DOMContentLoaded', function () {
+    // Smooth scrolling for navigation links
+    document.querySelectorAll('nav a').forEach(anchor => {
+        if (anchor.getAttribute('href').startsWith("#")) {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        }
+    });
+
+    // Parallax scrolling effect
+    window.addEventListener('scroll', function () {
+        const scrollPosition = window.scrollY;
+        document.querySelectorAll('.parallax').forEach(element => {
+            const speed = element.getAttribute('data-speed');
+            element.style.transform = `translateY(${scrollPosition * speed}px)`;
+        });
+    });
+
+    // IntersectionObserver for animating elements on scroll
+    const observerOptions = {
+        threshold: 0.1
+    };
+
+    const observer = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+                observer.unobserve(entry.target);
+            }
+        });
+    }, observerOptions);
+
+    document.querySelectorAll('.animate-on-scroll').forEach(element => {
+        observer.observe(element);
+    });
+
     const sandwichOption = document.getElementById('sandwich-option');
     const customizeSandwichContent = document.getElementById('customize-sandwich-content');
     const arrowIcon = document.getElementById('arrow-icon');
@@ -15,12 +54,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const confirmTakeawayButton = document.getElementById('confirm-takeaway');
 
     let currentStep = 0;
-    let selectedChoices = {
-        bread: '',
-        protein: '',
-        veggies: [],
-        sauces: []
-    };
+    let selectedChoices = [];
 
     sandwichOption.addEventListener('click', () => {
         customizeSandwichContent.classList.remove('hidden');
@@ -37,6 +71,7 @@ document.addEventListener('DOMContentLoaded', function () {
             currentStep++;
             if (currentStep < steps.length) {
                 steps[currentStep].classList.remove('hidden');
+                steps[currentStep].classList.add('animated', 'fadeInUp');
             } else {
                 displaySummary();
             }
@@ -48,6 +83,7 @@ document.addEventListener('DOMContentLoaded', function () {
             steps[currentStep].classList.add('hidden');
             currentStep--;
             steps[currentStep].classList.remove('hidden');
+            steps[currentStep].classList.add('animated', 'fadeInUp');
         });
     });
 
@@ -67,8 +103,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 if (selected > 3) {
                     choice.classList.remove('selected');
                 }
-
-                updateSelectedChoices(choice, 'veggies');
             } else if (choice.parentNode.parentNode.id === 'step-4') {
                 // Handle multiple selection for sauces
                 choice.classList.toggle('selected');
@@ -83,8 +117,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 if (selected > 2) {
                     choice.classList.remove('selected');
                 }
-
-                updateSelectedChoices(choice, 'sauces');
             } else {
                 // Handle single selection for steps 1 and 2
                 choices.forEach(c => c.classList.remove('selected'));
@@ -95,6 +127,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     currentStep++;
                     if (currentStep < steps.length) {
                         steps[currentStep].classList.remove('hidden');
+                        steps[currentStep].classList.add('animated', 'fadeInUp');
                     }
                 }, 1000);
             }
@@ -152,3 +185,4 @@ document.addEventListener('DOMContentLoaded', function () {
         summary.classList.remove('hidden');
     }
 });
+
