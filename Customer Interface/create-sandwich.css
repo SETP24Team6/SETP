@@ -53,31 +53,88 @@ nav ul li a:hover {
     background-repeat: no-repeat;
     background-position: center;
     width: 100%;
-    height: 100vh;
-    /* Adjust the height as needed */
     display: flex;
-    align-items: flex-start;
-    /* Align items to the top */
+    flex-direction: column;
+    align-items: center;
     justify-content: flex-start;
-    /* Adjust this to align text to the left */
     color: white;
     text-align: left;
     margin: 0;
     position: relative;
+    padding-top: 60px;
+    /* Added to move the title up */
 }
 
 #recommendations h2 {
-    font-size: 36px;
+    font-size: 32px;
+    /* Reduced font size */
     margin: 20px;
     background: rgba(0, 0, 0, 0.5);
     border-radius: 5px;
     padding: 10px;
     position: absolute;
     /* Ensure it's positioned within the section */
-    top: 20px;
+    top: 10px;
+    /* Moved up */
     /* Position it within the image */
-    left: 100px;
+    left: 50%;
+    transform: translateX(-50%);
 }
+
+.recommendations-list {
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-start;
+    width: 100%;
+    max-width: 1200px;
+    margin-top: 80px;
+    /* Adjust to move below the title */
+}
+
+.recommendation-item {
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 5px;
+    margin: 10px;
+    padding: 10px;
+    width: 30%;
+    box-sizing: border-box;
+}
+
+.recommendation-item h3 {
+    font-size: 24px;
+    margin: 10px 0;
+}
+
+.recommendation-item p {
+    font-size: 16px;
+    margin: 5px 0;
+}
+
+.recommendation-item img {
+    width: 100%;
+    border-radius: 5px;
+    margin-top: 5px;
+    height: 300px;
+    /* Ensure height does not exceed box */
+    object-fit: cover;
+}
+
+.recommendation-item button {
+    background-color: black;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 10px;
+}
+
+.recommendation-item button:hover {
+    background-color: teal;
+}
+
+/* Other existing CSS for sandwich customization and modal */
 
 .create-sandwich {
     background-image: url('asset/sandwich background.png');
@@ -108,7 +165,7 @@ nav ul li a:hover {
     /* Ensure it's positioned within the section */
     background: rgba(0, 0, 0, 0.5);
     border-radius: 5px;
-    
+
     /* Adjust position as needed */
     left: 100px;
 }
@@ -353,6 +410,7 @@ nav ul li a:hover {
 #confirm-takeaway:hover {
     background-color: #FF7F11;
 }
+
 @keyframes fadeInUp {
     from {
         transform: translate3d(0, 100%, 0);

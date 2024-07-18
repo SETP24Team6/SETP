@@ -1,43 +1,4 @@
 document.addEventListener('DOMContentLoaded', function () {
-    // Smooth scrolling for navigation links
-    document.querySelectorAll('nav a').forEach(anchor => {
-        if (anchor.getAttribute('href').startsWith("#")) {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth'
-                });
-            });
-        }
-    });
-
-    // Parallax scrolling effect
-    window.addEventListener('scroll', function () {
-        const scrollPosition = window.scrollY;
-        document.querySelectorAll('.parallax').forEach(element => {
-            const speed = element.getAttribute('data-speed');
-            element.style.transform = `translateY(${scrollPosition * speed}px)`;
-        });
-    });
-
-    // IntersectionObserver for animating elements on scroll
-    const observerOptions = {
-        threshold: 0.1
-    };
-
-    const observer = new IntersectionObserver((entries, observer) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('visible');
-                observer.unobserve(entry.target);
-            }
-        });
-    }, observerOptions);
-
-    document.querySelectorAll('.animate-on-scroll').forEach(element => {
-        observer.observe(element);
-    });
-
     const sandwichOption = document.getElementById('sandwich-option');
     const customizeSandwichContent = document.getElementById('customize-sandwich-content');
     const arrowIcon = document.getElementById('arrow-icon');
@@ -45,16 +6,21 @@ document.addEventListener('DOMContentLoaded', function () {
     const nextStepArrows = document.querySelectorAll('.next-step-arrow');
     const backArrows = document.querySelectorAll('.back-arrow');
     const choices = document.querySelectorAll('.choice');
-    const summary = document.getElementById('summary');
+    const summarySection = document.getElementById('summary');
     const summarySteps = document.getElementById('summary-steps');
     const backToSelectionButton = document.getElementById('back-to-selection');
     const completeOrderButton = document.getElementById('complete-order');
     const takeawayModal = document.getElementById('takeaway-modal');
-    const closeTakeawayModal = document.querySelector('.close');
+    const closeTakeawayModal = document.getElementById('close-takeaway-modal');
     const confirmTakeawayButton = document.getElementById('confirm-takeaway');
 
     let currentStep = 0;
-    let selectedChoices = [];
+    let selectedChoices = {
+        bread: '',
+        protein: '',
+        veggies: [],
+        sauces: []
+    };
 
     sandwichOption.addEventListener('click', () => {
         customizeSandwichContent.classList.remove('hidden');
@@ -71,7 +37,6 @@ document.addEventListener('DOMContentLoaded', function () {
             currentStep++;
             if (currentStep < steps.length) {
                 steps[currentStep].classList.remove('hidden');
-                steps[currentStep].classList.add('animated', 'fadeInUp');
             } else {
                 displaySummary();
             }
@@ -83,106 +48,126 @@ document.addEventListener('DOMContentLoaded', function () {
             steps[currentStep].classList.add('hidden');
             currentStep--;
             steps[currentStep].classList.remove('hidden');
-            steps[currentStep].classList.add('animated', 'fadeInUp');
         });
     });
 
     choices.forEach(choice => {
         choice.addEventListener('click', () => {
-            if (choice.parentNode.parentNode.id === 'step-3') {
+            const stepId = choice.parentNode.parentNode.id;
+            if (stepId === 'step-3') {
                 // Handle multiple selection for vegetables
                 choice.classList.toggle('selected');
                 const selected = choice.parentNode.querySelectorAll('.selected').length;
-                if (selected === 3) {
+                if (selected >= 1 && selected <= 3) {
                     nextStepArrows[currentStep].classList.remove('hidden');
                 } else {
                     nextStepArrows[currentStep].classList.add('hidden');
                 }
 
-                // Deselect choices if more than 3 are selected
-                if (selected > 3) {
-                    choice.classList.remove('selected');
+                // Update selected choices
+                const veggieName = choice.querySelector('h3').textContent;
+                if (choice.classList.contains('selected')) {
+                    if (!selectedChoices.veggies.includes(veggieName)) {
+                        selectedChoices.veggies.push(veggieName);
+                    }
+                } else {
+                    selectedChoices.veggies = selectedChoices.veggies.filter(v => v !== veggieName);
                 }
-            } else if (choice.parentNode.parentNode.id === 'step-4') {
+            } else if (stepId === 'step-4') {
                 // Handle multiple selection for sauces
                 choice.classList.toggle('selected');
                 const selected = choice.parentNode.querySelectorAll('.selected').length;
-                if (selected === 2) {
+                if (selected >= 1 && selected <= 2) {
                     nextStepArrows[currentStep].classList.remove('hidden');
                 } else {
                     nextStepArrows[currentStep].classList.add('hidden');
                 }
 
-                // Deselect choices if more than 2 are selected
-                if (selected > 2) {
-                    choice.classList.remove('selected');
+                // Update selected choices
+                const sauceName = choice.querySelector('h3').textContent;
+                if (choice.classList.contains('selected')) {
+                    if (!selectedChoices.sauces.includes(sauceName)) {
+                        selectedChoices.sauces.push(sauceName);
+                    }
+                } else {
+                    selectedChoices.sauces = selectedChoices.sauces.filter(s => s !== sauceName);
                 }
             } else {
                 // Handle single selection for steps 1 and 2
                 choices.forEach(c => c.classList.remove('selected'));
                 choice.classList.add('selected');
                 nextStepArrows[currentStep].classList.remove('hidden');
+
+                // Update selected choices
+                const choiceName = choice.querySelector('h3').textContent;
+                if (stepId === 'step-1') {
+                    selectedChoices.bread = choiceName;
+                } else if (stepId === 'step-2') {
+                    selectedChoices.protein = choiceName;
+                }
+
                 setTimeout(() => {
                     steps[currentStep].classList.add('hidden');
                     currentStep++;
                     if (currentStep < steps.length) {
                         steps[currentStep].classList.remove('hidden');
-                        steps[currentStep].classList.add('animated', 'fadeInUp');
+                    } else {
+                        displaySummary();
                     }
                 }, 1000);
-            }
-
-            const stepTitle = steps[currentStep].querySelector('h2').textContent;
-            const choiceName = choice.querySelector('h3').textContent;
-
-            const existingChoice = selectedChoices.find(c => c.step === stepTitle);
-            if (existingChoice) {
-                existingChoice.choice = choiceName;
-            } else {
-                selectedChoices.push({ step: stepTitle, choice: choiceName });
             }
         });
     });
 
+    function displaySummary() {
+        let summaryHtml = `
+            <p>Choice of Bread: ${selectedChoices.bread}</p>
+            <p>Choice of Protein: ${selectedChoices.protein}</p>
+            <p>Base: ${selectedChoices.veggies.join(', ')}</p>
+            <p>Sauces: ${selectedChoices.sauces.join(', ')}</p>
+        `;
+        summarySteps.innerHTML = summaryHtml;
+        summarySection.classList.remove('hidden');
+    }
+
     backToSelectionButton.addEventListener('click', () => {
-        summary.classList.add('hidden');
-        steps.forEach(step => step.classList.add('hidden'));
+        summarySection.classList.add('hidden');
         currentStep = 0;
-        steps[currentStep].classList.remove('hidden');
+        steps.forEach(step => step.classList.add('hidden'));
+        arrowIcon.classList.remove('hidden');
+        customizeSandwichContent.classList.add('hidden');
+        selectedChoices = {
+            bread: '',
+            protein: '',
+            veggies: [],
+            sauces: []
+        };
+        choices.forEach(choice => choice.classList.remove('selected'));
     });
 
     completeOrderButton.addEventListener('click', () => {
-        takeawayModal.style.display = 'block';
+        takeawayModal.classList.remove('hidden');
     });
 
     closeTakeawayModal.addEventListener('click', () => {
-        takeawayModal.style.display = 'none';
-    });
-
-    window.addEventListener('click', (event) => {
-        if (event.target == takeawayModal) {
-            takeawayModal.style.display = 'none';
-        }
+        takeawayModal.classList.add('hidden');
     });
 
     confirmTakeawayButton.addEventListener('click', () => {
-        takeawayModal.style.display = 'none';
         alert('Takeaway confirmed!');
+        takeawayModal.classList.add('hidden');
+        // Resetting everything
+        summarySection.classList.add('hidden');
+        currentStep = 0;
+        steps.forEach(step => step.classList.add('hidden'));
+        arrowIcon.classList.remove('hidden');
+        customizeSandwichContent.classList.add('hidden');
+        selectedChoices = {
+            bread: '',
+            protein: '',
+            veggies: [],
+            sauces: []
+        };
+        choices.forEach(choice => choice.classList.remove('selected'));
     });
-
-    function displaySummary() {
-        summarySteps.innerHTML = '';
-        const bread = selectedChoices.find(c => c.step === 'Step 1: Pick Your Bread').choice;
-        const protein = selectedChoices.find(c => c.step === 'Step 2: Pick Your Protein').choice;
-        const veggies = Array.from(document.querySelectorAll('#step-3 .selected')).map(v => v.querySelector('h3').textContent).join(', ');
-        const sauces = Array.from(document.querySelectorAll('#step-4 .selected')).map(s => s.querySelector('h3').textContent).join(', ');
-
-        summarySteps.innerHTML += `<p>Choice of Bread: ${bread}</p>`;
-        summarySteps.innerHTML += `<p>Choice of Protein: ${protein}</p>`;
-        summarySteps.innerHTML += `<p>Base: ${veggies}</p>`;
-        summarySteps.innerHTML += `<p>Sauces: ${sauces}</p>`;
-
-        summary.classList.remove('hidden');
-    }
 });
-
