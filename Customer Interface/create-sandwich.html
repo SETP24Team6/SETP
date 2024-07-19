@@ -13,7 +13,7 @@
     <nav>
         <ul>
             <li><a href="#recommendations">Home</a></li>
-            <li><a href="#customise">Make your sandwich</a></li>
+            <li><a href="#customise">Customise your meal</a></li>
             <li><a href="cart.html">Cart</a></li>
         </ul>
     </nav>
@@ -26,21 +26,25 @@
             <div class="recommendations-list">
                 <div class="recommendation-item">
                     <h3>Sandwich munches</h3>
-                    <p>🥪 Enjoy your weekly favorite: Our Teriyaki Deli Chicken Sandwich! Made just the way you love it, every bite is pure
-                    satisfaction. Treat yourself today and keep coming back for the flavors you crave!</p>
+                    <p>🥪 Enjoy your weekly favorite: Our Teriyaki Deli Chicken Sandwich! Made just the way you love it,
+                        every bite is pure
+                        satisfaction. Treat yourself today and keep coming back for the flavors you crave!</p>
                     <img src="asset/teriyaki sandwich.png" alt="Sandwich munches">
                     <button>Grab now</button>
                 </div>
                 <div class="recommendation-item">
                     <h3>Blend Berry</h3>
-                    <p>🥤Renew your love for our Blueberry Smoothie, a testament to your dedication to delicious, health-conscious choices.
-                    Together, let's delight your taste buds and nourish your body!</p>
+                    <p>🥤Renew your love for our Blueberry Smoothie, a testament to your dedication to delicious,
+                        health-conscious choices.
+                        Together, let's delight your taste buds and nourish your body!</p>
                     <img src="asset/blueberry2.jpg" alt="Blend Berry">
                     <button>Grab now</button>
                 </div>
                 <div class="recommendation-item">
                     <h3>Exclusive for you</h3>
-                    <p>🌟Can you resist our member-special blended smoothie made with rainbow stacked fruits from spinach, orange to strawberries? Packed with anti-oxidents and protein for your optimal immune health, enjoy a colourful blast from us!</p>
+                    <p>🌟Can you resist our member-special blended smoothie made with rainbow stacked fruits from
+                        spinach, orange to strawberries? Packed with anti-oxidents and protein for your optimal immune
+                        health, enjoy a colourful blast from us!</p>
                     <img src="asset/rainbow-smoothie.jpg" alt="Colour Blast">
                     <button>Grab now</button>
                 </div>
@@ -49,14 +53,14 @@
 
         <!-- Customizing Menu Section -->
         <section id="customise" class="create-sandwich">
-            <h2>Make Your Sandwich</h2>
+            <h2 id="customize-title">Customise Your Meal</h2>
             <div class="overlay">
                 <div class="options">
                     <div class="option" id="sandwich-option">
                         <img src="asset/sandwich-icon.png" alt="Sandwich Icon">
                         <h3>Sandwich</h3>
                     </div>
-                    <div class="option">
+                    <div class="option" id="smoothie-option">
                         <img src="asset/smoothie-icon.png" alt="Smoothie Icon">
                         <h3>Smoothie</h3>
                     </div>
@@ -69,8 +73,8 @@
                         Customise Your Sandwich
                         <div class="arrow"></div>
                     </div>
-                    <!-- Step 1: Pick Your Bread -->
-                    <div id="step-1" class="step hidden">
+                    <!-- Sandwich Steps -->
+                    <div class="sandwich-step hidden" id="sandwich-step-1">
                         <h2>Step 1: Pick Your Bread</h2>
                         <div class="choices">
                             <div class="choice" data-choice="Sourdough">
@@ -89,22 +93,22 @@
                                 <img src="asset/italianherb.jpg" alt="Italian Herb">
                                 <h3>Italian Herb</h3>
                             </div>
+                         
                         </div>
                         <div class="navigation-buttons">
-                            <div class="arrow-icon next-step-arrow hidden" id="arrow-icon-1">
+                            <div class="arrow-icon next-step-arrow hidden" id="sandwich-arrow-icon-1">
                                 Next Step
                                 <div class="arrow"></div>
                             </div>
                         </div>
                     </div>
-                    <!-- Step 2: Pick Your Protein -->
-                    <div id="step-2" class="step hidden">
+                    <div class="sandwich-step hidden" id="sandwich-step-2">
                         <div class="navigation-buttons">
-                            <div class="arrow-icon back-arrow" id="back-arrow-2">
+                            <div class="arrow-icon back-arrow" id="sandwich-back-arrow-2">
                                 <div class="arrow left"></div>
                                 Back
                             </div>
-                            <div class="arrow-icon next-step-arrow hidden" id="arrow-icon-2">
+                            <div class="arrow-icon next-step-arrow hidden" id="sandwich-arrow-icon-2">
                                 Next Step
                                 <div class="arrow"></div>
                             </div>
@@ -127,21 +131,21 @@
                                 <img src="asset/smokedsalmon.jpg" alt="Smoked Salmon">
                                 <h3>Smoked Salmon</h3>
                             </div>
+                           
                         </div>
                     </div>
-                    <!-- Step 3: Pick Your Veggies -->
-                    <div id="step-3" class="step hidden multiple-selection">
+                    <div class="sandwich-step hidden" id="sandwich-step-3">
                         <div class="navigation-buttons">
-                            <div class="arrow-icon back-arrow" id="back-arrow-3">
+                            <div class="arrow-icon back-arrow" id="sandwich-back-arrow-3">
                                 <div class="arrow left"></div>
                                 Back
                             </div>
-                            <div class="arrow-icon next-step-arrow hidden" id="arrow-icon-3">
+                            <div class="arrow-icon next-step-arrow hidden" id="sandwich-arrow-icon-3">
                                 Next Step
                                 <div class="arrow"></div>
                             </div>
                         </div>
-                        <h2>Step 3: Pick Your Veggies</h2>
+                        <h2>Step 3: Pick Your Veggies (Required:3)</h2>
                         <div class="choices">
                             <div class="choice" data-choice="Lettuce">
                                 <img src="asset/iceberge-lettuce.png" alt="Lettuce">
@@ -163,56 +167,180 @@
                                 <img src="asset/bellpeppers.jpg" alt="Bell Peppers">
                                 <h3>Bell Peppers</h3>
                             </div>
+                            <div class="choice" data-choice="None">
+                                <img src="asset/none-icon.png" alt="None">
+                                <h3>None</h3>
+                            </div>
                         </div>
                     </div>
-                    <!-- Step 4: Pick Your Sauce -->
-                    <div id="step-4" class="step hidden multiple-selection">
+                    <div class="sandwich-step hidden" id="sandwich-step-4">
                         <div class="navigation-buttons">
-                            <div class="arrow-icon back-arrow" id="back-arrow-4">
+                            <div class="arrow-icon back-arrow" id="sandwich-back-arrow-4">
                                 <div class="arrow left"></div>
                                 Back
                             </div>
-                            <div class="arrow-icon next-step-arrow hidden" id="arrow-icon-4">
+                            <div class="arrow-icon next-step-arrow hidden" id="sandwich-arrow-icon-4">
                                 Finish
                                 <div class="arrow"></div>
                             </div>
                         </div>
                         <h2>Step 4: Pick Your Sauce</h2>
                         <div class="choices">
-                            <div class="choice" data-choice="Mayo">
-                                <img src="asset/Mayocucumber.png" alt="Mayo">
-                                <h3>Mayo Cucumber</h3>
+                            <div class="choice" data-choice="cranberry-caramalised">
+                                <img src="asset/cranberry-sauce.jpeg" alt="cranberry-caramalised">
+                                <h3>cranberry-caramalised<br>onion</h3>
                             </div>
                             <div class="choice" data-choice="Mustard">
                                 <img src="asset/honeymustard.png" alt="Mustard">
                                 <h3>Honey Mustard</h3>
                             </div>
-                            <div class="choice" data-choice="Honey Mustard">
-                                <img src="asset/Habenaro.png" alt="Honey Mustard">
-                                <h3>Habanero</h3>
+                            <div class="choice" data-choice="egg-mayo">
+                                <img src="asset/egg-mayo.jpg" alt="egg-mayo">
+                                <h3>Egg-mayo</h3>
                             </div>
-                            <div class="choice" data-choice="BBQ Sauce">
-                                <img src="asset/avocado.webp" alt="BBQ Sauce">
+                            <div class="choice" data-choice="avocado-lime">
+                                <img src="asset/avocado-lime.png" alt="avocado-lime">
                                 <h3>Avocado Lime Crema</h3>
                             </div>
                             <div class="choice" data-choice="BBQ Sauce">
                                 <img src="asset/bbq.jpg" alt="BBQ Sauce">
                                 <h3>BBQ</h3>
                             </div>
-                            <div class="choice" data-choice="Wasabi Mayo">
-                                <img src="asset/wasabimayo.png" alt="Wasabi Mayo">
-                                <h3>Wasabi Mayo</h3>
+                            <div class="choice" data-choice="None">
+                                <img src="asset/none-icon.png" alt="None">
+                                <h3>None</h3>
                             </div>
-                            <div class="choice" data-choice="Sweet Thai">
-                                <img src="asset/Sweetthai.png" alt="Sweet Thai">
-                                <h3>Sweet Thai</h3>
+                        </div>
+                    </div>
+                    <!-- Smoothie Steps -->
+                    <div class="smoothie-step hidden" id="smoothie-step-1">
+                        <h2>Step 1: Pick Your Fruits</h2>
+                        <div class="choices">
+                            <div class="choice" data-choice="Banana">
+                                <img src="asset/banana.jpeg" alt="Banana">
+                                <h3>Banana</h3>
+                            </div>
+                            <div class="choice" data-choice="Strawberry">
+                                <img src="asset/strawberry.jpg" alt="Strawberry">
+                                <h3>Strawberry</h3>
+                            </div>
+                            <div class="choice" data-choice="Blueberry">
+                                <img src="asset/blueberry.webp" alt="Blueberry">
+                                <h3>Blueberry</h3>
+                            </div>
+                            <div class="choice" data-choice="Mango">
+                                <img src="asset/mango.jpg" alt="Mango">
+                                <h3>Mango</h3>
+                            </div>
+                            <div class="choice" data-choice="Orange">
+                                <img src="asset/orange.jpg" alt="Orange">
+                                <h3>Orange</h3>
+                            </div>
+                            <div class="choice" data-choice="None">
+                                <img src="asset/none-icon.png" alt="None">
+                                <h3>None</h3>
+                            </div>
+                        </div>
+                        <div class="navigation-buttons">
+                            <div class="arrow-icon next-step-arrow hidden" id="smoothie-arrow-icon-1">
+                                Next Step
+                                <div class="arrow"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="smoothie-step hidden" id="smoothie-step-2">
+                        <div class="navigation-buttons">
+                            <div class="arrow-icon back-arrow" id="smoothie-back-arrow-2">
+                                <div class="arrow left"></div>
+                                Back
+                            </div>
+                            <div class="arrow-icon next-step-arrow hidden" id="smoothie-arrow-icon-2">
+                                Next Step
+                                <div class="arrow"></div>
+                            </div>
+                        </div>
+                        <h2>Step 2: Pick Your Greens</h2>
+                        <div class="choices">
+                            <div class="choice" data-choice="Spinach">
+                                <img src="asset/spinach.jpeg" alt="Spinach">
+                                <h3>Spinach</h3>
+                            </div>
+                            <div class="choice" data-choice="Kale">
+                                <img src="asset/kale.jpeg" alt="Kale">
+                                <h3>Kale</h3>
+                            </div>
+                            <div class="choice" data-choice="Avocado">
+                                <img src="asset/avocado.webp" alt="Avocado">
+                                <h3>Avocado</h3>
+                            </div>
+                            <div class="choice" data-choice="None">
+                                <img src="asset/none-icon.png" alt="None">
+                                <h3>None</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="smoothie-step hidden" id="smoothie-step-3">
+                        <div class="navigation-buttons">
+                            <div class="arrow-icon back-arrow" id="smoothie-back-arrow-3">
+                                <div class="arrow left"></div>
+                                Back
+                            </div>
+                            <div class="arrow-icon next-step-arrow hidden" id="smoothie-arrow-icon-3">
+                                Next Step
+                                <div class="arrow"></div>
+                            </div>
+                        </div>
+                        <h2>Step 3: Pick Your Protein (Optional)</h2>
+                        <div class="choices">
+                            <div class="choice" data-choice="Greek Yogurt">
+                                <img src="asset/greekyogurt.jpg" alt="Greek Yogurt">
+                                <h3>Greek Yogurt</h3>
+                            </div>
+                            <div class="choice" data-choice="None">
+                                <img src="asset/none-icon.png" alt="None">
+                                <h3>None</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="smoothie-step hidden" id="smoothie-step-4">
+                        <div class="navigation-buttons">
+                            <div class="arrow-icon back-arrow" id="smoothie-back-arrow-4">
+                                <div class="arrow left"></div>
+                                Back
+                            </div>
+                            <div class="arrow-icon next-step-arrow hidden" id="smoothie-arrow-icon-4">
+                                Finish
+                                <div class="arrow"></div>
+                            </div>
+                        </div>
+                        <h2>Step 4: Pick Your Liquid Base</h2>
+                        <div class="choices">
+                            <div class="choice" data-choice="Water">
+                                <img src="asset/water.png" alt="Water">
+                                <h3>Water</h3>
+                            </div>
+                            <div class="choice" data-choice="Low-fat">
+                                <img src="asset/low-fat-milk.webp" alt="Low-fat Milk">
+                                <h3>Low-fat Milk</h3>
+                            </div>
+                            <div class="choice" data-choice="Full-Cream">
+                                <img src="asset/full-cream.jpg" alt="Full-Cream Milk">
+                                <h3>Full-Cream Milk</h3>
+                            </div>
+                            <div class="choice" data-choice="Oat">
+                                <img src="asset/oat-milk.jpg" alt="Oat Milk">
+                                <h3>Oat Milk</h3>
+                            </div>
+                            <div class="choice" data-choice="None">
+                                <img src="asset/none-icon.png" alt="None">
+                                <h3>None</h3>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
             <div id="summary" class="hidden">
-                <h3>Your Sandwich Summary</h3>
+                <h3>Your Summary</h3>
                 <div id="summary-steps"></div>
                 <button id="back-to-selection">Back to Selection</button>
                 <button id="complete-order">Complete</button>

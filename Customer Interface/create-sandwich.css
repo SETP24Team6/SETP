@@ -98,6 +98,10 @@ nav ul li a:hover {
     padding: 10px;
     width: 30%;
     box-sizing: border-box;
+    opacity: 0;
+    /* Start with items hidden */
+    animation-fill-mode: forwards;
+    /* Ensure they stay visible after animation */
 }
 
 .recommendation-item h3 {
@@ -157,7 +161,7 @@ nav ul li a:hover {
     text-align: center;
 }
 
-.create-sandwich h2 {
+.create-sandwich .smoothie {
     font-size: 36px;
     margin-bottom: 20px;
     text-align: left;
@@ -176,6 +180,19 @@ nav ul li a:hover {
     text-align: center;
 }
 
+.smoothie-step h2 {
+    font-size: 36px;
+    margin-bottom: 20px;
+    text-align: left;
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 5px;
+    padding: 10px;
+    position: relative;
+    left: 10px;
+    /* Adjust the left position to ensure it doesn't block the images */
+    z-index: 1;
+    /* Ensure it stays above other elements */
+}
 .options {
     display: flex;
     justify-content: center;
