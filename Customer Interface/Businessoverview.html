@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Staff Page</title>
+    <link rel="stylesheet" href="Businessoverview-style.css">
+    <script src="scripts.js" defer></script>
+</head>
+
+<section id="Clock in /Out" class="section">
+    <div class="content">
+        <h1><span class="highlight"> Clock In/Out</h1>
+        
+    </div>
+    <div class="clock-container">
+    
+        <form id="clock-form">
+            <label for="staff-id">Staff ID:</label>
+            <input type="text" id="staff-id" name="staff-id" required>
+            <button type="button" onclick="clockIn()">Clock In</button>
+            <button type="button" onclick="clockOut()">Clock Out</button>
+        </form>
+        <div class="clock-status">
+            <h3>Status: <span id="status">Not clocked in</span></h3>
+            <p>Clock In Time: <span id="clock-in-time">-</span></p>
+            <p>Clock Out Time: <span id="clock-out-time">-</span></p>
+        </div>
+    </div>
+</section>
+
+<section id="Sales Analyst" class="section">
+    <div class="content">
+        <h1><span class="highlight"> Sales Analyst</h1>
+        
+    </div>
+</section>
+
+<section id="Inventory Management" class="section">
+    <div class="content">
+        <h1><span class="highlight"> Inventory Management</h1>
+        
+    </div>
+</section>
+
+</html>
+
