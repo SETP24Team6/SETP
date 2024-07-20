@@ -82,6 +82,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
     finishStepArrow.addEventListener('click', () => {
         displaySummary();
+        // Scroll to summary section
+        summarySection.scrollIntoView({ behavior: 'smooth' });
     });
 
     choices.forEach(choice => {
@@ -190,6 +192,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
             const steviaName = choice.querySelector('h3').textContent;
             selectedChoices.stevia = steviaName;
+            console.log("Stevia selected:", selectedChoices.stevia);  // Debugging statement
         }
     }
 
@@ -217,7 +220,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 <p>Sauces: ${selectedChoices.sauces.join(', ')}</p>
             `;
         }
-        if (selectedChoices.fruits.length > 0 || selectedChoices.stevia) {
+        if (selectedChoices.fruits.length > 0) {
             summaryHtml += `
                 <p>Choice of Fruits: ${selectedChoices.fruits.join(', ')}</p>
                 <p>Choice of Greens: ${selectedChoices.greens.join(', ')}</p>
@@ -228,7 +231,6 @@ document.addEventListener('DOMContentLoaded', function () {
         }
         summarySteps.innerHTML = summaryHtml;
         summarySection.classList.remove('hidden');
-        summarySection.scrollIntoView({ behavior: 'smooth' });
     }
 
     backToSelectionButton.addEventListener('click', () => {
@@ -274,7 +276,7 @@ document.addEventListener('DOMContentLoaded', function () {
             greens: [],
             proteins: [],
             liquidBase: [],
-            stevialevel: ''
+            stevia: ''
         };
         choices.forEach(choice => choice.classList.remove('selected'));
     });
