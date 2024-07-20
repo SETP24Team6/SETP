@@ -1,0 +1,294 @@
+body,
+html {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    height: 100%;
+}
+
+nav {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+nav ul li {
+    margin: 0 10px;
+}
+
+nav ul li a {
+    color: white;
+    text-decoration: none;
+    padding: 15px;
+    display: block;
+    text-transform: uppercase;
+    transition: background-color 0.3s;
+}
+
+nav ul li a:hover {
+    background-color: rgba(0, 255, 255, 0.5);
+}
+
+nav ul li.order-now a {
+    display: block;
+    width: 100px;
+    height: 40px;
+    background-color: teal;
+    color: white;
+    font-weight: bold;
+    border-radius: 20px;
+    text-transform: uppercase;
+    transition: background-color 0.3s;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+nav ul li.order-now a:hover {
+    background-color: darkcyan;
+}
+
+.section {
+    position: relative;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    background-attachment: fixed;
+    background-size: cover;
+    background-position: center;
+    opacity: 0;
+    animation: fadeIn 1.5s forwards;
+}
+
+#home {
+    background-image: url('asset/sandwich 3.jpg');
+}
+
+.section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: rgba(0, 0, 0, 0.7);
+}
+
+.content {
+    position: relative;
+    text-align: center;
+    z-index: 1;
+}
+
+h1 {
+    font-size: 5em;
+    margin: 0;
+    padding: 0;
+    color: white;
+    animation: fadeInDown 2s;
+}
+
+.subheading {
+    font-size: 2em;
+    font-style: italic;
+    margin: 0;
+    padding: 0;
+    color: white;
+    animation: fadeInUp 2s;
+}
+
+.highlight {
+    color: #FF4500;
+}
+
+h2 {
+    margin: 0;
+    padding: 0;
+}
+
+p {
+    margin: 10px 0 0;
+}
+
+.contact-section {
+    background: #000;
+    color: white;
+    text-align: left;
+    padding: 50px 20px;
+}
+
+.contact-section h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+form {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.form-group {
+    margin: 10px;
+    flex: 1 1 40%;
+    max-width: 40%;
+    box-sizing: border-box;
+}
+
+.form-group.full-width {
+    flex: 1 1 100%;
+    max-width: 100%;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background: #333;
+    color: white;
+    font-family: Arial, sans-serif;
+    transition: background-color 0.3s;
+}
+
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+    color: #bbb;
+    font-family: Arial, sans-serif;
+}
+
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group input:hover,
+.form-group textarea:hover {
+    background-color: rgba(64, 224, 208, 0.5);
+}
+
+button,
+.order-button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    background: teal;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin: 20px auto 0;
+    display: block;
+    text-decoration: none;
+}
+
+button:hover,
+.order-button:hover {
+    background-color: #e63900;
+}
+
+.contact-info {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.contact-info a {
+    color: #40E0D0;
+    text-decoration: none;
+}
+
+.contact-info a:hover {
+    text-decoration: underline;
+}
+
+.success-message {
+    text-align: center;
+    margin-top: 20px;
+    color: #40E0D0;
+    font-weight: bold;
+}
+
+.products {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.product {
+    text-align: center;
+    flex: 1;
+    max-width: 50%;
+    box-sizing: border-box;
+    animation: fadeIn 2s;
+}
+
+.product img {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+    border-radius: 8px;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.product img:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+#products {
+    background-color: beige;
+    padding: 20px;
+    border-radius: 8px;
+}
+
+/* Animation Keyframes */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
