@@ -193,6 +193,7 @@ nav ul li a:hover {
     z-index: 1;
     /* Ensure it stays above other elements */
 }
+
 .options {
     display: flex;
     justify-content: center;
@@ -428,6 +429,23 @@ nav ul li a:hover {
     background-color: #FF7F11;
 }
 
+#yes-add-smoothie,
+#no-add-smoothie {
+    background-color: teal;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    margin: 10px;
+}
+
+#yes-add-smoothie:hover,
+#no-add-smoothie:hover {
+    background-color: #FF7F11;
+}
+
 @keyframes fadeInUp {
     from {
         transform: translate3d(0, 100%, 0);
@@ -447,4 +465,21 @@ nav ul li a:hover {
 
 .fadeInUp {
     animation-name: fadeInUp;
+}
+
+/* Overlay for Step 5 choices to enhance visibility */
+.choices .choice img {
+    position: relative;
+}
+
+.choices .choice img::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+    z-index: 1;
 }

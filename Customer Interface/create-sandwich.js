@@ -9,6 +9,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const smoothieSteps = document.querySelectorAll('.smoothie-step');
     const nextStepArrows = document.querySelectorAll('.next-step-arrow');
     const backArrows = document.querySelectorAll('.back-arrow');
+    const finishStepArrow = document.getElementById('smoothie-finish-icon-5');
     const choices = document.querySelectorAll('.choice');
     const summarySection = document.getElementById('summary');
     const summarySteps = document.getElementById('summary-steps');
@@ -17,6 +18,9 @@ document.addEventListener('DOMContentLoaded', function () {
     const takeawayModal = document.getElementById('takeaway-modal');
     const closeTakeawayModal = document.querySelector('.close');
     const confirmTakeawayButton = document.getElementById('confirm-takeaway');
+    const smoothiePromptModal = document.getElementById('smoothie-prompt-modal');
+    const yesAddSmoothieButton = document.getElementById('yes-add-smoothie');
+    const noAddSmoothieButton = document.getElementById('no-add-smoothie');
 
     let currentStep = 0;
     let selectedChoices = {
@@ -27,7 +31,8 @@ document.addEventListener('DOMContentLoaded', function () {
         fruits: [],
         greens: [],
         proteins: [],
-        liquidBase: []
+        liquidBase: [],
+        stevia: ''
     };
 
     let isSandwich = false;
@@ -59,8 +64,12 @@ document.addEventListener('DOMContentLoaded', function () {
 
     nextStepArrows.forEach((arrow, index) => {
         arrow.addEventListener('click', () => {
-            currentStep++;
-            showCurrentStep();
+            if (isSandwich && currentStep === 3) {
+                smoothiePromptModal.style.display = 'block';
+            } else {
+                currentStep++;
+                showCurrentStep();
+            }
         });
     });
 
@@ -69,6 +78,10 @@ document.addEventListener('DOMContentLoaded', function () {
             currentStep--;
             showCurrentStep();
         });
+    });
+
+    finishStepArrow.addEventListener('click', () => {
+        displaySummary();
     });
 
     choices.forEach(choice => {
@@ -170,6 +183,13 @@ document.addEventListener('DOMContentLoaded', function () {
 
             const liquidBaseName = choice.querySelector('h3').textContent;
             selectedChoices.liquidBase = [liquidBaseName];
+        } else if (stepId === 'smoothie-step-5') {
+            choices.forEach(c => c.classList.remove('selected'));
+            choice.classList.add('selected');
+            document.querySelector(`#smoothie-arrow-icon-${currentStep + 1}`).classList.remove('hidden');
+
+            const steviaName = choice.querySelector('h3').textContent;
+            selectedChoices.stevia = steviaName;
         }
     }
 
@@ -189,23 +209,26 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function displaySummary() {
         let summaryHtml = '';
-        if (isSandwich) {
+        if (selectedChoices.bread) {
             summaryHtml += `
                 <p>Choice of Bread: ${selectedChoices.bread}</p>
                 <p>Choice of Protein: ${selectedChoices.protein}</p>
                 <p>Base: ${selectedChoices.veggies.join(', ')}</p>
                 <p>Sauces: ${selectedChoices.sauces.join(', ')}</p>
             `;
-        } else {
+        }
+        if (selectedChoices.fruits.length > 0 || selectedChoices.stevia) {
             summaryHtml += `
                 <p>Choice of Fruits: ${selectedChoices.fruits.join(', ')}</p>
                 <p>Choice of Greens: ${selectedChoices.greens.join(', ')}</p>
                 <p>Choice of Protein: ${selectedChoices.proteins.join(', ')}</p>
                 <p>Choice of Liquid Base: ${selectedChoices.liquidBase.join(', ')}</p>
+                <p>Stevia Level: ${selectedChoices.stevia}</p>
             `;
         }
         summarySteps.innerHTML = summaryHtml;
         summarySection.classList.remove('hidden');
+        summarySection.scrollIntoView({ behavior: 'smooth' });
     }
 
     backToSelectionButton.addEventListener('click', () => {
@@ -221,7 +244,8 @@ document.addEventListener('DOMContentLoaded', function () {
             fruits: [],
             greens: [],
             proteins: [],
-            liquidBase: []
+            liquidBase: [],
+            stevia: ''
         };
         choices.forEach(choice => choice.classList.remove('selected'));
     });
@@ -249,7 +273,8 @@ document.addEventListener('DOMContentLoaded', function () {
             fruits: [],
             greens: [],
             proteins: [],
-            liquidBase: []
+            liquidBase: [],
+            stevialevel: ''
         };
         choices.forEach(choice => choice.classList.remove('selected'));
     });
@@ -275,4 +300,16 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     typeWriter();
+
+    yesAddSmoothieButton.addEventListener('click', () => {
+        smoothiePromptModal.style.display = 'none';
+        currentStep = 0;
+        isSandwich = false;
+        showCurrentStep();
+    });
+
+    noAddSmoothieButton.addEventListener('click', () => {
+        smoothiePromptModal.style.display = 'none';
+        displaySummary();
+    });
 });
