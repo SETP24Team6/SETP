@@ -1,2 +1,0 @@
-# Customer-interface
- Bite & Delight
