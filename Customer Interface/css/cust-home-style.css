@@ -79,7 +79,7 @@ nav ul li.order-now a:hover {
 }
 
 #home {
-    background-image: url('asset/sandwich 3.jpg');
+    background-image: url('../asset/sandwich 3.jpg');
 }
 
 .section::before {

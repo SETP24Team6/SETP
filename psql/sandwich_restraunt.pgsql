@@ -1,3 +1,8 @@
+DROP DATABASE IF EXISTS bite_and_delight;
+CREATE DATABASE bite_and_delight;
+
+\c bite_and_delight;
+
 CREATE TABLE member (
     user_id SERIAL PRIMARY KEY, 
     user_lastName varchar(100) NOT NULL, 
