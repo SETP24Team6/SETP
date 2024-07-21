@@ -18,7 +18,7 @@ def signup():
     return response
 
 @app.route('/get_all_members', methods=['GET'])
-def get_uom():
+def get_members():
     response = members.get_all_members(connection)
     response = jsonify(response)
     response.headers.add('Access-Control-Allow-Origin', '*')
