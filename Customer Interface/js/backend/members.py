@@ -25,13 +25,14 @@ def get_all_members(conn):
 
 def signup_new(conn, member):
     cursor = conn.cursor()
+    cursor.execute("ROLLBACK")
     query = ("INSERT INTO member "
-             "(lastname, firstname, email, phone, birtday, passwordhash)"
+             "(lastname, firstname, email, phone, birthday, passwordhash)"
              "VALUES (%s, %s, %s, %s, %s, %s)")
     data = (member['lastname'], member['firstname'], member['email'],
-            member['phone'], member['birtday'], member['passwordhash'])
+            member['phone'], member['birthday'], member['passwordhash'])
 
     cursor.execute(query, data)
-    connection.commit()
+    conn.commit()
 
     return cursor.lastrowid

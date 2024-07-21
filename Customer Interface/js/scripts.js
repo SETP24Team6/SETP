@@ -15,6 +15,15 @@ document.addEventListener("DOMContentLoaded", function () {
     const signupTitle = document.getElementById('signup-title');
     const forgotPasswordTitle = document.getElementById('forgot-password-title');
 
+    function callApi(method, url, data) {
+        $.ajax({
+            method: method,
+            url: url,
+            data: data
+        }).done(function( msg ) {
+            window.location.reload();
+        });
+    }
     dropdownContent.forEach(item => {
         item.addEventListener('click', function (event) {
             event.preventDefault();
@@ -100,8 +109,19 @@ document.addEventListener("DOMContentLoaded", function () {
 
     signupForm.onsubmit = function (event) {
         event.preventDefault();
-        // Add your sign-up functionality here
+        var requestPayload = {
+            lastname: document.getElementById('last-name').value,
+            firstname: document.getElementById('first-name').value,
+            email: document.getElementById('email-signup').value,
+            phone: document.getElementById('phone').value,
+            birthday: document.getElementById('birthday').value,
+            passwordhash: document.getElementById('password-signup').value
+        };
+        callApi("POST", 'http://127.0.0.1:5000/signup', {
+            'data': JSON.stringify(requestPayload)
+        });
         alert('Account created successfully!');
+        // alert(requestPayload.lastname);
         window.location.href = 'create-sandwich.html';
     };
 
