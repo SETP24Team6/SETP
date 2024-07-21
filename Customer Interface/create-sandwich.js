@@ -9,7 +9,8 @@ document.addEventListener('DOMContentLoaded', function () {
     const smoothieSteps = document.querySelectorAll('.smoothie-step');
     const nextStepArrows = document.querySelectorAll('.next-step-arrow');
     const backArrows = document.querySelectorAll('.back-arrow');
-    const finishStepArrow = document.getElementById('smoothie-finish-icon-5');
+    const sandwichFinishIcon = document.getElementById('sandwich-finish-icon-4');
+    const smoothieFinishIcon = document.getElementById('smoothie-finish-icon-5');
     const choices = document.querySelectorAll('.choice');
     const summarySection = document.getElementById('summary');
     const summarySteps = document.getElementById('summary-steps');
@@ -21,6 +22,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const smoothiePromptModal = document.getElementById('smoothie-prompt-modal');
     const yesAddSmoothieButton = document.getElementById('yes-add-smoothie');
     const noAddSmoothieButton = document.getElementById('no-add-smoothie');
+    const dateButtons = document.querySelectorAll('.date-button');
 
     let currentStep = 0;
     let selectedChoices = {
@@ -80,10 +82,13 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
-    finishStepArrow.addEventListener('click', () => {
+    sandwichFinishIcon.addEventListener('click', () => {
+        smoothiePromptModal.style.display = 'block';
+    });
+
+    smoothieFinishIcon.addEventListener('click', () => {
         displaySummary();
-        // Scroll to summary section
-        summarySection.scrollIntoView({ behavior: 'smooth' });
+        scrollToSummary();
     });
 
     choices.forEach(choice => {
@@ -119,9 +124,9 @@ document.addEventListener('DOMContentLoaded', function () {
             choice.classList.toggle('selected');
             const selected = choice.parentNode.querySelectorAll('.selected').length;
             if (selected >= 1 && selected <= 2) {
-                document.querySelector(`#sandwich-arrow-icon-${currentStep + 1}`).classList.remove('hidden');
+                document.querySelector(`#sandwich-finish-icon-4`).classList.remove('hidden');
             } else {
-                document.querySelector(`#sandwich-arrow-icon-${currentStep + 1}`).classList.add('hidden');
+                document.querySelector(`#sandwich-finish-icon-4`).classList.add('hidden');
             }
 
             const sauceName = choice.querySelector('h3').textContent;
@@ -192,7 +197,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
             const steviaName = choice.querySelector('h3').textContent;
             selectedChoices.stevia = steviaName;
-            console.log("Stevia selected:", selectedChoices.stevia);  // Debugging statement
         }
     }
 
@@ -233,6 +237,10 @@ document.addEventListener('DOMContentLoaded', function () {
         summarySection.classList.remove('hidden');
     }
 
+    function scrollToSummary() {
+        summarySection.scrollIntoView({ behavior: 'smooth' });
+    }
+
     backToSelectionButton.addEventListener('click', () => {
         summarySection.classList.add('hidden');
         currentStep = 0;
@@ -253,16 +261,16 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     completeOrderButton.addEventListener('click', () => {
-        takeawayModal.classList.remove('hidden');
+        takeawayModal.style.display = 'block';
     });
 
     closeTakeawayModal.addEventListener('click', () => {
-        takeawayModal.classList.add('hidden');
+        takeawayModal.style.display = 'none';
     });
 
     confirmTakeawayButton.addEventListener('click', () => {
         alert('Takeaway confirmed!');
-        takeawayModal.classList.add('hidden');
+        takeawayModal.style.display = 'none';
         summarySection.classList.add('hidden');
         currentStep = 0;
         arrowIcon.classList.remove('hidden');
@@ -279,6 +287,13 @@ document.addEventListener('DOMContentLoaded', function () {
             stevia: ''
         };
         choices.forEach(choice => choice.classList.remove('selected'));
+    });
+
+    dateButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            dateButtons.forEach(btn => btn.classList.remove('selected'));
+            button.classList.add('selected');
+        });
     });
 
     const recommendationItems = document.querySelectorAll('.recommendation-item');
@@ -313,5 +328,6 @@ document.addEventListener('DOMContentLoaded', function () {
     noAddSmoothieButton.addEventListener('click', () => {
         smoothiePromptModal.style.display = 'none';
         displaySummary();
+        scrollToSummary();
     });
 });

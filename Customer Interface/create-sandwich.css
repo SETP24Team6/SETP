@@ -264,11 +264,6 @@ nav ul li a:hover {
     flex-wrap: wrap;
 }
 
-.choices-row {
-    display: flex;
-    flex-direction: row;
-}
-
 .choice {
     text-align: center;
     cursor: pointer;
