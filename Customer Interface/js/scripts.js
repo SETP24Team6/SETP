@@ -24,6 +24,22 @@ document.addEventListener("DOMContentLoaded", function () {
             window.location.reload();
         });
     }
+
+    
+    function callApi2(method, url, data) {
+        var result = false;
+        $.ajax({
+            method: method,
+            url: url,
+            data: data,
+            async: false,
+            success: function(data) {
+                result =  data.exists;
+            }
+        });
+        return result;
+    }
+
     dropdownContent.forEach(item => {
         item.addEventListener('click', function (event) {
             event.preventDefault();
@@ -109,20 +125,33 @@ document.addEventListener("DOMContentLoaded", function () {
 
     signupForm.onsubmit = function (event) {
         event.preventDefault();
-        var requestPayload = {
-            lastname: document.getElementById('last-name').value,
-            firstname: document.getElementById('first-name').value,
+        var requestUser = {
             email: document.getElementById('email-signup').value,
-            phone: document.getElementById('phone').value,
-            birthday: document.getElementById('birthday').value,
-            passwordhash: document.getElementById('password-signup').value
-        };
-        callApi("POST", 'http://127.0.0.1:5000/signup', {
-            'data': JSON.stringify(requestPayload)
-        });
-        alert('Account created successfully!');
-        // alert(requestPayload.lastname);
-        window.location.href = 'create-sandwich.html';
+            phone: document.getElementById('phone').value
+        }
+        
+        let checker = callApi2("POST", 'http://127.0.0.1:5000/checkuser', 
+            {'data': JSON.stringify(requestUser)});
+        
+        alert('i am here');
+        if (!checker){
+            var requestPayload = {
+                lastname: document.getElementById('last-name').value,
+                firstname: document.getElementById('first-name').value,
+                email: document.getElementById('email-signup').value,
+                phone: document.getElementById('phone').value,
+                birthday: document.getElementById('birthday').value,
+                passwordhash: document.getElementById('password-signup').value
+            };
+            callApi("POST", 'http://127.0.0.1:5000/signup', 
+                {'data': JSON.stringify(requestPayload)});
+            alert('Account created successfully!');
+            // alert(requestPayload.lastname);
+            window.location.href = 'create-sandwich.html';
+        } else {
+            alert('Phone or Email already exist!');
+        }
+        
     };
 
     forgotPasswordForm.onsubmit = function (event) {

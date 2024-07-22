@@ -17,6 +17,17 @@ def signup():
     response.headers.add('Access-Control-Allow-Origin', '*')
     return response
 
+@app.route('/checkuser', methods=['POST'])
+def checkuser():
+    request_payload = json.loads(request.form['data'])
+    exist =  members.check_member_exist(connection, request_payload)
+    response = jsonify({
+        'exists': exist
+    })
+    print(type(response))
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
+
 @app.route('/get_all_members', methods=['GET'])
 def get_members():
     response = members.get_all_members(connection)

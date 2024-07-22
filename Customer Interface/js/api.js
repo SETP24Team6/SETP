@@ -14,6 +14,16 @@ function callApi(method, url, data) {
     });
 }
 
+function callApi2(method, url, data) {
+    $.ajax({
+        method: method,
+        url: url,
+        data: data
+    }).done(function( msg ) {
+        return msg;
+    });
+}
+
 function calculateValue() {
     var total = 0;
     $(".product-item").each(function( index ) {

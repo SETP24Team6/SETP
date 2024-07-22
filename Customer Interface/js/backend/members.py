@@ -22,6 +22,15 @@ def get_all_members(conn):
         print(response)
     return response
 
+def check_member_exist(conn,member):
+    cursor = conn.cursor()
+    query = ("select email from member where email = %s or phone = %s")
+    data = (member['email'], member['phone'])
+    cursor.execute(query, data)
+    result = ""
+    for (email) in cursor:
+        result = email
+    return bool(result)
 
 def signup_new(conn, member):
     cursor = conn.cursor()
