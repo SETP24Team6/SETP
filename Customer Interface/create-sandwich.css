@@ -288,6 +288,11 @@ nav ul li a:hover {
     color: white;
 }
 
+.choice p {
+    font-size: 14px;
+    color: white;
+}
+
 .navigation-buttons {
     display: flex;
     justify-content: space-between;
@@ -317,6 +322,19 @@ nav ul li a:hover {
 
 #summary-steps p {
     margin: 5px 0;
+}
+
+#total-price {
+    font-size: 18px;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+.toggle-arrow {
+    cursor: pointer;
+    color: teal;
+    font-size: 18px;
+    margin-top: 10px;
 }
 
 #back-to-selection,
@@ -465,4 +483,31 @@ nav ul li a:hover {
 
 .fadeInUp {
     animation-name: fadeInUp;
+}
+.toggle-ingredients {
+    margin-top: 10px;
+}
+
+.toggle-button {
+    background-color: #FF7F11;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.toggle-button:hover {
+    background-color: #FF5722;
+}
+
+.ingredients.hidden {
+    display: none;
+}
+
+#total-price {
+    margin-top: 20px;
+    font-size: 18px;
+    font-weight: bold;
 }

@@ -14,6 +14,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const choices = document.querySelectorAll('.choice');
     const summarySection = document.getElementById('summary');
     const summarySteps = document.getElementById('summary-steps');
+    const totalPriceElement = document.getElementById('total-price');
     const backToSelectionButton = document.getElementById('back-to-selection');
     const completeOrderButton = document.getElementById('complete-order');
     const takeawayModal = document.getElementById('takeaway-modal');
@@ -37,13 +38,19 @@ document.addEventListener('DOMContentLoaded', function () {
         stevia: ''
     };
 
+    let totalPrice = 0;
+    let sandwichTotal = 6; // Base price for a sandwich
+    let smoothieTotal = 5; // Base price for a smoothie
+
     let isSandwich = false;
+
+
 
     sandwichOption.addEventListener('click', () => {
         customizeSandwichContent.classList.remove('hidden');
         customizeTitle.textContent = 'Make Your Sandwich';
         customizeDescription.textContent = 'Freshly baked bread layered with grilled herb-spiced meat and crisp, garden-fresh vegetables. Select your preferred sauces and toppings to create an exceptionally tasty sandwich.';
-        arrowIcon.textContent = 'Customise Your Sandwich';
+        arrowIcon.textContent = 'Customise Your Sandwich ($6.00)';
         isSandwich = true;
         arrowIcon.classList.remove('hidden');
         currentStep = 0;
@@ -53,7 +60,7 @@ document.addEventListener('DOMContentLoaded', function () {
         customizeSandwichContent.classList.remove('hidden');
         customizeTitle.textContent = 'Blend Your Smoothie';
         customizeDescription.textContent = 'A Symphony of Fresh Fruits and Creamy Delights. Choose from our variety of vibrant fruits, healthy greens, and delicious add-ins to create the perfect smoothie that suits your taste and health goals!';
-        arrowIcon.textContent = 'Blend Your Smoothie';
+        arrowIcon.textContent = 'Blend Your Smoothie ($5.00)';
         isSandwich = false;
         arrowIcon.classList.remove('hidden');
         currentStep = 0;
@@ -66,12 +73,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
     nextStepArrows.forEach((arrow, index) => {
         arrow.addEventListener('click', () => {
-            if (isSandwich && currentStep === 3) {
-                smoothiePromptModal.style.display = 'block';
-            } else {
-                currentStep++;
-                showCurrentStep();
-            }
+            currentStep++;
+            showCurrentStep();
         });
     });
 
@@ -84,6 +87,19 @@ document.addEventListener('DOMContentLoaded', function () {
 
     sandwichFinishIcon.addEventListener('click', () => {
         smoothiePromptModal.style.display = 'block';
+    });
+
+    yesAddSmoothieButton.addEventListener('click', () => {
+        smoothiePromptModal.style.display = 'none';
+        currentStep = 0;
+        isSandwich = false;
+        showCurrentStep();
+    });
+
+    noAddSmoothieButton.addEventListener('click', () => {
+        smoothiePromptModal.style.display = 'none';
+        displaySandwichSummary();
+        scrollToSummary();
     });
 
     smoothieFinishIcon.addEventListener('click', () => {
@@ -102,7 +118,10 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
+    
     function handleSandwichChoice(choice, stepId) {
+        const price = parseFloat(choice.dataset.price);
+
         if (stepId === 'sandwich-step-3') {
             choice.classList.toggle('selected');
             const selected = choice.parentNode.querySelectorAll('.selected').length;
@@ -114,11 +133,13 @@ document.addEventListener('DOMContentLoaded', function () {
 
             const veggieName = choice.querySelector('h3').textContent;
             if (choice.classList.contains('selected')) {
-                if (!selectedChoices.veggies.includes(veggieName)) {
-                    selectedChoices.veggies.push(veggieName);
+                if (!selectedChoices.veggies.some(v => v.name === veggieName)) {
+                    selectedChoices.veggies.push({ name: veggieName, price });
+                    sandwichTotal += price;
                 }
             } else {
-                selectedChoices.veggies = selectedChoices.veggies.filter(v => v !== veggieName);
+                selectedChoices.veggies = selectedChoices.veggies.filter(v => v.name !== veggieName);
+                sandwichTotal -= price;
             }
         } else if (stepId === 'sandwich-step-4') {
             choice.classList.toggle('selected');
@@ -131,11 +152,13 @@ document.addEventListener('DOMContentLoaded', function () {
 
             const sauceName = choice.querySelector('h3').textContent;
             if (choice.classList.contains('selected')) {
-                if (!selectedChoices.sauces.includes(sauceName)) {
-                    selectedChoices.sauces.push(sauceName);
+                if (!selectedChoices.sauces.some(s => s.name === sauceName)) {
+                    selectedChoices.sauces.push({ name: sauceName, price });
+                    sandwichTotal += price;
                 }
             } else {
-                selectedChoices.sauces = selectedChoices.sauces.filter(s => s !== sauceName);
+                selectedChoices.sauces = selectedChoices.sauces.filter(s => s.name !== sauceName);
+                sandwichTotal -= price;
             }
         } else {
             choices.forEach(c => c.classList.remove('selected'));
@@ -144,14 +167,22 @@ document.addEventListener('DOMContentLoaded', function () {
 
             const choiceName = choice.querySelector('h3').textContent;
             if (stepId === 'sandwich-step-1') {
+                sandwichTotal -= selectedChoices.breadPrice || 0;
                 selectedChoices.bread = choiceName;
+                selectedChoices.breadPrice = price;
+                sandwichTotal += price;
             } else if (stepId === 'sandwich-step-2') {
+                sandwichTotal -= selectedChoices.proteinPrice || 0;
                 selectedChoices.protein = choiceName;
+                selectedChoices.proteinPrice = price;
+                sandwichTotal += price;
             }
         }
     }
 
     function handleSmoothieChoice(choice, stepId) {
+        const price = parseFloat(choice.dataset.price);
+
         if (stepId === 'smoothie-step-1') {
             choice.classList.toggle('selected');
             const selected = choice.parentNode.querySelectorAll('.selected').length;
@@ -163,11 +194,13 @@ document.addEventListener('DOMContentLoaded', function () {
 
             const fruitName = choice.querySelector('h3').textContent;
             if (choice.classList.contains('selected')) {
-                if (!selectedChoices.fruits.includes(fruitName)) {
-                    selectedChoices.fruits.push(fruitName);
+                if (!selectedChoices.fruits.some(f => f.name === fruitName)) {
+                    selectedChoices.fruits.push({ name: fruitName, price });
+                    smoothieTotal += price;
                 }
             } else {
-                selectedChoices.fruits = selectedChoices.fruits.filter(f => f !== fruitName);
+                selectedChoices.fruits = selectedChoices.fruits.filter(f => f.name !== fruitName);
+                smoothieTotal -= price;
             }
         } else if (stepId === 'smoothie-step-2') {
             choices.forEach(c => c.classList.remove('selected'));
@@ -175,28 +208,40 @@ document.addEventListener('DOMContentLoaded', function () {
             document.querySelector(`#smoothie-arrow-icon-${currentStep + 1}`).classList.remove('hidden');
 
             const greenName = choice.querySelector('h3').textContent;
-            selectedChoices.greens = [greenName];
+            smoothieTotal -= selectedChoices.greenPrice || 0;
+            selectedChoices.greens = [{ name: greenName, price }];
+            selectedChoices.greenPrice = price;
+            smoothieTotal += price;
         } else if (stepId === 'smoothie-step-3') {
             choices.forEach(c => c.classList.remove('selected'));
             choice.classList.add('selected');
             document.querySelector(`#smoothie-arrow-icon-${currentStep + 1}`).classList.remove('hidden');
 
             const proteinName = choice.querySelector('h3').textContent;
-            selectedChoices.proteins = [proteinName];
+            smoothieTotal -= selectedChoices.proteinPrice || 0;
+            selectedChoices.proteins = [{ name: proteinName, price }];
+            selectedChoices.proteinPrice = price;
+            smoothieTotal += price;
         } else if (stepId === 'smoothie-step-4') {
             choices.forEach(c => c.classList.remove('selected'));
             choice.classList.add('selected');
             document.querySelector(`#smoothie-arrow-icon-${currentStep + 1}`).classList.remove('hidden');
 
             const liquidBaseName = choice.querySelector('h3').textContent;
-            selectedChoices.liquidBase = [liquidBaseName];
+            smoothieTotal -= selectedChoices.liquidBasePrice || 0;
+            selectedChoices.liquidBase = [{ name: liquidBaseName, price }];
+            selectedChoices.liquidBasePrice = price;
+            smoothieTotal += price;
         } else if (stepId === 'smoothie-step-5') {
             choices.forEach(c => c.classList.remove('selected'));
             choice.classList.add('selected');
             document.querySelector(`#smoothie-arrow-icon-${currentStep + 1}`).classList.remove('hidden');
 
             const steviaName = choice.querySelector('h3').textContent;
-            selectedChoices.stevia = steviaName;
+            smoothieTotal -= selectedChoices.steviaPrice || 0;
+            selectedChoices.stevia = { name: steviaName, price };
+            selectedChoices.steviaPrice = price;
+            smoothieTotal += price;
         }
     }
 
@@ -214,27 +259,99 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
+    function displaySandwichSummary() {
+        let summaryHtml = '';
+        let sandwichHtml = '';
+
+        if (selectedChoices.bread) {
+            sandwichHtml += `
+                <p>Choice of Bread: ${selectedChoices.bread} ($${selectedChoices.breadPrice.toFixed(2)})</p>
+                <p>Choice of Protein: ${selectedChoices.protein} ($${selectedChoices.proteinPrice.toFixed(2)})</p>
+                <p>Base: ${selectedChoices.veggies.map(v => `${v.name} ($${v.price.toFixed(2)})`).join(', ')}</p>
+                <p>Sauces: ${selectedChoices.sauces.map(s => `${s.name} ($${s.price.toFixed(2)})`).join(', ')}</p>
+            `;
+        }
+
+        summaryHtml += `
+            <div>
+                <h3>Sandwich - $${sandwichTotal.toFixed(2)}</h3>
+                <p>$6.00</p>
+                <div class="toggle-ingredients">
+                    <button class="toggle-button">Show/Hide Ingredients</button>
+                    <div class="ingredients hidden">${sandwichHtml}</div>
+                </div>
+            </div>
+        `;
+
+        summarySteps.innerHTML = summaryHtml;
+        totalPriceElement.textContent = `Total Price: $${sandwichTotal.toFixed(2)}`;
+        summarySection.classList.remove('hidden');
+
+        const toggleButtons = document.querySelectorAll('.toggle-button');
+        toggleButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const ingredients = button.nextElementSibling;
+                ingredients.classList.toggle('hidden');
+            });
+        });
+    }
+
     function displaySummary() {
         let summaryHtml = '';
+        let sandwichHtml = '';
+        let smoothieHtml = '';
+
         if (selectedChoices.bread) {
-            summaryHtml += `
-                <p>Choice of Bread: ${selectedChoices.bread}</p>
-                <p>Choice of Protein: ${selectedChoices.protein}</p>
-                <p>Base: ${selectedChoices.veggies.join(', ')}</p>
-                <p>Sauces: ${selectedChoices.sauces.join(', ')}</p>
+            sandwichHtml += `
+                <p>Choice of Bread: ${selectedChoices.bread} ($${selectedChoices.breadPrice.toFixed(2)})</p>
+                <p>Choice of Protein: ${selectedChoices.protein} ($${selectedChoices.proteinPrice.toFixed(2)})</p>
+                <p>Base: ${selectedChoices.veggies.map(v => `${v.name} ($${v.price.toFixed(2)})`).join(', ')}</p>
+                <p>Sauces: ${selectedChoices.sauces.map(s => `${s.name} ($${s.price.toFixed(2)})`).join(', ')}</p>
             `;
         }
         if (selectedChoices.fruits.length > 0) {
-            summaryHtml += `
-                <p>Choice of Fruits: ${selectedChoices.fruits.join(', ')}</p>
-                <p>Choice of Greens: ${selectedChoices.greens.join(', ')}</p>
-                <p>Choice of Protein: ${selectedChoices.proteins.join(', ')}</p>
-                <p>Choice of Liquid Base: ${selectedChoices.liquidBase.join(', ')}</p>
-                <p>Stevia Level: ${selectedChoices.stevia}</p>
+            smoothieHtml += `
+                <p>Choice of Fruits: ${selectedChoices.fruits.map(f => `${f.name} ($${f.price.toFixed(2)})`).join(', ')}</p>
+                <p>Choice of Greens: ${selectedChoices.greens.map(g => `${g.name} ($${g.price.toFixed(2)})`).join(', ')}</p>
+                <p>Choice of Protein: ${selectedChoices.proteins.map(p => `${p.name} ($${p.price.toFixed(2)})`).join(', ')}</p>
+                <p>Choice of Liquid Base: ${selectedChoices.liquidBase.map(lb => `${lb.name} ($${lb.price.toFixed(2)})`).join(', ')}</p>
+                <p>Stevia Level: ${selectedChoices.stevia.name} ($${selectedChoices.stevia.price.toFixed(2)})</p>
             `;
         }
+
+        summaryHtml += `
+            <div>
+                <h3>Sandwich - $${sandwichTotal.toFixed(2)}</h3>
+                
+                <div class="toggle-ingredients">
+                    <button class="toggle-button">Show/Hide Ingredients</button>
+                    <div class="ingredients hidden">${sandwichHtml}</div>
+                </div>
+            </div>
+        `;
+
+        summaryHtml += `
+            <div>
+                <h3>Smoothie - $${smoothieTotal.toFixed(2)}</h3>
+                
+                <div class="toggle-ingredients">
+                    <button class="toggle-button">Show/Hide Ingredients</button>
+                    <div class="ingredients hidden">${smoothieHtml}</div>
+                </div>
+            </div>
+        `;
+
         summarySteps.innerHTML = summaryHtml;
+        totalPriceElement.textContent = `Total Price: $${(sandwichTotal + smoothieTotal).toFixed(2)}`;
         summarySection.classList.remove('hidden');
+
+        const toggleButtons = document.querySelectorAll('.toggle-button');
+        toggleButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const ingredients = button.nextElementSibling;
+                ingredients.classList.toggle('hidden');
+            });
+        });
     }
 
     function scrollToSummary() {
@@ -257,6 +374,9 @@ document.addEventListener('DOMContentLoaded', function () {
             liquidBase: [],
             stevia: ''
         };
+        totalPrice = 0;
+        sandwichTotal = 6; // Reset base price for sandwich
+        smoothieTotal = 5; // Reset base price for smoothie
         choices.forEach(choice => choice.classList.remove('selected'));
     });
 
@@ -286,6 +406,9 @@ document.addEventListener('DOMContentLoaded', function () {
             liquidBase: [],
             stevia: ''
         };
+        totalPrice = 0;
+        sandwichTotal = 6; // Reset base price for sandwich
+        smoothieTotal = 5; // Reset base price for smoothie
         choices.forEach(choice => choice.classList.remove('selected'));
     });
 
@@ -317,17 +440,4 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     typeWriter();
-
-    yesAddSmoothieButton.addEventListener('click', () => {
-        smoothiePromptModal.style.display = 'none';
-        currentStep = 0;
-        isSandwich = false;
-        showCurrentStep();
-    });
-
-    noAddSmoothieButton.addEventListener('click', () => {
-        smoothiePromptModal.style.display = 'none';
-        displaySummary();
-        scrollToSummary();
-    });
 });
