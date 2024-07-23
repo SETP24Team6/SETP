@@ -1,3 +1,4 @@
+
 document.addEventListener("DOMContentLoaded", function () {
     const dropdownContent = document.querySelectorAll('.dropdown-content a');
     const selectedLocation = document.getElementById('selected-location');
@@ -135,13 +136,14 @@ document.addEventListener("DOMContentLoaded", function () {
         
         alert('i am here');
         if (!checker){
+            hash = b64_md5(document.getElementById('password-signup').value);
             var requestPayload = {
                 lastname: document.getElementById('last-name').value,
                 firstname: document.getElementById('first-name').value,
                 email: document.getElementById('email-signup').value,
                 phone: document.getElementById('phone').value,
                 birthday: document.getElementById('birthday').value,
-                passwordhash: document.getElementById('password-signup').value
+                passwordhash: hash
             };
             callApi("POST", 'http://127.0.0.1:5000/signup', 
                 {'data': JSON.stringify(requestPayload)});
