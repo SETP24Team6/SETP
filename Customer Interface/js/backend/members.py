@@ -32,6 +32,16 @@ def check_member_exist(conn,member):
         result = email
     return bool(result)
 
+def login(conn,member):
+    cursor = conn.cursor()
+    query = ("select email from member where email = %s and passwordhash = %s")
+    data = (member['email'], member['passwordhash'])
+    cursor.execute(query, data)
+    result = ""
+    for (email) in cursor:
+        result = email
+    return bool(result)
+
 def signup_new(conn, member):
     cursor = conn.cursor()
     cursor.execute("ROLLBACK")

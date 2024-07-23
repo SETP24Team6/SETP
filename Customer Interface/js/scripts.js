@@ -119,9 +119,30 @@ document.addEventListener("DOMContentLoaded", function () {
 
     authForm.onsubmit = function (event) {
         event.preventDefault();
-        // Add your login functionality here
-        alert('Logged in successfully!');
-        window.location.href = 'create-sandwich.html';
+        var requestUser = {
+            email: document.getElementById('email').value,
+            phone: "1"
+        }
+        
+        let checker = callApi2("POST", 'http://127.0.0.1:5000/checkuser', {'data': JSON.stringify(requestUser)});
+
+        if (checker){
+            hash = b64_md5(document.getElementById('password').value);
+            var requestPayload = {
+                email: document.getElementById('email').value,
+                passwordhash: hash
+            };
+            let login_success = callApi2("POST", 'http://127.0.0.1:5000/login', {'data': JSON.stringify(requestPayload)});
+            if(login_success){
+                alert('Logged in successfully!');
+                ctx.req.session.userId = "2"
+                window.location.href = 'create-sandwich.html';
+            }else{
+                alert('Wrong Password!');
+            }
+        }else{
+            alert('No such email!');
+        };
     };
 
     signupForm.onsubmit = function (event) {
@@ -134,7 +155,6 @@ document.addEventListener("DOMContentLoaded", function () {
         let checker = callApi2("POST", 'http://127.0.0.1:5000/checkuser', 
             {'data': JSON.stringify(requestUser)});
         
-        alert('i am here');
         if (!checker){
             hash = b64_md5(document.getElementById('password-signup').value);
             var requestPayload = {
