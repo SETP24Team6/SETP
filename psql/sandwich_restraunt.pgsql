@@ -12,8 +12,8 @@ CREATE TABLE member (
 );
 
 INSERT INTO member(lastName, firstName, email, phone, birthday, passwordhash)
-    VALUES('Gwee', 'Wilson', 'wilson.gwee@gmail.com', '83885674', '19-05-1991', '12345'),
-        ('FAKER', 'Wilson', 'wilson.gwee22@gmail.com', '83885675', '19-05-1991', '12345'); 
+    VALUES('Gwee', 'Wilson', 'wilson.gwee@gmail.com', '83885674', '19-05-1991', 'gnzLDuqKcGxMNKFokfhOew'),
+        ('FAKER', 'Wilson', 'wilson.gwee22@gmail.com', '83885675', '19-05-1991', 'gnzLDuqKcGxMNKFokfhOew'); 
 
 
 CREATE TABLE menu (
