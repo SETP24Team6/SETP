@@ -32,10 +32,16 @@ def checkuser():
 def login():
     request_payload = json.loads(request.form['data'])
     result =  members.login(connection, request_payload)
-    response = jsonify({
-        'userid': result["member_id"],
-        'name': result["firstname"]
-    })
+    response = ""
+    try:
+        response = jsonify({
+            'userid': result["member_id"],
+            'name': result["firstname"]
+        })
+    except:
+        response = jsonify({
+
+        })
     print(type(response))
     response.headers.add('Access-Control-Allow-Origin', '*')
     return response

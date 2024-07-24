@@ -127,7 +127,7 @@ document.addEventListener("DOMContentLoaded", function () {
         let checker = callApi2("POST", 'http://127.0.0.1:5000/checkuser', {'data': JSON.stringify(requestUser)});
 
         if (checker.exists){
-            hash = b64_md5(document.getElementById('password').value);
+            hash = hex_md5(document.getElementById('password').value);
             var requestPayload = {
                 email: document.getElementById('email').value,
                 passwordhash: hash
@@ -160,7 +160,7 @@ document.addEventListener("DOMContentLoaded", function () {
             {'data': JSON.stringify(requestUser)});
         
         if (!checker.exists){
-            hash = b64_md5(document.getElementById('password-signup').value);
+            hash = hex_md5(document.getElementById('password-signup').value);
             var requestPayload = {
                 lastname: document.getElementById('last-name').value,
                 firstname: document.getElementById('first-name').value,
