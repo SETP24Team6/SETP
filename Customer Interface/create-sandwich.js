@@ -32,19 +32,16 @@ document.addEventListener('DOMContentLoaded', function () {
         veggies: [],
         sauces: [],
         fruits: [],
-        greens: [],
-        proteins: [],
-        liquidBase: [],
+        greens: '',
+        proteinSmoothie: '',
+        liquidBase: '',
         stevia: ''
     };
 
-    let totalPrice = 0;
     let sandwichTotal = 6; // Base price for a sandwich
     let smoothieTotal = 5; // Base price for a smoothie
 
     let isSandwich = false;
-
-
 
     sandwichOption.addEventListener('click', () => {
         customizeSandwichContent.classList.remove('hidden');
@@ -98,7 +95,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     noAddSmoothieButton.addEventListener('click', () => {
         smoothiePromptModal.style.display = 'none';
-        displaySandwichSummary();
+        displaySummary();
         scrollToSummary();
     });
 
@@ -118,9 +115,13 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
-    
+    function getPriceFromChoice(choice) {
+        const priceElement = choice.querySelector('p');
+        return priceElement ? parseFloat(priceElement.textContent.replace('$', '')) : 0;
+    }
+
     function handleSandwichChoice(choice, stepId) {
-        const price = parseFloat(choice.dataset.price);
+        const price = getPriceFromChoice(choice);
 
         if (stepId === 'sandwich-step-3') {
             choice.classList.toggle('selected');
@@ -181,7 +182,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function handleSmoothieChoice(choice, stepId) {
-        const price = parseFloat(choice.dataset.price);
+        const price = getPriceFromChoice(choice);
 
         if (stepId === 'smoothie-step-1') {
             choice.classList.toggle('selected');
@@ -208,9 +209,9 @@ document.addEventListener('DOMContentLoaded', function () {
             document.querySelector(`#smoothie-arrow-icon-${currentStep + 1}`).classList.remove('hidden');
 
             const greenName = choice.querySelector('h3').textContent;
-            smoothieTotal -= selectedChoices.greenPrice || 0;
-            selectedChoices.greens = [{ name: greenName, price }];
-            selectedChoices.greenPrice = price;
+            smoothieTotal -= selectedChoices.greensPrice || 0;
+            selectedChoices.greens = greenName;
+            selectedChoices.greensPrice = price;
             smoothieTotal += price;
         } else if (stepId === 'smoothie-step-3') {
             choices.forEach(c => c.classList.remove('selected'));
@@ -218,9 +219,9 @@ document.addEventListener('DOMContentLoaded', function () {
             document.querySelector(`#smoothie-arrow-icon-${currentStep + 1}`).classList.remove('hidden');
 
             const proteinName = choice.querySelector('h3').textContent;
-            smoothieTotal -= selectedChoices.proteinPrice || 0;
-            selectedChoices.proteins = [{ name: proteinName, price }];
-            selectedChoices.proteinPrice = price;
+            smoothieTotal -= selectedChoices.proteinSmoothiePrice || 0;
+            selectedChoices.proteinSmoothie = proteinName;
+            selectedChoices.proteinSmoothiePrice = price;
             smoothieTotal += price;
         } else if (stepId === 'smoothie-step-4') {
             choices.forEach(c => c.classList.remove('selected'));
@@ -229,17 +230,24 @@ document.addEventListener('DOMContentLoaded', function () {
 
             const liquidBaseName = choice.querySelector('h3').textContent;
             smoothieTotal -= selectedChoices.liquidBasePrice || 0;
-            selectedChoices.liquidBase = [{ name: liquidBaseName, price }];
+            selectedChoices.liquidBase = liquidBaseName;
             selectedChoices.liquidBasePrice = price;
             smoothieTotal += price;
         } else if (stepId === 'smoothie-step-5') {
             choices.forEach(c => c.classList.remove('selected'));
             choice.classList.add('selected');
-            document.querySelector(`#smoothie-arrow-icon-${currentStep + 1}`).classList.remove('hidden');
+            const nextArrow = document.querySelector(`#smoothie-arrow-icon-${currentStep + 1}`);
+            if (nextArrow) {
+                nextArrow.classList.remove('hidden');
+            }
+            const finishButton = document.querySelector(`#smoothie-finish-icon-5`);
+            if (finishButton) {
+                finishButton.classList.remove('hidden');
+            }
 
             const steviaName = choice.querySelector('h3').textContent;
             smoothieTotal -= selectedChoices.steviaPrice || 0;
-            selectedChoices.stevia = { name: steviaName, price };
+            selectedChoices.stevia = steviaName;
             selectedChoices.steviaPrice = price;
             smoothieTotal += price;
         }
@@ -259,43 +267,6 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-    function displaySandwichSummary() {
-        let summaryHtml = '';
-        let sandwichHtml = '';
-
-        if (selectedChoices.bread) {
-            sandwichHtml += `
-                <p>Choice of Bread: ${selectedChoices.bread} ($${selectedChoices.breadPrice.toFixed(2)})</p>
-                <p>Choice of Protein: ${selectedChoices.protein} ($${selectedChoices.proteinPrice.toFixed(2)})</p>
-                <p>Base: ${selectedChoices.veggies.map(v => `${v.name} ($${v.price.toFixed(2)})`).join(', ')}</p>
-                <p>Sauces: ${selectedChoices.sauces.map(s => `${s.name} ($${s.price.toFixed(2)})`).join(', ')}</p>
-            `;
-        }
-
-        summaryHtml += `
-            <div>
-                <h3>Sandwich - $${sandwichTotal.toFixed(2)}</h3>
-                <p>$6.00</p>
-                <div class="toggle-ingredients">
-                    <button class="toggle-button">Show/Hide Ingredients</button>
-                    <div class="ingredients hidden">${sandwichHtml}</div>
-                </div>
-            </div>
-        `;
-
-        summarySteps.innerHTML = summaryHtml;
-        totalPriceElement.textContent = `Total Price: $${sandwichTotal.toFixed(2)}`;
-        summarySection.classList.remove('hidden');
-
-        const toggleButtons = document.querySelectorAll('.toggle-button');
-        toggleButtons.forEach(button => {
-            button.addEventListener('click', () => {
-                const ingredients = button.nextElementSibling;
-                ingredients.classList.toggle('hidden');
-            });
-        });
-    }
-
     function displaySummary() {
         let summaryHtml = '';
         let sandwichHtml = '';
@@ -303,26 +274,25 @@ document.addEventListener('DOMContentLoaded', function () {
 
         if (selectedChoices.bread) {
             sandwichHtml += `
-                <p>Choice of Bread: ${selectedChoices.bread} ($${selectedChoices.breadPrice.toFixed(2)})</p>
-                <p>Choice of Protein: ${selectedChoices.protein} ($${selectedChoices.proteinPrice.toFixed(2)})</p>
-                <p>Base: ${selectedChoices.veggies.map(v => `${v.name} ($${v.price.toFixed(2)})`).join(', ')}</p>
-                <p>Sauces: ${selectedChoices.sauces.map(s => `${s.name} ($${s.price.toFixed(2)})`).join(', ')}</p>
+                <p>Choice of Bread: ${selectedChoices.bread} ${selectedChoices.breadPrice > 0 ? `($${selectedChoices.breadPrice.toFixed(2)})` : ''}</p>
+                <p>Choice of Protein: ${selectedChoices.protein} ${selectedChoices.proteinPrice > 0 ? `($${selectedChoices.proteinPrice.toFixed(2)})` : ''}</p>
+                <p>Base: ${selectedChoices.veggies.map(v => `${v.name} ${v.price > 0 ? `($${v.price.toFixed(2)})` : ''}`).join(', ')}</p>
+                <p>Sauces: ${selectedChoices.sauces.map(s => `${s.name} ${s.price > 0 ? `($${s.price.toFixed(2)})` : ''}`).join(', ')}</p>
             `;
         }
         if (selectedChoices.fruits.length > 0) {
             smoothieHtml += `
-                <p>Choice of Fruits: ${selectedChoices.fruits.map(f => `${f.name} ($${f.price.toFixed(2)})`).join(', ')}</p>
-                <p>Choice of Greens: ${selectedChoices.greens.map(g => `${g.name} ($${g.price.toFixed(2)})`).join(', ')}</p>
-                <p>Choice of Protein: ${selectedChoices.proteins.map(p => `${p.name} ($${p.price.toFixed(2)})`).join(', ')}</p>
-                <p>Choice of Liquid Base: ${selectedChoices.liquidBase.map(lb => `${lb.name} ($${lb.price.toFixed(2)})`).join(', ')}</p>
-                <p>Stevia Level: ${selectedChoices.stevia.name} ($${selectedChoices.stevia.price.toFixed(2)})</p>
+                <p>Choice of Fruits: ${selectedChoices.fruits.map(f => `${f.name} ${f.price > 0 ? `($${f.price.toFixed(2)})` : ''}`).join(', ')}</p>
+                <p>Choice of Greens: ${selectedChoices.greens} ${selectedChoices.greensPrice > 0 ? `($${selectedChoices.greensPrice.toFixed(2)})` : ''}</p>
+                <p>Choice of Protein: ${selectedChoices.proteinSmoothie} ${selectedChoices.proteinSmoothiePrice > 0 ? `($${selectedChoices.proteinSmoothiePrice.toFixed(2)})` : ''}</p>
+                <p>Choice of Liquid Base: ${selectedChoices.liquidBase} ${selectedChoices.liquidBasePrice > 0 ? `($${selectedChoices.liquidBasePrice.toFixed(2)})` : ''}</p>
+                <p>Stevia Level: ${selectedChoices.stevia} ${selectedChoices.steviaPrice > 0 ? `($${selectedChoices.steviaPrice.toFixed(2)})` : ''}</p>
             `;
         }
 
         summaryHtml += `
             <div>
                 <h3>Sandwich - $${sandwichTotal.toFixed(2)}</h3>
-                
                 <div class="toggle-ingredients">
                     <button class="toggle-button">Show/Hide Ingredients</button>
                     <div class="ingredients hidden">${sandwichHtml}</div>
@@ -333,7 +303,6 @@ document.addEventListener('DOMContentLoaded', function () {
         summaryHtml += `
             <div>
                 <h3>Smoothie - $${smoothieTotal.toFixed(2)}</h3>
-                
                 <div class="toggle-ingredients">
                     <button class="toggle-button">Show/Hide Ingredients</button>
                     <div class="ingredients hidden">${smoothieHtml}</div>
@@ -369,12 +338,11 @@ document.addEventListener('DOMContentLoaded', function () {
             veggies: [],
             sauces: [],
             fruits: [],
-            greens: [],
-            proteins: [],
-            liquidBase: [],
+            greens: '',
+            proteinSmoothie: '',
+            liquidBase: '',
             stevia: ''
         };
-        totalPrice = 0;
         sandwichTotal = 6; // Reset base price for sandwich
         smoothieTotal = 5; // Reset base price for smoothie
         choices.forEach(choice => choice.classList.remove('selected'));
@@ -401,12 +369,11 @@ document.addEventListener('DOMContentLoaded', function () {
             veggies: [],
             sauces: [],
             fruits: [],
-            greens: [],
-            proteins: [],
-            liquidBase: [],
+            greens: '',
+            proteinSmoothie: '',
+            liquidBase: '',
             stevia: ''
         };
-        totalPrice = 0;
         sandwichTotal = 6; // Reset base price for sandwich
         smoothieTotal = 5; // Reset base price for smoothie
         choices.forEach(choice => choice.classList.remove('selected'));

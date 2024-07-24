@@ -484,6 +484,7 @@ nav ul li a:hover {
 .fadeInUp {
     animation-name: fadeInUp;
 }
+
 .toggle-ingredients {
     margin-top: 10px;
 }
