@@ -182,9 +182,21 @@ document.addEventListener("DOMContentLoaded", function () {
 
     forgotPasswordForm.onsubmit = function (event) {
         event.preventDefault();
-        // Add your forgot password functionality here
-        alert('Password reset successfully!');
-        modal.style.display = 'none';
+        hash = hex_md5(document.getElementById('new-password').value);
+            var requestPayload = {
+                email: document.getElementById('email-forgot').value,
+                birthday: document.getElementById('birthday-forgot').value,
+                passwordhash: hash
+            };
+        let change_success = callApi2("POST", 'http://127.0.0.1:5000/change_pw', {'data': JSON.stringify(requestPayload)});
+        alert(change_success.row_updated)
+        if(change_success.row_updated){
+            alert('Password reset successfully!');
+            modal.style.display = 'none';
+        }else{
+            alert('YOU WERE WRONG BOO');
+        }
+        
     };
 
     document.addEventListener('click', function (event) {

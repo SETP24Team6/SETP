@@ -42,7 +42,16 @@ def login():
         response = jsonify({
 
         })
-    print(type(response))
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
+
+@app.route('/change_pw', methods=['POST'])
+def change_pw():
+    request_payload = json.loads(request.form['data'])
+    result =  members.change_password(connection, request_payload)
+    response = ""
+    print(result)
+    response = jsonify({'row_updated': result})
     response.headers.add('Access-Control-Allow-Origin', '*')
     return response
 

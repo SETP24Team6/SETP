@@ -43,6 +43,27 @@ def login(conn,member):
         result["member_id"] = member_id
     return result
 
+def login(conn,member):
+    cursor = conn.cursor()
+    query = ("select firstname, member_id from member where email = %s and passwordhash = %s")
+    data = (member['email'], member['passwordhash'])
+    cursor.execute(query, data)
+    result = {}
+    for (firstname, member_id) in cursor:
+        result["firstname"] = firstname
+        result["member_id"] = member_id
+    return result
+
+def change_password(conn,member):
+    cursor = conn.cursor()
+    cursor.execute("ROLLBACK")
+    query = ("UPDATE member SET passwordhash = %s WHERE email = %s AND birthday = %s")
+    data = (member['passwordhash'], member['email'], member['birthday'])
+    cursor.execute(query, data)
+    conn.commit()
+    
+    return cursor.rowcount
+
 def signup_new(conn, member):
     cursor = conn.cursor()
     cursor.execute("ROLLBACK")
