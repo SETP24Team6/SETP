@@ -34,13 +34,14 @@ def check_member_exist(conn,member):
 
 def login(conn,member):
     cursor = conn.cursor()
-    query = ("select email from member where email = %s and passwordhash = %s")
+    query = ("select firstname, member_id from member where email = %s and passwordhash = %s")
     data = (member['email'], member['passwordhash'])
     cursor.execute(query, data)
-    result = ""
-    for (email) in cursor:
-        result = email
-    return bool(result)
+    result = {}
+    for (firstname, member_id) in cursor:
+        result["firstname"] = firstname
+        result["member_id"] = member_id
+    return result
 
 def signup_new(conn, member):
     cursor = conn.cursor()

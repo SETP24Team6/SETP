@@ -31,9 +31,10 @@ def checkuser():
 @app.route('/login', methods=['POST'])
 def login():
     request_payload = json.loads(request.form['data'])
-    exist =  members.login(connection, request_payload)
+    result =  members.login(connection, request_payload)
     response = jsonify({
-        'exists': exist
+        'userid': result["member_id"],
+        'name': result["firstname"]
     })
     print(type(response))
     response.headers.add('Access-Control-Allow-Origin', '*')

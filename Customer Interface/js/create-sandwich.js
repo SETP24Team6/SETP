@@ -262,7 +262,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     const typewriterText = document.querySelector('#recommendations h2');
-    const text = typewriterText.textContent;
+    const text = typewriterText.textContent + cookie('username') + "!";
     typewriterText.textContent = '';
     let i = 0;
 

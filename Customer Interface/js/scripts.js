@@ -28,14 +28,14 @@ document.addEventListener("DOMContentLoaded", function () {
 
     
     function callApi2(method, url, data) {
-        var result = false;
+        var result = [];
         $.ajax({
             method: method,
             url: url,
             data: data,
             async: false,
             success: function(data) {
-                result =  data.exists;
+                result =  data;
             }
         });
         return result;
@@ -126,16 +126,20 @@ document.addEventListener("DOMContentLoaded", function () {
         
         let checker = callApi2("POST", 'http://127.0.0.1:5000/checkuser', {'data': JSON.stringify(requestUser)});
 
-        if (checker){
+        if (checker.exists){
             hash = b64_md5(document.getElementById('password').value);
             var requestPayload = {
                 email: document.getElementById('email').value,
                 passwordhash: hash
             };
             let login_success = callApi2("POST", 'http://127.0.0.1:5000/login', {'data': JSON.stringify(requestPayload)});
-            if(login_success){
+            
+            if(login_success.name){
                 alert('Logged in successfully!');
-                ctx.req.session.userId = "2"
+                cookie.set({
+                    userid: login_success.userid,
+                    username: login_success.name
+                });
                 window.location.href = 'create-sandwich.html';
             }else{
                 alert('Wrong Password!');
@@ -155,7 +159,7 @@ document.addEventListener("DOMContentLoaded", function () {
         let checker = callApi2("POST", 'http://127.0.0.1:5000/checkuser', 
             {'data': JSON.stringify(requestUser)});
         
-        if (!checker){
+        if (!checker.exists){
             hash = b64_md5(document.getElementById('password-signup').value);
             var requestPayload = {
                 lastname: document.getElementById('last-name').value,
