@@ -24,6 +24,8 @@ document.addEventListener('DOMContentLoaded', function () {
     const yesAddSmoothieButton = document.getElementById('yes-add-smoothie');
     const noAddSmoothieButton = document.getElementById('no-add-smoothie');
     const dateButtons = document.querySelectorAll('.date-button');
+    const promotionAddButtons = document.querySelectorAll('.promotion-item button');
+    const cart = [];
 
     let currentStep = 0;
     let selectedChoices = {
@@ -70,8 +72,12 @@ document.addEventListener('DOMContentLoaded', function () {
 
     nextStepArrows.forEach((arrow, index) => {
         arrow.addEventListener('click', () => {
-            currentStep++;
-            showCurrentStep();
+            if (validateCurrentStep()) {
+                currentStep++;
+                showCurrentStep();
+            } else {
+                alert('Please make the required selections before proceeding.');
+            }
         });
     });
 
@@ -83,7 +89,11 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     sandwichFinishIcon.addEventListener('click', () => {
-        smoothiePromptModal.style.display = 'block';
+        if (validateCurrentStep()) {
+            smoothiePromptModal.style.display = 'block';
+        } else {
+            alert('Please make the required selections before finishing.');
+        }
     });
 
     yesAddSmoothieButton.addEventListener('click', () => {
@@ -100,8 +110,12 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     smoothieFinishIcon.addEventListener('click', () => {
-        displaySummary();
-        scrollToSummary();
+        if (validateCurrentStep()) {
+            displaySummary();
+            scrollToSummary();
+        } else {
+            alert('Please make the required selections before finishing.');
+        }
     });
 
     choices.forEach(choice => {
@@ -112,6 +126,7 @@ document.addEventListener('DOMContentLoaded', function () {
             } else if (stepId.includes('smoothie-step')) {
                 handleSmoothieChoice(choice, stepId);
             }
+            updateTotalPrice();
         });
     });
 
@@ -267,6 +282,30 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
+    function validateCurrentStep() {
+        if (isSandwich) {
+            if (currentStep === 0) return selectedChoices.bread !== '';
+            if (currentStep === 1) return selectedChoices.protein !== '';
+            if (currentStep === 2) return selectedChoices.veggies.length >= 1 && selectedChoices.veggies.length <= 3;
+            if (currentStep === 3) return selectedChoices.sauces.length >= 1 && selectedChoices.sauces.length <= 2;
+        } else {
+            if (currentStep === 0) return selectedChoices.fruits.length >= 1 && selectedChoices.fruits.length <= 3;
+            if (currentStep === 1) return selectedChoices.greens !== '';
+            if (currentStep === 2) return selectedChoices.proteinSmoothie !== '';
+            if (currentStep === 3) return selectedChoices.liquidBase !== '';
+            if (currentStep === 4) return selectedChoices.stevia !== '';
+        }
+        return true;
+    }
+
+    function updateTotalPrice() {
+        if (isSandwich) {
+            arrowIcon.textContent = `Customise Your Sandwich ($${sandwichTotal.toFixed(2)})`;
+        } else {
+            arrowIcon.textContent = `Blend Your Smoothie ($${smoothieTotal.toFixed(2)})`;
+        }
+    }
+
     function displaySummary() {
         let summaryHtml = '';
         let sandwichHtml = '';
@@ -407,4 +446,20 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     typeWriter();
+
+    promotionAddButtons.forEach(button => {
+        button.addEventListener('click', (e) => {
+            const promotionItem = e.target.closest('.promotion-item');
+            const itemName = promotionItem.querySelector('h3').textContent;
+            const itemPriceText = promotionItem.querySelector('p').textContent;
+            const itemPrice = parseFloat(itemPriceText.replace('From $', ''));
+            addToCart(itemName, itemPrice);
+            alert(`${itemName} added to cart!`);
+        });
+    });
+
+    function addToCart(itemName, itemPrice) {
+        cart.push({ name: itemName, price: itemPrice });
+        console.log(cart);
+    }
 });

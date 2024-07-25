@@ -138,6 +138,94 @@ nav ul li a:hover {
     background-color: teal;
 }
 
+/* Promotions Section */
+#promotions {
+    background-image: url('../asset/bg-promotion.jpg');
+    background-color: rgba(0, 0, 0, 0.7);
+    color: white;
+    text-align: center;
+    padding: 20px;
+    border-radius: 10px;
+    margin-top: 20px;
+}
+
+#promotions h2 {
+    font-size: 32px;
+    margin-bottom: 20px;
+}
+
+.promotions-list {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.promotion-item {
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 5px;
+    padding: 20px;
+    width: 600px;
+    text-align: center;
+    color: white;
+}
+
+.promotion-item img {
+    width: 100%;
+    border-radius: 5px;
+    height: 300px;
+    object-fit: cover;
+    margin-bottom: 10px;
+}
+
+.promotion-details {
+    background: rgba(0, 0, 0, 0.5);
+    padding: 10px;
+    border-radius: 5px;
+    text-align: left;
+}
+
+.promotion-details h3 {
+    font-size: 20px;
+    margin: 10px 0;
+}
+
+.promotion-details p {
+    font-size: 16px;
+    margin: 5px 0;
+}
+
+.promotion-details button {
+    background-color: black;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.promotion-details button:hover {
+    background-color: teal;
+}
+
+.highlight {
+    background-color: teal;
+    color: black;
+    padding: 5px 10px;
+    width: 30%;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+.promotion-buttons {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 10px;
+}
+
 /* Other existing CSS for sandwich customization and modal */
 
 .create-sandwich {
@@ -166,11 +254,8 @@ nav ul li a:hover {
     margin-bottom: 20px;
     text-align: left;
     position: absolute;
-    /* Ensure it's positioned within the section */
     background: rgba(0, 0, 0, 0.5);
     border-radius: 5px;
-
-    /* Adjust position as needed */
     left: 100px;
 }
 
@@ -189,9 +274,7 @@ nav ul li a:hover {
     padding: 10px;
     position: relative;
     left: 10px;
-    /* Adjust the left position to ensure it doesn't block the images */
     z-index: 1;
-    /* Ensure it stays above other elements */
 }
 
 .options {
@@ -512,3 +595,101 @@ nav ul li a:hover {
     font-size: 18px;
     font-weight: bold;
 }
+
+/* Promotions Section */
+#promotions {
+    background-image: url('../asset/bg-promotion.jpg');
+    background-size: cover;
+    background-position: center;
+    color: white;
+    text-align: center;
+    padding: 20px;
+    border-radius: 10px;
+    margin-top: 20px;
+    position: relative;
+    overflow: hidden;
+}
+
+#promotions::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    z-index: 1;
+}
+
+#promotions h2,
+.promotions-list {
+    position: relative;
+    z-index: 2;
+}
+
+.promotions-list {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    width: 100%;
+}
+
+.promotion-item {
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 10px;
+    padding: 20px;
+    width: 700px;
+    text-align: center;
+    color: white;
+}
+
+.promotion-item img {
+    width: 100%;
+    border-radius: 5px;
+    height: 400px;
+    object-fit: cover;
+    margin-bottom: 10px;
+}
+
+.promotion-details {
+
+    padding: 10px;
+    border-radius: 5px;
+    text-align: left;
+}
+
+.promotion-details h3 {
+    font-size: 20px;
+    margin: 10px 0;
+}
+
+.promotion-details p {
+    font-size: 16px;
+    margin: 5px 0;
+}
+
+.promotion-details button {
+    background-color: black;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.promotion-details button:hover {
+    background-color: rgb(204, 162, 84);
+}
+
+.highlight {
+    background-color: teal;
+    color: black;
+    padding: 5px 10px;
+    width: 30%;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
