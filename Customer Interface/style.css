@@ -1,4 +1,3 @@
-/* ORDER NOW */
 body {
     font-family: Arial, sans-serif;
     background: url(asset/cafe\ 3.jpg) no-repeat center center fixed;
@@ -29,24 +28,43 @@ header h1 {
 }
 
 nav {
-    margin: 20px 0;
+    margin: 0;
+    padding: 10px 0;
+    background-color: black;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    z-index: 1000;
 }
 
-nav .tab {
-    background-color: transparent;
-    border: none;
-    color: #104b49;
-    font-size: 18px;
-    margin: 0 10px;
-    padding: 10px 20px;
-    cursor: pointer;
-    outline: none;
+nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: space-around;
 }
 
-nav .tab.active {
-    background-color: #FF7F11;
-    border-radius: 20px;
+nav ul li {
+    margin: 0 15px;
+}
+
+nav ul li a {
     color: white;
+    text-decoration: none;
+    padding: 8px 16px;
+    display: inline-block;
+}
+
+nav ul li a:hover {
+    background-color: #FF7F11;
+    border-radius: 5px;
+}
+
+nav ul li.order-now a {
+    background-color: #00A3A3;
+    color: white;
+    border-radius: 25px;
 }
 
 main p {
@@ -108,7 +126,8 @@ main p {
     display: block;
 }
 
-.order-button {
+.order-button,
+.pickup-button {
     background-color: #205522;
     border: none;
     border-radius: 25px;
@@ -120,7 +139,19 @@ main p {
     margin-top: 20px;
 }
 
-/* Modal styles */
+.pickup-button {
+    background-color: orange;
+}
+
+#pickup-info {
+    color: white;
+    font-size: 12px;
+    margin-top: 10px;
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 5px;
+    border-radius: 5px;
+}
+
 .modal {
     display: none;
     position: fixed;
@@ -271,18 +302,25 @@ main p {
 .forgot-password {
     background-color: transparent;
     color: #205522;
-    border: 2px solid #205522;
-    margin-top: 10px;
-    display: block;
-    width: 100%;
-    padding: 15px 30px;
-    font-size: 18px;
+    border: none;
+    text-align: center;
     cursor: pointer;
-    outline: none;
-    border-radius: 25px;
+    font-size: 14px;
+    padding: 10px;
 }
 
-.switch-button:disabled,
-.forgot-password:disabled {
-    display: none;
+.link-container {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+.link-container a {
+    font-size: 14px;
+    color: #205522;
+    text-decoration: none;
+}
+
+.link-container a:hover {
+    text-decoration: underline;
 }

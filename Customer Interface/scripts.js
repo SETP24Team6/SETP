@@ -3,6 +3,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const selectedLocation = document.getElementById('selected-location');
     const modal = document.getElementById('myModal');
     const btn = document.getElementById('start-order');
+    const pickupBtn = document.querySelector('.pickup-button');
     const closeElements = document.querySelectorAll('.close, .form-close'); // Combine both close buttons
     const authForm = document.getElementById('auth-form');
     const signupForm = document.getElementById('signup-form');
@@ -39,7 +40,15 @@ document.addEventListener("DOMContentLoaded", function () {
         if (selectedLocation.textContent === 'Choose Location') {
             alert('Please select a location first.');
         } else {
-            modal.style.display = 'flex';
+            window.location.href = 'create-sandwich.html';
+        }
+    };
+
+    pickupBtn.onclick = function () {
+        if (selectedLocation.textContent === 'Choose Location') {
+            alert('Please select a location first.');
+        } else {
+            window.location.href = 'crea-sandwich.html';
         }
     };
 
@@ -51,7 +60,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     window.onclick = function (event) {
         if (event.target === modal) {
-            modal.style.display = 'none';
+            modal.style.display = 'flex';
         }
     };
 
@@ -62,6 +71,7 @@ document.addEventListener("DOMContentLoaded", function () {
         formTitle.style.display = 'none';
         signupTitle.style.display = 'block';
         forgotPasswordTitle.style.display = 'none';
+        clearFields();
     };
 
     switchToLogin.onclick = function () {
@@ -71,6 +81,7 @@ document.addEventListener("DOMContentLoaded", function () {
         formTitle.style.display = 'block';
         signupTitle.style.display = 'none';
         forgotPasswordTitle.style.display = 'none';
+        clearFields();
     };
 
     switchToLoginFromForgot.onclick = function () {
@@ -80,6 +91,7 @@ document.addEventListener("DOMContentLoaded", function () {
         formTitle.style.display = 'block';
         signupTitle.style.display = 'none';
         forgotPasswordTitle.style.display = 'none';
+        clearFields();
     };
 
     forgotPassword.onclick = function () {
@@ -89,32 +101,41 @@ document.addEventListener("DOMContentLoaded", function () {
         formTitle.style.display = 'none';
         signupTitle.style.display = 'none';
         forgotPasswordTitle.style.display = 'block';
+        clearFields();
     };
 
     authForm.onsubmit = function (event) {
         event.preventDefault();
-        // Add your login functionality here
         alert('Logged in successfully!');
-        window.location.href = 'create-sandwich.html';
+        document.getElementById('order-container').style.display = 'block';
+        modal.style.display = 'none';
     };
 
     signupForm.onsubmit = function (event) {
         event.preventDefault();
-        // Add your sign-up functionality here
         alert('Account created successfully!');
-        window.location.href = 'create-sandwich.html';
+        document.getElementById('order-container').style.display = 'block';
+        modal.style.display = 'none';
     };
 
     forgotPasswordForm.onsubmit = function (event) {
         event.preventDefault();
-        // Add your forgot password functionality here
+        const newPassword = document.getElementById('new-password').value;
+        const retypePassword = document.getElementById('retype-password').value;
+
+        if (newPassword !== retypePassword) {
+            alert('Passwords do not match. Please try again.');
+            return;
+        }
+
         alert('Password reset successfully!');
         modal.style.display = 'none';
     };
 
-    document.addEventListener('click', function (event) {
-        if (!event.target.matches('.dropbtn, .dropbtn *')) {
-            closeDropdown();
-        }
-    });
+    function clearFields() {
+        const inputs = document.querySelectorAll('input');
+        inputs.forEach(input => input.value = '');
+    }
+
+    modal.style.display = 'flex';
 });
