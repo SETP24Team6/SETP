@@ -88,11 +88,13 @@
                         <label for="birthday">Birthday (DD/MM/YYYY):</label>
                         <input type="text" id="birthday-forgot" name="birthday-forgot" pattern="\d{2}/\d{2}/\d{4}" required>
                         <label for="new-password">New Password:</label>
-                        <input type="password" id="new-password" name="new-password" maxlength="15"
-                            required>
+                        <input type="password" id="new-password" name="new-password" maxlength="15" required>
+                        <label for="new-password">Retype Password:</label>
+                        <input type="password" id="re-password" name="re-password" maxlength="15" required>
+                      
+                        <button type="submit" class="submit-button">Submit</button>  
                         <button type="button" class="switch-button" id="switch-to-login-from-forgot">Back to
                             Login</button>
-                        <button type="submit" class="submit-button">Reset Password</button>
                     </form>
                 </div>
             </div>
