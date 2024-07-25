@@ -48,7 +48,7 @@ nav ul li a:hover {
 }
 
 #recommendations {
-    background-image: url('asset/personalised-bg.jpg');
+    background-image: url('../asset/personalised-bg.jpg');
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
@@ -141,7 +141,7 @@ nav ul li a:hover {
 /* Other existing CSS for sandwich customization and modal */
 
 .create-sandwich {
-    background-image: url('asset/sandwich background.png');
+    background-image: url('../asset/sandwich background.png');
     background-size: cover;
     background-position: center;
     border-radius: 10px;

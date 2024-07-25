@@ -5,8 +5,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Order Now</title>
-    <link rel="stylesheet" href="style.css">
-    <script src="scripts.js" defer></script>
+    <link rel="stylesheet" href="css/style.css">
+    
+    <script src="js/md5.js"></script>
+    <script src="js/packages/jquery.min.js"></script>
+    <script src="js/scripts.js" defer></script>
+    <script src="js/cookie.umd.js"></script>
 </head>
 
 <body>
@@ -95,16 +99,17 @@
                         <label for="email-forgot">Email:</label>
                         <input type="email" id="email-forgot" name="email-forgot" required>
                         <label for="birthday">Birthday (DD/MM/YYYY):</label>
-                        <input type="text" id="birthday-forgot" name="birthday-forgot" pattern="\d{2}/\d{2}/\d{4}"
-                            title="Format: DD/MM/YYYY" required>
-                        <label for="new-password">New Password (min 8 characters):</label>
+                        <input type="text" id="birthday-forgot" name="birthday-forgot" pattern="\d{2}/\d{2}/\d{4}" required>
+                        <label for="new-password">New Password:</label>
                         <input type="password" id="new-password" name="new-password" minlength="8"
-                            title="Minimum 8 characters" required>
-                        <label for="retype-password">Retype New Password (min 8 characters):</label>
-                        <input type="password" id="retype-password" name="retype-password" minlength="8"
-                            title="Minimum 8 characters" required>
-                        <button type="submit" class="submit-button">Submit</button>
-                        <a href="#" id="switch-to-login-from-forgot" class="switch-button">Back to Login</a>
+                        title="Minimum 8 characters" required>
+                        <label for="new-password">Retype Password:</label>
+                        <input type="password" id="re-password" name="re-password" minlength="8"
+                        title="Minimum 8 characters" required>
+                      
+                        <button type="submit" class="submit-button">Submit</button>  
+                        <button type="button" class="switch-button" id="switch-to-login-from-forgot">Back to
+                            Login</button>
                     </form>
                 </div>
             </div>
