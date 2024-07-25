@@ -59,9 +59,8 @@ nav ul li a {
 }
 
 nav ul li a:hover {
-    background-color: #FF7F11;
-    border-radius: 5px;
-}
+    background-color: rgba(0, 255, 255, 0.5);
+    }
 
 nav ul li.order-now a {
     background-color: #00A3A3;
@@ -71,12 +70,15 @@ nav ul li.order-now a {
 
 main p {
     color: #e8e6e6;
-    margin: 20px 0;
+    margin: 5px 0;
     background-color: rgba(0, 0, 0, 0.5);
-    padding: 5px 10px;
+    padding: 5px 5px;
     border-radius: 5px;
     display: inline-block;
+    font-size: medium;
+    font-style: bold;
 }
+
 
 .dropdown {
     position: relative;
@@ -89,7 +91,7 @@ main p {
     background-color: white;
     border: 2px solid #205522;
     border-radius: 25px;
-    padding: 5px 10px;
+    padding: 10px 20px;
     font-size: 18px;
     cursor: pointer;
     outline: none;
