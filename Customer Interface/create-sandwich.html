@@ -6,7 +6,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Menu</title>
-    <link rel="stylesheet" href="create-sandwich.css">
+    <link rel="stylesheet" href="css/create-sandwich.css">
+    <script src="js/cookie.umd.js"></script>
 </head>
 
 <body>
@@ -23,12 +24,14 @@
     <div class="container">
         <!-- Personalized Recommendations Section -->
         <section id="recommendations">
-            <h2>Welcome back!</h2>
+            <h2>Welcome back </h2>
+            
             <div class="recommendations-list">
                 <div class="recommendation-item">
                     <h3>Sandwich munches</h3>
                     <p>🥪 Enjoy your weekly favorite: Our Teriyaki Deli Chicken Sandwich! Made just the way you love it,
                         every bite is pure
+                        <script> document.write(cookie('username'))</script> 
                         satisfaction. Treat yourself today and keep coming back for the flavors you crave!</p>
                     <img src="asset/teriyaki sandwich.png" alt="Sandwich munches">
                     <button>Grab now</button>
@@ -375,7 +378,7 @@
     </div>
 
     <!-- JavaScript -->
-    <script src="create-sandwich.js"></script>
+    <script src="js/create-sandwich.js"></script>
 </body>
 
 </html>
