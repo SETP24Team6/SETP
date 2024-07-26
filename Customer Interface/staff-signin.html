@@ -4,121 +4,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Staff Login </title>
-    <link rel="stylesheet" href="css/style.css">
-
-    <script src="js/md5.js"></script>
-    <script src="js/packages/jquery.min.js"></script>
-    <script src="js/scripts.js" defer></script>
-    <script src="js/cookie.umd.js"></script>
+    <title>Staff Page</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="scripts.js" defer></script>
 </head>
 
 <body>
-    <nav>
-        <ul>
-            <li><a href="customer-home.html#home">HOME</a></li>
-            <li><a href="customer-home.html#about">ABOUT</a></li>
-            <li><a href="customer-home.html#Rewards">REWARDS</a></li>
-            <li><a href="customer-home.html#contact">CONTACT</a></li>
-            <li class="staff-signin"><a href="staff-signin.html"><span>STAFF LOGIN</span></a></li>
-            <li class="order-now"><a href="order-now.html"><span>ORDER NOW</span></a></li>
-        </ul>
-    </nav>
-
-    div class="container" id="order-container" style="display:none;">
-    <header>
-        <h1>Order Now</h1>
-    </header>
-    <main>
-        <div class="pickup-section">
-            <button class="pickup-button">Pickup</button>
-            <div id="pickup-info">*Only pickup available</div>
+    
+    <div class="form-container">
+        <h2>Welcome back</h2>
+        <div class="form-section">
+            
+            <h2 id="form-title"> Staff Login</h2>
+            <form id="auth-form" class="auth-form">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required>
+                <button class="reset-btn"><a href="Businessoverview.html" >Forgot Password</a></button>
+                <button class="signin-btn"><a href="Businessoverview.html" >Submit</a></button>
+            </form>
         </div>
-        <p>Select a store to order from</p>
-        <div class="dropdown">
-            <button class="dropbtn">
-                <span class="location-icon">📍</span>
-                <span id="selected-location">Choose Location</span>
-                <span class="dropdown-arrow">▼</span>
-            </button>
-            <div class="dropdown-content">
-                <a href="#" data-location="Bite & Delight Expo">Bite & Delight Expo</a>
-                <a href="#" data-location="Bite & Delight Bugis">Bite & Delight Bugis</a>
-                <a href="#" data-location="Bite & Delight Chinatown">Bite & Delight Chinatown</a>
-                <a href="#" data-location="Bite & Delight Downtown">Bite & Delight Downtown</a>
-                <a href="#" data-location="Bite & Delight Eunos">Bite & Delight Eunos</a>
-            </div>
+        <div class="form-section">
+            
+            <h2 id="form-title"> New Staff Register </h2>
+            <form id="auth-form" class="auth-form">
+                
+               
+                <button class="signin-btn"><a href="customerdashboard.html" >Submit</a></button>
+            </form>
         </div>
-        <button class="order-button" id="start-order">Start order</button>
-    </main>
-</div>
- 
-    <!-- The Modal -->
-    <div id="myModal" class="modal">
-        <div class="modal-content">
-            <div class="signup-login-container">
-                <div class="image-section">
-                    <div class="image-wrapper">
-                        <img src="asset/sandwich.jpg" alt="Mindful eating" class="signup-image">
-                        <div class="image-text">Embrace the art of mindful eating, where flavours come alive!</div>
-                    </div>
-                </div>
-                <div class="form-section">
-                    <span class="form-close">&times;</span>
-                    <h2 id="form-title"> Staff Login</h2>
-                    <form id="auth-form" class="auth-form" autocomplete="off">
-                        <label for="email">Email:</label>
-                        <input type="email" id="email" name="email" required>
-                        <label for="password">Password:</label>
-                        <input type="password" id="password" name="password" required>
-                        <button type="submit" class="submit-button">Sign In</button>
-                        <div class="link-container">
-                            <a href="#" id="switch-to-signup" class="switch-button">Don't have an account?</a>
-                            <a href="#" id="forgot-password" class="forgot-password">Forgot password?</a>
-                        </div>
-                    </form>
-                    <form id="signup-form" class="auth-form" style="display:none;" autocomplete="off">
-                        <h2 id="signup-title" style="display:none;">Welcome to the family</h2>
-                        <label for="first-name">First Name:</label>
-                        <input type="text" id="first-name" name="first-name" required>
-                        <label for="last-name">Last Name:</label>
-                        <input type="text" id="last-name" name="last-name" required>
-                        <label for="birthday">Birthday (DD/MM/YYYY):</label>
-                        <input type="text" id="birthday" name="birthday" pattern="\d{2}/\d{2}/\d{4}"
-                            title="Format: DD/MM/YYYY" required>
-                        <label for="phone">Phone Number (8 digits):</label>
-                        <input type="tel" id="phone" name="phone" pattern="\d{8}" maxlength="8"
-                            title="8 digit phone number" required>
-                        <label for="email-signup">Email:</label>
-                        <input type="email" id="email-signup" name="email-signup" required>
-                        <label for="password-signup">Password (min 8 characters):</label>
-                        <input type="password" id="password-signup" name="password-signup" minlength="8"
-                            title="Minimum 8 characters" required>
-                        <button type="submit" class="submit-button">Sign Up</button>
-                        <a href="#" id="switch-to-login" class="switch-button">Already have an account? Log in</a>
-                    </form>
-                    <form id="forgot-password-form" class="auth-form" style="display:none;" autocomplete="off">
-                        <h2 id="forgot-password-title" style="display:none;">Reset Password</h2>
-                        <label for="email-forgot">Email:</label>
-                        <input type="email" id="email-forgot" name="email-forgot" required>
-                        <label for="birthday">Birthday (DD/MM/YYYY):</label>
-                        <input type="text" id="birthday-forgot" name="birthday-forgot" pattern="\d{2}/\d{2}/\d{4}"
-                            required>
-                        <label for="new-password">New Password:</label>
-                        <input type="password" id="new-password" name="new-password" minlength="8"
-                            title="Minimum 8 characters" required>
-                        <label for="new-password">Retype Password:</label>
-                        <input type="password" id="re-password" name="re-password" minlength="8"
-                            title="Minimum 8 characters" required>
-
-                        <button type="submit" class="submit-button">Submit</button>
-                        <button type="button" class="switch-button" id="switch-to-login-from-forgot">Back to
-                            Login</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
+        
 
 </body>
 
