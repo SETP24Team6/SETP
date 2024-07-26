@@ -2,6 +2,8 @@ body {
     margin: 0;
     font-family: Arial, sans-serif;
     background-color: rgba(0, 0, 0, 0.9);
+    overflow-x: hidden;
+    /* Prevent horizontal scroll */
 }
 
 nav {
@@ -44,39 +46,37 @@ nav ul li a:hover {
 
 .container {
     padding-top: 60px;
-    /* Adjust padding to remove gap */
+    width: 100%;
+}
+
+section {
+    width: 100%;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
 }
 
 #recommendations {
     background-image: url('../asset/personalised-bg.jpg');
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center;
-    width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
     color: white;
     text-align: left;
-    margin: 0;
-    position: relative;
     padding-top: 60px;
-    /* Added to move the title up */
+    min-height: 100vh;
+    /* Ensure it covers the viewport height */
 }
 
 #recommendations h2 {
     font-size: 32px;
-    /* Reduced font size */
-    margin: 20px;
+    margin: 50px;
     background: rgba(0, 0, 0, 0.5);
     border-radius: 5px;
     padding: 10px;
     position: absolute;
-    /* Ensure it's positioned within the section */
     top: 10px;
-    /* Moved up */
-    /* Position it within the image */
     left: 50%;
     transform: translateX(-50%);
 }
@@ -87,8 +87,10 @@ nav ul li a:hover {
     align-items: flex-start;
     width: 100%;
     max-width: 1200px;
+    /* Set a max-width */
     margin-top: 80px;
-    /* Adjust to move below the title */
+    flex-wrap: wrap;
+    /* Allow items to wrap */
 }
 
 .recommendation-item {
@@ -99,18 +101,16 @@ nav ul li a:hover {
     width: 30%;
     box-sizing: border-box;
     opacity: 0;
-    /* Start with items hidden */
     animation-fill-mode: forwards;
-    /* Ensure they stay visible after animation */
 }
 
 .recommendation-item h3 {
-    font-size: 24px;
+    font-size: 26px;
     margin: 10px 0;
 }
 
 .recommendation-item p {
-    font-size: 16px;
+    font-size: 18px;
     margin: 5px 0;
 }
 
@@ -119,7 +119,6 @@ nav ul li a:hover {
     border-radius: 5px;
     margin-top: 5px;
     height: 300px;
-    /* Ensure height does not exceed box */
     object-fit: cover;
 }
 
@@ -138,15 +137,14 @@ nav ul li a:hover {
     background-color: teal;
 }
 
-/* Promotions Section */
 #promotions {
     background-image: url('../asset/bg-promotion.jpg');
-    background-color: rgba(0, 0, 0, 0.7);
     color: white;
     text-align: center;
     padding: 20px;
-    border-radius: 10px;
     margin-top: 20px;
+    min-height: 100vh;
+    /* Ensure it covers the viewport height */
 }
 
 #promotions h2 {
@@ -165,7 +163,9 @@ nav ul li a:hover {
     background: rgba(0, 0, 0, 0.5);
     border-radius: 5px;
     padding: 20px;
-    width: 600px;
+    width: 100%;
+    max-width: 600px;
+    /* Ensure no overflow */
     text-align: center;
     color: white;
 }
@@ -226,19 +226,21 @@ nav ul li a:hover {
     margin-top: 10px;
 }
 
-/* Other existing CSS for sandwich customization and modal */
-
+/* Sandwich customization */
 .create-sandwich {
     background-image: url('../asset/sandwich background.png');
     background-size: cover;
     background-position: center;
+    background-color: rgba(0, 0, 0, 0.7);
     border-radius: 10px;
     padding: 40px;
     width: 100%;
-    margin: 0 auto;
+    /* Ensure the section takes the full width of the viewport */
     position: relative;
     overflow: hidden;
     color: white;
+    min-height: 100vh;
+    /* Ensure it covers the viewport height */
 }
 
 .create-sandwich .overlay {
@@ -281,12 +283,16 @@ nav ul li a:hover {
     display: flex;
     justify-content: center;
     margin-bottom: 30px;
+    flex-wrap: wrap;
+    /* Allow options to wrap */
 }
 
 .option {
     margin: 0 20px;
     text-align: center;
     cursor: pointer;
+    max-width: 100px;
+    /* Ensure options don't overflow */
 }
 
 .option img {
@@ -350,6 +356,8 @@ nav ul li a:hover {
 .choice {
     text-align: center;
     cursor: pointer;
+    max-width: 100px;
+    /* Ensure choices don't overflow */
 }
 
 .choice img {
@@ -595,101 +603,3 @@ nav ul li a:hover {
     font-size: 18px;
     font-weight: bold;
 }
-
-/* Promotions Section */
-#promotions {
-    background-image: url('../asset/bg-promotion.jpg');
-    background-size: cover;
-    background-position: center;
-    color: white;
-    text-align: center;
-    padding: 20px;
-    border-radius: 10px;
-    margin-top: 20px;
-    position: relative;
-    overflow: hidden;
-}
-
-#promotions::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.2);
-    border-radius: 10px;
-    z-index: 1;
-}
-
-#promotions h2,
-.promotions-list {
-    position: relative;
-    z-index: 2;
-}
-
-.promotions-list {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-    flex-wrap: wrap;
-    width: 100%;
-}
-
-.promotion-item {
-    background: rgba(0, 0, 0, 0.5);
-    border-radius: 10px;
-    padding: 20px;
-    width: 700px;
-    text-align: center;
-    color: white;
-}
-
-.promotion-item img {
-    width: 100%;
-    border-radius: 5px;
-    height: 400px;
-    object-fit: cover;
-    margin-bottom: 10px;
-}
-
-.promotion-details {
-
-    padding: 10px;
-    border-radius: 5px;
-    text-align: left;
-}
-
-.promotion-details h3 {
-    font-size: 20px;
-    margin: 10px 0;
-}
-
-.promotion-details p {
-    font-size: 18px;
-    margin: 5px 0;
-}
-
-.promotion-details button {
-    background-color: black;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
-}
-
-.promotion-details button:hover {
-    background-color: rgb(204, 162, 84);
-}
-
-.highlight {
-    background-color: teal;
-    color: black;
-    padding: 5px 10px;
-    width: 30%;
-    border-radius: 5px;
-    font-weight: bold;
-}
-

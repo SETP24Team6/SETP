@@ -48,7 +48,7 @@ document.addEventListener('DOMContentLoaded', function () {
     sandwichOption.addEventListener('click', () => {
         customizeSandwichContent.classList.remove('hidden');
         customizeTitle.textContent = 'Make Your Sandwich';
-        customizeDescription.textContent = 'Freshly baked bread layered with grilled herb-spiced meat and crisp, garden-fresh vegetables. Select your preferred sauces and toppings to create an exceptionally tasty sandwich.';
+        customizeDescription.textContent = 'Freshly baked bread layered with grilled herb-spiced meat and crisp, garden-fresh vegetables. ';
         arrowIcon.textContent = 'Customise Your Sandwich ($6.00)';
         isSandwich = true;
         arrowIcon.classList.remove('hidden');
@@ -58,7 +58,7 @@ document.addEventListener('DOMContentLoaded', function () {
     smoothieOption.addEventListener('click', () => {
         customizeSandwichContent.classList.remove('hidden');
         customizeTitle.textContent = 'Blend Your Smoothie';
-        customizeDescription.textContent = 'A Symphony of Fresh Fruits and Creamy Delights. Choose from our variety of vibrant fruits, healthy greens, and delicious add-ins to create the perfect smoothie that suits your taste and health goals!';
+        customizeDescription.textContent = 'A symphony of fresh fruits and creamy delights, healthy greens to create the perfect smoothie that wins health goals!';
         arrowIcon.textContent = 'Blend Your Smoothie ($5.00)';
         isSandwich = false;
         arrowIcon.classList.remove('hidden');

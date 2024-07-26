@@ -141,10 +141,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     userid: login_success.userid,
                     username: login_success.name
                 });
-                // JU LOOK HERE LOOK AT ME PLEASE
-                document.getElementById('order-container').style.display = 'block';
-                modal.style.display = 'none';
-                // FIX ME PLEASE
+                
             }else{
                 alert('Wrong Password!');
             }
