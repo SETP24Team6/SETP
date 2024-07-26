@@ -26,7 +26,7 @@
             <h1>Order Management System</h1>
 
             <h2>New Orders</h2>
-            <table>
+            <table id="newOrders">
                 <thead>
                     <tr>
                         <th>Order No.</th>
@@ -53,7 +53,7 @@
             </table>
 
             <h2>Preparing Orders</h2>
-            <table>
+            <table id="preparingOrders">
                 <thead>
                     <tr>
                         <th>Order No.</th>
@@ -80,7 +80,7 @@
             </table>
 
             <h2>Ready for Pickup</h2>
-            <table>
+            <table id="readyOrders">
                 <thead>
                     <tr>
                         <th>Order No.</th>
@@ -107,7 +107,7 @@
             </table>
 
             <h2>Completed Orders</h2>
-            <table>
+            <table id="completedOrders">
                 <thead>
                     <tr>
                         <th>Order No.</th>
@@ -271,6 +271,44 @@
         </div>
     </div>
 
+    <!-- Modal for Completed Orders -->
+    <div id="completedOrderModal" class="modal">
+        <div class="modal-content">
+            <span class="close" data-modal="completedOrderModal">&times;</span>
+            <h2>Completed Order Details</h2>
+            <table id="completedOrderDetailsTable">
+                <thead>
+                    <tr>
+                        <th>Order No.</th>
+                        <th>Order Details</th>
+                        <th>Ordered By</th>
+                        <th>Ordered Time</th>
+                        <th>Location</th>
+                        <th>Amount</th>
+                        <th>Completion Time</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Content to be pulled from Database Data -->
+                </tbody>
+            </table>
+            <div class="ingredient-list">
+                <h3>Selected Ingredients:</h3>
+                <table id="completedOrderIngredients">
+                    <thead>
+                        <tr>
+                            <th>Step</th>
+                            <th>Details</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Content to be pulled from Database Data -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
     <script src="Staff-OrderManagement.js"></script>
 
     <footer>
@@ -294,5 +332,4 @@
     </footer>
 
 </body>
-
 </html>
