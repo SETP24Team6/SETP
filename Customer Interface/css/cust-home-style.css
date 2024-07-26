@@ -102,6 +102,14 @@ nav ul li.staff-signin a:hover {
     background-image: url('../asset/sandwich 3.jpg');
 }
 
+#about {
+    background-image: url('asset/fresh_food.jpg');
+}
+
+#locations {
+    background-image: url('asset/dt9.jpg');
+}
+
 .section::before {
     content: '';
     position: absolute;
