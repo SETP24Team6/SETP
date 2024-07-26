@@ -63,7 +63,7 @@ document.addEventListener("DOMContentLoaded", function () {
         if (selectedLocation.textContent === 'Choose Location') {
             alert('Please select a location first.');
         } else {
-            window.location.href = 'customise-sandwich.html';
+            window.location.href = 'create-sandwich.html';
         }
     };
 
@@ -73,11 +73,11 @@ document.addEventListener("DOMContentLoaded", function () {
         };
     });
 
-    window.onclick = function (event) {
-        if (!event.target.closest('.modal-content')) {
-            modal.style.display = 'flex';
-        }
-    };
+    // window.onclick = function (event) {
+    //     if (!event.target.closest('.modal-content')) {
+    //         modal.style.display = 'flex';
+    //     }
+    // };
 
     switchToSignup.onclick = function () {
         authForm.style.display = 'none';
