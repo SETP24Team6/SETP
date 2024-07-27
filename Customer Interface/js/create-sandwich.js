@@ -35,68 +35,22 @@ document.addEventListener('DOMContentLoaded', function () {
     if(populator){
         const products = {bread:"", protein:"", vegetable:"", sauce:"", fruit:"", yogurt:"", smoothievegetable:"", liquidbase:""}
         $.each(populator, function(index, product) {
-            console.log(product.product_type_name)
-            switch(product.product_type_name){
-                case "Bread":
-                    products.bread += '<div class="choice" data-choice="'+product.product_name
-                    products.bread += '" data-price="'+product.price_point+'">' 
-                    products.bread += '<img src="'+product.image_path+'" alt="'+product.product_name+'">' 
-                    products.bread += '<h3>'+product.product_name+'</h3></div>';
-                    break;
-                case "Protein":
-                    products.protein += '<div class="choice" data-choice="'+product.product_name
-                    products.protein += '" data-price="'+product.price_point+'">' 
-                    products.protein += '<img src="'+product.image_path+'" alt="'+product.product_name+'">' 
-                    products.protein += '<h3>'+product.product_name+'</h3></div>';
-                    break;
-                case "Vegetable":
-                    products.vegetable += '<div class="choice" data-choice="'+product.product_name
-                    products.vegetable += '" data-price="'+product.price_point+'">' 
-                    products.vegetable += '<img src="'+product.image_path+'" alt="'+product.product_name+'">' 
-                    products.vegetable += '<h3>'+product.product_name+'</h3></div>';
-                    break;   
-                case "Sauce":
-                    products.sauce += '<div class="choice" data-choice="'+product.product_name
-                    products.sauce += '" data-price="'+product.price_point+'">' 
-                    products.sauce += '<img src="'+product.image_path+'" alt="'+product.product_name+'">' 
-                    products.sauce += '<h3>'+product.product_name+'</h3></div>';
-                    break;                    
-                case "Fruit":
-                    products.fruit += '<div class="choice" data-choice="'+product.product_name
-                    products.fruit += '" data-price="'+product.price_point+'">' 
-                    products.fruit += '<img src="'+product.image_path+'" alt="'+product.product_name+'">' 
-                    products.fruit += '<h3>'+product.product_name+'</h3></div>';
-                    break;
-                case "Yogurt":
-                    products.yogurt += '<div class="choice" data-choice="'+product.product_name
-                    products.yogurt += '" data-price="'+product.price_point+'">' 
-                    products.yogurt += '<img src="'+product.image_path+'" alt="'+product.product_name+'">' 
-                    products.yogurt += '<h3>'+product.product_name+'</h3></div>';
-                    break;
-                case "Smoothie Vegetable":
-                    products.smoothievegetable += '<div class="choice" data-choice="'+product.product_name
-                    products.smoothievegetable += '" data-price="'+product.price_point+'">' 
-                    products.smoothievegetable += '<img src="'+product.image_path+'" alt="'+product.product_name+'">' 
-                    products.smoothievegetable += '<h3>'+product.product_name+'</h3></div>';
-                    break;
-                case "Liquid Base":
-                    products.liquidbase += '<div class="choice" data-choice="'+product.product_name
-                    products.liquidbase += '" data-price="'+product.price_point+'">' 
-                    products.liquidbase += '<img src="'+product.image_path+'" alt="'+product.product_name+'">' 
-                    products.liquidbase += '<h3>'+product.product_name+'</h3></div>';
-                    break;
+            dict_key = product.product_type_name.toLowerCase().replace(" ", "")
+            products[dict_key] += '<div class="choice" data-choice="'+product.product_name
+            products[dict_key] += '" data-price="'+product.price_point+'">' 
+            products[dict_key] += '<img src="'+product.image_path+'" alt="'+product.product_name+'">' 
+            products[dict_key] += '<h3>'+product.product_name+'</h3>';
+            if(product.price_point > 0.0){
+                products[dict_key] += '<p>$'+product.price_point+'0</p></div>';
+            }else{
+                products[dict_key] += '</div>';
             }
-        
         })
-        console.log(products)
         for (let x in products) {
             const filler = document.getElementById(x);
             filler.innerHTML = products[x] 
           };
     }
-    
-    
-
     
     const choices = document.querySelectorAll('.choice');
     if (!cookie("userid")){
