@@ -31,6 +31,9 @@ document.addEventListener('DOMContentLoaded', function () {
     const checkoutButton = document.getElementById('checkout');
     const cartCountElement = document.querySelector('.cart-count');
 
+    if (!cookie("userid")){
+        window.location.href = 'order-now.html';
+    }
     let cart = [];
     let currentStep = 0;
     let selectedChoices = {
@@ -497,6 +500,8 @@ document.addEventListener('DOMContentLoaded', function () {
     // Logout button functionality
     const logoutBtn = document.getElementById('logout-btn');
     logoutBtn.addEventListener('click', () => {
+        cookie.remove('userid')
+        cookie.remove('username')
         window.location.href = 'customer-home.html#home';
     });
 });

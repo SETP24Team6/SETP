@@ -15,6 +15,10 @@ document.addEventListener("DOMContentLoaded", function () {
     const signupTitle = document.getElementById('signup-title');
     const forgotPasswordTitle = document.getElementById('forgot-password-title');
 	
+    if (cookie("userid")){
+        window.location.href = 'create-sandwich.html';
+    }
+
     function callApi(method, url, data) {
         $.ajax({
             method: method,
