@@ -45,6 +45,7 @@ CREATE TABLE uom (
     uom_id SERIAL PRIMARY KEY, 
     uom_name VARCHAR(10) NOT NULL
 ); 
+
 INSERT INTO uom (uom_name) 
     VALUES ('gram(s)'), ('slice(s)'); 
 
@@ -53,13 +54,17 @@ CREATE TABLE product_type (
     product_type_id SERIAL PRIMARY KEY, 
     product_type_name VARCHAR(20) NOT NULL UNIQUE
 ); 
+
 INSERT INTO product_type (product_type_name) 
     VALUES ('Bread'), ('Protein'), ('Vegetable'), ('Sauce'), ('Fruit'), ('Smoothie Vegetable'), ('Yogurt'), ('Liquid Base'); 
 
 CREATE TABLE stores(
     store_id SERIAL PRIMARY KEY, 
-    store_name INT NOT NULL
+    store_name VARCHAR(20) NOT NULL
 );
+
+INSERT INTO stores(store_name)
+    VALUES('Suntec Flagship');
 
 CREATE TABLE product (
     products_id SERIAL PRIMARY KEY, 
@@ -102,49 +107,49 @@ INSERT INTO product (product_type_id, product_name,image_path, price_point)
         (8, 'Low Fat Milk', 'asset/low-fat-milk.webp', 0),
         (8, 'Full Cream Milk', 'asset/full-cream.jpg', 0),
         (8, 'Oat Milk', 'asset/oat-milk.jpg', 1)
+;
+CREATE TABLE inventory (
+    products_id INT, 
+    store_id INT,
+    quantity_amount INT NOT NULL,
+    uom_id INT NOT NULL,
+    FOREIGN KEY (uom_id) REFERENCES uom(uom_id), 
+    FOREIGN KEY (products_id) REFERENCES product(products_id), 
+    FOREIGN KEY (store_id) REFERENCES stores(store_id), 
+    PRIMARY KEY (products_id, store_id)
+    );
 
--- CREATE TABLE inventory (
---     products_id INT, 
---     store_id INT,
---     quantity_amount INT NOT NULL,
---     uom_id INT NOT NULL,
---     FOREIGN KEY (uom_id) REFERENCES uom(uom_id), 
---     FOREIGN KEY (products_id) REFERENCES product(products_id), 
---     FOREIGN KEY (store_id) REFERENCES stores(store_id), 
---     PRIMARY KEY (products_id, products_id)
---     );
-
--- INSERT INTO product (product_type_id, product_name,image_path) 
---     VALUES (1, 100, 'Sourdough'),
---         (1, 100, 'Wholemeal'),
---         (1, 100, 'Oat bread'),
---         (1, 100, 'Italian Herb'),
---         (2, 8000, 'Lamb'),
---         (2, 8000, 'Chicken'),
---         (2, 8000, 'Beef'),
---         (2, 8000, 'Salmon'),
---         (3, 5000, 'Lettuce'),
---         (3, 5000, 'Tomato'),
---         (3, 5000, 'Cucumber'),
---         (3, 5000, 'Onion'),
---         (3, 5000, 'Bell Pepper'),
---         (4, 5000, 'Cranberry Caramalised onion'),
---         (4, 5000, 'Honey Mustard'),
---         (4, 5000, 'Egg Mayo'),
---         (4, 5000, 1, 'Avocado Lime Crema'),
---         (4, 5000, 1, 'BBQ'),
---         (5, 10000, 1, 'Banana'),
---         (5, 10000, 1, 'Strawberry'),
---         (5, 10000, 1, 'Blueberry'),
---         (5, 10000, 1, 'Mango'),
---         (5, 10000, 1, 'Orange'),
---         (6, 8000, 1, 'Spinach'),
---         (6, 8000, 1, 'Kale'),
---         (6, 8000, 1, 'Avocado'),
---         (7, 8000, 1, 'Greek Yogurt'),
---         (8, 10000, 1, 'Low Fat Milk'),
---         (8, 10000, 1, 'Full Cream Milk'),
---         (8, 10000, 1, 'Oat Milk')
+INSERT INTO inventory (products_id, store_id, quantity_amount, uom_id) 
+    VALUES (1, 1, 100, 2),
+        (2, 1, 100, 2),
+        (3, 1, 100, 2),
+        (4, 1, 100, 2),
+        (5, 1, 8000, 1),
+        (6, 1, 8000, 1),
+        (7, 1, 8000, 1),
+        (8, 1, 8000, 1),
+        (9, 1, 5000, 1),
+        (10, 1, 5000, 1),
+        (11, 1, 5000, 1),
+        (12, 1, 5000, 1),
+        (13, 1, 5000, 1),
+        (14, 1, 5000, 1),
+        (15, 1, 5000, 1),
+        (16, 1, 5000, 1),
+        (17, 1, 5000, 1),
+        (18, 1, 5000, 1),
+        (19, 1, 10000, 1),
+        (20, 1, 10000, 1),
+        (21, 1, 10000, 1),
+        (22, 1, 10000, 1),
+        (23, 1, 10000, 1),
+        (24, 1, 8000, 1),
+        (25, 1, 8000, 1),
+        (26, 1, 8000, 1),
+        (27, 1, 8000, 1),
+        (28, 1, 10000, 1),
+        (29, 1, 10000, 1),
+        (30, 1, 10000, 1);
 -------------------------------------------------------------------------
 
 -- SELECT * FROM member;
@@ -153,16 +158,29 @@ INSERT INTO product (product_type_id, product_name,image_path, price_point)
 -- INNER JOIN uom ON product.uom_id = uom.uom_id;
 
 -- -- will make more changes to this table according to the needs of UI --
--- CREATE TABLE orders ( 
---     order_id SERIAL, 
---     member_id INT NOT NULL, 
---     item_id INT NOT NULL, 
---     order_quantity int NOT NULL,  
---     order_date date NOT NULL, 
---     order_status varchar(10) NOT NULL,  
---     CONSTRAINT chk_order_status CHECK (order_status IN ('ordered', 'completed')), 
---     FOREIGN KEY (member_id) REFERENCES member(member_id), 
---     FOREIGN KEY (item_id) REFERENCES menu(item_id), 
---     CONSTRAINT orders_composite_key PRIMARY KEY (order_id, user_id, item_id)
--- );
+CREATE TABLE orders ( 
+    order_id SERIAL PRIMARY KEY, 
+    member_id INT NOT NULL, 
+    store_id INT NOT NULL, 
+    order_date date NOT NULL, 
+    order_status varchar(10) NOT NULL,  
+    CONSTRAINT chk_order_status CHECK (order_status IN ('ordered', 'completed')), 
+    FOREIGN KEY (member_id) REFERENCES member(member_id)
+);
+
+CREATE TABLE orders_items ( 
+    item_id SERIAL PRIMARY KEY,
+    order_id INT, 
+    item_type VARCHAR(10), --sandwich or smoothie--
+    FOREIGN KEY (order_id) REFERENCES orders(order_id)
+);
+
+CREATE TABLE item_ingredients ( 
+    products_id INT NOT NULL,
+    item_id INT NOT NULL, 
+    FOREIGN KEY (item_id) REFERENCES orders_items(item_id), 
+    FOREIGN KEY (products_id) REFERENCES product(products_id),
+    PRIMARY KEY (products_id, item_id)
+);
+
 -- -------------------------------------------------------------------------
