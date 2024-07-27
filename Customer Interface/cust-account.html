@@ -18,8 +18,7 @@
                 <p>Access your account details</p>
             </div>
         </a>
-       
-        </a>
+
         <a href="#order-history" class="account-option">
             <img src="asset/order-history-icon.png" alt="My Order History">
             <div>
@@ -27,16 +26,74 @@
                 <p>Keeps track of your orders</p>
             </div>
         </a>
-        
-        <a href="#reward-points" class="account-option">
+
+        <a href="#reward-points" class="account-option reward-link">
             <img src="asset/reward-icon.png" alt="My Reward Points">
             <div>
                 <h2>My Reward Points</h2>
                 <p>Keeps track of your reward points</p>
             </div>
         </a>
+
+        <!-- Reward Points Section -->
+        <div id="reward-points" class="reward-points-section" style="display: none;">
+            <h2>Points Summary</h2>
+            <p>61 Points</p>
+
+            <div class="points-summary">
+                <div class="tab">
+                    <button class="tablinks" onclick="openTab(event, 'Summary')">SUMMARY</button>
+
+                    <button class="tablinks" onclick="openTab(event, 'Deducted')">DEDUCTED</button>
+                </div>
+                <div id="Summary" class="tabcontent">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>DATE</th>
+                                <th>POINTS</th>
+                                <th>DETAILS</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>14/06/2024</td>
+                                <td>11</td>
+                                <td>Purchase Points</td>
+                            </tr>
+                            <tr>
+                                <td>27/05/2024</td>
+                                <td>50</td>
+                                <td>Registration of Bite & Delight Online Account</td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">TOTAL</td>
+                                <td>61</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <!-- Add content for other tabs as needed -->
+            </div>
+        </div>
     </div>
-    <script src="js/cust-account.js"></script>
+    <div id="Deducted" class="tabcontent">
+        <table>
+            <thead>
+                <tr>
+                    <th>DATE</th>
+                    <th>POINTS</th>
+                    <th>DETAILS</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td colspan="2">TOTAL</td>
+                    <td>0</td>
+                </tr>
+            </tbody>
+        </table>
+        <script src="js/cust-account.js"></script>
 </body>
 
 </html>

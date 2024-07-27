@@ -59,3 +59,98 @@ h1 {
     font-size: 14px;
     color: #666;
 }
+
+.reward-points-section {
+    margin-top: 40px;
+}
+
+.reward-points-section h2 {
+    font-size: 20px;
+    color: #333;
+}
+
+.reward-points-section p {
+    font-size: 14px;
+    color: #666;
+}
+
+.expiry-dates {
+    display: flex;
+    justify-content: space-between;
+    margin: 20px 0;
+}
+
+.expiry-date {
+    text-align: center;
+}
+
+.expiry-date p {
+    margin: 5px 0;
+}
+
+.points-summary {
+    margin-top: 20px;
+}
+
+.tab {
+    overflow: hidden;
+    border-bottom: 1px solid #ddd;
+}
+
+.tab button {
+    background-color: inherit;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 14px 16px;
+    transition: background-color 0.3s ease;
+}
+
+.tab button:hover {
+    background-color: #ddd;
+}
+
+.tab button.active {
+    background-color: #f0f0f0;
+    border-bottom: 2px solid #f00;
+}
+
+.tabcontent {
+    display: none;
+    padding: 6px 12px;
+    border-top: none;
+}
+
+.tabcontent table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.tabcontent th,
+.tabcontent td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+.tabcontent th {
+    background-color: #f0f0f0;
+    color: #333;
+}
+
+.tabcontent tr:nth-child(even) {
+    background-color: #f4f4f4;
+}
+
+.tabcontent tr:hover {
+    background-color: #ddd;
+}
+
+.tabcontent td[colspan="2"] {
+    text-align: right;
+    font-weight: bold;
+}
+
+.tabcontent td:last-child {
+    text-align: center;
+}
