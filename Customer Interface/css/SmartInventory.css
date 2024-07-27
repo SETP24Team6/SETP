@@ -122,6 +122,44 @@ h1 span::after {
     transform: translateX(-50%);
 }
 
+#inventoryTable {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 16px;
+    text-align: left;
+}
+
+#inventoryTable th, #inventoryTable td {
+    padding: 12px;
+    border: 1px solid #ddd;
+}
+
+#inventoryTable th {
+    background-color: #f4f4f4;
+}
+
+/* Status */
+.status.critically-low {
+    background-color: red;
+    color: white;
+}
+
+.status.low {
+    background-color: lightcoral;
+    color: black;
+}
+
+.status.moderate {
+    background-color: yellow;
+    color: black;
+}
+
+.status.high {
+    background-color: transparent;
+    color: black;
+}
+
 
 /* Footer */
 footer {
