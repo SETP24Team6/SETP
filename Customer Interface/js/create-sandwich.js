@@ -11,7 +11,6 @@ document.addEventListener('DOMContentLoaded', function () {
     const backArrows = document.querySelectorAll('.back-arrow');
     const sandwichFinishIcon = document.getElementById('sandwich-finish-icon-4');
     const smoothieFinishIcon = document.getElementById('smoothie-finish-icon-5');
-    const choices = document.querySelectorAll('.choice');
     const summarySection = document.getElementById('summary');
     const summarySteps = document.getElementById('summary-steps');
     const totalPriceElement = document.getElementById('total-price');
@@ -30,7 +29,76 @@ document.addEventListener('DOMContentLoaded', function () {
     const cartTotalPrice = document.getElementById('cart-total-price');
     const checkoutButton = document.getElementById('checkout');
     const cartCountElement = document.querySelector('.cart-count');
+    
 
+    let populator = callApi2("GET", 'http://127.0.0.1:5000/getProducts', {'data': JSON.stringify("")});
+    if(populator){
+        const products = {bread:"", protein:"", vegetable:"", sauce:"", fruit:"", yogurt:"", smoothievegetable:"", liquidbase:""}
+        $.each(populator, function(index, product) {
+            console.log(product.product_type_name)
+            switch(product.product_type_name){
+                case "Bread":
+                    products.bread += '<div class="choice" data-choice="'+product.product_name
+                    products.bread += '" data-price="'+product.price_point+'">' 
+                    products.bread += '<img src="'+product.image_path+'" alt="'+product.product_name+'">' 
+                    products.bread += '<h3>'+product.product_name+'</h3></div>';
+                    break;
+                case "Protein":
+                    products.protein += '<div class="choice" data-choice="'+product.product_name
+                    products.protein += '" data-price="'+product.price_point+'">' 
+                    products.protein += '<img src="'+product.image_path+'" alt="'+product.product_name+'">' 
+                    products.protein += '<h3>'+product.product_name+'</h3></div>';
+                    break;
+                case "Vegetable":
+                    products.vegetable += '<div class="choice" data-choice="'+product.product_name
+                    products.vegetable += '" data-price="'+product.price_point+'">' 
+                    products.vegetable += '<img src="'+product.image_path+'" alt="'+product.product_name+'">' 
+                    products.vegetable += '<h3>'+product.product_name+'</h3></div>';
+                    break;   
+                case "Sauce":
+                    products.sauce += '<div class="choice" data-choice="'+product.product_name
+                    products.sauce += '" data-price="'+product.price_point+'">' 
+                    products.sauce += '<img src="'+product.image_path+'" alt="'+product.product_name+'">' 
+                    products.sauce += '<h3>'+product.product_name+'</h3></div>';
+                    break;                    
+                case "Fruit":
+                    products.fruit += '<div class="choice" data-choice="'+product.product_name
+                    products.fruit += '" data-price="'+product.price_point+'">' 
+                    products.fruit += '<img src="'+product.image_path+'" alt="'+product.product_name+'">' 
+                    products.fruit += '<h3>'+product.product_name+'</h3></div>';
+                    break;
+                case "Yogurt":
+                    products.yogurt += '<div class="choice" data-choice="'+product.product_name
+                    products.yogurt += '" data-price="'+product.price_point+'">' 
+                    products.yogurt += '<img src="'+product.image_path+'" alt="'+product.product_name+'">' 
+                    products.yogurt += '<h3>'+product.product_name+'</h3></div>';
+                    break;
+                case "Smoothie Vegetable":
+                    products.smoothievegetable += '<div class="choice" data-choice="'+product.product_name
+                    products.smoothievegetable += '" data-price="'+product.price_point+'">' 
+                    products.smoothievegetable += '<img src="'+product.image_path+'" alt="'+product.product_name+'">' 
+                    products.smoothievegetable += '<h3>'+product.product_name+'</h3></div>';
+                    break;
+                case "Liquid Base":
+                    products.liquidbase += '<div class="choice" data-choice="'+product.product_name
+                    products.liquidbase += '" data-price="'+product.price_point+'">' 
+                    products.liquidbase += '<img src="'+product.image_path+'" alt="'+product.product_name+'">' 
+                    products.liquidbase += '<h3>'+product.product_name+'</h3></div>';
+                    break;
+            }
+        
+        })
+        console.log(products)
+        for (let x in products) {
+            const filler = document.getElementById(x);
+            filler.innerHTML = products[x] 
+          };
+    }
+    
+    
+
+    
+    const choices = document.querySelectorAll('.choice');
     if (!cookie("userid")){
         window.location.href = 'order-now.html';
     }
@@ -113,6 +181,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     noAddSmoothieButton.addEventListener('click', () => {
         smoothiePromptModal.style.display = 'none';
+        smoothieTotal = 0;
         displaySummary();
         scrollToSummary();
     });

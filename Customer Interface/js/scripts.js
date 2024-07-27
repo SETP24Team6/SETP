@@ -19,30 +19,6 @@ document.addEventListener("DOMContentLoaded", function () {
         window.location.href = 'create-sandwich.html';
     }
 
-    function callApi(method, url, data) {
-        $.ajax({
-            method: method,
-            url: url,
-            data: data
-        }).done(function( msg ) {
-            window.location.reload();
-        });
-    }
-    
-    function callApi2(method, url, data) {
-        var result = [];
-        $.ajax({
-            method: method,
-            url: url,
-            data: data,
-            async: false,
-            success: function(data) {
-                result =  data;
-            }
-        });
-        return result;
-    }
-
     dropdownContent.forEach(item => {
         item.addEventListener('click', function (event) {
             event.preventDefault();

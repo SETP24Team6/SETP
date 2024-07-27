@@ -2,7 +2,7 @@ from flask import Flask, request, jsonify
 from sql_connection import get_sql_connection
 import json
 
-import members
+import members, products
 
 app = Flask(__name__)
 connection = get_sql_connection()
@@ -58,6 +58,13 @@ def change_pw():
 @app.route('/get_all_members', methods=['GET'])
 def get_members():
     response = members.get_all_members(connection)
+    response = jsonify(response)
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
+
+@app.route('/getProducts', methods=['GET'])
+def get_products():
+    response = products.get_products(connection)
     response = jsonify(response)
     response.headers.add('Access-Control-Allow-Origin', '*')
     return response
