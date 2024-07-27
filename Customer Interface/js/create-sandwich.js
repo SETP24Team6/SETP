@@ -493,4 +493,10 @@ document.addEventListener('DOMContentLoaded', function () {
         alert('Proceeding to checkout');
         // Add checkout functionality here
     });
+
+    // Logout button functionality
+    const logoutBtn = document.getElementById('logout-btn');
+    logoutBtn.addEventListener('click', () => {
+        window.location.href = 'customer-home.html#home';
+    });
 });
