@@ -5,37 +5,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Staff Page</title>
-    <link rel="stylesheet" href="style.css">
-    <script src="scripts.js" defer></script>
+    <link rel="stylesheet" href="css/staffstyle.css">
 </head>
 
 <body>
     
     <div class="form-container">
-        <h2>Welcome back</h2>
+        <h2 class="welcome-text">Welcome to the Staff Portal</h2>
         <div class="form-section">
-            
-            <h2 id="form-title"> Staff Login</h2>
-            <form id="auth-form" class="auth-form">
+            <form id="auth-form-login" class="auth-form">
                 <label for="email">Email:</label>
                 <input type="email" id="email" name="email" required>
                 <label for="password">Password:</label>
                 <input type="password" id="password" name="password" required>
-                <button class="reset-btn"><a href="Businessoverview.html" >Forgot Password</a></button>
-                <button class="signin-btn"><a href="Businessoverview.html" >Submit</a></button>
-            </form>
-        </div>
-        <div class="form-section">
-            
-            <h2 id="form-title"> New Staff Register </h2>
-            <form id="auth-form" class="auth-form">
-                
+                <button type="submit" class="submit-button">Login</button>
+                <button class="forgot-password-btn"><a href="StaffResetPassword.html" >Forgot Password</a></button>
+                <button class="staff-reg-btn"><a href="StaffRegister.html" >New Staff Registration</a></button>
                
-                <button class="signin-btn"><a href="customerdashboard.html" >Submit</a></button>
-            </form>
-        </div>
+    </div>
         
-
 </body>
 
 </html>
