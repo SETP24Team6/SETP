@@ -141,7 +141,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     userid: login_success.userid,
                     username: login_success.name
                 });
-                
+                window.location.href = 'create-sandwich.html';
             }else{
                 alert('Wrong Password!');
             }
@@ -175,6 +175,7 @@ document.addEventListener("DOMContentLoaded", function () {
             alert('Account created successfully!');
             document.getElementById('order-container').style.display = 'block';
             modal.style.display = 'none';
+            window.location.href = 'create-sandwich.html';
         } else {
             alert('Phone or Email already exist!');
         }
