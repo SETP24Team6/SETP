@@ -25,8 +25,13 @@ document.addEventListener('DOMContentLoaded', function () {
     const noAddSmoothieButton = document.getElementById('no-add-smoothie');
     const dateButtons = document.querySelectorAll('.date-button');
     const promotionAddButtons = document.querySelectorAll('.promotion-item button');
-    const cart = [];
+    const cartSection = document.getElementById('cart-section');
+    const cartItemsContainer = document.querySelector('.cart-items');
+    const cartTotalPrice = document.getElementById('cart-total-price');
+    const checkoutButton = document.getElementById('checkout');
+    const cartCountElement = document.querySelector('.cart-count');
 
+    let cart = [];
     let currentStep = 0;
     let selectedChoices = {
         bread: '',
@@ -452,7 +457,7 @@ document.addEventListener('DOMContentLoaded', function () {
             const promotionItem = e.target.closest('.promotion-item');
             const itemName = promotionItem.querySelector('h3').textContent;
             const itemPriceText = promotionItem.querySelector('p').textContent;
-            const itemPrice = parseFloat(itemPriceText.replace('From $', ''));
+            const itemPrice = parseFloat(itemPriceText.replace('$', ''));
             addToCart(itemName, itemPrice);
             alert(`${itemName} added to cart!`);
         });
@@ -460,6 +465,32 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function addToCart(itemName, itemPrice) {
         cart.push({ name: itemName, price: itemPrice });
-        console.log(cart);
+        updateCartCount();
+        updateCartTotal();
+        renderCartItems();
+        cartSection.classList.remove('hidden');
     }
+
+    function updateCartCount() {
+        cartCountElement.textContent = cart.length;
+    }
+
+    function updateCartTotal() {
+        const total = cart.reduce((sum, item) => sum + item.price, 0);
+        cartTotalPrice.textContent = `$${total.toFixed(2)}`;
+    }
+
+    function renderCartItems() {
+        cartItemsContainer.innerHTML = '';
+        cart.forEach(item => {
+            const cartItemElement = document.createElement('div');
+            cartItemElement.textContent = `${item.name} - $${item.price.toFixed(2)}`;
+            cartItemsContainer.appendChild(cartItemElement);
+        });
+    }
+
+    checkoutButton.addEventListener('click', () => {
+        alert('Proceeding to checkout');
+        // Add checkout functionality here
+    });
 });
