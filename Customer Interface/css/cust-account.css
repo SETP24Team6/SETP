@@ -1,6 +1,7 @@
 body {
     font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
+    background: url('../asset/blue-bg.avif')no-repeat center center fixed;
+    background-size: cover;
     margin: 0;
     padding: 0;
 }
@@ -9,11 +10,14 @@ body {
     max-width: 800px;
     margin: 0 auto;
     padding: 20px;
-    background-color: #fff;
+    background-color: rgba(255, 255, 255, 0.8);
+    /* Semi-transparent background for readability */
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
     margin-top: 50px;
 }
+
+/* Other styles remain the same */
 
 h1 {
     text-align: center;
@@ -35,12 +39,13 @@ h1 {
 }
 
 .account-option:hover {
-    background-color: #f0f0f0;
+    background-color: #88c4d4;
 }
 
 .account-option img {
-    width: 50px;
-    height: 50px;
+    width: 70px;
+    /* Increased the image size */
+    height: 70px;
     margin-right: 20px;
     border-radius: 8px;
 }
@@ -60,17 +65,24 @@ h1 {
     color: #666;
 }
 
-.reward-points-section {
+.reward-points-section,
+.order-history-section,
+.update-profile-section {
     margin-top: 40px;
 }
 
-.reward-points-section h2 {
+.reward-points-section h2,
+.order-history-heading,
+.update-profile-section h2 {
     font-size: 20px;
     color: #421a1a;
 }
 
-.reward-points-section p {
-    font-size: 16px;
+.reward-points-section p,
+.order-item p,
+.update-profile-section p {
+    font-size: 14px;
+    /* Reduced the paragraph text size */
     color: #270b0b;
 }
 
@@ -81,9 +93,10 @@ h1 {
     margin-bottom: 20px;
 }
 
-.points-summary-heading {
+.points-summary-heading,p {
     display: flex;
     align-items: center;
+    
 }
 
 .points-summary-icon {
@@ -98,7 +111,14 @@ h1 {
     justify-content: space-between;
     margin: 20px 0;
 }
-
+.tabcontent tr.total-row {
+    background-color: #d9534f;
+    color: white;
+}
+.tabcontent tr.total-row:hover{
+    background-color: #a53430;
+    
+}
 .expiry-date {
     text-align: center;
 }
@@ -171,5 +191,100 @@ h1 {
 }
 
 .tabcontent td:last-child {
+    text-align: center;
+}
+
+.order-item {
+    display: flex;
+    align-items: center;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
+
+.order-item img {
+    width: 70px;
+    /* Increased the image size */
+    height: 70px;
+    margin-right: 20px;
+}
+
+.order-item div {
+    flex-grow: 1;
+}
+
+.order-actions {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.order-actions button {
+    background-color: #d9534f;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    margin-bottom: 5px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.order-actions button.review-button {
+    background-color: white;
+    color: #d9534f;
+    border: 1px solid #d9534f;
+}
+
+.order-actions button:hover {
+    background-color: #c9302c;
+}
+
+.order-actions button.review-button:hover {
+    background-color: #f0f0f0;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.form-group input[readonly] {
+    background-color: #f5f5f5;
+}
+
+.form-group button {
+    padding: 10px 20px;
+    background-color: #d9534f;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.form-group button:hover {
+    background-color: #c9302c;
+}
+
+.success-message {
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #dff0d8;
+    color: #3c763d;
+    border: 1px solid #d6e9c6;
+    border-radius: 4px;
     text-align: center;
 }
