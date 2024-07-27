@@ -66,12 +66,31 @@ h1 {
 
 .reward-points-section h2 {
     font-size: 20px;
-    color: #333;
+    color: #421a1a;
 }
 
 .reward-points-section p {
-    font-size: 14px;
-    color: #666;
+    font-size: 16px;
+    color: #270b0b;
+}
+
+.overlay-background {
+    background-color: rgba(98, 100, 218, 0.1);
+    padding: 10px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.points-summary-heading {
+    display: flex;
+    align-items: center;
+}
+
+.points-summary-icon {
+    margin-right: 10px;
+    vertical-align: middle;
+    width: 24px;
+    height: 24px;
 }
 
 .expiry-dates {
@@ -130,7 +149,7 @@ h1 {
 .tabcontent td {
     border: 1px solid #ddd;
     padding: 8px;
-    text-align: left;
+    text-align: center;
 }
 
 .tabcontent th {

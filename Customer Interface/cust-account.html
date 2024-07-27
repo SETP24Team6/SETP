@@ -37,62 +37,77 @@
 
         <!-- Reward Points Section -->
         <div id="reward-points" class="reward-points-section" style="display: none;">
-            <h2>Points Summary</h2>
-            <p>61 Points</p>
 
-            <div class="points-summary">
-                <div class="tab">
-                    <button class="tablinks" onclick="openTab(event, 'Summary')">SUMMARY</button>
+            <div class="overlay-background">
+                <h2>How to earn?</h2>
+                <p>Savor and Save! Every dollar you spend earns you a point towards delicious rewards.</p>
+            </div>
+            <div class="overlay-background">
+                <h2>Redemption details</h2>
+                <p>Turn 4 points into $1 savings and enjoy more of what you love with every bite and sip.</p>
+            </div>
 
-                    <button class="tablinks" onclick="openTab(event, 'Deducted')">DEDUCTED</button>
-                </div>
-                <div id="Summary" class="tabcontent">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>DATE</th>
-                                <th>POINTS</th>
-                                <th>DETAILS</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>14/06/2024</td>
-                                <td>11</td>
-                                <td>Purchase Points</td>
-                            </tr>
-                            <tr>
-                                <td>27/05/2024</td>
-                                <td>50</td>
-                                <td>Registration of Bite & Delight Online Account</td>
-                            </tr>
-                            <tr>
-                                <td colspan="2">TOTAL</td>
-                                <td>61</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <!-- Add content for other tabs as needed -->
+            <h2 class="points-summary-heading">
+                <img src="asset/points-summary-icon.png" alt="Points Summary Icon" class="points-summary-icon"> Points
+                Summary
+            </h2>
+            <p>56 Points</p>
+
+            <div class="tab">
+                <button class="tablinks" data-tab="Summary" onclick="openTab(event, 'Summary')">SUMMARY</button>
+                <button class="tablinks" data-tab="Deducted" onclick="openTab(event, 'Deducted')">DEDUCTED</button>
+            </div>
+            <div id="Summary" class="tabcontent">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>DATE</th>
+                            <th>POINTS</th>
+                            <th>DETAILS</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>14/06/2024</td>
+                            <td>4</td>
+                            <td>Redeemed Points</td>
+                        </tr>
+                        <tr>
+                            <td>27/05/2024</td>
+                            <td>50</td>
+                            <td>Registration of Bite & Delight Online Account</td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">TOTAL</td>
+                            <td>61</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div id="Deducted" class="tabcontent">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>DATE</th>
+                            <th>POINTS</th>
+                            <th>DETAILS</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>22/06/2024</td>
+                            <td>5</td>
+                            <td>Redeemed Points</td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">TOTAL REMAINING</td>
+                            <td>56</td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
-    </div>
-    <div id="Deducted" class="tabcontent">
-        <table>
-            <thead>
-                <tr>
-                    <th>DATE</th>
-                    <th>POINTS</th>
-                    <th>DETAILS</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td colspan="2">TOTAL</td>
-                    <td>0</td>
-                </tr>
-            </tbody>
-        </table>
+
         <script src="js/cust-account.js"></script>
 </body>
 

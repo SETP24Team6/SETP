@@ -15,23 +15,30 @@ document.addEventListener('DOMContentLoaded', function () {
         e.preventDefault();
         const rewardSection = document.querySelector('#reward-points');
         if (rewardSection) {
-            rewardSection.style.display = 'block';
-            rewardSection.scrollIntoView({ behavior: 'smooth' });
+            if (rewardSection.style.display === 'block') {
+                rewardSection.style.display = 'none';
+            } else {
+                rewardSection.style.display = 'block';
+                rewardSection.scrollIntoView({ behavior: 'smooth' });
+            }
         }
     });
 
     const tabs = document.querySelectorAll('.tab button');
     tabs.forEach(tab => {
         tab.addEventListener('click', function (e) {
+            e.preventDefault();
             const tabcontent = document.querySelectorAll('.tabcontent');
             tabcontent.forEach(content => content.style.display = 'none');
             tabs.forEach(btn => btn.className = btn.className.replace(' active', ''));
-            document.getElementById(this.innerText).style.display = 'block';
+            document.getElementById(this.getAttribute('data-tab')).style.display = 'block';
             this.className += ' active';
         });
     });
+
+    // Set default tab
     document.getElementById('Summary').style.display = 'block';
-    document.querySelector('.tab button').className += ' active';
+    document.querySelector('.tab button[data-tab="Summary"]').className += ' active';
 });
 
 function openTab(evt, tabName) {
