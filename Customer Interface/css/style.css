@@ -24,6 +24,7 @@ body {
 header h1 {
     font-family: 'Brush Script MT', cursive;
     color: #205522;
+
     margin: 0;
 }
 
@@ -43,12 +44,10 @@ nav ul {
     padding: 0;
     display: flex;
     justify-content: center;
-    /* Center the nav items */
 }
 
 nav ul li {
     margin: 0 10px;
-    /* Reduce space between items */
 }
 
 nav ul li a {
@@ -60,7 +59,7 @@ nav ul li a {
 
 nav ul li a:hover {
     background-color: rgba(0, 255, 255, 0.5);
-    }
+}
 
 nav ul li.order-now a {
     background-color: #00A3A3;
@@ -79,7 +78,6 @@ main p {
     font-style: bold;
 }
 
-
 .dropdown {
     position: relative;
     display: inline-block;
@@ -97,7 +95,7 @@ main p {
     outline: none;
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: center;
     width: 100%;
     white-space: nowrap;
     overflow: hidden;
@@ -106,17 +104,21 @@ main p {
 
 .location-icon {
     margin-right: 10px;
+    flex-shrink: 0;
+}
+
+#selected-location {
+    text-align: center;
+    flex-grow: 1;
 }
 
 .dropdown-content {
     display: none;
     position: absolute;
     background-color: white;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
     z-index: 1;
-    width: 100%;
-    border-radius: 10px;
-    overflow: hidden;
 }
 
 .dropdown-content a {
@@ -128,10 +130,6 @@ main p {
 
 .dropdown-content a:hover {
     background-color: #ddd;
-}
-
-.dropdown:hover .dropdown-content {
-    display: block;
 }
 
 .order-button,
