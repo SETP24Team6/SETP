@@ -29,6 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 <td>${orderData.orderedTime}</td>
                 <td>${orderData.location}</td>
                 <td>${orderData.amount}</td>
+                ${type === 'completed' ? `<td>${orderData.completionTime || 'N/A'}</td>` : ''}
             </tr>
         `;
 
@@ -57,7 +58,6 @@ document.addEventListener('DOMContentLoaded', () => {
         document.querySelectorAll('table').forEach(table => {
             table.addEventListener('click', event => {
                 if (event.target.classList.contains('view-btn')) {
-                    console.log("View button clicked!"); // For debug
                     const button = event.target;
                     const status = button.dataset.status;
                     const orderData = {
@@ -68,7 +68,9 @@ document.addEventListener('DOMContentLoaded', () => {
                         location: button.closest('tr').cells[4].textContent,
                         amount: button.closest('tr').cells[5].textContent,
                         ingredients: ['Ingredient 1 details', 'Ingredient 2 details', 'Ingredient 3 details', 'Ingredient 4 details'],
-                        status: status
+                        status: status,
+                        // Include completionTime here if status is 'completed'
+                        completionTime: status === 'completed' ? button.closest('tr').cells[6].textContent : ''
                     };
                     openModal(status, orderData, button.closest('tr'));
                 }
@@ -94,8 +96,9 @@ document.addEventListener('DOMContentLoaded', () => {
     function moveOrderTo(nextStatus) {
         if (currentOrder && currentRow) {
             const nextTable = getTableForStatus(nextStatus);
-            const completionTime = nextStatus === 'completed' ? `<td>${new Date().toLocaleTimeString()}</td>` : '';
+            const completionTime = nextStatus === 'completed' ? new Date().toLocaleTimeString() : '';
 
+            // Append the new row with completionTime if available
             nextTable.innerHTML += `
                 <tr>
                     <td>${currentOrder.orderNo}</td>
@@ -104,11 +107,12 @@ document.addEventListener('DOMContentLoaded', () => {
                     <td>${currentOrder.orderedTime}</td>
                     <td>${currentOrder.location}</td>
                     <td>${currentOrder.amount}</td>
-                    ${completionTime}
+                    ${nextStatus === 'completed' ? `<td>${completionTime}</td>` : ''}
                     <td><button class="view-btn" data-status="${nextStatus}">View</button></td>
                 </tr>
             `;
 
+            // Remove the current row
             currentRow.remove();
 
             // Close the current modal
@@ -118,15 +122,16 @@ document.addEventListener('DOMContentLoaded', () => {
                 currentModal.style.display = 'none';
             }
 
+            // Update currentOrder and clear currentRow
             currentOrder.status = nextStatus;
-
+            currentOrder.completionTime = nextStatus === 'completed' ? completionTime : ''; // Update completion time
             currentRow = null;
 
-            // Ensure the next modal is closed until triggered
+            // Ensure the next modal is hidden until triggered
             const nextModalId = `${nextStatus}OrderModal`;
             const nextModal = modals[nextModalId];
             if (nextModal) {
-                nextModal.style.display = 'none'; // Ensure it's hidden after moving
+                nextModal.style.display = 'none';
             }
 
             attachEventDelegation();

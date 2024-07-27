@@ -70,14 +70,70 @@ nav .staff-view b {
 .container {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 20px;
+    padding: 0px;
     background: #fff;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
 }
 
-h1, h2 {
-    color: #343a40;
+h1 {
+    color: #fff;
+    text-align: center;
+    font-size: 2.5em;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 20px 0;
+    background: linear-gradient(135deg, #17a2b8, #138496);
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin: 20px 0;
+    position: relative;
+    overflow: hidden;
+}
+
+h1 span {
+    display: inline-block;
+    padding: 0 10px;
+    position: relative;
+    z-index: 1;
+}
+
+h1 span::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: -10px;
+    right: -10px;
+    height: 1px;
+    background: rgba(255, 255, 255, 0.2);
+    z-index: -1;
+    transform: translateY(-50%);
+}
+
+h1 span::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    width: 50px;
+    height: 4px; 
+    background: #fff;
+    border-radius: 2px;
+    transform: translateX(-50%);
+}
+
+h2 {
+    color: #495057; 
+    background-color: #f8f9fa;
+    border-left: 5px solid #ced4da;
+    padding: 10px 15px;
+    border-radius: 5px;
+    font-size: 1.5em;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    text-align: left;
+    font-weight: bold;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 table {
@@ -114,7 +170,8 @@ button:hover {
     background-color: #138496;
 }
 
-/* Footer Styles */
+
+/* Footer */
 footer {
     background-color: #343a40;
     color: #fff;
@@ -183,7 +240,8 @@ footer {
     text-decoration: underline;
 }
 
-/* Modal Styles */
+
+/* Modal */
 .modal {
     display: none;
     position: fixed;
