@@ -73,9 +73,13 @@ document.addEventListener('DOMContentLoaded', function () {
 
     nextStepArrows.forEach((arrow, index) => {
         arrow.addEventListener('click', () => {
-            currentStep++;
-            showCurrentStep();
-            preselectChoices();
+            if (validateCurrentStep()) {
+                currentStep++;
+                showCurrentStep();
+                preselectChoices();
+            } else {
+                alert('Please make the required selections before proceeding.');
+            }
         });
     });
 
@@ -141,30 +145,44 @@ document.addEventListener('DOMContentLoaded', function () {
         const price = getPriceFromChoice(choice);
 
         if (stepId === 'sandwich-step-3') {
-            choice.classList.toggle('selected');
-            const veggieName = choice.querySelector('h3').textContent;
-
-            if (choice.classList.contains('selected')) {
-                if (!selectedChoices.veggies.some(v => v.name === veggieName)) {
-                    selectedChoices.veggies.push({ name: veggieName, price });
-                    sandwichTotal += price;
-                }
+            if (choice.querySelector('h3').textContent === 'None') {
+                selectedChoices.veggies = [{ name: 'None', price: 0 }];
+                sandwichTotal = 6;
+                choices.forEach(c => c.classList.remove('selected'));
+                choice.classList.add('selected');
             } else {
-                selectedChoices.veggies = selectedChoices.veggies.filter(v => v.name !== veggieName);
-                sandwichTotal -= price;
+                choice.classList.toggle('selected');
+                const veggieName = choice.querySelector('h3').textContent;
+
+                if (choice.classList.contains('selected')) {
+                    if (!selectedChoices.veggies.some(v => v.name === veggieName)) {
+                        selectedChoices.veggies.push({ name: veggieName, price });
+                        sandwichTotal += price;
+                    }
+                } else {
+                    selectedChoices.veggies = selectedChoices.veggies.filter(v => v.name !== veggieName);
+                    sandwichTotal -= price;
+                }
             }
         } else if (stepId === 'sandwich-step-4') {
-            choice.classList.toggle('selected');
-            const sauceName = choice.querySelector('h3').textContent;
-
-            if (choice.classList.contains('selected')) {
-                if (!selectedChoices.sauces.some(s => s.name === sauceName)) {
-                    selectedChoices.sauces.push({ name: sauceName, price });
-                    sandwichTotal += price;
-                }
+            if (choice.querySelector('h3').textContent === 'None') {
+                selectedChoices.sauces = [{ name: 'None', price: 0 }];
+                sandwichTotal = 6;
+                choices.forEach(c => c.classList.remove('selected'));
+                choice.classList.add('selected');
             } else {
-                selectedChoices.sauces = selectedChoices.sauces.filter(s => s.name !== sauceName);
-                sandwichTotal -= price;
+                choice.classList.toggle('selected');
+                const sauceName = choice.querySelector('h3').textContent;
+
+                if (choice.classList.contains('selected')) {
+                    if (!selectedChoices.sauces.some(s => s.name === sauceName)) {
+                        selectedChoices.sauces.push({ name: sauceName, price });
+                        sandwichTotal += price;
+                    }
+                } else {
+                    selectedChoices.sauces = selectedChoices.sauces.filter(s => s.name !== sauceName);
+                    sandwichTotal -= price;
+                }
             }
         } else {
             choices.forEach(c => c.classList.remove('selected'));
@@ -265,8 +283,20 @@ document.addEventListener('DOMContentLoaded', function () {
         if (isSandwich) {
             if (currentStep === 0) return selectedChoices.bread !== '';
             if (currentStep === 1) return selectedChoices.protein !== '';
-            if (currentStep === 2) return selectedChoices.veggies.length === 3 || selectedChoices.veggies.some(v => v.name === 'None');
-            if (currentStep === 3) return selectedChoices.sauces.length === 2 || selectedChoices.sauces.some(s => s.name === 'None');
+            if (currentStep === 2) {
+                if (selectedChoices.veggies.length === 3 || (selectedChoices.veggies.length === 1 && selectedChoices.veggies[0].name === 'None')) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+            if (currentStep === 3) {
+                if (selectedChoices.sauces.length === 2 || (selectedChoices.sauces.length === 1 && selectedChoices.sauces[0].name === 'None')) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
         } else {
             if (currentStep === 0) return selectedChoices.fruits.length >= 1 && selectedChoices.fruits.length <= 3;
             if (currentStep === 1) return selectedChoices.greens !== '';
@@ -296,6 +326,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 <p>Choice of Protein: ${selectedChoices.protein} ${selectedChoices.proteinPrice > 0 ? `($${selectedChoices.proteinPrice.toFixed(2)})` : ''}</p>
                 <p>Base: ${selectedChoices.veggies.map(v => `${v.name} ${v.price > 0 ? `($${v.price.toFixed(2)})` : ''}`).join(', ')}</p>
                 <p>Sauces: ${selectedChoices.sauces.map(s => `${s.name} ${s.price > 0 ? `($${s.price.toFixed(2)})` : ''}`).join(', ')}</p>
+                <button class="remove-sandwich">Remove Sandwich</button>
             `;
         }
         if (addSmoothie || selectedChoices.fruits.length > 0) {
@@ -305,6 +336,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 <p>Choice of Protein: ${selectedChoices.proteinSmoothie} ${selectedChoices.proteinSmoothiePrice > 0 ? `($${selectedChoices.proteinSmoothiePrice.toFixed(2)})` : ''}</p>
                 <p>Choice of Liquid Base: ${selectedChoices.liquidBase} ${selectedChoices.liquidBasePrice > 0 ? `($${selectedChoices.liquidBasePrice.toFixed(2)})` : ''}</p>
                 <p>Stevia Level: ${selectedChoices.stevia} ${selectedChoices.steviaPrice > 0 ? `($${selectedChoices.steviaPrice.toFixed(2)})` : ''}</p>
+                <button class="remove-smoothie">Remove Smoothie</button>
             `;
         }
 
@@ -343,6 +375,9 @@ document.addEventListener('DOMContentLoaded', function () {
                 ingredients.classList.toggle('hidden');
             });
         });
+
+        document.querySelector('.remove-sandwich').addEventListener('click', removeSandwich);
+        document.querySelector('.remove-smoothie').addEventListener('click', removeSmoothie);
     }
 
     function scrollToSummary() {
@@ -503,5 +538,25 @@ document.addEventListener('DOMContentLoaded', function () {
             displaySummary();
             scrollToSummary();
         }
+    }
+
+    function removeSandwich() {
+        selectedChoices.bread = '';
+        selectedChoices.protein = '';
+        selectedChoices.veggies = [];
+        selectedChoices.sauces = [];
+        sandwichTotal = 6;
+        displaySummary();
+    }
+
+    function removeSmoothie() {
+        selectedChoices.fruits = [];
+        selectedChoices.greens = '';
+        selectedChoices.proteinSmoothie = '';
+        selectedChoices.liquidBase = '';
+        selectedChoices.stevia = '';
+        smoothieTotal = 5;
+        addSmoothie = false;
+        displaySummary();
     }
 });
