@@ -49,15 +49,17 @@ document.addEventListener('DOMContentLoaded', function () {
     let smoothieTotal = 5; // Base price for a smoothie
 
     let isSandwich = false;
+    let smoothieDeclined = false;
 
     sandwichOption.addEventListener('click', () => {
         customizeSandwichContent.classList.remove('hidden');
         customizeTitle.textContent = 'Make Your Sandwich';
-        customizeDescription.textContent = 'Freshly baked bread layered with grilled herb-spiced meat and crisp, garden-fresh vegetables. ';
+        customizeDescription.textContent = 'Freshly baked bread layered with grilled herb-spiced meat and crisp, garden-fresh vegetables.';
         arrowIcon.textContent = 'Customise Your Sandwich ($6.00)';
         isSandwich = true;
         arrowIcon.classList.remove('hidden');
         currentStep = 0;
+        smoothieDeclined = false;
     });
 
     smoothieOption.addEventListener('click', () => {
@@ -68,6 +70,7 @@ document.addEventListener('DOMContentLoaded', function () {
         isSandwich = false;
         arrowIcon.classList.remove('hidden');
         currentStep = 0;
+        smoothieDeclined = false;
     });
 
     arrowIcon.addEventListener('click', () => {
@@ -110,6 +113,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     noAddSmoothieButton.addEventListener('click', () => {
         smoothiePromptModal.style.display = 'none';
+        smoothieDeclined = true;
         displaySummary();
         scrollToSummary();
     });
@@ -324,7 +328,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 <p>Sauces: ${selectedChoices.sauces.map(s => `${s.name} ${s.price > 0 ? `($${s.price.toFixed(2)})` : ''}`).join(', ')}</p>
             `;
         }
-        if (selectedChoices.fruits.length > 0) {
+        if (!smoothieDeclined && selectedChoices.fruits.length > 0) {
             smoothieHtml += `
                 <p>Choice of Fruits: ${selectedChoices.fruits.map(f => `${f.name} ${f.price > 0 ? `($${f.price.toFixed(2)})` : ''}`).join(', ')}</p>
                 <p>Choice of Greens: ${selectedChoices.greens} ${selectedChoices.greensPrice > 0 ? `($${selectedChoices.greensPrice.toFixed(2)})` : ''}</p>
@@ -334,28 +338,42 @@ document.addEventListener('DOMContentLoaded', function () {
             `;
         }
 
-        summaryHtml += `
-            <div>
-                <h3>Sandwich - $${sandwichTotal.toFixed(2)}</h3>
-                <div class="toggle-ingredients">
-                    <button class="toggle-button">Show/Hide Ingredients</button>
-                    <div class="ingredients hidden">${sandwichHtml}</div>
+        if (selectedChoices.bread) {
+            summaryHtml += `
+                <div>
+                    <h3>Sandwich - $${sandwichTotal.toFixed(2)}</h3>
+                    <div class="toggle-ingredients">
+                        <button class="toggle-button">Show/Hide Ingredients</button>
+                        <div class="ingredients hidden">${sandwichHtml}</div>
+                    </div>
                 </div>
-            </div>
-        `;
+            `;
+        }
 
-        summaryHtml += `
-            <div>
-                <h3>Smoothie - $${smoothieTotal.toFixed(2)}</h3>
-                <div class="toggle-ingredients">
-                    <button class="toggle-button">Show/Hide Ingredients</button>
-                    <div class="ingredients hidden">${smoothieHtml}</div>
+        if (!smoothieDeclined && selectedChoices.fruits.length > 0) {
+            summaryHtml += `
+                <div>
+                    <h3>Smoothie - $${smoothieTotal.toFixed(2)}</h3>
+                    <div class="toggle-ingredients">
+                        <button class="toggle-button">Show/Hide Ingredients</button>
+                        <div class="ingredients hidden">${smoothieHtml}</div>
+                    </div>
                 </div>
-            </div>
-        `;
+            `;
+        }
 
         summarySteps.innerHTML = summaryHtml;
-        totalPriceElement.textContent = `Total Price: $${(sandwichTotal + smoothieTotal).toFixed(2)}`;
+
+        // Calculate total price based on the selected items
+        let totalPrice = 0;
+        if (selectedChoices.bread) {
+            totalPrice += sandwichTotal;
+        }
+        if (!smoothieDeclined && selectedChoices.fruits.length > 0) {
+            totalPrice += smoothieTotal;
+        }
+
+        totalPriceElement.textContent = `Total Price: $${totalPrice.toFixed(2)}`;
         summarySection.classList.remove('hidden');
 
         const toggleButtons = document.querySelectorAll('.toggle-button');
