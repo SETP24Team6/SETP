@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const smoothiePromptModal = document.getElementById('smoothie-prompt-modal');
     const yesAddSmoothieButton = document.getElementById('yes-add-smoothie');
     const noAddSmoothieButton = document.getElementById('no-add-smoothie');
-    const dateButtons = document.querySelectorAll('.date-button');
+    const datePicker = document.getElementById('takeaway-date');
     const promotionAddButtons = document.querySelectorAll('.promotion-item button');
     const cartSection = document.getElementById('cart-section');
     const cartItemsContainer = document.querySelector('.cart-items');
@@ -73,13 +73,13 @@ document.addEventListener('DOMContentLoaded', function () {
 
     nextStepArrows.forEach((arrow, index) => {
         arrow.addEventListener('click', () => {
-            if (validateCurrentStep()) {
-                currentStep++;
-                showCurrentStep();
-                preselectChoices();
-            } else {
+            if (!validateCurrentStep()) {
                 alert('Please make the required selections before proceeding.');
+                return;
             }
+            currentStep++;
+            showCurrentStep();
+            preselectChoices();
         });
     });
 
@@ -93,7 +93,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     sandwichFinishIcon.addEventListener('click', () => {
         if (validateCurrentStep()) {
-            smoothiePromptModal.style.display = 'block';
+            showSmoothiePrompt();
         } else {
             alert('Please make the required selections before finishing.');
         }
@@ -116,7 +116,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
     smoothieFinishIcon.addEventListener('click', () => {
         if (validateCurrentStep()) {
-            showSmoothiePrompt();
+            displaySummary();
+            scrollToSummary();
         } else {
             alert('Please make the required selections before finishing.');
         }
@@ -151,17 +152,22 @@ document.addEventListener('DOMContentLoaded', function () {
                 choices.forEach(c => c.classList.remove('selected'));
                 choice.classList.add('selected');
             } else {
+                if (selectedChoices.veggies.some(v => v.name === 'None')) {
+                    selectedChoices.veggies = [];
+                    choices.forEach(c => c.classList.remove('selected'));
+                }
                 choice.classList.toggle('selected');
                 const veggieName = choice.querySelector('h3').textContent;
 
                 if (choice.classList.contains('selected')) {
-                    if (!selectedChoices.veggies.some(v => v.name === veggieName)) {
+                    if (selectedChoices.veggies.length < 3 && !selectedChoices.veggies.some(v => v.name === veggieName)) {
                         selectedChoices.veggies.push({ name: veggieName, price });
-                        sandwichTotal += price;
+                    } else {
+                        choice.classList.remove('selected');
+                        alert('You can only select up to 3 veggies.');
                     }
                 } else {
                     selectedChoices.veggies = selectedChoices.veggies.filter(v => v.name !== veggieName);
-                    sandwichTotal -= price;
                 }
             }
         } else if (stepId === 'sandwich-step-4') {
@@ -171,17 +177,22 @@ document.addEventListener('DOMContentLoaded', function () {
                 choices.forEach(c => c.classList.remove('selected'));
                 choice.classList.add('selected');
             } else {
+                if (selectedChoices.sauces.some(s => s.name === 'None')) {
+                    selectedChoices.sauces = [];
+                    choices.forEach(c => c.classList.remove('selected'));
+                }
                 choice.classList.toggle('selected');
                 const sauceName = choice.querySelector('h3').textContent;
 
                 if (choice.classList.contains('selected')) {
-                    if (!selectedChoices.sauces.some(s => s.name === sauceName)) {
+                    if (selectedChoices.sauces.length < 2 && !selectedChoices.sauces.some(s => s.name === sauceName)) {
                         selectedChoices.sauces.push({ name: sauceName, price });
-                        sandwichTotal += price;
+                    } else {
+                        choice.classList.remove('selected');
+                        alert('You can only select up to 2 sauces.');
                     }
                 } else {
                     selectedChoices.sauces = selectedChoices.sauces.filter(s => s.name !== sauceName);
-                    sandwichTotal -= price;
                 }
             }
         } else {
@@ -284,14 +295,14 @@ document.addEventListener('DOMContentLoaded', function () {
             if (currentStep === 0) return selectedChoices.bread !== '';
             if (currentStep === 1) return selectedChoices.protein !== '';
             if (currentStep === 2) {
-                if (selectedChoices.veggies.length === 3 || (selectedChoices.veggies.length === 1 && selectedChoices.veggies[0].name === 'None')) {
+                if ((selectedChoices.veggies.length === 3 || (selectedChoices.veggies.length === 1 && selectedChoices.veggies[0].name === 'None'))) {
                     return true;
                 } else {
                     return false;
                 }
             }
             if (currentStep === 3) {
-                if (selectedChoices.sauces.length === 2 || (selectedChoices.sauces.length === 1 && selectedChoices.sauces[0].name === 'None')) {
+                if ((selectedChoices.sauces.length === 2 || (selectedChoices.sauces.length === 1 && selectedChoices.sauces[0].name === 'None'))) {
                     return true;
                 } else {
                     return false;
@@ -308,6 +319,23 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function updateTotalPrice() {
+        let calculatedSandwichTotal = 6;
+        let calculatedSmoothieTotal = 5;
+
+        selectedChoices.veggies.forEach(v => calculatedSandwichTotal += v.price);
+        selectedChoices.sauces.forEach(s => calculatedSandwichTotal += s.price);
+        calculatedSandwichTotal += selectedChoices.breadPrice || 0;
+        calculatedSandwichTotal += selectedChoices.proteinPrice || 0;
+
+        selectedChoices.fruits.forEach(f => calculatedSmoothieTotal += f.price);
+        calculatedSmoothieTotal += selectedChoices.greensPrice || 0;
+        calculatedSmoothieTotal += selectedChoices.proteinSmoothiePrice || 0;
+        calculatedSmoothieTotal += selectedChoices.liquidBasePrice || 0;
+        calculatedSmoothieTotal += selectedChoices.steviaPrice || 0;
+
+        sandwichTotal = calculatedSandwichTotal;
+        smoothieTotal = calculatedSmoothieTotal;
+
         if (isSandwich) {
             arrowIcon.textContent = `Customise Your Sandwich ($${sandwichTotal.toFixed(2)})`;
         } else {
@@ -418,8 +446,23 @@ document.addEventListener('DOMContentLoaded', function () {
 
     backToSelectionButton.addEventListener('click', () => {
         summarySection.classList.add('hidden');
-        currentStep = 0;
+        currentStep = -1;
         arrowIcon.classList.remove('hidden');
+        customizeSandwichContent.classList.add('hidden');
+        selectedChoices = {
+            bread: '',
+            protein: '',
+            veggies: [],
+            sauces: [],
+            fruits: [],
+            greens: '',
+            proteinSmoothie: '',
+            liquidBase: '',
+            stevia: ''
+        };
+        sandwichTotal = 6; // Reset base price for sandwich
+        smoothieTotal = 5; // Reset base price for smoothie
+        choices.forEach(choice => choice.classList.remove('selected'));
         showCurrentStep();
         preselectChoices();
     });
@@ -433,7 +476,20 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     confirmTakeawayButton.addEventListener('click', () => {
-        alert('Takeaway confirmed!');
+        const selectedDate = document.getElementById('takeaway-date').value;
+        const selectedTime = document.getElementById('takeaway-time').value;
+
+        if (!selectedDate) {
+            alert("Please select a date.");
+            return;
+        }
+
+        if (!selectedTime) {
+            alert("Please select a time.");
+            return;
+        }
+
+        alert("Takeaway confirmed for " + selectedDate + " at " + selectedTime);
         takeawayModal.style.display = 'none';
         summarySection.classList.add('hidden');
         currentStep = -1;
@@ -452,13 +508,6 @@ document.addEventListener('DOMContentLoaded', function () {
         sandwichTotal = 6; // Reset base price for sandwich
         smoothieTotal = 5; // Reset base price for smoothie
         choices.forEach(choice => choice.classList.remove('selected'));
-    });
-
-    dateButtons.forEach(button => {
-        button.addEventListener('click', () => {
-            dateButtons.forEach(btn => btn.classList.remove('selected'));
-            button.classList.add('selected');
-        });
     });
 
     const recommendationItems = document.querySelectorAll('.recommendation-item');
@@ -532,7 +581,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     function showSmoothiePrompt() {
-        if (selectedChoices.bread === '' && selectedChoices.protein === '' && selectedChoices.veggies.length === 0 && selectedChoices.sauces.length === 0 && addSmoothie) {
+        if (selectedChoices.bread && selectedChoices.protein && selectedChoices.veggies.length === 3 && selectedChoices.sauces.length === 2) {
             smoothiePromptModal.style.display = 'block';
         } else {
             displaySummary();
@@ -559,4 +608,30 @@ document.addEventListener('DOMContentLoaded', function () {
         addSmoothie = false;
         displaySummary();
     }
+
+    // Populate time picker with 30-minute intervals from 8:00 AM to 5:00 PM
+    const timePicker = document.getElementById('takeaway-time');
+    for (let hour = 8; hour <= 17; hour++) {
+        for (let minute = 0; minute < 60; minute += 30) {
+            const timeOption = document.createElement('option');
+            const amPm = hour < 12 ? 'AM' : 'PM';
+            const displayHour = hour % 12 || 12;
+            const displayMinute = minute === 0 ? '00' : minute;
+            timeOption.value = `${displayHour}:${displayMinute} ${amPm}`;
+            timeOption.textContent = `${displayHour}:${displayMinute} ${amPm}`;
+            timePicker.appendChild(timeOption);
+        }
+    }
+
+    // Allow only future dates within 2024
+    const today = new Date();
+    const currentYear = today.getFullYear();
+    const currentMonth = (today.getMonth() + 1).toString().padStart(2, '0');
+    const currentDay = today.getDate().toString().padStart(2, '0');
+    const minDate = `${currentYear}-${currentMonth}-${currentDay}`;
+    const maxDate = `${currentYear}-12-31`;
+
+    datePicker.setAttribute('min', minDate);
+    datePicker.setAttribute('max', maxDate);
+    datePicker.setAttribute('placeholder', 'dd-mm-yyyy');
 });

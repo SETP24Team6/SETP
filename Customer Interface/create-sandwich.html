@@ -6,8 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Menu</title>
     <link rel="stylesheet" href="css/create-sandwich.css">
-    <script src="js/cookie.umd.js"></script>
-</head>
+</head> 
 
 <body>
     <!-- Navigation -->
@@ -436,30 +435,37 @@
         </section>
     </div>
 
-    <!-- Takeaway Modal -->
-    <div id="takeaway-modal" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <h3>Takeaway</h3>
-            <p>You have selected Cross Street</p>
-            <p>Select Takeaway Date</p>
-            <div class="date-selection">
-                <button class="date-button">TODAY 14 JUL</button>
-                <button class="date-button">MON 15 JUL</button>
-                <button class="date-button">TUE 16 JUL</button>
-                <button class="date-button">WED 17 JUL</button>
-                <button class="date-button">THU 18 JUL</button>
-            </div>
-            <p>Select Takeaway Time</p>
-            <select id="takeaway-time">
-                <option value="8:00 AM to 8:30 AM">8:00 AM to 8:30 AM</option>
-                <option value="8:30 AM to 9:00 AM">8:30 AM to 9:00 AM</option>
-                <option value="9:00 AM to 9:30 AM">9:00 AM to 9:30 AM</option>
-                <option value="9:30 AM to 10:00 AM">9:30 AM to 10:00 AM</option>
-            </select>
-            <button id="confirm-takeaway">Confirm</button>
-        </div>
+<!-- Takeaway Modal -->
+<div id="takeaway-modal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h3>Pick Up</h3>
+        <p>You have selected 📍Bite & Delight Downtown </p>
+        <p>Select Pick Up Date</p>
+        <input type="date" id="takeaway-date" placeholder="Select Date">
+        <p>Select Pick Up Time</p>
+        <select id="takeaway-time">
+            <option value="8:00 AM - 8:30 AM" >8:00 AM</option>
+            <option value="9:00 AM - 9:30 AM">8:30 AM</option>
+            <option value="9:30 AM - 10:00 AM">9:30 AM</option>
+            <option value="10:00 AM - 10:30 AM">10:30 AM</option>
+            <option value="10:30 AM - 11:00 AM">10:30 AM</option>  
+            <option value="11:30 AM - 12:00 PM">11:30 AM</option>
+            <option value="12:00 PM - 12:30 PM">12:00 PM</option>
+            <option value="12:30 PM - 1:00 PM">12:30 PM</option>
+            <option value="1:30 PM - 2:00 PM">1:30 PM</option>
+            <option value="2:00 PM - 2:30 PM">2:00 PM</option>
+            <option value="2:30 PM - 3:00 PM">2:30 PM</option>
+            <option value="3:00 PM - 3:30PM">3:00 PM</option>
+            <option value="3:30 PM - 4:00PM ">3:30 PM</option>
+            <option value="4:00 PM - 4:30PM">4:00 PM</option>
+            <option value="4:30 PM - 5:00PM">4:30 PM</option>
+     
+        </select>
+        <button id="confirm-takeaway">Confirm</button>
     </div>
+</div>
+
 
     <!-- Smoothie Prompt Modal -->
     <div id="smoothie-prompt-modal" class="modal">
