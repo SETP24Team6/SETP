@@ -404,8 +404,12 @@ document.addEventListener('DOMContentLoaded', function () {
             });
         });
 
-        document.querySelector('.remove-sandwich').addEventListener('click', removeSandwich);
-        document.querySelector('.remove-smoothie').addEventListener('click', removeSmoothie);
+        if (document.querySelector('.remove-sandwich')) {
+            document.querySelector('.remove-sandwich').addEventListener('click', removeSandwich);
+        }
+        if (document.querySelector('.remove-smoothie')) {
+            document.querySelector('.remove-smoothie').addEventListener('click', removeSmoothie);
+        }
     }
 
     function scrollToSummary() {
