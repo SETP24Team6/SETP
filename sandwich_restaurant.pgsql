@@ -8,7 +8,7 @@ CREATE TABLE member (
     birthday date NOT NULL,
     phone char(8) NOT NULL UNIQUE,
     email varchar(150) UNIQUE, 
-    passwordhash varchar(30) NOT NULL
+    passwordhash varchar(50) NOT NULL
 );
 
 
@@ -51,14 +51,14 @@ INSERT INTO uom (uom_name)
 
 CREATE TABLE product_type (
     product_type_id SERIAL PRIMARY KEY, 
-    product_type_name VARCHAR(10) NOT NULL UNIQUE
+    product_type_name VARCHAR(20) NOT NULL UNIQUE
 ); 
 INSERT INTO product_type (product_type_name) 
     VALUES ('Bread'), ('Protein'), ('Vegetable'), ('Sauce'), ('Fruit'), ('Yougurt'), ('Smoothie Vegetable'), ('Liquid Base'); 
 
 CREATE TABLE products (
     products_id SERIAL PRIMARY KEY, 
-    product_type_id, INT NOT NULL,
+    product_type_id INT NOT NULL,
     quantity_amount INT NOT NULL,
     uom_id INT NOT NULL,
     product_name VARCHAR(100),
@@ -99,22 +99,22 @@ INSERT INTO products (product_type_id, quantity_amount, uom_id, product_name)
 
 -------------------------------------------------------------------------
 
-SELECT * FROM member;
-SELECT * FROM product 
-INNER JOIN product_type ON product.product_type_id = product_type.product_type_id
-INNER JOIN uom ON product.uom_id = uom.uom_id;
+-- SELECT * FROM member;
+-- SELECT * FROM product 
+-- INNER JOIN product_type ON product.product_type_id = product_type.product_type_id
+-- INNER JOIN uom ON product.uom_id = uom.uom_id;
 
--- will make more changes to this table according to the needs of UI --
-CREATE TABLE orders ( 
-    order_id SERIAL, 
-    member_id INT NOT NULL, 
-    item_id INT NOT NULL, 
-    order_quantity int NOT NULL,  
-    order_date date NOT NULL, 
-    order_status varchar(10) NOT NULL,  
-    CONSTRAINT chk_order_status CHECK (order_status IN ('ordered', 'completed')), 
-    FOREIGN KEY (member_id) REFERENCES member(member_id), 
-    FOREIGN KEY (item_id) REFERENCES menu(item_id), 
-    CONSTRAINT orders_composite_key PRIMARY KEY (order_id, user_id, item_id)
-);
--------------------------------------------------------------------------
+-- -- will make more changes to this table according to the needs of UI --
+-- CREATE TABLE orders ( 
+--     order_id SERIAL, 
+--     member_id INT NOT NULL, 
+--     item_id INT NOT NULL, 
+--     order_quantity int NOT NULL,  
+--     order_date date NOT NULL, 
+--     order_status varchar(10) NOT NULL,  
+--     CONSTRAINT chk_order_status CHECK (order_status IN ('ordered', 'completed')), 
+--     FOREIGN KEY (member_id) REFERENCES member(member_id), 
+--     FOREIGN KEY (item_id) REFERENCES menu(item_id), 
+--     CONSTRAINT orders_composite_key PRIMARY KEY (order_id, user_id, item_id)
+-- );
+-- -------------------------------------------------------------------------
