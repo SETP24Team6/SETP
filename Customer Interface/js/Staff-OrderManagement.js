@@ -14,9 +14,37 @@ document.addEventListener('DOMContentLoaded', () => {
             console.log(populator)
             $.each(populator, function(index, order) {
                 orders[order.order_status] += '<tr> <td>'+order.order_id+'</td>'
-                orders[order.order_status] += '<td>'+order.item_type+'</td>'
+                orders[order.order_status] += '<td>'
+                // $.each(order.item_ingred, function(index, item) {
+                //     console.log(item.index)
+                //     // if(item.sandwich) {
+                //     //     orders[order.order_status] += "Sandwich :"+ item.sandwich
+                //     // }
+                // })
+                // console.log(order.item_ingred)
+                for (let x in order.item_ingred) {
+                    let text = order.item_ingred[x]
+                    const myArray = text.split(":");
+                    orders[order.order_status] += '<b><u>'+myArray[0] + '</u></b><br/>'
+                    var i = 1
+                    const splitter = myArray[1].split(", ")
+                    for (a in splitter){
+                        orders[order.order_status] += "Step " + i + ": " + splitter[a] + '<br/>'
+                        i += 1 
+                    }
+                    orders[order.order_status] += '<br/>'
+                    // for (let y in order.item_ingred[x]){
+                    //     orders[order.order_status] += order.item_ingred[x][y] + '<br/>'
+                    // }
+                }
+                
+                // var keys = Object.keys(order.item_ingred);
+                // keys.forEach(function(key){
+                //     console.log(key, order.item_ingred[key]);
+                // });
+                orders[order.order_status] += '</td>'
                 orders[order.order_status] += '<td>'+order.firstName+'</td>'
-                orders[order.order_status] += '<td>'+order.order_timestamp+'</td>'
+                orders[order.order_status] += '<td>'+order.order_timestamp.substring(5,22)+'</td>'
                 orders[order.order_status] += '<td>'+order.store_name+'</td>'
                 orders[order.order_status] += '<td> FREE </td>'
                 orders[order.order_status] += '<td><button class="view-btn" data-status="new">View</button></td>'
@@ -25,6 +53,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const filler = document.getElementById(x);
                 filler.innerHTML = orders[x] 
             };
+            setTimeout(populateFields, 5000)
         }
     }
     populateFields()
