@@ -343,7 +343,15 @@ document.addEventListener('DOMContentLoaded', function () {
         updateCartCount();
         updateCartTotal();
         renderCartItems();
+        highlightCart();
         resetSelections();
+    }
+
+    function highlightCart() {
+        cartDropdown.classList.add('highlight');
+        setTimeout(() => {
+            cartDropdown.classList.remove('highlight');
+        }, 1000);
     }
 
     function resetSelections() {
@@ -508,3 +516,4 @@ document.addEventListener('DOMContentLoaded', function () {
         item.style.animationDelay = `${index * 0.3}s`;
     });
 });
+
