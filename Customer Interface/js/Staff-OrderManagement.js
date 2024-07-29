@@ -6,6 +6,29 @@ document.addEventListener('DOMContentLoaded', () => {
         completedOrderModal: document.getElementById('completedOrderModal')
     };
 
+    function populateFields(){
+        let populator = callApi2("GET", 'http://127.0.0.1:5000/get_all_orders', {'data': JSON.stringify("")});
+        
+        if(populator){
+            const orders = {preparing:"", ready:"", completed:"", ordered:""}
+            console.log(populator)
+            $.each(populator, function(index, order) {
+                orders[order.order_status] += '<tr> <td>'+order.order_id+'</td>'
+                orders[order.order_status] += '<td>'+order.item_type+'</td>'
+                orders[order.order_status] += '<td>'+order.firstName+'</td>'
+                orders[order.order_status] += '<td>'+order.order_timestamp+'</td>'
+                orders[order.order_status] += '<td>'+order.store_name+'</td>'
+                orders[order.order_status] += '<td> FREE </td>'
+                orders[order.order_status] += '<td><button class="view-btn" data-status="new">View</button></td>'
+            })
+            for (let x in orders) {
+                const filler = document.getElementById(x);
+                filler.innerHTML = orders[x] 
+            };
+        }
+    }
+    populateFields()
+
     const closeButtons = document.querySelectorAll('.close');
 
     let currentOrder = null;
