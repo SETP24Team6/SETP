@@ -1,3 +1,4 @@
+
 DROP SCHEMA public CASCADE;
 CREATE SCHEMA public;
 
@@ -75,37 +76,41 @@ CREATE TABLE product (
 
 INSERT INTO product (product_type_id, product_name,image_path, price_point) 
     VALUES 
-        (1, 'Sourdough', 'asset/sourdough.jpg', 0),
+        (1, 'Sourdough', 'asset/sourdough.jpg', 0), 
         (1, 'Wholemeal', 'asset/wholemeal.jpg', 0),
         (1, 'Oat bread', 'asset/oatbread.jpg', 0.5),
         (1, 'Italian Herb', 'asset/italianherb.jpg', 0.5),
-        (2, 'Lamb', 'asset/pulled-lamb.jpg', 0),
+        (2, 'Lamb', 'asset/pulled-lamb.jpg', 0),  
         (2, 'Chicken', 'asset/chickenbreast.jpg', 0),
         (2, 'Beef', 'asset/beef.jpg', 2.5),
         (2, 'Salmon', 'asset/smokedsalmon.jpg', 3),
-        (3, 'Lettuce', 'asset/iceberge-lettuce.png', 0),
+        (3, 'Lettuce', 'asset/iceberge-lettuce.png', 0), 
         (3, 'Tomato', 'asset/tomato.png', 0),
         (3, 'Cucumber', 'asset/cucumber.png', 0),
         (3, 'Onion', 'asset/onion.png', 0),
         (3, 'Bell Pepper', 'asset/bellpeppers.jpg', 0),
-        (4, 'Cranberry Caramalised onion', 'asset/cranberry-sauce.jpeg', 0),
+        (4, 'Cranberry Caramalised onion', 'asset/cranberry-sauce.jpeg', 0), 
         (4, 'Honey Mustard', 'asset/honeymustard.png', 0),
         (4, 'Egg Mayo', 'asset/egg-mayo.jpg', 0),
         (4, 'Avocado Lime Crema', 'asset/avocado-lime.png', 0),
-        (4, 'BBQ', 'asset/bbq.jpg', 0),
-        (5, 'Banana', 'asset/banana.jpeg', 0),
+        (4, 'BBQ', 'asset/bbq.jpg', 0),  
+        (5, 'Banana', 'asset/banana.jpeg', 0),  
         (5, 'Blueberry', 'asset/blueberry.webp', 0),
         (5, 'Strawberry', 'asset/strawberry.jpg', 0),
         (5, 'Mango', 'asset/mango.jpg', 0),
-        (5, 'Orange', 'asset/orange.jpg', 0),
-        (6, 'Spinach', 'asset/spinach.jpeg', 0.6),
+        (5, 'Orange', 'asset/orange.jpg', 0), 
+        (6, 'Spinach', 'asset/spinach.jpeg', 0.6), 
         (6, 'Kale', 'asset/kale.jpeg', 0.7),
-        (6, 'Avocado', 'asset/avocado.webp', 1.2),
+        (6, 'Avocado', 'asset/avocado.webp', 1.2), 
         (7, 'Greek Yogurt', 'asset/greekyogurt.jpg', 2),
-        (8, 'Low Fat Milk', 'asset/low-fat-milk.webp', 0),
+        (8, 'Low Fat Milk', 'asset/low-fat-milk.webp', 0), 
         (8, 'Full Cream Milk', 'asset/full-cream.jpg', 0),
-        (8, 'Oat Milk', 'asset/oat-milk.jpg', 1)
+        (8, 'Oat Milk', 'asset/oat-milk.jpg', 1) 
 ;
+
+
+select * from product;
+
 CREATE TABLE inventory (
     products_id INT, 
     store_id INT,
@@ -155,179 +160,63 @@ INSERT INTO inventory (products_id, store_id, quantity_amount, uom_id)
 -- INNER JOIN product_type ON product.product_type_id = product_type.product_type_id
 -- INNER JOIN uom ON product.uom_id = uom.uom_id;
 
--- -- will make more changes to this table according to the needs of UI --
+drop table orders;
 CREATE TABLE orders ( 
     order_id SERIAL PRIMARY KEY, 
     member_id INT NOT NULL, 
     store_id INT NOT NULL, 
-    order_date date NOT NULL, 
+    created_at timestamp NOT NULL DEFAULT now(), 
     order_status varchar(10) NOT NULL,  
-    CONSTRAINT chk_order_status CHECK (order_status IN ('ordered', 'completed')), 
+    CONSTRAINT chk_order_status CHECK (order_status IN ('ordered', 'preparing', 'ready', 'completed')), 
     FOREIGN KEY (member_id) REFERENCES member(member_id)
 );
 
+INSERT INTO orders (order_id, member_id, store_id, created_at, order_status) VALUES (1, 6, 1, '2023-07-12 12:27:22', 'completed');
+INSERT INTO orders (order_id, member_id, store_id, created_at, order_status) VALUES (2, 7, 1, '2023-07-12 15:32:15', 'completed');
+INSERT INTO orders (order_id, member_id, store_id, created_at, order_status) VALUES (3, 2, 1, '2023-07-15 04:29:44', 'completed');
+INSERT INTO orders (order_id, member_id, store_id, created_at, order_status) VALUES (4, 17, 1, '2023-07-13 16:51:16', 'completed');
+INSERT INTO orders (order_id, member_id, store_id, created_at, order_status) VALUES (5, 20, 1, '2023-08-01 17:00:55', 'completed');
+INSERT INTO orders (order_id, member_id, store_id, created_at, order_status) VALUES (6, 9, 1, '2023-08-07 16:27:41', 'completed');
+INSERT INTO orders (order_id, member_id, store_id, created_at, order_status) VALUES (7, 8, 1, '2023-08-08 20:48:03', 'completed');
+INSERT INTO orders (order_id, member_id, store_id, created_at, order_status) VALUES (8, 17, 1, '2023-08-24 21:09:23', 'completed');
+INSERT INTO orders (order_id, member_id, store_id, created_at, order_status) VALUES (9, 17, 1, '2023-08-27 06:03:12', 'completed');
+INSERT INTO orders (order_id, member_id, store_id, created_at, order_status) VALUES (10, 19, 1, '2023-08-23 22:19:45', 'completed');
+INSERT INTO orders (order_id, member_id, store_id, created_at, order_status) VALUES (11, 5, 1, '2023-09-15 19:09:41', 'completed');
+INSERT INTO orders (order_id, member_id, store_id, created_at, order_status) VALUES (12, 13, 1, '2023-09-27 09:58:03', 'completed');
+INSERT INTO orders (order_id, member_id, store_id, created_at, order_status) VALUES (13, 7, 1, '2023-10-07 07:36:45', 'completed');
+INSERT INTO orders (order_id, member_id, store_id, created_at, order_status) VALUES (14, 16, 1, '2023-10-12 20:36:04', 'completed');
+INSERT INTO orders (order_id, member_id, store_id, created_at, order_status) VALUES (15, 19, 1, '2023-10-19 12:20:46', 'completed');
+INSERT INTO orders (order_id, member_id, store_id, created_at, order_status) VALUES (16, 16, 1, '2023-10-20 05:58:57', 'completed');
+INSERT INTO orders (order_id, member_id, store_id, created_at, order_status) VALUES (17, 8, 1, '2023-10-26 09:59:24', 'completed');
+INSERT INTO orders (order_id, member_id, store_id, created_at, order_status) VALUES (18, 3, 1, '2023-10-29 04:03:45', 'completed');
+INSERT INTO orders (order_id, member_id, store_id, created_at, order_status) VALUES (19, 4, 1, '2023-11-06 16:39:27', 'completed');
+INSERT INTO orders (order_id, member_id, store_id, created_at, order_status) VALUES (20, 19, 1, '2023-11-19 01:43:54', 'completed');
+INSERT INTO orders (order_id, member_id, store_id, created_at, order_status) VALUES (21, 4, 1, '2023-11-19 05:49:48', 'completed');
+INSERT INTO orders (order_id, member_id, store_id, created_at, order_status) VALUES (22, 3, 1, '2023-11-26 02:13:40', 'completed');
+INSERT INTO orders (order_id, member_id, store_id, created_at, order_status) VALUES (23, 20, 1, '2023-11-30 08:58:57', 'completed');
+INSERT INTO orders (order_id, member_id, store_id, created_at, order_status) VALUES (24, 18, 1, '2023-12-18 13:36:07', 'completed');
+INSERT INTO orders (order_id, member_id, store_id, created_at, order_status) VALUES (25, 17, 1, '2023-12-20 05:59:18', 'completed');
+INSERT INTO orders (order_id, member_id, store_id, created_at, order_status) VALUES (26, 19, 1, '2023-12-24 09:18:13', 'completed');
+INSERT INTO orders (order_id, member_id, store_id, created_at, order_status) VALUES (27, 18, 1, '2023-12-30 05:37:12', 'completed');
+INSERT INTO orders (order_id, member_id, store_id, created_at, order_status) VALUES (28, 13, 1, '2023-12-31 08:18:24', 'completed');
+INSERT INTO orders (order_id, member_id, store_id, created_at, order_status) VALUES (29, 1, 1, '2024-01-19 07:22:53', 'completed');
+INSERT INTO orders (order_id, member_id, store_id, created_at, order_status) VALUES (30, 17, 1, '2024-01-26 12:01:11', 'completed');
+INSERT INTO orders (order_id, member_id, store_id, created_at, order_status) VALUES (31, 12, 1, '2024-02-01 07:28:25', 'completed');
+INSERT INTO orders (order_id, member_id, store_id, created_at, order_status) VALUES (32, 19, 1, '2024-02-03 06:55:15', 'completed');
+INSERT INTO orders (order_id, member_id, store_id, created_at, order_status) VALUES (33, 19, 1, '2024-02-10 06:27:28', 'completed');
+INSERT INTO orders (order_id, member_id, store_id, created_at, order_status) VALUES (34, 1, 1, '2024-02-20 06:35:00', 'completed');
+INSERT INTO orders (order_id, member_id, store_id, created_at, order_status) VALUES (35, 8, 1, '2024-02-23 04:52:33', 'completed');
+INSERT INTO orders (order_id, member_id, store_id, created_at, order_status) VALUES (36, 8, 1, '2024-02-23 18:58:54', 'completed');
+INSERT INTO orders (order_id, member_id, store_id, created_at, order_status) VALUES (37, 11, 1, '2024-03-10 13:49:19', 'completed');
+INSERT INTO orders (order_id, member_id, store_id, created_at, order_status) VALUES (38, 15, 1, '2024-03-21 21:15:31', 'completed');
+INSERT INTO orders (order_id, member_id, store_id, created_at, order_status) VALUES (39, 20, 1, '2024-03-22 19:36:04', 'completed');
+INSERT INTO orders (order_id, member_id, store_id, created_at, order_status) VALUES (40, 1, 1, '2024-04-13 20:11:33', 'completed');
+INSERT INTO orders (order_id, member_id, store_id, created_at, order_status) VALUES (41, 2, 1, '2024-04-23 02:00:09', 'completed');
+INSERT INTO orders (order_id, member_id, store_id, created_at, order_status) VALUES (42, 6, 1, '2024-04-24 16:09:43', 'completed');
+INSERT INTO orders (order_id, member_id, store_id, created_at, order_status) VALUES (43, 4, 1, '2024-04-22 21:32:13', 'completed');
 
-INSERT INTO orders (order_id, member_id, store_id, order_date, order_status) VALUES (1, 15, 1, '2024-07-20', 'completed');
-INSERT INTO orders (order_id, member_id, store_id, order_date, order_status) VALUES (2, 7, 1, '2024-07-20', 'completed');
-INSERT INTO orders (order_id, member_id, store_id, order_date, order_status) VALUES (3, 4, 1, '2024-07-20', 'completed');
-INSERT INTO orders (order_id, member_id, store_id, order_date, order_status) VALUES (4, 3, 1, '2024-07-20', 'completed');
-INSERT INTO orders (order_id, member_id, store_id, order_date, order_status) VALUES (5, 9, 1, '2024-07-20', 'completed');
-INSERT INTO orders (order_id, member_id, store_id, order_date, order_status) VALUES (6, 11, 1, '2024-07-20', 'completed');
-INSERT INTO orders (order_id, member_id, store_id, order_date, order_status) VALUES (7, 4, 1, '2024-07-20', 'completed');
-INSERT INTO orders (order_id, member_id, store_id, order_date, order_status) VALUES (8, 11, 1, '2024-07-20', 'completed');
-INSERT INTO orders (order_id, member_id, store_id, order_date, order_status) VALUES (9, 12, 1, '2024-07-20', 'completed');
-INSERT INTO orders (order_id, member_id, store_id, order_date, order_status) VALUES (10, 17, 1, '2024-07-20', 'completed');
-INSERT INTO orders (order_id, member_id, store_id, order_date, order_status) VALUES (11, 4, 1, '2024-07-20', 'completed');
-INSERT INTO orders (order_id, member_id, store_id, order_date, order_status) VALUES (12, 3, 1, '2024-07-20', 'completed');
-INSERT INTO orders (order_id, member_id, store_id, order_date, order_status) VALUES (13, 6, 1, '2024-07-20', 'completed');
-INSERT INTO orders (order_id, member_id, store_id, order_date, order_status) VALUES (14, 8, 1, '2024-07-20', 'completed');
-INSERT INTO orders (order_id, member_id, store_id, order_date, order_status) VALUES (15, 14, 1, '2024-07-20', 'completed');
-INSERT INTO orders (order_id, member_id, store_id, order_date, order_status) VALUES (16, 8, 1, '2024-07-20', 'completed');
-INSERT INTO orders (order_id, member_id, store_id, order_date, order_status) VALUES (17, 12, 1, '2024-07-20', 'completed');
-INSERT INTO orders (order_id, member_id, store_id, order_date, order_status) VALUES (18, 12, 1, '2024-07-20', 'completed');
-INSERT INTO orders (order_id, member_id, store_id, order_date, order_status) VALUES (19, 1, 1, '2024-07-20', 'completed');
-INSERT INTO orders (order_id, member_id, store_id, order_date, order_status) VALUES (20, 3, 1, '2024-07-20', 'completed');
-INSERT INTO orders (order_id, member_id, store_id, order_date, order_status) VALUES (21, 9, 1, '2024-07-21', 'completed');
-INSERT INTO orders (order_id, member_id, store_id, order_date, order_status) VALUES (22, 7, 1, '2024-07-21', 'completed');
-INSERT INTO orders (order_id, member_id, store_id, order_date, order_status) VALUES (23, 16, 1, '2024-07-21', 'completed');
-INSERT INTO orders (order_id, member_id, store_id, order_date, order_status) VALUES (24, 18, 1, '2024-07-21', 'completed');
-INSERT INTO orders (order_id, member_id, store_id, order_date, order_status) VALUES (25, 9, 1, '2024-07-21', 'completed');
-INSERT INTO orders (order_id, member_id, store_id, order_date, order_status) VALUES (26, 3, 1, '2024-07-21', 'completed');
-INSERT INTO orders (order_id, member_id, store_id, order_date, order_status) VALUES (27, 20, 1, '2024-07-21', 'completed');
-INSERT INTO orders (order_id, member_id, store_id, order_date, order_status) VALUES (28, 11, 1, '2024-07-21', 'completed');
-INSERT INTO orders (order_id, member_id, store_id, order_date, order_status) VALUES (29, 6, 1, '2024-07-21', 'completed');
-INSERT INTO orders (order_id, member_id, store_id, order_date, order_status) VALUES (30, 16, 1, '2024-07-21', 'completed');
-INSERT INTO orders (order_id, member_id, store_id, order_date, order_status) VALUES (31, 19, 1, '2024-07-21', 'completed');
-INSERT INTO orders (order_id, member_id, store_id, order_date, order_status) VALUES (32, 17, 1, '2024-07-21', 'completed');
-INSERT INTO orders (order_id, member_id, store_id, order_date, order_status) VALUES (33, 18, 1, '2024-07-21', 'completed');
-INSERT INTO orders (order_id, member_id, store_id, order_date, order_status) VALUES (34, 20, 1, '2024-07-21', 'completed');
-INSERT INTO orders (order_id, member_id, store_id, order_date, order_status) VALUES (35, 17, 1, '2024-07-21', 'completed');
-INSERT INTO orders (order_id, member_id, store_id, order_date, order_status) VALUES (36, 17, 1, '2024-07-21', 'completed');
-INSERT INTO orders (order_id, member_id, store_id, order_date, order_status) VALUES (37, 18, 1, '2024-07-21', 'completed');
-INSERT INTO orders (order_id, member_id, store_id, order_date, order_status) VALUES (38, 12, 1, '2024-07-21', 'completed');
-INSERT INTO orders (order_id, member_id, store_id, order_date, order_status) VALUES (39, 6, 1, '2024-07-21', 'completed');
-INSERT INTO orders (order_id, member_id, store_id, order_date, order_status) VALUES (40, 16, 1, '2024-07-21', 'completed');
-INSERT INTO orders (order_id, member_id, store_id, order_date, order_status) VALUES (41, 9, 1, '2024-07-22', 'completed');
-INSERT INTO orders (order_id, member_id, store_id, order_date, order_status) VALUES (42, 2, 1, '2024-07-22', 'completed');
-INSERT INTO orders (order_id, member_id, store_id, order_date, order_status) VALUES (43, 13, 1, '2024-07-22', 'completed');
-INSERT INTO orders (order_id, member_id, store_id, order_date, order_status) VALUES (44, 15, 1, '2024-07-22', 'completed');
-INSERT INTO orders (order_id, member_id, store_id, order_date, order_status) VALUES (45, 7, 1, '2024-07-22', 'completed');
-INSERT INTO orders (order_id, member_id, store_id, order_date, order_status) VALUES (46, 17, 1, '2024-07-22', 'completed');
-INSERT INTO orders (order_id, member_id, store_id, order_date, order_status) VALUES (47, 12, 1, '2024-07-22', 'completed');
-INSERT INTO orders (order_id, member_id, store_id, order_date, order_status) VALUES (48, 16, 1, '2024-07-22', 'completed');
-INSERT INTO orders (order_id, member_id, store_id, order_date, order_status) VALUES (49, 14, 1, '2024-07-22', 'completed');
-INSERT INTO orders (order_id, member_id, store_id, order_date, order_status) VALUES (50, 16, 1, '2024-07-22', 'completed');
-INSERT INTO orders (order_id, member_id, store_id, order_date, order_status) VALUES (51, 11, 1, '2024-07-22', 'completed');
-INSERT INTO orders (order_id, member_id, store_id, order_date, order_status) VALUES (52, 3, 1, '2024-07-22', 'completed');
-INSERT INTO orders (order_id, member_id, store_id, order_date, order_status) VALUES (53, 11, 1, '2024-07-22', 'completed');
-INSERT INTO orders (order_id, member_id, store_id, order_date, order_status) VALUES (54, 8, 1, '2024-07-22', 'completed');
-INSERT INTO orders (order_id, member_id, store_id, order_date, order_status) VALUES (55, 15, 1, '2024-07-22', 'completed');
-INSERT INTO orders (order_id, member_id, store_id, order_date, order_status) VALUES (56, 11, 1, '2024-07-22', 'completed');
-INSERT INTO orders (order_id, member_id, store_id, order_date, order_status) VALUES (57, 5, 1, '2024-07-22', 'completed');
-INSERT INTO orders (order_id, member_id, store_id, order_date, order_status) VALUES (58, 13, 1, '2024-07-22', 'completed');
-INSERT INTO orders (order_id, member_id, store_id, order_date, order_status) VALUES (59, 16, 1, '2024-07-22', 'completed');
-INSERT INTO orders (order_id, member_id, store_id, order_date, order_status) VALUES (60, 11, 1, '2024-07-22', 'completed');
-INSERT INTO orders (order_id, member_id, store_id, order_date, order_status) VALUES (61, 12, 1, '2024-07-23', 'completed');
-INSERT INTO orders (order_id, member_id, store_id, order_date, order_status) VALUES (62, 6, 1, '2024-07-23', 'completed');
-INSERT INTO orders (order_id, member_id, store_id, order_date, order_status) VALUES (63, 15, 1, '2024-07-23', 'completed');
-INSERT INTO orders (order_id, member_id, store_id, order_date, order_status) VALUES (64, 11, 1, '2024-07-23', 'completed');
-INSERT INTO orders (order_id, member_id, store_id, order_date, order_status) VALUES (65, 18, 1, '2024-07-23', 'completed');
-INSERT INTO orders (order_id, member_id, store_id, order_date, order_status) VALUES (66, 2, 1, '2024-07-23', 'completed');
-INSERT INTO orders (order_id, member_id, store_id, order_date, order_status) VALUES (67, 14, 1, '2024-07-23', 'completed');
-INSERT INTO orders (order_id, member_id, store_id, order_date, order_status) VALUES (68, 12, 1, '2024-07-23', 'completed');
-INSERT INTO orders (order_id, member_id, store_id, order_date, order_status) VALUES (69, 4, 1, '2024-07-23', 'completed');
-INSERT INTO orders (order_id, member_id, store_id, order_date, order_status) VALUES (70, 11, 1, '2024-07-23', 'completed');
-INSERT INTO orders (order_id, member_id, store_id, order_date, order_status) VALUES (71, 9, 1, '2024-07-23', 'completed');
-INSERT INTO orders (order_id, member_id, store_id, order_date, order_status) VALUES (72, 10, 1, '2024-07-23', 'completed');
-INSERT INTO orders (order_id, member_id, store_id, order_date, order_status) VALUES (73, 7, 1, '2024-07-23', 'completed');
-INSERT INTO orders (order_id, member_id, store_id, order_date, order_status) VALUES (74, 5, 1, '2024-07-23', 'completed');
-INSERT INTO orders (order_id, member_id, store_id, order_date, order_status) VALUES (75, 12, 1, '2024-07-23', 'completed');
-INSERT INTO orders (order_id, member_id, store_id, order_date, order_status) VALUES (76, 16, 1, '2024-07-23', 'completed');
-INSERT INTO orders (order_id, member_id, store_id, order_date, order_status) VALUES (77, 13, 1, '2024-07-23', 'completed');
-INSERT INTO orders (order_id, member_id, store_id, order_date, order_status) VALUES (78, 5, 1, '2024-07-23', 'completed');
-INSERT INTO orders (order_id, member_id, store_id, order_date, order_status) VALUES (79, 16, 1, '2024-07-23', 'completed');
-INSERT INTO orders (order_id, member_id, store_id, order_date, order_status) VALUES (80, 5, 1, '2024-07-23', 'completed');
-INSERT INTO orders (order_id, member_id, store_id, order_date, order_status) VALUES (81, 12, 1, '2024-07-24', 'completed');
-INSERT INTO orders (order_id, member_id, store_id, order_date, order_status) VALUES (82, 1, 1, '2024-07-24', 'completed');
-INSERT INTO orders (order_id, member_id, store_id, order_date, order_status) VALUES (83, 10, 1, '2024-07-24', 'completed');
-INSERT INTO orders (order_id, member_id, store_id, order_date, order_status) VALUES (84, 5, 1, '2024-07-24', 'completed');
-INSERT INTO orders (order_id, member_id, store_id, order_date, order_status) VALUES (85, 3, 1, '2024-07-24', 'completed');
-INSERT INTO orders (order_id, member_id, store_id, order_date, order_status) VALUES (86, 17, 1, '2024-07-24', 'completed');
-INSERT INTO orders (order_id, member_id, store_id, order_date, order_status) VALUES (87, 15, 1, '2024-07-24', 'completed');
-INSERT INTO orders (order_id, member_id, store_id, order_date, order_status) VALUES (88, 16, 1, '2024-07-24', 'completed');
-INSERT INTO orders (order_id, member_id, store_id, order_date, order_status) VALUES (89, 17, 1, '2024-07-24', 'completed');
-INSERT INTO orders (order_id, member_id, store_id, order_date, order_status) VALUES (90, 13, 1, '2024-07-24', 'completed');
-INSERT INTO orders (order_id, member_id, store_id, order_date, order_status) VALUES (91, 2, 1, '2024-07-24', 'completed');
-INSERT INTO orders (order_id, member_id, store_id, order_date, order_status) VALUES (92, 16, 1, '2024-07-24', 'completed');
-INSERT INTO orders (order_id, member_id, store_id, order_date, order_status) VALUES (93, 15, 1, '2024-07-24', 'completed');
-INSERT INTO orders (order_id, member_id, store_id, order_date, order_status) VALUES (94, 20, 1, '2024-07-24', 'completed');
-INSERT INTO orders (order_id, member_id, store_id, order_date, order_status) VALUES (95, 15, 1, '2024-07-24', 'completed');
-INSERT INTO orders (order_id, member_id, store_id, order_date, order_status) VALUES (96, 6, 1, '2024-07-24', 'completed');
-INSERT INTO orders (order_id, member_id, store_id, order_date, order_status) VALUES (97, 16, 1, '2024-07-24', 'completed');
-INSERT INTO orders (order_id, member_id, store_id, order_date, order_status) VALUES (98, 14, 1, '2024-07-24', 'completed');
-INSERT INTO orders (order_id, member_id, store_id, order_date, order_status) VALUES (99, 12, 1, '2024-07-24', 'completed');
-INSERT INTO orders (order_id, member_id, store_id, order_date, order_status) VALUES (100, 11, 1, '2024-07-24', 'completed');
-INSERT INTO orders (order_id, member_id, store_id, order_date, order_status) VALUES (101, 13, 1, '2024-07-25', 'completed');
-INSERT INTO orders (order_id, member_id, store_id, order_date, order_status) VALUES (102, 12, 1, '2024-07-25', 'completed');
-INSERT INTO orders (order_id, member_id, store_id, order_date, order_status) VALUES (103, 13, 1, '2024-07-25', 'completed');
-INSERT INTO orders (order_id, member_id, store_id, order_date, order_status) VALUES (104, 4, 1, '2024-07-25', 'completed');
-INSERT INTO orders (order_id, member_id, store_id, order_date, order_status) VALUES (105, 4, 1, '2024-07-25', 'completed');
-INSERT INTO orders (order_id, member_id, store_id, order_date, order_status) VALUES (106, 15, 1, '2024-07-25', 'completed');
-INSERT INTO orders (order_id, member_id, store_id, order_date, order_status) VALUES (107, 17, 1, '2024-07-25', 'completed');
-INSERT INTO orders (order_id, member_id, store_id, order_date, order_status) VALUES (108, 10, 1, '2024-07-25', 'completed');
-INSERT INTO orders (order_id, member_id, store_id, order_date, order_status) VALUES (109, 8, 1, '2024-07-25', 'completed');
-INSERT INTO orders (order_id, member_id, store_id, order_date, order_status) VALUES (110, 20, 1, '2024-07-25', 'completed');
-INSERT INTO orders (order_id, member_id, store_id, order_date, order_status) VALUES (111, 16, 1, '2024-07-25', 'completed');
-INSERT INTO orders (order_id, member_id, store_id, order_date, order_status) VALUES (112, 11, 1, '2024-07-25', 'completed');
-INSERT INTO orders (order_id, member_id, store_id, order_date, order_status) VALUES (113, 18, 1, '2024-07-25', 'completed');
-INSERT INTO orders (order_id, member_id, store_id, order_date, order_status) VALUES (114, 17, 1, '2024-07-25', 'completed');
-INSERT INTO orders (order_id, member_id, store_id, order_date, order_status) VALUES (115, 9, 1, '2024-07-25', 'completed');
-INSERT INTO orders (order_id, member_id, store_id, order_date, order_status) VALUES (116, 11, 1, '2024-07-25', 'completed');
-INSERT INTO orders (order_id, member_id, store_id, order_date, order_status) VALUES (117, 9, 1, '2024-07-25', 'completed');
-INSERT INTO orders (order_id, member_id, store_id, order_date, order_status) VALUES (118, 13, 1, '2024-07-25', 'completed');
-INSERT INTO orders (order_id, member_id, store_id, order_date, order_status) VALUES (119, 11, 1, '2024-07-25', 'completed');
-INSERT INTO orders (order_id, member_id, store_id, order_date, order_status) VALUES (120, 1, 1, '2024-07-25', 'completed');
-INSERT INTO orders (order_id, member_id, store_id, order_date, order_status) VALUES (121, 4, 1, '2024-07-26', 'completed');
-INSERT INTO orders (order_id, member_id, store_id, order_date, order_status) VALUES (122, 14, 1, '2024-07-26', 'completed');
-INSERT INTO orders (order_id, member_id, store_id, order_date, order_status) VALUES (123, 2, 1, '2024-07-26', 'completed');
-INSERT INTO orders (order_id, member_id, store_id, order_date, order_status) VALUES (124, 19, 1, '2024-07-26', 'completed');
-INSERT INTO orders (order_id, member_id, store_id, order_date, order_status) VALUES (125, 7, 1, '2024-07-26', 'completed');
-INSERT INTO orders (order_id, member_id, store_id, order_date, order_status) VALUES (126, 14, 1, '2024-07-26', 'completed');
-INSERT INTO orders (order_id, member_id, store_id, order_date, order_status) VALUES (127, 12, 1, '2024-07-26', 'completed');
-INSERT INTO orders (order_id, member_id, store_id, order_date, order_status) VALUES (128, 1, 1, '2024-07-26', 'completed');
-INSERT INTO orders (order_id, member_id, store_id, order_date, order_status) VALUES (129, 18, 1, '2024-07-26', 'completed');
-INSERT INTO orders (order_id, member_id, store_id, order_date, order_status) VALUES (130, 10, 1, '2024-07-26', 'completed');
-INSERT INTO orders (order_id, member_id, store_id, order_date, order_status) VALUES (131, 10, 1, '2024-07-26', 'completed');
-INSERT INTO orders (order_id, member_id, store_id, order_date, order_status) VALUES (132, 1, 1, '2024-07-26', 'completed');
-INSERT INTO orders (order_id, member_id, store_id, order_date, order_status) VALUES (133, 13, 1, '2024-07-26', 'completed');
-INSERT INTO orders (order_id, member_id, store_id, order_date, order_status) VALUES (134, 11, 1, '2024-07-26', 'completed');
-INSERT INTO orders (order_id, member_id, store_id, order_date, order_status) VALUES (135, 19, 1, '2024-07-26', 'completed');
-INSERT INTO orders (order_id, member_id, store_id, order_date, order_status) VALUES (136, 11, 1, '2024-07-26', 'completed');
-INSERT INTO orders (order_id, member_id, store_id, order_date, order_status) VALUES (137, 5, 1, '2024-07-26', 'completed');
-INSERT INTO orders (order_id, member_id, store_id, order_date, order_status) VALUES (138, 2, 1, '2024-07-26', 'completed');
-INSERT INTO orders (order_id, member_id, store_id, order_date, order_status) VALUES (139, 3, 1, '2024-07-26', 'completed');
-INSERT INTO orders (order_id, member_id, store_id, order_date, order_status) VALUES (140, 5, 1, '2024-07-26', 'completed');
-INSERT INTO orders (order_id, member_id, store_id, order_date, order_status) VALUES (141, 13, 1, '2024-07-27', 'completed');
-INSERT INTO orders (order_id, member_id, store_id, order_date, order_status) VALUES (142, 11, 1, '2024-07-27', 'completed');
-INSERT INTO orders (order_id, member_id, store_id, order_date, order_status) VALUES (143, 9, 1, '2024-07-27', 'completed');
-INSERT INTO orders (order_id, member_id, store_id, order_date, order_status) VALUES (144, 1, 1, '2024-07-27', 'completed');
-INSERT INTO orders (order_id, member_id, store_id, order_date, order_status) VALUES (145, 18, 1, '2024-07-27', 'completed');
-INSERT INTO orders (order_id, member_id, store_id, order_date, order_status) VALUES (146, 17, 1, '2024-07-27', 'completed');
-INSERT INTO orders (order_id, member_id, store_id, order_date, order_status) VALUES (147, 5, 1, '2024-07-27', 'completed');
-INSERT INTO orders (order_id, member_id, store_id, order_date, order_status) VALUES (148, 19, 1, '2024-07-27', 'completed');
-INSERT INTO orders (order_id, member_id, store_id, order_date, order_status) VALUES (149, 11, 1, '2024-07-27', 'completed');
-INSERT INTO orders (order_id, member_id, store_id, order_date, order_status) VALUES (150, 4, 1, '2024-07-27', 'completed');
-INSERT INTO orders (order_id, member_id, store_id, order_date, order_status) VALUES (151, 19, 1, '2024-07-27', 'completed');
-INSERT INTO orders (order_id, member_id, store_id, order_date, order_status) VALUES (152, 3, 1, '2024-07-27', 'completed');
-INSERT INTO orders (order_id, member_id, store_id, order_date, order_status) VALUES (153, 1, 1, '2024-07-27', 'completed');
-INSERT INTO orders (order_id, member_id, store_id, order_date, order_status) VALUES (154, 11, 1, '2024-07-27', 'completed');
-INSERT INTO orders (order_id, member_id, store_id, order_date, order_status) VALUES (155, 8, 1, '2024-07-27', 'completed');
-INSERT INTO orders (order_id, member_id, store_id, order_date, order_status) VALUES (156, 1, 1, '2024-07-27', 'completed');
-INSERT INTO orders (order_id, member_id, store_id, order_date, order_status) VALUES (157, 12, 1, '2024-07-27', 'completed');
-INSERT INTO orders (order_id, member_id, store_id, order_date, order_status) VALUES (158, 8, 1, '2024-07-27', 'completed');
-INSERT INTO orders (order_id, member_id, store_id, order_date, order_status) VALUES (159, 14, 1, '2024-07-27', 'completed');
-INSERT INTO orders (order_id, member_id, store_id, order_date, order_status) VALUES (160, 5, 1, '2024-07-27', 'completed');
 
+SELECT * from orders;
 
 
 CREATE TABLE orders_items ( 
@@ -337,187 +226,61 @@ CREATE TABLE orders_items (
     FOREIGN KEY (order_id) REFERENCES orders(order_id)
 );
 
-insert into orders_items (item_id, order_id, item_type) values (1, 1, 'sandwich');
-insert into orders_items (item_id, order_id, item_type) values (2, 2, 'sandwich');
-insert into orders_items (item_id, order_id, item_type) values (3, 3, 'sandwich');
-insert into orders_items (item_id, order_id, item_type) values (4, 4, 'sandwich');
-insert into orders_items (item_id, order_id, item_type) values (5, 5, 'sandwich');
-insert into orders_items (item_id, order_id, item_type) values (6, 6, 'sandwich');
-insert into orders_items (item_id, order_id, item_type) values (7, 7, 'sandwich');
-insert into orders_items (item_id, order_id, item_type) values (8, 8, 'sandwich');
-insert into orders_items (item_id, order_id, item_type) values (9, 9, 'sandwich');
-insert into orders_items (item_id, order_id, item_type) values (10, 10, 'sandwich');
-insert into orders_items (item_id, order_id, item_type) values (11, 11, 'sandwich');
-insert into orders_items (item_id, order_id, item_type) values (12, 12, 'sandwich');
-insert into orders_items (item_id, order_id, item_type) values (13, 13, 'sandwich');
-insert into orders_items (item_id, order_id, item_type) values (14, 14, 'sandwich');
-insert into orders_items (item_id, order_id, item_type) values (15, 15, 'sandwich');
-insert into orders_items (item_id, order_id, item_type) values (16, 16, 'sandwich');
-insert into orders_items (item_id, order_id, item_type) values (17, 17, 'sandwich');
-insert into orders_items (item_id, order_id, item_type) values (18, 18, 'sandwich');
-insert into orders_items (item_id, order_id, item_type) values (19, 19, 'sandwich');
-insert into orders_items (item_id, order_id, item_type) values (20, 20, 'sandwich');
-insert into orders_items (item_id, order_id, item_type) values (21, 21, 'smoothie');
-insert into orders_items (item_id, order_id, item_type) values (22, 22, 'smoothie');
-insert into orders_items (item_id, order_id, item_type) values (23, 23, 'smoothie');
-insert into orders_items (item_id, order_id, item_type) values (24, 24, 'smoothie');
-insert into orders_items (item_id, order_id, item_type) values (25, 25, 'smoothie');
-insert into orders_items (item_id, order_id, item_type) values (26, 26, 'smoothie');
-insert into orders_items (item_id, order_id, item_type) values (27, 27, 'smoothie');
-insert into orders_items (item_id, order_id, item_type) values (28, 28, 'smoothie');
-insert into orders_items (item_id, order_id, item_type) values (29, 29, 'smoothie');
-insert into orders_items (item_id, order_id, item_type) values (30, 30, 'smoothie');
-insert into orders_items (item_id, order_id, item_type) values (31, 31, 'smoothie');
-insert into orders_items (item_id, order_id, item_type) values (32, 32, 'smoothie');
-insert into orders_items (item_id, order_id, item_type) values (33, 33, 'smoothie');
-insert into orders_items (item_id, order_id, item_type) values (34, 34, 'smoothie');
-insert into orders_items (item_id, order_id, item_type) values (35, 35, 'smoothie');
-insert into orders_items (item_id, order_id, item_type) values (36, 36, 'smoothie');
-insert into orders_items (item_id, order_id, item_type) values (37, 37, 'smoothie');
-insert into orders_items (item_id, order_id, item_type) values (38, 38, 'smoothie');
-insert into orders_items (item_id, order_id, item_type) values (39, 39, 'smoothie');
-insert into orders_items (item_id, order_id, item_type) values (40, 40, 'smoothie');
-insert into orders_items (item_id, order_id, item_type) values (41, 41, 'sandwich');
-insert into orders_items (item_id, order_id, item_type) values (42, 42, 'sandwich');
-insert into orders_items (item_id, order_id, item_type) values (43, 43, 'sandwich');
-insert into orders_items (item_id, order_id, item_type) values (44, 44, 'sandwich');
-insert into orders_items (item_id, order_id, item_type) values (45, 45, 'sandwich');
-insert into orders_items (item_id, order_id, item_type) values (46, 46, 'sandwich');
-insert into orders_items (item_id, order_id, item_type) values (47, 47, 'sandwich');
-insert into orders_items (item_id, order_id, item_type) values (48, 48, 'sandwich');
-insert into orders_items (item_id, order_id, item_type) values (49, 49, 'sandwich');
-insert into orders_items (item_id, order_id, item_type) values (50, 50, 'sandwich');
-insert into orders_items (item_id, order_id, item_type) values (51, 51, 'sandwich');
-insert into orders_items (item_id, order_id, item_type) values (52, 52, 'sandwich');
-insert into orders_items (item_id, order_id, item_type) values (53, 53, 'sandwich');
-insert into orders_items (item_id, order_id, item_type) values (54, 54, 'sandwich');
-insert into orders_items (item_id, order_id, item_type) values (55, 55, 'sandwich');
-insert into orders_items (item_id, order_id, item_type) values (56, 56, 'sandwich');
-insert into orders_items (item_id, order_id, item_type) values (57, 57, 'sandwich');
-insert into orders_items (item_id, order_id, item_type) values (58, 58, 'sandwich');
-insert into orders_items (item_id, order_id, item_type) values (59, 59, 'sandwich');
-insert into orders_items (item_id, order_id, item_type) values (60, 60, 'sandwich');
-insert into orders_items (item_id, order_id, item_type) values (61, 61, 'smoothie');
-insert into orders_items (item_id, order_id, item_type) values (62, 62, 'smoothie');
-insert into orders_items (item_id, order_id, item_type) values (63, 63, 'smoothie');
-insert into orders_items (item_id, order_id, item_type) values (64, 64, 'smoothie');
-insert into orders_items (item_id, order_id, item_type) values (65, 65, 'smoothie');
-insert into orders_items (item_id, order_id, item_type) values (66, 66, 'smoothie');
-insert into orders_items (item_id, order_id, item_type) values (67, 67, 'smoothie');
-insert into orders_items (item_id, order_id, item_type) values (68, 68, 'smoothie');
-insert into orders_items (item_id, order_id, item_type) values (69, 69, 'smoothie');
-insert into orders_items (item_id, order_id, item_type) values (70, 70, 'smoothie');
-insert into orders_items (item_id, order_id, item_type) values (71, 71, 'smoothie');
-insert into orders_items (item_id, order_id, item_type) values (72, 72, 'smoothie');
-insert into orders_items (item_id, order_id, item_type) values (73, 73, 'smoothie');
-insert into orders_items (item_id, order_id, item_type) values (74, 74, 'smoothie');
-insert into orders_items (item_id, order_id, item_type) values (75, 75, 'smoothie');
-insert into orders_items (item_id, order_id, item_type) values (76, 76, 'smoothie');
-insert into orders_items (item_id, order_id, item_type) values (77, 77, 'smoothie');
-insert into orders_items (item_id, order_id, item_type) values (78, 78, 'smoothie');
-insert into orders_items (item_id, order_id, item_type) values (79, 79, 'smoothie');
-insert into orders_items (item_id, order_id, item_type) values (80, 80, 'smoothie');
-insert into orders_items (item_id, order_id, item_type) values (81, 81, 'sandwich');
-insert into orders_items (item_id, order_id, item_type) values (82, 82, 'sandwich');
-insert into orders_items (item_id, order_id, item_type) values (83, 83, 'sandwich');
-insert into orders_items (item_id, order_id, item_type) values (84, 84, 'sandwich');
-insert into orders_items (item_id, order_id, item_type) values (85, 85, 'sandwich');
-insert into orders_items (item_id, order_id, item_type) values (86, 86, 'sandwich');
-insert into orders_items (item_id, order_id, item_type) values (87, 87, 'sandwich');
-insert into orders_items (item_id, order_id, item_type) values (88, 88, 'sandwich');
-insert into orders_items (item_id, order_id, item_type) values (89, 89, 'sandwich');
-insert into orders_items (item_id, order_id, item_type) values (90, 90, 'sandwich');
-insert into orders_items (item_id, order_id, item_type) values (101, 101, 'smoothie');
-insert into orders_items (item_id, order_id, item_type) values (102, 102, 'smoothie');
-insert into orders_items (item_id, order_id, item_type) values (103, 103, 'smoothie');
-insert into orders_items (item_id, order_id, item_type) values (104, 104, 'smoothie');
-insert into orders_items (item_id, order_id, item_type) values (105, 105, 'smoothie');
-insert into orders_items (item_id, order_id, item_type) values (106, 106, 'smoothie');
-insert into orders_items (item_id, order_id, item_type) values (107, 107, 'smoothie');
-insert into orders_items (item_id, order_id, item_type) values (108, 108, 'smoothie');
-insert into orders_items (item_id, order_id, item_type) values (109, 109, 'smoothie');
-insert into orders_items (item_id, order_id, item_type) values (100, 100, 'smoothie');
 
-insert into orders_items (item_id, order_id, item_type) values (101, 101, 'smoothie');
-insert into orders_items (item_id, order_id, item_type) values (102, 102, 'smoothie');
-insert into orders_items (item_id, order_id, item_type) values (103, 103, 'smoothie');
-insert into orders_items (item_id, order_id, item_type) values (104, 104, 'smoothie');
-insert into orders_items (item_id, order_id, item_type) values (105, 105, 'smoothie');
-insert into orders_items (item_id, order_id, item_type) values (106, 106, 'smoothie');
-insert into orders_items (item_id, order_id, item_type) values (107, 107, 'smoothie');
-insert into orders_items (item_id, order_id, item_type) values (108, 108, 'smoothie');
-insert into orders_items (item_id, order_id, item_type) values (109, 109, 'smoothie');
-insert into orders_items (item_id, order_id, item_type) values (110, 110, 'smoothie');
-insert into orders_items (item_id, order_id, item_type) values (111, 111, 'sandwich');
-insert into orders_items (item_id, order_id, item_type) values (112, 112, 'sandwich');
-insert into orders_items (item_id, order_id, item_type) values (113, 113, 'sandwich');
-insert into orders_items (item_id, order_id, item_type) values (114, 114, 'sandwich');
-insert into orders_items (item_id, order_id, item_type) values (115, 115, 'sandwich');
-insert into orders_items (item_id, order_id, item_type) values (116, 116, 'sandwich');
-insert into orders_items (item_id, order_id, item_type) values (117, 117, 'sandwich');
-insert into orders_items (item_id, order_id, item_type) values (118, 118, 'sandwich');
-insert into orders_items (item_id, order_id, item_type) values (119, 119, 'sandwich');
-insert into orders_items (item_id, order_id, item_type) values (120, 120, 'sandwich');
-insert into orders_items (item_id, order_id, item_type) values (121, 121, 'smoothie');
-insert into orders_items (item_id, order_id, item_type) values (122, 122, 'smoothie');
-insert into orders_items (item_id, order_id, item_type) values (123, 123, 'smoothie');
-insert into orders_items (item_id, order_id, item_type) values (124, 124, 'smoothie');
-insert into orders_items (item_id, order_id, item_type) values (125, 125, 'smoothie');
-insert into orders_items (item_id, order_id, item_type) values (126, 126, 'smoothie');
-insert into orders_items (item_id, order_id, item_type) values (127, 127, 'smoothie');
-insert into orders_items (item_id, order_id, item_type) values (128, 128, 'smoothie');
-insert into orders_items (item_id, order_id, item_type) values (129, 129, 'smoothie');
-insert into orders_items (item_id, order_id, item_type) values (130, 130, 'smoothie');
-insert into orders_items (item_id, order_id, item_type) values (131, 131, 'sandwich');
-insert into orders_items (item_id, order_id, item_type) values (132, 132, 'sandwich');
-insert into orders_items (item_id, order_id, item_type) values (133, 133, 'sandwich');
-insert into orders_items (item_id, order_id, item_type) values (134, 134, 'sandwich');
-insert into orders_items (item_id, order_id, item_type) values (135, 135, 'sandwich');
-insert into orders_items (item_id, order_id, item_type) values (136, 136, 'sandwich');
-insert into orders_items (item_id, order_id, item_type) values (137, 137, 'sandwich');
-insert into orders_items (item_id, order_id, item_type) values (138, 138, 'sandwich');
-insert into orders_items (item_id, order_id, item_type) values (139, 139, 'sandwich');
-insert into orders_items (item_id, order_id, item_type) values (140, 140, 'sandwich');
-insert into orders_items (item_id, order_id, item_type) values (141, 141, 'smoothie');
-insert into orders_items (item_id, order_id, item_type) values (142, 142, 'smoothie');
-insert into orders_items (item_id, order_id, item_type) values (143, 143, 'smoothie');
-insert into orders_items (item_id, order_id, item_type) values (144, 144, 'smoothie');
-insert into orders_items (item_id, order_id, item_type) values (145, 145, 'smoothie');
-insert into orders_items (item_id, order_id, item_type) values (146, 146, 'smoothie');
-insert into orders_items (item_id, order_id, item_type) values (147, 147, 'smoothie');
-insert into orders_items (item_id, order_id, item_type) values (148, 148, 'smoothie');
-insert into orders_items (item_id, order_id, item_type) values (149, 149, 'smoothie');
-insert into orders_items (item_id, order_id, item_type) values (150, 150, 'smoothie');
-insert into orders_items (item_id, order_id, item_type) values (151, 151, 'smoothie');
-insert into orders_items (item_id, order_id, item_type) values (152, 152, 'smoothie');
-insert into orders_items (item_id, order_id, item_type) values (153, 153, 'smoothie');
-insert into orders_items (item_id, order_id, item_type) values (154, 154, 'smoothie');
-insert into orders_items (item_id, order_id, item_type) values (155, 155, 'smoothie');
-insert into orders_items (item_id, order_id, item_type) values (156, 156, 'smoothie');
-insert into orders_items (item_id, order_id, item_type) values (157, 157, 'smoothie');
-insert into orders_items (item_id, order_id, item_type) values (158, 158, 'smoothie');
-insert into orders_items (item_id, order_id, item_type) values (159, 159, 'smoothie');
-insert into orders_items (item_id, order_id, item_type) values (160, 160, 'smoothie');
-insert into orders_items (item_id, order_id, item_type) values (161, 161, 'sandwich');
-insert into orders_items (item_id, order_id, item_type) values (162, 162, 'sandwich');
-insert into orders_items (item_id, order_id, item_type) values (163, 163, 'sandwich');
-insert into orders_items (item_id, order_id, item_type) values (164, 164, 'sandwich');
-insert into orders_items (item_id, order_id, item_type) values (165, 165, 'sandwich');
-insert into orders_items (item_id, order_id, item_type) values (166, 166, 'sandwich');
-insert into orders_items (item_id, order_id, item_type) values (167, 167, 'sandwich');
-insert into orders_items (item_id, order_id, item_type) values (168, 168, 'sandwich');
-insert into orders_items (item_id, order_id, item_type) values (169, 169, 'sandwich');
-insert into orders_items (item_id, order_id, item_type) values (170, 170, 'sandwich');
-insert into orders_items (item_id, order_id, item_type) values (171, 171, 'smoothie');
-insert into orders_items (item_id, order_id, item_type) values (172, 172, 'smoothie');
-insert into orders_items (item_id, order_id, item_type) values (173, 173, 'smoothie');
-insert into orders_items (item_id, order_id, item_type) values (174, 174, 'smoothie');
-insert into orders_items (item_id, order_id, item_type) values (175, 175, 'smoothie');
-insert into orders_items (item_id, order_id, item_type) values (176, 176, 'smoothie');
-insert into orders_items (item_id, order_id, item_type) values (177, 177, 'smoothie');
-insert into orders_items (item_id, order_id, item_type) values (178, 178, 'smoothie');
-insert into orders_items (item_id, order_id, item_type) values (179, 179, 'smoothie');
-insert into orders_items (item_id, order_id, item_type) values (180, 180, 'smoothie');
+INSERT INTO orders_items (item_id, order_id, item_type) VALUES (1, 1, 'sandwich');
+INSERT INTO orders_items (item_id, order_id, item_type) VALUES (2, 1, 'smoothie');
+INSERT INTO orders_items (item_id, order_id, item_type) VALUES (3, 2, 'sandwich');
+INSERT INTO orders_items (item_id, order_id, item_type) VALUES (4, 2, 'smoothie');
+INSERT INTO orders_items (item_id, order_id, item_type) VALUES (5, 2, 'sandwich');
+INSERT INTO orders_items (item_id, order_id, item_type) VALUES (6, 3, 'smoothie');
+INSERT INTO orders_items (item_id, order_id, item_type) VALUES (7, 4, 'sandwich');
+INSERT INTO orders_items (item_id, order_id, item_type) VALUES (8, 5, 'smoothie');
+INSERT INTO orders_items (item_id, order_id, item_type) VALUES (9, 5, 'sandwich');
+INSERT INTO orders_items (item_id, order_id, item_type) VALUES (10, 6, 'smoothie');
+INSERT INTO orders_items (item_id, order_id, item_type) VALUES (11, 7, 'sandwich');
+INSERT INTO orders_items (item_id, order_id, item_type) VALUES (12, 8, 'smoothie');
+INSERT INTO orders_items (item_id, order_id, item_type) VALUES (13, 8, 'sandwich');
+INSERT INTO orders_items (item_id, order_id, item_type) VALUES (14, 9, 'smoothie');
+INSERT INTO orders_items (item_id, order_id, item_type) VALUES (15, 10, 'sandwich');
+INSERT INTO orders_items (item_id, order_id, item_type) VALUES (16, 10, 'smoothie');
+INSERT INTO orders_items (item_id, order_id, item_type) VALUES (17, 10, 'sandwich');
+INSERT INTO orders_items (item_id, order_id, item_type) VALUES (18, 11, 'smoothie');
+INSERT INTO orders_items (item_id, order_id, item_type) VALUES (19, 12, 'sandwich');
+INSERT INTO orders_items (item_id, order_id, item_type) VALUES (20, 13, 'smoothie');
+INSERT INTO orders_items (item_id, order_id, item_type) VALUES (21, 13, 'sandwich');
+INSERT INTO orders_items (item_id, order_id, item_type) VALUES (22, 14, 'smoothie');
+INSERT INTO orders_items (item_id, order_id, item_type) VALUES (23, 15, 'sandwich');
+INSERT INTO orders_items (item_id, order_id, item_type) VALUES (24, 16, 'smoothie');
+INSERT INTO orders_items (item_id, order_id, item_type) VALUES (25, 17, 'sandwich');
+INSERT INTO orders_items (item_id, order_id, item_type) VALUES (26, 18, 'smoothie');
+INSERT INTO orders_items (item_id, order_id, item_type) VALUES (27, 19, 'sandwich');
+INSERT INTO orders_items (item_id, order_id, item_type) VALUES (28, 20, 'smoothie');
+INSERT INTO orders_items (item_id, order_id, item_type) VALUES (29, 20, 'sandwich');
+INSERT INTO orders_items (item_id, order_id, item_type) VALUES (30, 21, 'smoothie');
+INSERT INTO orders_items (item_id, order_id, item_type) VALUES (31, 22, 'sandwich');
+INSERT INTO orders_items (item_id, order_id, item_type) VALUES (32, 23, 'smoothie');
+INSERT INTO orders_items (item_id, order_id, item_type) VALUES (33, 23, 'sandwich');
+INSERT INTO orders_items (item_id, order_id, item_type) VALUES (34, 24, 'smoothie');
+INSERT INTO orders_items (item_id, order_id, item_type) VALUES (35, 25, 'sandwich');
+INSERT INTO orders_items (item_id, order_id, item_type) VALUES (36, 26, 'smoothie');
+INSERT INTO orders_items (item_id, order_id, item_type) VALUES (37, 27, 'sandwich');
+INSERT INTO orders_items (item_id, order_id, item_type) VALUES (38, 28, 'smoothie');
+INSERT INTO orders_items (item_id, order_id, item_type) VALUES (39, 29, 'sandwich');
+INSERT INTO orders_items (item_id, order_id, item_type) VALUES (40, 30, 'smoothie');
+INSERT INTO orders_items (item_id, order_id, item_type) VALUES (41, 31, 'sandwich');
+INSERT INTO orders_items (item_id, order_id, item_type) VALUES (42, 32, 'smoothie');
+INSERT INTO orders_items (item_id, order_id, item_type) VALUES (43, 33, 'sandwich');
+INSERT INTO orders_items (item_id, order_id, item_type) VALUES (44, 34, 'smoothie');
+INSERT INTO orders_items (item_id, order_id, item_type) VALUES (45, 35, 'sandwich');
+INSERT INTO orders_items (item_id, order_id, item_type) VALUES (46, 36, 'smoothie');
+INSERT INTO orders_items (item_id, order_id, item_type) VALUES (47, 37, 'sandwich');
+INSERT INTO orders_items (item_id, order_id, item_type) VALUES (48, 38, 'smoothie');
+INSERT INTO orders_items (item_id, order_id, item_type) VALUES (49, 39, 'sandwich');
+INSERT INTO orders_items (item_id, order_id, item_type) VALUES (50, 40, 'smoothie');
+INSERT INTO orders_items (item_id, order_id, item_type) VALUES (51, 41, 'sandwich');
+INSERT INTO orders_items (item_id, order_id, item_type) VALUES (52, 42, 'smoothie');
+INSERT INTO orders_items (item_id, order_id, item_type) VALUES (53, 43, 'sandwich');
+INSERT INTO orders_items (item_id, order_id, item_type) VALUES (54, 43, 'smoothie');
 
 
 
@@ -529,4 +292,389 @@ CREATE TABLE item_ingredients (
     PRIMARY KEY (products_id, item_id)
 );
 
--- -------------------------------------------------------------------------
+
+-- Item ID 1 (Sandwich)
+INSERT INTO item_ingredients (products_id, item_id) VALUES (1, 1);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (5, 1);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (9, 1);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (10, 1);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (11, 1);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (14, 1);
+
+-- Item ID 2 (Smoothie)
+INSERT INTO item_ingredients (products_id, item_id) VALUES (19, 2);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (24, 2);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (27, 2);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (28, 2);
+
+-- Item ID 3 (Sandwich)
+INSERT INTO item_ingredients (products_id, item_id) VALUES (2, 3);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (6, 3);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (12, 3);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (13, 3);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (9, 3);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (16, 3);
+
+-- Item ID 4 (Smoothie)
+INSERT INTO item_ingredients (products_id, item_id) VALUES (20, 4);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (25, 4);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (27, 4);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (30, 4);
+
+-- Item ID 5 (Sandwich)
+INSERT INTO item_ingredients (products_id, item_id) VALUES (3, 5);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (7, 5);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (10, 5);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (11, 5);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (12, 5);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (15, 5);
+
+-- Item ID 6 (Smoothie)
+INSERT INTO item_ingredients (products_id, item_id) VALUES (21, 6);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (24, 6);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (27, 6);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (29, 6);
+
+-- Item ID 7 (Sandwich)
+INSERT INTO item_ingredients (products_id, item_id) VALUES (4, 7);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (8, 7);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (9, 7);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (10, 7);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (13, 7);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (18, 7);
+
+-- Item ID 8 (Smoothie)
+INSERT INTO item_ingredients (products_id, item_id) VALUES (22, 8);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (24, 8);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (27, 8);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (28, 8);
+
+-- Item ID 9 (Sandwich)
+INSERT INTO item_ingredients (products_id, item_id) VALUES (1, 9);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (5, 9);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (9, 9);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (10, 9);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (11, 9);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (14, 9);
+
+-- Item ID 10 (Sandwich)
+INSERT INTO item_ingredients (products_id, item_id) VALUES (2, 10);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (6, 10);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (12, 10);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (13, 10);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (9, 10);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (16, 10);
+
+-- Item ID 11 (Smoothie)
+INSERT INTO item_ingredients (products_id, item_id) VALUES (19, 11);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (24, 11);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (27, 11);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (28, 11);
+
+-- Item ID 12 (Sandwich)
+INSERT INTO item_ingredients (products_id, item_id) VALUES (3, 12);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (7, 12);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (10, 12);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (11, 12);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (12, 12);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (15, 12);
+
+-- Item ID 13 (Smoothie)
+INSERT INTO item_ingredients (products_id, item_id) VALUES (21, 13);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (24, 13);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (27, 13);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (29, 13);
+
+-- Item ID 14 (Sandwich)
+INSERT INTO item_ingredients (products_id, item_id) VALUES (4, 14);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (8, 14);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (9, 14);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (10, 14);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (13, 14);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (18, 14);
+
+-- Item ID 15 (Smoothie)
+INSERT INTO item_ingredients (products_id, item_id) VALUES (22, 15);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (24, 15);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (27, 15);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (28, 15);
+
+-- Item ID 16 (Sandwich)
+INSERT INTO item_ingredients (products_id, item_id) VALUES (1, 16);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (5, 16);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (9, 16);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (10, 16);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (11, 16);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (14, 16);
+
+-- Item ID 17 (Sandwich)
+INSERT INTO item_ingredients (products_id, item_id) VALUES (2, 17);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (6, 17);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (12, 17);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (13, 17);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (9, 17);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (16, 17);
+
+-- Item ID 18 (Smoothie)
+INSERT INTO item_ingredients (products_id, item_id) VALUES (19, 18);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (24, 18);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (27, 18);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (28, 18);
+
+-- Item ID 19 (Sandwich)
+INSERT INTO item_ingredients (products_id, item_id) VALUES (3, 19);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (7, 19);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (10, 19);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (11, 19);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (12, 19);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (15, 19);
+
+-- Item ID 20 (Smoothie)
+INSERT INTO item_ingredients (products_id, item_id) VALUES (21, 20);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (24, 20);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (27, 20);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (29, 20);
+
+-- Item ID 21 (Sandwich)
+INSERT INTO item_ingredients (products_id, item_id) VALUES (4, 21);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (8, 21);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (9, 21);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (10, 21);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (13, 21);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (18, 21);
+
+-- Item ID 22 (Smoothie)
+INSERT INTO item_ingredients (products_id, item_id) VALUES (22, 22);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (24, 22);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (27, 22);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (28, 22);
+
+-- Item ID 23 (Sandwich)
+INSERT INTO item_ingredients (products_id, item_id) VALUES (1, 23);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (5, 23);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (9, 23);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (10, 23);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (11, 23);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (14, 23);
+
+-- Item ID 24 (Sandwich)
+INSERT INTO item_ingredients (products_id, item_id) VALUES (2, 24);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (6, 24);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (12, 24);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (13, 24);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (9, 24);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (16, 24);
+
+-- Item ID 25 (Smoothie)
+INSERT INTO item_ingredients (products_id, item_id) VALUES (19, 25);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (24, 25);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (27, 25);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (28, 25);
+
+-- Item ID 26 (Sandwich)
+INSERT INTO item_ingredients (products_id, item_id) VALUES (3, 26);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (7, 26);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (10, 26);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (11, 26);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (12, 26);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (15, 26);
+
+-- Item ID 27 (Smoothie)
+INSERT INTO item_ingredients (products_id, item_id) VALUES (21, 27);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (24, 27);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (27, 27);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (29, 27);
+
+-- Item ID 28 (Sandwich)
+INSERT INTO item_ingredients (products_id, item_id) VALUES (4, 28);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (8, 28);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (9, 28);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (10, 28);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (13, 28);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (18, 28);
+
+-- Item ID 29 (Smoothie)
+INSERT INTO item_ingredients (products_id, item_id) VALUES (22, 29);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (24, 29);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (27, 29);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (28, 29);
+
+-- Item ID 30 (Sandwich)
+INSERT INTO item_ingredients (products_id, item_id) VALUES (1, 30);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (5, 30);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (9, 30);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (10, 30);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (11, 30);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (14, 30);
+
+-- Item ID 31 (Sandwich)
+INSERT INTO item_ingredients (products_id, item_id) VALUES (2, 31);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (6, 31);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (12, 31);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (13, 31);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (9, 31);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (16, 31);
+
+-- Item ID 32 (Smoothie)
+INSERT INTO item_ingredients (products_id, item_id) VALUES (19, 32);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (24, 32);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (27, 32);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (28, 32);
+
+-- Item ID 33 (Sandwich)
+INSERT INTO item_ingredients (products_id, item_id) VALUES (3, 33);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (7, 33);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (10, 33);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (11, 33);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (12, 33);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (15, 33);
+
+-- Item ID 34 (Smoothie)
+INSERT INTO item_ingredients (products_id, item_id) VALUES (21, 34);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (24, 34);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (27, 34);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (29, 34);
+
+-- Item ID 35 (Sandwich)
+INSERT INTO item_ingredients (products_id, item_id) VALUES (4, 35);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (8, 35);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (9, 35);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (10, 35);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (13, 35);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (18, 35);
+
+-- Item ID 36 (Smoothie)
+INSERT INTO item_ingredients (products_id, item_id) VALUES (22, 36);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (24, 36);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (27, 36);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (28, 36);
+
+-- Item ID 37 (Sandwich)
+INSERT INTO item_ingredients (products_id, item_id) VALUES (1, 37);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (5, 37);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (9, 37);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (10, 37);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (11, 37);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (14, 37);
+
+-- Item ID 38 (Sandwich)
+INSERT INTO item_ingredients (products_id, item_id) VALUES (2, 38);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (6, 38);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (12, 38);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (13, 38);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (9, 38);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (16, 38);
+
+-- Item ID 39 (Smoothie)
+INSERT INTO item_ingredients (products_id, item_id) VALUES (19, 39);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (24, 39);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (27, 39);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (28, 39);
+
+-- Item ID 40 (Sandwich)
+INSERT INTO item_ingredients (products_id, item_id) VALUES (3, 40);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (7, 40);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (10, 40);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (11, 40);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (12, 40);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (15, 40);
+
+-- Item ID 41 (Smoothie)
+INSERT INTO item_ingredients (products_id, item_id) VALUES (21, 41);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (24, 41);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (27, 41);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (29, 41);
+
+-- Item ID 42 (Sandwich)
+INSERT INTO item_ingredients (products_id, item_id) VALUES (4, 42);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (8, 42);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (9, 42);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (10, 42);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (13, 42);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (18, 42);
+
+-- Item ID 43 (Smoothie)
+INSERT INTO item_ingredients (products_id, item_id) VALUES (22, 43);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (24, 43);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (27, 43);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (28, 43);
+
+-- Item ID 44 (Sandwich)
+INSERT INTO item_ingredients (products_id, item_id) VALUES (1, 44);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (5, 44);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (9, 44);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (10, 44);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (11, 44);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (14, 44);
+
+-- Item ID 45 (Sandwich)
+INSERT INTO item_ingredients (products_id, item_id) VALUES (2, 45);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (6, 45);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (12, 45);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (13, 45);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (9, 45);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (16, 45);
+
+-- Item ID 46 (Smoothie)
+INSERT INTO item_ingredients (products_id, item_id) VALUES (19, 46);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (24, 46);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (27, 46);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (28, 46);
+
+-- Item ID 47 (Sandwich)
+INSERT INTO item_ingredients (products_id, item_id) VALUES (3, 47);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (7, 47);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (10, 47);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (11, 47);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (12, 47);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (15, 47);
+
+-- Item ID 48 (Smoothie)
+INSERT INTO item_ingredients (products_id, item_id) VALUES (21, 48);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (24, 48);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (27, 48);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (29, 48);
+
+-- Item ID 49 (Sandwich)
+INSERT INTO item_ingredients (products_id, item_id) VALUES (4, 49);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (8, 49);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (9, 49);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (10, 49);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (13, 49);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (18, 49);
+
+-- Item ID 50 (Smoothie)
+INSERT INTO item_ingredients (products_id, item_id) VALUES (22, 50);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (24, 50);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (27, 50);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (28, 50);
+
+-- Item ID 51 (Sandwich)
+INSERT INTO item_ingredients (products_id, item_id) VALUES (1, 51);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (5, 51);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (9, 51);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (10, 51);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (11, 51);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (14, 51);
+
+-- Item ID 52 (Sandwich)
+INSERT INTO item_ingredients (products_id, item_id) VALUES (2, 52);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (6, 52);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (12, 52);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (13, 52);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (9, 52);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (16, 52);
+
+-- Item ID 53 (Smoothie)
+INSERT INTO item_ingredients (products_id, item_id) VALUES (19, 53);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (24, 53);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (27, 53);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (28, 53);
+
+-- Item ID 54 (Sandwich)
+INSERT INTO item_ingredients (products_id, item_id) VALUES (3, 54);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (7, 54);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (10, 54);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (11, 54);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (12, 54);
+INSERT INTO item_ingredients (products_id, item_id) VALUES (15, 54);
