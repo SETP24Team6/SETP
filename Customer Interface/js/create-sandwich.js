@@ -41,6 +41,7 @@ document.addEventListener('DOMContentLoaded', function () {
     let smoothieTotal = 5; // Base price for a smoothie
     let isSandwich = false;
     let addSmoothie = false; // Track if the user adds a smoothie
+    let waitingForSmoothie = false; // Track if we are waiting for the smoothie selection
 
     sandwichOption.addEventListener('click', () => {
         customizeSandwichContent.classList.remove('hidden');
@@ -93,20 +94,21 @@ document.addEventListener('DOMContentLoaded', function () {
     yesAddSmoothieButton.addEventListener('click', () => {
         smoothiePromptModal.style.display = 'none';
         addSmoothie = true;
+        waitingForSmoothie = true;
         currentStep = 0;
         isSandwich = false;
-        showCurrentStep();
+        showCurrentStep(); // Show step 1 of the smoothie selection
     });
 
     noAddSmoothieButton.addEventListener('click', () => {
         smoothiePromptModal.style.display = 'none';
         addSmoothie = false;
-        addToCart();
+        addToCart(); // Add only sandwich to cart
     });
 
     smoothieFinishIcon.addEventListener('click', () => {
         if (validateCurrentStep()) {
-            addToCart();
+            addToCart(); // Add smoothie to cart
         } else {
             alert('Please make the required selections before finishing.');
         }
@@ -372,6 +374,12 @@ document.addEventListener('DOMContentLoaded', function () {
         customizeSandwichContent.classList.add('hidden');
         currentStep = -1;
         showCurrentStep();
+
+        // If we were waiting for the smoothie, add it to the cart now
+        if (waitingForSmoothie) {
+            waitingForSmoothie = false;
+            addToCart();
+        }
     }
 
     function updateCartCount() {
@@ -516,4 +524,3 @@ document.addEventListener('DOMContentLoaded', function () {
         item.style.animationDelay = `${index * 0.3}s`;
     });
 });
-
