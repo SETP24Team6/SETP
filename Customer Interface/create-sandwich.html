@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Menu</title>
     <link rel="stylesheet" href="css/create-sandwich.css">
-</head> 
+</head>
 
 <body>
     <!-- Navigation -->
@@ -24,7 +24,22 @@
                     <a href="customer-home.html" id="logout-btn">Logout</a>
                 </div>
             </div>
-            <a href="#cart-section"><img src="asset/cart-icon.png" alt="Cart"><span class="cart-count">0</span></a>
+            <div class="cart-container">
+                <a href="#"><img src="asset/cart-icon.png" alt="Cart"><span class="cart-count">0</span></a>
+                <div class="cart-dropdown">
+                    <span class="close-cart">&times;</span>
+                    <h3>Your Cart</h3>
+                    <div class="cart-items">
+                        <!-- Cart items will be dynamically added here -->
+                    </div>
+                    <div class="empty-cart-message">Your shopping bag is empty :(</div>
+                    <button class="add-orders-button">Add Orders</button>
+                    <div class="cart-summary">
+                        <p>Total: <span id="cart-total-price">$0.00</span></p>
+                    </div>
+                    <button id="checkout">Checkout</button>
+                </div>
+            </div>
         </div>
     </nav>
 
@@ -377,13 +392,6 @@
                     </div>
                 </div>
             </div>
-            <div id="summary" class="hidden">
-                <h3>Your Order Summary</h3>
-                <div id="summary-steps"></div>
-                <div id="total-price"></div>
-                <button id="back-to-selection">Back to Selection</button>
-                <button id="complete-order">Complete</button>
-            </div>
         </section>
 
         <!-- Promotions Section -->
@@ -421,52 +429,7 @@
                 </div>
             </div>
         </section>
-
-        <!-- Cart Section -->
-        <section id="cart-section" class="hidden">
-            <h2>Your Cart</h2>
-            <div class="cart-items">
-                <!-- Cart items will be dynamically added here -->
-            </div>
-            <div class="cart-summary">
-                <p>Total: <span id="cart-total-price">$0.00</span></p>
-                <button id="checkout">Checkout</button>
-            </div>
-        </section>
     </div>
-
-<!-- Takeaway Modal -->
-<div id="takeaway-modal" class="modal">
-    <div class="modal-content">
-        <span class="close">&times;</span>
-        <h3>Pick Up</h3>
-        <p>You have selected 📍Bite & Delight Downtown </p>
-        <p>Select Pick Up Date</p>
-        <input type="date" id="takeaway-date" placeholder="Select Date">
-        <p>Select Pick Up Time</p>
-        <select id="takeaway-time">
-            <option value="8:00 AM - 8:30 AM" >8:00 AM - 8:30 AM</option>
-            <option value="9:00 AM - 9:30 AM">9:00 AM - 9:30 AM</option>
-            <option value="9:30 AM - 10:00 AM">9:30 AM - 10:00 AM</option>
-            <option value="10:00 AM - 10:30 AM">10:00 AM - 10:30 AM</option>
-            <option value="10:30 AM - 11:00 AM">10:30 AM - 11:00 AM</option>  
-            <option value="11:30 AM - 12:00 PM">11:30 AM - 12:00 PM</option>
-            <option value="12:00 PM - 12:30 PM">12:00 PM - 12:30 PM</option>
-            <option value="12:30 PM - 1:00 PM">12:30 PM - 1:00 PM</option>
-            <option value="1:30 PM - 2:00 PM">1:00 PM - 1:30 PM</option>
-            <option value="1:30 PM - 2:00 PM">1:30 PM - 2:00 PM</option>
-            <option value="2:00 PM - 2:30 PM">2:00 PM - 2:30 PM</option>
-            <option value="2:30 PM - 3:00 PM">2:30 PM - 3:00 PM</option>
-            <option value="3:00 PM - 3:30PM">3:00 PM - 3:30PM</option>
-            <option value="3:30 PM - 4:00PM ">3:30 PM - 4:00PM</option>
-            <option value="4:00 PM - 4:30PM">4:00 PM - 4:30PM</option>
-            <option value="4:30 PM - 5:00PM">4:30 PM - 5:00PM</option>
-     
-        </select>
-        <button id="confirm-takeaway">Confirm</button>
-    </div>
-</div>
-
 
     <!-- Smoothie Prompt Modal -->
     <div id="smoothie-prompt-modal" class="modal">
