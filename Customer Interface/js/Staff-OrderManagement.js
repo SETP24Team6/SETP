@@ -10,44 +10,25 @@ document.addEventListener('DOMContentLoaded', () => {
         let populator = callApi2("GET", 'http://127.0.0.1:5000/get_all_orders', {'data': JSON.stringify("")});
         
         if(populator){
-            const orders = {preparing:"", ready:"", completed:"", ordered:""}
-            console.log(populator)
+            const orders = {preparing:"", ready:"", completed:""}
             $.each(populator, function(index, order) {
-                orders[order.order_status] += '<tr> <td>'+order.order_id+'</td>'
+                orders[order.order_status] += '<tr> <td class="order_id" >'+order.order_id+'</td>'
                 orders[order.order_status] += '<td>'
-                // $.each(order.item_ingred, function(index, item) {
-                //     console.log(item.index)
-                //     // if(item.sandwich) {
-                //     //     orders[order.order_status] += "Sandwich :"+ item.sandwich
-                //     // }
-                // })
-                // console.log(order.item_ingred)
-                for (let x in order.item_ingred) {
-                    let text = order.item_ingred[x]
-                    const myArray = text.split(":");
-                    orders[order.order_status] += '<b><u>'+myArray[0] + '</u></b><br/>'
-                    var i = 1
-                    const splitter = myArray[1].split(", ")
-                    for (a in splitter){
-                        orders[order.order_status] += "Step " + i + ": " + splitter[a] + '<br/>'
-                        i += 1 
-                    }
+                for (let z in order.order_ingred) {
+                    for (let y in order.order_ingred[z]){
+                        orders[order.order_status] += '<b><u>'+ y + '</u></b><br/>'
+                        for (let x in order.order_ingred[z][y]){
+                            orders[order.order_status] += x + ': ' +order.order_ingred[z][y][x] + '<br/>'
+                        }
                     orders[order.order_status] += '<br/>'
-                    // for (let y in order.item_ingred[x]){
-                    //     orders[order.order_status] += order.item_ingred[x][y] + '<br/>'
-                    // }
+                    }
                 }
-                
-                // var keys = Object.keys(order.item_ingred);
-                // keys.forEach(function(key){
-                //     console.log(key, order.item_ingred[key]);
-                // });
                 orders[order.order_status] += '</td>'
                 orders[order.order_status] += '<td>'+order.firstName+'</td>'
                 orders[order.order_status] += '<td>'+order.order_timestamp.substring(5,22)+'</td>'
                 orders[order.order_status] += '<td>'+order.store_name+'</td>'
                 orders[order.order_status] += '<td> FREE </td>'
-                orders[order.order_status] += '<td><button class="view-btn" data-status="new">View</button></td>'
+                orders[order.order_status] += '<td><button class="ready">Ready!</button></td>'
             })
             for (let x in orders) {
                 const filler = document.getElementById(x);
@@ -57,6 +38,13 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
     populateFields()
+
+    $(".ready").click(function () {
+        var $row = $(this).closest("tr");
+        var $Area = $row.find(".order_id").text();
+        callApi("POST", 'http://127.0.0.1:5000/get_all_orders', {'data': JSON.stringify($Area)});
+        
+     });
 
     const closeButtons = document.querySelectorAll('.close');
 
@@ -132,8 +120,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function getTableForStatus(status) {
         switch (status) {
-            case 'new':
-                return document.getElementById('newOrders').querySelector('tbody');
             case 'preparing':
                 return document.getElementById('preparingOrders').querySelector('tbody');
             case 'ready':
