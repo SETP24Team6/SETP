@@ -38,8 +38,6 @@ document.addEventListener('DOMContentLoaded', function () {
     let sandwichTotal = 6; // Base price for a sandwich
     let smoothieTotal = 5; // Base price for a smoothie
     let isSandwich = false;
-    let addSmoothie = false; // Track if the user adds a smoothie
-    let waitingForSmoothie = false; // Track if we are waiting for the smoothie selection
 
     sandwichOption.addEventListener('click', () => {
         customizeSandwichContent.classList.remove('hidden');
@@ -127,6 +125,7 @@ document.addEventListener('DOMContentLoaded', function () {
             updateCartTotal();
             renderCartItems();
             highlightCart();
+            console.log('Added to cart:', cartItem); // Debugging log
         });
     });
 
@@ -370,12 +369,6 @@ document.addEventListener('DOMContentLoaded', function () {
         customizeSandwichContent.classList.add('hidden');
         currentStep = -1;
         showCurrentStep();
-
-        // If we were waiting for the smoothie, add it to the cart now
-        if (waitingForSmoothie) {
-            waitingForSmoothie = false;
-            addToCart();
-        }
     }
 
     function updateCartCount() {
