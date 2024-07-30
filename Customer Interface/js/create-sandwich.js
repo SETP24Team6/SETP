@@ -65,11 +65,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
     nextStepArrows.forEach((arrow) => {
         arrow.addEventListener('click', () => {
-            if ((currentStep === 2 && selectedChoices.veggies.length !== 3) ||
-                (currentStep === 3 && selectedChoices.sauces.length !== 2)) {
-                alert('Please select the required number of items before proceeding.');
-                return;
-            }
             currentStep++;
             showCurrentStep();
             preselectChoices();
@@ -210,12 +205,18 @@ document.addEventListener('DOMContentLoaded', function () {
         const price = getPriceFromChoice(choice);
 
         if (stepId === 'smoothie-step-1') {
-            choices.forEach((c) => c.classList.remove('selected'));
-            choice.classList.add('selected');
+            choice.classList.toggle('selected');
             const fruitName = choice.querySelector('h3').textContent;
 
-            selectedChoices.fruits = [{ name: fruitName, price }];
-            smoothieTotal = 5 + price; // Reset smoothieTotal to base price + selected fruit price
+            if (choice.classList.contains('selected')) {
+                if (!selectedChoices.fruits.some((f) => f.name === fruitName)) {
+                    selectedChoices.fruits.push({ name: fruitName, price });
+                    smoothieTotal += price;
+                }
+            } else {
+                selectedChoices.fruits = selectedChoices.fruits.filter((f) => f.name !== fruitName);
+                smoothieTotal -= price;
+            }
         } else if (stepId === 'smoothie-step-2') {
             choices.forEach((c) => c.classList.remove('selected'));
             choice.classList.add('selected');
@@ -295,7 +296,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
             }
         } else {
-            if (currentStep === 0) return selectedChoices.fruits.length === 1;
+            if (currentStep === 0) return selectedChoices.fruits.length >= 1 && selectedChoices.fruits.length <= 3;
             if (currentStep === 1) return selectedChoices.greens !== '';
             if (currentStep === 2) return selectedChoices.proteinSmoothie !== '';
             if (currentStep === 3) return selectedChoices.liquidBase !== '';
