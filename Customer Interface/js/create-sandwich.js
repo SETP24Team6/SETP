@@ -17,11 +17,9 @@ document.addEventListener('DOMContentLoaded', function () {
     const cartTotalPrice = document.getElementById('cart-total-price');
     const cartCountElement = document.querySelector('.cart-count');
     const closeCartButton = document.querySelector('.close-cart');
-    const yesAddSmoothieButton = document.getElementById('yes-add-smoothie');
-    const noAddSmoothieButton = document.getElementById('no-add-smoothie');
-    const smoothiePromptModal = document.getElementById('smoothie-prompt-modal');
     const emptyCartMessage = document.querySelector('.empty-cart-message');
     const addOrdersButton = document.querySelector('.add-orders-button');
+    const grabButtons = document.querySelectorAll('.recommendation-item button');
 
     let cart = [];
     let currentStep = -1;
@@ -65,8 +63,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
     nextStepArrows.forEach((arrow) => {
         arrow.addEventListener('click', () => {
-            if ((currentStep === 2 && selectedChoices.veggies.length !== 3) ||
-                (currentStep === 3 && selectedChoices.sauces.length !== 2)) {
+            if ((isSandwich && currentStep === 2 && selectedChoices.veggies.length !== 3) ||
+                (isSandwich && currentStep === 3 && selectedChoices.sauces.length !== 2)) {
                 alert('Please select the required number of items before proceeding.');
                 return;
             }
@@ -86,30 +84,15 @@ document.addEventListener('DOMContentLoaded', function () {
 
     sandwichFinishIcon.addEventListener('click', () => {
         if (validateCurrentStep()) {
-            showSmoothiePrompt();
+            addToCart(); // Add the sandwich to the cart directly
         } else {
             alert('Please make the required selections before finishing.');
         }
     });
 
-    yesAddSmoothieButton.addEventListener('click', () => {
-        smoothiePromptModal.style.display = 'none';
-        addSmoothie = true;
-        waitingForSmoothie = true;
-        currentStep = 0;
-        isSandwich = false;
-        showCurrentStep(); // Show step 1 of the smoothie selection
-    });
-
-    noAddSmoothieButton.addEventListener('click', () => {
-        smoothiePromptModal.style.display = 'none';
-        addSmoothie = false;
-        addToCart(); // Add only sandwich to cart
-    });
-
     smoothieFinishIcon.addEventListener('click', () => {
         if (validateCurrentStep()) {
-            addToCart(); // Add smoothie to cart
+            addToCart(); // Add the smoothie to the cart directly
         } else {
             alert('Please make the required selections before finishing.');
         }
@@ -126,6 +109,24 @@ document.addEventListener('DOMContentLoaded', function () {
                 handleSmoothieChoice(choice, stepId);
             }
             updateTotalPrice();
+        });
+    });
+
+    grabButtons.forEach((button) => {
+        button.addEventListener('click', (e) => {
+            const recommendationItem = e.target.closest('.recommendation-item');
+            const itemName = recommendationItem.querySelector('h3').textContent;
+            const itemPrice = parseFloat(recommendationItem.querySelector('p:last-child').textContent.replace('$', ''));
+            const cartItem = {
+                type: itemName === 'Exclusive for you' ? 'Colour blast smoothie' : itemName,
+                details: {}, // You can add more details here if necessary
+                price: itemPrice
+            };
+            cart.push(cartItem);
+            updateCartCount();
+            updateCartTotal();
+            renderCartItems();
+            highlightCart();
         });
     });
 
@@ -479,14 +480,6 @@ document.addEventListener('DOMContentLoaded', function () {
             behavior: 'smooth'
         });
     });
-
-    function showSmoothiePrompt() {
-        if (selectedChoices.bread && selectedChoices.protein && selectedChoices.veggies.length === 3 && selectedChoices.sauces.length === 2) {
-            smoothiePromptModal.style.display = 'block';
-        } else {
-            addToCart();
-        }
-    }
 
     // Typewriter effect for the recommendations section
     const typewriterText = document.querySelector('#recommendations h2');
