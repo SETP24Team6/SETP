@@ -28,7 +28,20 @@ document.addEventListener('DOMContentLoaded', () => {
                 orders[order.order_status] += '<td>'+order.order_timestamp.substring(5,22)+'</td>'
                 orders[order.order_status] += '<td>'+order.store_name+'</td>'
                 orders[order.order_status] += '<td> FREE </td>'
-                orders[order.order_status] += '<td><button class="ready">Ready!</button></td>'
+                switch(order.order_status) {
+                    case 'preparing':
+                        orders[order.order_status] += '<td><button class="ready">Ready!</button></td>'
+                        break;
+                    case 'ready':
+                        orders[order.order_status] += '<td><button class="complete">Complete!</button></td>'
+                        break;
+                    case 'completed':
+                        orders[order.order_status] += '<td><button class="Done">Done!</button></td>'
+                    break;
+                      default:
+                        // code block
+                    }
+                
             })
             for (let x in orders) {
                 const filler = document.getElementById(x);
@@ -42,7 +55,13 @@ document.addEventListener('DOMContentLoaded', () => {
     $(".ready").click(function () {
         var $row = $(this).closest("tr");
         var $Area = $row.find(".order_id").text();
-        callApi("POST", 'http://127.0.0.1:5000/get_all_orders', {'data': JSON.stringify($Area)});
+        callApi("POST", 'http://127.0.0.1:5000/ready_order', {'data': JSON.stringify($Area)});
+        
+     });
+     $(".complete").click(function () {
+        var $row = $(this).closest("tr");
+        var $Area = $row.find(".order_id").text();
+        callApi("POST", 'http://127.0.0.1:5000/complete_order', {'data': JSON.stringify($Area)});
         
      });
 

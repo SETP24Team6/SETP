@@ -57,7 +57,26 @@ def get_all_orders(conn):
             'order_status' : order_status,
             "order_ingred" : order_ingred
         })
-        print('\n'.join('{}: {}'.format(*k) for k in enumerate(response)))
+        # print('\n'.join('{}: {}'.format(*k) for k in enumerate(response)))
     return response
 
-get_all_orders(connection)
+
+def ready_order(conn,order):
+    cursor = conn.cursor()
+    cursor.execute("ROLLBACK")
+    query = ("UPDATE orders SET order_status = 'ready' where order_id = %s")
+    data = (order)
+    cursor.execute(query, data)
+    conn.commit()
+
+    return cursor.lastrowid
+
+def complete_order(conn,order):
+    cursor = conn.cursor()
+    cursor.execute("ROLLBACK")
+    query = ("UPDATE orders SET order_status = 'completed' where order_id = %s")
+    data = (order)
+    cursor.execute(query, data)
+    conn.commit()
+
+    return cursor.lastrowid

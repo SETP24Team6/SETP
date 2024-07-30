@@ -69,9 +69,18 @@ def get_all_orders():
     return response
 
 @app.route('/ready_order', methods=['POST'])
-def change_pw():
+def ready_order():
     request_payload = json.loads(request.form['data'])
-    result =  members.change_password(connection, request_payload)
+    result =  orders.ready_order(connection, request_payload)
+    response = ""
+    response = jsonify({'row_updated': result})
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
+
+@app.route('/complete_order', methods=['POST'])
+def complete_order():
+    request_payload = json.loads(request.form['data'])
+    result =  orders.complete_order(connection, request_payload)
     response = ""
     response = jsonify({'row_updated': result})
     response.headers.add('Access-Control-Allow-Origin', '*')
