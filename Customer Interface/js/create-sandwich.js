@@ -65,10 +65,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
     nextStepArrows.forEach((arrow) => {
         arrow.addEventListener('click', () => {
-            if (!validateCurrentStep()) {
-                alert('Please make the required selections before proceeding.');
-                return;
-            }
             currentStep++;
             showCurrentStep();
             preselectChoices();
