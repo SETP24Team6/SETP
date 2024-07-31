@@ -10,55 +10,86 @@
     <nav>
         <div class="nav-items">
             <ul>
-                <li><a href="#home">HOME</a></li>
+                <li><a href="Businessoverview.html">HOME</a></li>
+                <li><a href="#analytics">Analytics</a></li>
                 <li><a href="SmartInventory.html">Inventory</a></li>
                 <li><a href="Staff-OrderManagement.html">Manage Orders (OMS)</a></li>
                 <li><a href="#contact">CONTACT</a></li>
             </ul>
         </div>
-        <div class="staff-view">
-            <b><span>Staff View</span></b>
+        <div class="dropdown">
+            <a href="#" class="dropdown-toggle">Staff View</a>
+            <ul class="dropdown-menu">
+                <li><a href="staff-profile.html">Staff Profile</a></li>
+                <li><a href="customer-home.html" class="logout-btn">Logout</a></li>
         </div>
     </nav>
 
-    <section id="inventory" class="section">
-        <div class="container">
-            <h1>Inventory Tracking System</h1>
-            <table id="inventoryTable">
-                <thead>
-                    <tr>
-                        <th>Ingredients</th>
-                        <th>Current Amount/Stock</th>
-                        <th>Status</th>
-                    </tr>
-                </thead>
+    <main>
+        <section id="inventory" class="section">
+            <div class="container">
+                <h1><span>Inventory Tracking System</span></h1>
+                <table id="inventoryTable">
+                    <thead>
+                        <tr>
+                            <th>Ingredients</th>
+                            <th>Current Amount/Stock</th>
+                            <th>Minimum Required Stock Level</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
 
-                <tbody>
-                    <tr>
-                        <td>Tomato</td>
-                        <td>15 kg</td>
-                        <td class="status critically-low">Critically Low</td>
-                    </tr>
-                    <tr>
-                        <td>Lettuce</td>
-                        <td>30 kg</td>
-                        <td class="status low">Low</td>
-                    </tr>
-                    <tr>
-                        <td>Chicken Breast</td>
-                        <td>100 kg</td>
-                        <td class="status moderate">Moderate</td>
-                    </tr>
-                    <tr>
-                        <td>Cheese</td>
-                        <td>200 kg</td>
-                        <td class="status high">High</td>
-                    </tr>
-                </tbody>
+                    <tbody>
+                        <tr>
+                            <td>Tomato</td>
+                            <td>15 kg</td>
+                            <td>50 kg</td>
+                            <td class="status critically-low">Critically Low</td>
+                            <td><button class="restock-btn">Restock</button></td>
+                        </tr>
+                        <tr>
+                            <td>Lettuce</td>
+                            <td>30 kg</td>
+                            <td>50 kg</td>
+                            <td class="status low">Low</td>
+                            <td><button class="restock-btn">Restock</button></td>
+                        </tr>
+                        <tr>
+                            <td>Chicken Breast</td>
+                            <td>100 kg</td>
+                            <td>150 kg</td>
+                            <td class="status moderate">Moderate</td>
+                            <td><button class="restock-btn">Restock</button></td>
+                        </tr>
+                        <tr>
+                            <td>Cheese</td>
+                            <td>200 kg</td>
+                            <td>100 kg</td>
+                            <td class="status high">High</td>
+                            <td><button class="restock-btn">Restock</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
 
-            </table>
+        <!-- Modal -->
+        <div id="restockModal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h2>Restock Request</h2>
+                <form id="restockForm">
+                    <label for="ingredient">Ingredient:</label>
+                    <input type="text" id="ingredient" name="ingredient" readonly>
+                    <label for="message">Message:</label>
+                    <textarea id="message" name="message" rows="4" placeholder="Type your message here..."></textarea>
+                    <button type="button" id="sendEmail">Send Email</button>
+                </form>
+                <div id="responseMessage" style="display:none; margin-top: 10px; font-weight: bold;"></div>
+            </div>
         </div>
-    </section>
+    </main>
 
     <footer>
         <div class="footer-content">
@@ -80,6 +111,6 @@
         </div>
     </footer>
 
+    <script src="js/SmartInventory.js"></script>
 </body>
-
 </html>
