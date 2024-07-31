@@ -1,18 +1,60 @@
 body {
+    margin: 0;
     font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
+    background: url('../asset/bg2.jpg') no-repeat center center fixed;
+    background-size: cover;
+    overflow-x: hidden;
+    font-size: 14px;
+}
+
+nav {
+    background-color: black;
+    padding: 10px 0;
+    text-align: center;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+}
+
+nav ul {
+    list-style: none;
     margin: 0;
     padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+nav ul li {
+    margin: 0 10px;
+}
+
+nav ul li a {
+    color: white;
+    text-decoration: none;
+    font-size: 16px;
+    padding: 8px 15px;
+    transition: background-color 0.3s ease;
+}
+
+nav ul li a:hover {
+    background-color: #FF7F11;
+    border-radius: 5px;
 }
 
 .container {
     max-width: 800px;
     margin: 0 auto;
     padding: 20px;
-    background-color: #fff;
+    background-color: rgba(255, 255, 255, 0.8);
+    /* Semi-transparent background for readability */
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
-    margin-top: 50px;
+    margin-top: 0px;
+    /* Adjusted for fixed navigation */
 }
 
 h1 {
@@ -28,19 +70,20 @@ h1 {
     padding: 20px;
     border: 1px solid #ddd;
     border-radius: 8px;
-    margin-bottom: 10px;
+    margin-top: 5px;
     text-decoration: none;
     color: #333;
     transition: background-color 0.3s ease;
 }
 
 .account-option:hover {
-    background-color: #f0f0f0;
+    background-color: #88c4d4;
 }
 
 .account-option img {
-    width: 50px;
-    height: 50px;
+    width: 70px;
+    /* Increased the image size */
+    height: 70px;
     margin-right: 20px;
     border-radius: 8px;
 }
@@ -60,17 +103,24 @@ h1 {
     color: #666;
 }
 
-.reward-points-section {
+.reward-points-section,
+.order-history-section,
+.update-profile-section {
     margin-top: 40px;
 }
 
-.reward-points-section h2 {
+.reward-points-section h2,
+.order-history-heading,
+.update-profile-section h2 {
     font-size: 20px;
     color: #421a1a;
 }
 
-.reward-points-section p {
-    font-size: 16px;
+.reward-points-section p,
+.order-item p,
+.update-profile-section p {
+    font-size: 14px;
+    /* Reduced the paragraph text size */
     color: #270b0b;
 }
 
@@ -81,7 +131,8 @@ h1 {
     margin-bottom: 20px;
 }
 
-.points-summary-heading {
+.points-summary-heading,
+p {
     display: flex;
     align-items: center;
 }
@@ -97,6 +148,15 @@ h1 {
     display: flex;
     justify-content: space-between;
     margin: 20px 0;
+}
+
+.tabcontent tr.total-row {
+    background-color: #d9534f;
+    color: white;
+}
+
+.tabcontent tr.total-row:hover {
+    background-color: #a53430;
 }
 
 .expiry-date {
@@ -172,4 +232,292 @@ h1 {
 
 .tabcontent td:last-child {
     text-align: center;
+}
+
+.order-item {
+    display: flex;
+    align-items: center;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
+
+.order-item img {
+    width: 70px;
+    /* Increased the image size */
+    height: 70px;
+    margin-right: 20px;
+}
+
+.order-item div {
+    flex-grow: 1;
+}
+
+.order-actions {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.order-actions button {
+    background-color: #d9534f;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    margin-bottom: 5px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.order-actions button.review-button {
+    background-color: white;
+    color: #d9534f;
+    border: 1px solid #d9534f;
+}
+
+.order-actions button:hover {
+    background-color: #c9302c;
+}
+
+.order-actions button.review-button:hover {
+    background-color: #f0f0f0;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.form-group input[readonly] {
+    background-color: #f5f5f5;
+}
+
+.form-group button {
+    padding: 10px 20px;
+    background-color: #d9534f;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.form-group button:hover {
+    background-color: #c9302c;
+}
+
+.success-message {
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #dff0d8;
+    color: #3c763d;
+    border: 1px solid #d6e9c6;
+    border-radius: 4px;
+    text-align: center;
+}
+
+/* Additional styles for navigation */
+.nav-icons {
+    display: flex;
+    align-items: center;
+    position: absolute;
+    right: 10px;
+    top: 10px;
+}
+
+.nav-icons a {
+    margin-left: 15px;
+    position: relative;
+}
+
+.nav-icons img {
+    width: 24px;
+    height: 24px;
+}
+
+.cart-count {
+    position: absolute;
+    top: -5px;
+    right: -10px;
+    background-color: red;
+    color: white;
+    border-radius: 50%;
+    padding: 2px 5px;
+    font-size: 10px;
+}
+
+/* Dropdown menu for profile icon */
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: white;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+    right: 0;
+    border-radius: 5px;
+    overflow: hidden;
+    padding: 0;
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    margin: 0;
+    border-radius: 0;
+}
+
+.dropdown-content a:first-child {
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
+
+.dropdown-content a:last-child {
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+.dropdown-content a:hover {
+    background-color: teal;
+    color: white;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.dropdown:hover .profile-icon {
+    transform: scale(1.1);
+}
+
+/* Cart dropdown styles */
+.cart-dropdown {
+    position: absolute;
+    right: 10px;
+    top: 50px;
+    background-color: white;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 1001;
+    padding: 15px;
+    width: 300px;
+    max-height: 500px;
+    overflow-y: auto;
+    display: none;
+}
+
+.cart-dropdown .close-cart {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.cart-dropdown h3 {
+    margin: 0 0 15px 0;
+    font-size: 18px;
+}
+
+.cart-dropdown .cart-items {
+    max-height: 300px;
+    overflow-y: auto;
+    margin-bottom: 15px;
+}
+
+.cart-dropdown .cart-item {
+    border-bottom: 1px solid #ccc;
+    padding: 10px 0;
+    margin: 10px 0;
+}
+
+.cart-dropdown .ingredients-container {
+    background-color: #f9f9f9;
+    padding: 10px;
+    border-radius: 5px;
+    margin-top: 10px;
+}
+
+.cart-dropdown .cart-summary {
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.cart-dropdown .toggle-ingredients,
+.cart-dropdown .remove-item {
+    background-color: teal;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    margin-top: 10px;
+    display: block;
+    width: 100%;
+}
+
+.cart-dropdown .toggle-ingredients:hover,
+.cart-dropdown .remove-item:hover {
+    background-color: #FF7F11;
+}
+
+.cart-dropdown #checkout {
+    background-color: teal;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    width: 100%;
+}
+
+.cart-dropdown #checkout:hover {
+    background-color: #FF7F11;
+}
+
+.empty-cart-message {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 16px;
+    color: #666;
+}
+
+.add-orders-button {
+    display: block;
+    margin: 20px auto;
+    background-color: teal;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    text-align: center;
+}
+
+.add-orders-button:hover {
+    background-color: #FF7F11;
 }

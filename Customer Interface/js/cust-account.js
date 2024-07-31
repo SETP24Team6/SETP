@@ -1,53 +1,34 @@
 document.addEventListener('DOMContentLoaded', function () {
-    const links = document.querySelectorAll('.account-option');
-    links.forEach(link => {
-        link.addEventListener('click', function (e) {
-            e.preventDefault();
-            const target = document.querySelector(this.getAttribute('href'));
-            if (target) {
-                target.scrollIntoView({ behavior: 'smooth' });
-            }
+    const accountOptions = document.querySelectorAll('.account-option');
+    const sections = document.querySelectorAll('.update-profile-section, .order-history-section, .reward-points-section');
+
+    accountOptions.forEach(option => {
+        option.addEventListener('click', function (event) {
+            event.preventDefault();
+
+            // Hide all sections first
+            sections.forEach(section => section.style.display = 'none');
+
+            // Show the clicked section
+            const sectionToShow = document.querySelector(option.getAttribute('href'));
+            sectionToShow.style.display = 'block';
+
+            // Scroll to the section
+            sectionToShow.scrollIntoView({ behavior: 'smooth' });
         });
     });
-
-    const rewardLink = document.querySelector('.reward-link');
-    rewardLink.addEventListener('click', function (e) {
-        e.preventDefault();
-        const rewardSection = document.querySelector('#reward-points');
-        if (rewardSection) {
-            if (rewardSection.style.display === 'block') {
-                rewardSection.style.display = 'none';
-            } else {
-                rewardSection.style.display = 'block';
-                rewardSection.scrollIntoView({ behavior: 'smooth' });
-            }
-        }
-    });
-
-    const tabs = document.querySelectorAll('.tab button');
-    tabs.forEach(tab => {
-        tab.addEventListener('click', function (e) {
-            e.preventDefault();
-            const tabcontent = document.querySelectorAll('.tabcontent');
-            tabcontent.forEach(content => content.style.display = 'none');
-            tabs.forEach(btn => btn.className = btn.className.replace(' active', ''));
-            document.getElementById(this.getAttribute('data-tab')).style.display = 'block';
-            this.className += ' active';
-        });
-    });
-
-    // Set default tab
-    document.getElementById('Summary').style.display = 'block';
-    document.querySelector('.tab button[data-tab="Summary"]').className += ' active';
 });
 
 function openTab(evt, tabName) {
-    const tabcontent = document.querySelectorAll('.tabcontent');
-    tabcontent.forEach(content => content.style.display = 'none');
-
-    const tablinks = document.querySelectorAll('.tablinks');
-    tablinks.forEach(link => link.className = link.className.replace(' active', ''));
-
-    document.getElementById(tabName).style.display = 'block';
-    evt.currentTarget.className += ' active';
+    var i, tabcontent, tablinks;
+    tabcontent = document.getElementsByClassName("tabcontent");
+    for (i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none";
+    }
+    tablinks = document.getElementsByClassName("tablinks");
+    for (i = 0; i < tablinks.length; i++) {
+        tablinks[i].className = tablinks[i].className.replace(" active", "");
+    }
+    document.getElementById(tabName).style.display = "block";
+    evt.currentTarget.className += " active";
 }

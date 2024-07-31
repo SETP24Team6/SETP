@@ -27,7 +27,22 @@
                     <a href="#profile" id="logout-btn">Logout</a>
                 </div>
             </div>
-            <a href="#cart-section"><img src="asset/cart-icon.png" alt="Cart"><span class="cart-count">0</span></a>
+            <div class="cart-container">
+                <a href="#"><img src="asset/cart-icon.png" alt="Cart"><span class="cart-count">0</span></a>
+                <div class="cart-dropdown">
+                    <span class="close-cart">&times;</span>
+                    <h3>Your Cart</h3>
+                    <div class="cart-items">
+                        <!-- Cart items will be dynamically added here -->
+                    </div>
+                    <div class="empty-cart-message">Your shopping bag is empty :(</div>
+                    <button class="add-orders-button">Add Orders</button>
+                    <div class="cart-summary">
+                        <p>Total: <span id="cart-total-price">$0.00</span></p>
+                    </div>
+                    <button id="checkout">Checkout</button>
+                </div>
+            </div>
         </div>
     </nav>
 
@@ -36,28 +51,30 @@
         <!-- Personalized Recommendations Section -->
         <section id="recommendations">
             <h2>Welcome back </h2>
-
             <div class="recommendations-list">
-                <div class="recommendation-item">
+                <div class="recommendation-item" data-name="Sandwich munches" data-price="6.00">
                     <h3>Sandwich munches</h3>
                     <p>🥪 Enjoy your favorite: Teriyaki Deli Chicken Sandwich!<br> Made just the way you love it, every
                         bite is pure satisfaction.</p>
                     <img src="asset/teriyaki sandwich.png" alt="Sandwich munches">
-                    <button>Grab now</button>
+                    <p>$6.00</p>
+                    <button class="grab-now">Grab now</button>
                 </div>
-                <div class="recommendation-item">
+                <div class="recommendation-item" data-name="Blend Berry" data-price="5.00">
                     <h3>Blend Berry</h3>
                     <p>🥤 Renew your love for our Blueberry Smoothie,<br> a delicious and health-conscious choice.
                         Delight your taste buds!</p>
                     <img src="asset/blueberry2.jpg" alt="Blend Berry">
-                    <button>Grab now</button>
+                    <p>$5.00</p>
+                    <button class="grab-now">Grab now</button>
                 </div>
-                <div class="recommendation-item">
+                <div class="recommendation-item" data-name="Colour Blast" data-price="8.50">
                     <h3>Exclusive for you</h3>
                     <p>🌟 Member-special blended smoothie with rainbow fruits.<br> Packed with antioxidants and protein
                         for your optimal health.</p>
                     <img src="asset/rainbow-smoothie.jpg" alt="Colour Blast">
-                    <button>Grab now</button>
+                    <p>$8.50</p>
+                    <button class="grab-now">Grab now</button>
                 </div>
             </div>
         </section>
@@ -223,24 +240,17 @@
                     </div>
                 </div>
             </div>
-            <div id="summary" class="hidden">
-                <h3>Your Order Summary</h3>
-                <div id="summary-steps"></div>
-                <div id="total-price"></div>
-                <button id="back-to-selection">Back to Selection</button>
-                <button id="complete-order">Complete</button>
-            </div>
         </section>
 
         <!-- Promotions Section -->
         <section id="promotions">
             <h2>Promotions</h2>
             <div class="promotions-list">
-                <div class="promotion-item">
+                <div class="promotion-item" data-name="Salmon Sensation" data-price="9.00">
                     <img src="asset/1-for-1.jpeg" alt="Promotion 1">
                     <div class="promotion-details">
                         <h3>Salmon Sensation</h3>
-                        <p> $9.00</p>
+                        <p>$9.00</p>
                         <p>Dive into deliciousness with our Salmon Sensation – a perfect blend of savory smoked salmon
                             and fresh, crisp veggies. Enjoy our 1-for-1 promotion – buy one, get one free! Packed with
                             omega-3s for heart health and high-quality protein that protect against cell damages,
@@ -248,71 +258,25 @@
                         <p class="highlight">✔ Rich in Protein</p>
                         <p class="highlight">✔ Muscle repair</p>
                         <p class="highlight">Approx. Calories: 400</p>
-                        <button>Add</button>
+                        <button class="add-to-cart">Add</button>
                     </div>
                 </div>
-                <div class="promotion-item">
+                <div class="promotion-item" data-name="Summer Berry" data-price="8.50">
                     <img src="asset/mango-berry-smoothie.jpg" alt="Promotion 2">
                     <div class="promotion-details">
                         <h3>Summer Berry</h3>
-                        <p> $8.50</p>
+                        <p>$8.50</p>
                         <p>Refresh your summer with our Summer Berry – a luscious blend of ripe mangoes and juicy
                             berries. Rich in vitamins and antioxidants to boost your immune system and enhance skin
                             health.</p>
                         <p class="highlight">✔ Rich in Vitamin C</p>
                         <p class="highlight">✔ Summer glow</p>
                         <p class="highlight">Approx. Calories: 250</p>
-                        <button>Add</button>
+                        <button class="add-to-cart">Add</button>
                     </div>
                 </div>
             </div>
         </section>
-
-        <!-- Cart Section -->
-        <section id="cart-section" class="hidden">
-            <h2>Your Cart</h2>
-            <div class="cart-items">
-                <!-- Cart items will be dynamically added here -->
-            </div>
-            <div class="cart-summary">
-                <p>Total: <span id="cart-total-price">$0.00</span></p>
-                <button id="checkout">Checkout</button>
-            </div>
-        </section>
-    </div>
-
-    <!-- Takeaway Modal -->
-    <div id="takeaway-modal" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <h3>Takeaway</h3>
-            <p>You have selected Cross Street</p>
-            <p>Select Takeaway Date</p>
-            <div class="date-selection">
-                <button class="date-button">TODAY 14 JUL</button>
-                <button class="date-button">MON 15 JUL</button>
-                <button class="date-button">TUE 16 JUL</button>
-                <button class="date-button">WED 17 JUL</button>
-                <button class="date-button">THU 18 JUL</button>
-            </div>
-            <p>Select Takeaway Time</p>
-            <select id="takeaway-time">
-                <option value="8:00 AM to 8:30 AM">8:00 AM to 8:30 AM</option>
-                <option value="8:30 AM to 9:00 AM">8:30 AM to 9:00 AM</option>
-                <option value="9:00 AM to 9:30 AM">9:00 AM to 9:30 AM</option>
-                <option value="9:30 AM to 10:00 AM">9:30 AM to 10:00 AM</option>
-            </select>
-            <button id="confirm-takeaway">Confirm</button>
-        </div>
-    </div>
-
-    <!-- Smoothie Prompt Modal -->
-    <div id="smoothie-prompt-modal" class="modal">
-        <div class="modal-content">
-            <h3>Add a Smoothie to Your Meal?</h3>
-            <button id="yes-add-smoothie">Yes</button>
-            <button id="no-add-smoothie">No</button>
-        </div>
     </div>
 
     <!-- JavaScript -->

@@ -11,26 +11,19 @@ document.addEventListener('DOMContentLoaded', function () {
     const backArrows = document.querySelectorAll('.back-arrow');
     const sandwichFinishIcon = document.getElementById('sandwich-finish-icon-4');
     const smoothieFinishIcon = document.getElementById('smoothie-finish-icon-5');
-    const summarySection = document.getElementById('summary');
-    const summarySteps = document.getElementById('summary-steps');
-    const totalPriceElement = document.getElementById('total-price');
-    const backToSelectionButton = document.getElementById('back-to-selection');
-    const completeOrderButton = document.getElementById('complete-order');
-    const takeawayModal = document.getElementById('takeaway-modal');
-    const closeTakeawayModal = document.querySelector('.close');
-    const confirmTakeawayButton = document.getElementById('confirm-takeaway');
-    const smoothiePromptModal = document.getElementById('smoothie-prompt-modal');
-    const yesAddSmoothieButton = document.getElementById('yes-add-smoothie');
-    const noAddSmoothieButton = document.getElementById('no-add-smoothie');
-    const dateButtons = document.querySelectorAll('.date-button');
-    const promotionAddButtons = document.querySelectorAll('.promotion-item button');
-    const cartSection = document.getElementById('cart-section');
+    const choices = document.querySelectorAll('.choice');
+    const cartDropdown = document.querySelector('.cart-dropdown');
     const cartItemsContainer = document.querySelector('.cart-items');
     const cartTotalPrice = document.getElementById('cart-total-price');
-    const checkoutButton = document.getElementById('checkout');
     const cartCountElement = document.querySelector('.cart-count');
-    
+    const closeCartButton = document.querySelector('.close-cart');
+    const emptyCartMessage = document.querySelector('.empty-cart-message');
+    const addOrdersButton = document.querySelector('.add-orders-button');
+    const grabButtons = document.querySelectorAll('.grab-now');
+    const addButtons = document.querySelectorAll('.add-to-cart');
 
+  
+  
     let populator = callApi2("GET", 'http://127.0.0.1:5000/getProducts', {'data': JSON.stringify("")});
     if(populator){
         const products = {bread:"", protein:"", vegetable:"", sauce:"", fruit:"", yogurt:"", smoothievegetable:"", liquidbase:""}
@@ -51,13 +44,13 @@ document.addEventListener('DOMContentLoaded', function () {
             filler.innerHTML = products[x] 
           };
     }
-    
-    const choices = document.querySelectorAll('.choice');
+  
     if (!cookie("userid")){
         window.location.href = 'order-now.html';
     }
+  
     let cart = [];
-    let currentStep = 0;
+    let currentStep = -1;
     let selectedChoices = {
         bread: '',
         protein: '',
@@ -72,17 +65,16 @@ document.addEventListener('DOMContentLoaded', function () {
 
     let sandwichTotal = 6; // Base price for a sandwich
     let smoothieTotal = 5; // Base price for a smoothie
-
     let isSandwich = false;
 
     sandwichOption.addEventListener('click', () => {
         customizeSandwichContent.classList.remove('hidden');
         customizeTitle.textContent = 'Make Your Sandwich';
-        customizeDescription.textContent = 'Freshly baked bread layered with grilled herb-spiced meat and crisp, garden-fresh vegetables. ';
+        customizeDescription.textContent = 'Freshly baked bread layered with grilled herb-spiced meat and crisp, garden-fresh vegetables.';
         arrowIcon.textContent = 'Customise Your Sandwich ($6.00)';
         isSandwich = true;
-        arrowIcon.classList.remove('hidden');
         currentStep = 0;
+        showCurrentStep();
     });
 
     smoothieOption.addEventListener('click', () => {
@@ -91,66 +83,51 @@ document.addEventListener('DOMContentLoaded', function () {
         customizeDescription.textContent = 'A symphony of fresh fruits and creamy delights, healthy greens to create the perfect smoothie that wins health goals!';
         arrowIcon.textContent = 'Blend Your Smoothie ($5.00)';
         isSandwich = false;
-        arrowIcon.classList.remove('hidden');
         currentStep = 0;
-    });
-
-    arrowIcon.addEventListener('click', () => {
         showCurrentStep();
-        arrowIcon.classList.add('hidden');
     });
 
-    nextStepArrows.forEach((arrow, index) => {
+    nextStepArrows.forEach((arrow) => {
         arrow.addEventListener('click', () => {
-            if (validateCurrentStep()) {
-                currentStep++;
-                showCurrentStep();
-            } else {
-                alert('Please make the required selections before proceeding.');
+            if ((isSandwich && currentStep === 2 && selectedChoices.veggies.length !== 3) ||
+                (isSandwich && currentStep === 3 && selectedChoices.sauces.length !== 2)) {
+                alert('Please select the required number of items before proceeding.');
+                return;
             }
+            currentStep++;
+            showCurrentStep();
+            preselectChoices();
         });
     });
 
-    backArrows.forEach((arrow, index) => {
+    backArrows.forEach((arrow) => {
         arrow.addEventListener('click', () => {
             currentStep--;
             showCurrentStep();
+            preselectChoices();
         });
     });
 
     sandwichFinishIcon.addEventListener('click', () => {
         if (validateCurrentStep()) {
-            smoothiePromptModal.style.display = 'block';
+            addToCart(); // Add the sandwich to the cart directly
         } else {
             alert('Please make the required selections before finishing.');
         }
-    });
-
-    yesAddSmoothieButton.addEventListener('click', () => {
-        smoothiePromptModal.style.display = 'none';
-        currentStep = 0;
-        isSandwich = false;
-        showCurrentStep();
-    });
-
-    noAddSmoothieButton.addEventListener('click', () => {
-        smoothiePromptModal.style.display = 'none';
-        smoothieTotal = 0;
-        displaySummary();
-        scrollToSummary();
     });
 
     smoothieFinishIcon.addEventListener('click', () => {
         if (validateCurrentStep()) {
-            displaySummary();
-            scrollToSummary();
+            addToCart(); // Add the smoothie to the cart directly
         } else {
             alert('Please make the required selections before finishing.');
         }
     });
 
-    choices.forEach(choice => {
+    choices.forEach((choice) => {
         choice.addEventListener('click', () => {
+            if (currentStep === -1) return; // Ensure selections can only be made after clicking Customize or Blend buttons
+
             const stepId = choice.parentNode.parentNode.id;
             if (stepId.includes('sandwich-step')) {
                 handleSandwichChoice(choice, stepId);
@@ -158,6 +135,44 @@ document.addEventListener('DOMContentLoaded', function () {
                 handleSmoothieChoice(choice, stepId);
             }
             updateTotalPrice();
+        });
+    });
+
+    grabButtons.forEach((button) => {
+        button.addEventListener('click', (e) => {
+            const recommendationItem = e.target.closest('.recommendation-item');
+            const itemName = recommendationItem.getAttribute('data-name');
+            const itemPrice = parseFloat(recommendationItem.getAttribute('data-price'));
+            const cartItem = {
+                type: 'Recommendation',
+                name: itemName,
+                price: itemPrice
+            };
+            cart.push(cartItem);
+            updateCartCount();
+            updateCartTotal();
+            renderCartItems();
+            highlightCart();
+            console.log('Added to cart:', cartItem); // Debugging log
+        });
+    });
+
+    addButtons.forEach((button) => {
+        button.addEventListener('click', (e) => {
+            const promotionItem = e.target.closest('.promotion-item');
+            const itemName = promotionItem.getAttribute('data-name');
+            const itemPrice = parseFloat(promotionItem.getAttribute('data-price'));
+            const cartItem = {
+                type: 'Promotion',
+                name: itemName,
+                price: itemPrice
+            };
+            cart.push(cartItem);
+            updateCartCount();
+            updateCartTotal();
+            renderCartItems();
+            highlightCart();
+            console.log('Added to cart:', cartItem); // Debugging log
         });
     });
 
@@ -170,47 +185,58 @@ document.addEventListener('DOMContentLoaded', function () {
         const price = getPriceFromChoice(choice);
 
         if (stepId === 'sandwich-step-3') {
-            choice.classList.toggle('selected');
-            const selected = choice.parentNode.querySelectorAll('.selected').length;
-            if (selected >= 1 && selected <= 3) {
-                document.querySelector(`#sandwich-arrow-icon-${currentStep + 1}`).classList.remove('hidden');
+            if (choice.querySelector('h3').textContent === 'None') {
+                selectedChoices.veggies = [{ name: 'None', price: 0 }];
+                sandwichTotal = 6;
+                choices.forEach((c) => c.classList.remove('selected'));
+                choice.classList.add('selected');
             } else {
-                document.querySelector(`#sandwich-arrow-icon-${currentStep + 1}`).classList.add('hidden');
-            }
-
-            const veggieName = choice.querySelector('h3').textContent;
-            if (choice.classList.contains('selected')) {
-                if (!selectedChoices.veggies.some(v => v.name === veggieName)) {
-                    selectedChoices.veggies.push({ name: veggieName, price });
-                    sandwichTotal += price;
+                if (selectedChoices.veggies.some((v) => v.name === 'None')) {
+                    selectedChoices.veggies = [];
+                    choices.forEach((c) => c.classList.remove('selected'));
                 }
-            } else {
-                selectedChoices.veggies = selectedChoices.veggies.filter(v => v.name !== veggieName);
-                sandwichTotal -= price;
+                choice.classList.toggle('selected');
+                const veggieName = choice.querySelector('h3').textContent;
+
+                if (choice.classList.contains('selected')) {
+                    if (selectedChoices.veggies.length < 3 && !selectedChoices.veggies.some((v) => v.name === veggieName)) {
+                        selectedChoices.veggies.push({ name: veggieName, price });
+                    } else {
+                        choice.classList.remove('selected');
+                        alert('You can only select up to 3 veggies.');
+                    }
+                } else {
+                    selectedChoices.veggies = selectedChoices.veggies.filter((v) => v.name !== veggieName);
+                }
             }
         } else if (stepId === 'sandwich-step-4') {
-            choice.classList.toggle('selected');
-            const selected = choice.parentNode.querySelectorAll('.selected').length;
-            if (selected >= 1 && selected <= 2) {
-                document.querySelector(`#sandwich-finish-icon-4`).classList.remove('hidden');
+            if (choice.querySelector('h3').textContent === 'None') {
+                selectedChoices.sauces = [{ name: 'None', price: 0 }];
+                sandwichTotal = 6;
+                choices.forEach((c) => c.classList.remove('selected'));
+                choice.classList.add('selected');
             } else {
-                document.querySelector(`#sandwich-finish-icon-4`).classList.add('hidden');
-            }
-
-            const sauceName = choice.querySelector('h3').textContent;
-            if (choice.classList.contains('selected')) {
-                if (!selectedChoices.sauces.some(s => s.name === sauceName)) {
-                    selectedChoices.sauces.push({ name: sauceName, price });
-                    sandwichTotal += price;
+                if (selectedChoices.sauces.some((s) => s.name === 'None')) {
+                    selectedChoices.sauces = [];
+                    choices.forEach((c) => c.classList.remove('selected'));
                 }
-            } else {
-                selectedChoices.sauces = selectedChoices.sauces.filter(s => s.name !== sauceName);
-                sandwichTotal -= price;
+                choice.classList.toggle('selected');
+                const sauceName = choice.querySelector('h3').textContent;
+
+                if (choice.classList.contains('selected')) {
+                    if (selectedChoices.sauces.length < 2 && !selectedChoices.sauces.some((s) => s.name === sauceName)) {
+                        selectedChoices.sauces.push({ name: sauceName, price });
+                    } else {
+                        choice.classList.remove('selected');
+                        alert('You can only select up to 2 sauces.');
+                    }
+                } else {
+                    selectedChoices.sauces = selectedChoices.sauces.filter((s) => s.name !== sauceName);
+                }
             }
         } else {
-            choices.forEach(c => c.classList.remove('selected'));
+            choices.forEach((c) => c.classList.remove('selected'));
             choice.classList.add('selected');
-            document.querySelector(`#sandwich-arrow-icon-${currentStep + 1}`).classList.remove('hidden');
 
             const choiceName = choice.querySelector('h3').textContent;
             if (stepId === 'sandwich-step-1') {
@@ -231,28 +257,15 @@ document.addEventListener('DOMContentLoaded', function () {
         const price = getPriceFromChoice(choice);
 
         if (stepId === 'smoothie-step-1') {
-            choice.classList.toggle('selected');
-            const selected = choice.parentNode.querySelectorAll('.selected').length;
-            if (selected >= 1 && selected <= 3) {
-                document.querySelector(`#smoothie-arrow-icon-${currentStep + 1}`).classList.remove('hidden');
-            } else {
-                document.querySelector(`#smoothie-arrow-icon-${currentStep + 1}`).classList.add('hidden');
-            }
-
-            const fruitName = choice.querySelector('h3').textContent;
-            if (choice.classList.contains('selected')) {
-                if (!selectedChoices.fruits.some(f => f.name === fruitName)) {
-                    selectedChoices.fruits.push({ name: fruitName, price });
-                    smoothieTotal += price;
-                }
-            } else {
-                selectedChoices.fruits = selectedChoices.fruits.filter(f => f.name !== fruitName);
-                smoothieTotal -= price;
-            }
-        } else if (stepId === 'smoothie-step-2') {
-            choices.forEach(c => c.classList.remove('selected'));
+            choices.forEach((c) => c.classList.remove('selected'));
             choice.classList.add('selected');
-            document.querySelector(`#smoothie-arrow-icon-${currentStep + 1}`).classList.remove('hidden');
+            const fruitName = choice.querySelector('h3').textContent;
+
+            selectedChoices.fruits = [{ name: fruitName, price }];
+            smoothieTotal = 5 + price; // Reset smoothieTotal to base price + selected fruit price
+        } else if (stepId === 'smoothie-step-2') {
+            choices.forEach((c) => c.classList.remove('selected'));
+            choice.classList.add('selected');
 
             const greenName = choice.querySelector('h3').textContent;
             smoothieTotal -= selectedChoices.greensPrice || 0;
@@ -260,9 +273,8 @@ document.addEventListener('DOMContentLoaded', function () {
             selectedChoices.greensPrice = price;
             smoothieTotal += price;
         } else if (stepId === 'smoothie-step-3') {
-            choices.forEach(c => c.classList.remove('selected'));
+            choices.forEach((c) => c.classList.remove('selected'));
             choice.classList.add('selected');
-            document.querySelector(`#smoothie-arrow-icon-${currentStep + 1}`).classList.remove('hidden');
 
             const proteinName = choice.querySelector('h3').textContent;
             smoothieTotal -= selectedChoices.proteinSmoothiePrice || 0;
@@ -270,9 +282,8 @@ document.addEventListener('DOMContentLoaded', function () {
             selectedChoices.proteinSmoothiePrice = price;
             smoothieTotal += price;
         } else if (stepId === 'smoothie-step-4') {
-            choices.forEach(c => c.classList.remove('selected'));
+            choices.forEach((c) => c.classList.remove('selected'));
             choice.classList.add('selected');
-            document.querySelector(`#smoothie-arrow-icon-${currentStep + 1}`).classList.remove('hidden');
 
             const liquidBaseName = choice.querySelector('h3').textContent;
             smoothieTotal -= selectedChoices.liquidBasePrice || 0;
@@ -280,16 +291,8 @@ document.addEventListener('DOMContentLoaded', function () {
             selectedChoices.liquidBasePrice = price;
             smoothieTotal += price;
         } else if (stepId === 'smoothie-step-5') {
-            choices.forEach(c => c.classList.remove('selected'));
+            choices.forEach((c) => c.classList.remove('selected'));
             choice.classList.add('selected');
-            const nextArrow = document.querySelector(`#smoothie-arrow-icon-${currentStep + 1}`);
-            if (nextArrow) {
-                nextArrow.classList.remove('hidden');
-            }
-            const finishButton = document.querySelector(`#smoothie-finish-icon-5`);
-            if (finishButton) {
-                finishButton.classList.remove('hidden');
-            }
 
             const steviaName = choice.querySelector('h3').textContent;
             smoothieTotal -= selectedChoices.steviaPrice || 0;
@@ -300,27 +303,46 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function showCurrentStep() {
+        if (currentStep === -1) {
+            sandwichSteps.forEach((step) => step.classList.add('hidden'));
+            smoothieSteps.forEach((step) => step.classList.add('hidden'));
+            return;
+        }
+
         if (isSandwich) {
             sandwichSteps.forEach((step, index) => {
                 step.classList.toggle('hidden', index !== currentStep);
             });
-            smoothieSteps.forEach(step => step.classList.add('hidden'));
+            smoothieSteps.forEach((step) => step.classList.add('hidden'));
         } else {
             smoothieSteps.forEach((step, index) => {
                 step.classList.toggle('hidden', index !== currentStep);
             });
-            sandwichSteps.forEach(step => step.classList.add('hidden'));
+            sandwichSteps.forEach((step) => step.classList.add('hidden'));
         }
+        nextStepArrows.forEach((arrow) => arrow.classList.remove('hidden'));
     }
 
     function validateCurrentStep() {
         if (isSandwich) {
             if (currentStep === 0) return selectedChoices.bread !== '';
             if (currentStep === 1) return selectedChoices.protein !== '';
-            if (currentStep === 2) return selectedChoices.veggies.length >= 1 && selectedChoices.veggies.length <= 3;
-            if (currentStep === 3) return selectedChoices.sauces.length >= 1 && selectedChoices.sauces.length <= 2;
+            if (currentStep === 2) {
+                if (selectedChoices.veggies.length === 3 || (selectedChoices.veggies.length === 1 && selectedChoices.veggies[0].name === 'None')) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+            if (currentStep === 3) {
+                if (selectedChoices.sauces.length === 2 || (selectedChoices.sauces.length === 1 && selectedChoices.sauces[0].name === 'None')) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
         } else {
-            if (currentStep === 0) return selectedChoices.fruits.length >= 1 && selectedChoices.fruits.length <= 3;
+            if (currentStep === 0) return selectedChoices.fruits.length === 1;
             if (currentStep === 1) return selectedChoices.greens !== '';
             if (currentStep === 2) return selectedChoices.proteinSmoothie !== '';
             if (currentStep === 3) return selectedChoices.liquidBase !== '';
@@ -330,6 +352,23 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function updateTotalPrice() {
+        let calculatedSandwichTotal = 6;
+        let calculatedSmoothieTotal = 5;
+
+        selectedChoices.veggies.forEach((v) => (calculatedSandwichTotal += v.price));
+        selectedChoices.sauces.forEach((s) => (calculatedSandwichTotal += s.price));
+        calculatedSandwichTotal += selectedChoices.breadPrice || 0;
+        calculatedSandwichTotal += selectedChoices.proteinPrice || 0;
+
+        selectedChoices.fruits.forEach((f) => (calculatedSmoothieTotal += f.price));
+        calculatedSmoothieTotal += selectedChoices.greensPrice || 0;
+        calculatedSmoothieTotal += selectedChoices.proteinSmoothiePrice || 0;
+        calculatedSmoothieTotal += selectedChoices.liquidBasePrice || 0;
+        calculatedSmoothieTotal += selectedChoices.steviaPrice || 0;
+
+        sandwichTotal = calculatedSandwichTotal;
+        smoothieTotal = calculatedSmoothieTotal;
+
         if (isSandwich) {
             arrowIcon.textContent = `Customise Your Sandwich ($${sandwichTotal.toFixed(2)})`;
         } else {
@@ -337,134 +376,156 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-    function displaySummary() {
-        let summaryHtml = '';
-        let sandwichHtml = '';
-        let smoothieHtml = '';
+    function addToCart() {
+        const cartItem = {
+            type: isSandwich ? 'Sandwich' : 'Smoothie',
+            name: isSandwich ? 'Custom Sandwich' : 'Custom Smoothie',
+            details: { ...selectedChoices },
+            price: isSandwich ? sandwichTotal : smoothieTotal
+        };
 
-        if (selectedChoices.bread) {
-            sandwichHtml += `
-                <p>Choice of Bread: ${selectedChoices.bread} ${selectedChoices.breadPrice > 0 ? `($${selectedChoices.breadPrice.toFixed(2)})` : ''}</p>
-                <p>Choice of Protein: ${selectedChoices.protein} ${selectedChoices.proteinPrice > 0 ? `($${selectedChoices.proteinPrice.toFixed(2)})` : ''}</p>
-                <p>Base: ${selectedChoices.veggies.map(v => `${v.name} ${v.price > 0 ? `($${v.price.toFixed(2)})` : ''}`).join(', ')}</p>
-                <p>Sauces: ${selectedChoices.sauces.map(s => `${s.name} ${s.price > 0 ? `($${s.price.toFixed(2)})` : ''}`).join(', ')}</p>
-            `;
-        }
-        if (selectedChoices.fruits.length > 0) {
-            smoothieHtml += `
-                <p>Choice of Fruits: ${selectedChoices.fruits.map(f => `${f.name} ${f.price > 0 ? `($${f.price.toFixed(2)})` : ''}`).join(', ')}</p>
-                <p>Choice of Greens: ${selectedChoices.greens} ${selectedChoices.greensPrice > 0 ? `($${selectedChoices.greensPrice.toFixed(2)})` : ''}</p>
-                <p>Choice of Protein: ${selectedChoices.proteinSmoothie} ${selectedChoices.proteinSmoothiePrice > 0 ? `($${selectedChoices.proteinSmoothiePrice.toFixed(2)})` : ''}</p>
-                <p>Choice of Liquid Base: ${selectedChoices.liquidBase} ${selectedChoices.liquidBasePrice > 0 ? `($${selectedChoices.liquidBasePrice.toFixed(2)})` : ''}</p>
-                <p>Stevia Level: ${selectedChoices.stevia} ${selectedChoices.steviaPrice > 0 ? `($${selectedChoices.steviaPrice.toFixed(2)})` : ''}</p>
-            `;
-        }
+        cart.push(cartItem);
+        updateCartCount();
+        updateCartTotal();
+        renderCartItems();
+        highlightCart();
+        resetSelections();
+    }
 
-        summaryHtml += `
-            <div>
-                <h3>Sandwich - $${sandwichTotal.toFixed(2)}</h3>
-                <div class="toggle-ingredients">
-                    <button class="toggle-button">Show/Hide Ingredients</button>
-                    <div class="ingredients hidden">${sandwichHtml}</div>
+    function highlightCart() {
+        cartDropdown.classList.add('highlight');
+        setTimeout(() => {
+            cartDropdown.classList.remove('highlight');
+        }, 1000);
+    }
+
+    function resetSelections() {
+        selectedChoices = {
+            bread: '',
+            protein: '',
+            veggies: [],
+            sauces: [],
+            fruits: [],
+            greens: '',
+            proteinSmoothie: '',
+            liquidBase: '',
+            stevia: ''
+        };
+        sandwichTotal = 6; // Reset base price for sandwich
+        smoothieTotal = 5; // Reset base price for smoothie
+        choices.forEach((choice) => choice.classList.remove('selected'));
+        customizeSandwichContent.classList.add('hidden');
+        currentStep = -1;
+        showCurrentStep();
+    }
+
+    function updateCartCount() {
+        cartCountElement.textContent = cart.length;
+        emptyCartMessage.style.display = cart.length === 0 ? 'block' : 'none';
+    }
+
+    function updateCartTotal() {
+        const total = cart.reduce((sum, item) => sum + item.price, 0);
+        cartTotalPrice.textContent = `$${total.toFixed(2)}`;
+    }
+
+    function renderCartItems() {
+        cartItemsContainer.innerHTML = '';
+        cart.forEach((item, index) => {
+            const cartItemElement = document.createElement('div');
+            cartItemElement.classList.add('cart-item');
+            cartItemElement.innerHTML = `
+                <p><strong>${item.type}</strong> - ${item.name} - $${item.price.toFixed(2)}</p>
+                <div class="ingredients-container hidden">
+                    ${renderItemDetails(item.details)}
                 </div>
-            </div>
-        `;
+                <button class="toggle-ingredients">Show/Hide Ingredients</button>
+                <button class="remove-item" data-index="${index}">Remove</button>
+            `;
+            cartItemsContainer.appendChild(cartItemElement);
+        });
 
-        summaryHtml += `
-            <div>
-                <h3>Smoothie - $${smoothieTotal.toFixed(2)}</h3>
-                <div class="toggle-ingredients">
-                    <button class="toggle-button">Show/Hide Ingredients</button>
-                    <div class="ingredients hidden">${smoothieHtml}</div>
-                </div>
-            </div>
-        `;
+        const removeButtons = document.querySelectorAll('.remove-item');
+        removeButtons.forEach((button) => {
+            button.addEventListener('click', (e) => {
+                const index = e.target.getAttribute('data-index');
+                cart.splice(index, 1);
+                updateCartCount();
+                updateCartTotal();
+                renderCartItems();
+            });
+        });
 
-        summarySteps.innerHTML = summaryHtml;
-        totalPriceElement.textContent = `Total Price: $${(sandwichTotal + smoothieTotal).toFixed(2)}`;
-        summarySection.classList.remove('hidden');
-
-        const toggleButtons = document.querySelectorAll('.toggle-button');
-        toggleButtons.forEach(button => {
-            button.addEventListener('click', () => {
-                const ingredients = button.nextElementSibling;
-                ingredients.classList.toggle('hidden');
+        const toggleButtons = document.querySelectorAll('.toggle-ingredients');
+        toggleButtons.forEach((button) => {
+            button.addEventListener('click', (e) => {
+                const ingredientsContainer = e.target.previousElementSibling;
+                ingredientsContainer.classList.toggle('hidden');
             });
         });
     }
 
-    function scrollToSummary() {
-        summarySection.scrollIntoView({ behavior: 'smooth' });
+    function renderItemDetails(details) {
+        const detailItems = [];
+        if (details.bread) {
+            detailItems.push(`<p>Bread: ${details.bread} - $${details.breadPrice.toFixed(2)}</p>`);
+        }
+        if (details.protein) {
+            detailItems.push(`<p>Protein: ${details.protein} - $${details.proteinPrice.toFixed(2)}</p>`);
+        }
+        if (details.veggies.length) {
+            detailItems.push('<p>Veggies:</p>');
+            details.veggies.forEach(v => {
+                detailItems.push(`<p>${v.name} - $${v.price.toFixed(2)}</p>`);
+            });
+        }
+        if (details.sauces.length) {
+            detailItems.push('<p>Sauces:</p>');
+            details.sauces.forEach(s => {
+                detailItems.push(`<p>${s.name} - $${s.price.toFixed(2)}</p>`);
+            });
+        }
+        if (details.fruits.length) {
+            detailItems.push('<p>Fruits:</p>');
+            details.fruits.forEach(f => {
+                detailItems.push(`<p>${f.name} - $${f.price.toFixed(2)}</p>`);
+            });
+        }
+        if (details.greens) {
+            detailItems.push(`<p>Greens: ${details.greens} - $${details.greensPrice.toFixed(2)}</p>`);
+        }
+        if (details.proteinSmoothie) {
+            detailItems.push(`<p>Protein: ${details.proteinSmoothie} - $${details.proteinSmoothiePrice.toFixed(2)}</p>`);
+        }
+        if (details.liquidBase) {
+            detailItems.push(`<p>Liquid Base: ${details.liquidBase} - $${details.liquidBasePrice.toFixed(2)}</p>`);
+        }
+        if (details.stevia) {
+            detailItems.push(`<p>Stevia: ${details.stevia} - $${details.steviaPrice.toFixed(2)}</p>`);
+        }
+        return detailItems.join('');
     }
 
-    backToSelectionButton.addEventListener('click', () => {
-        summarySection.classList.add('hidden');
-        currentStep = 0;
-        arrowIcon.classList.remove('hidden');
-        customizeSandwichContent.classList.add('hidden');
-        selectedChoices = {
-            bread: '',
-            protein: '',
-            veggies: [],
-            sauces: [],
-            fruits: [],
-            greens: '',
-            proteinSmoothie: '',
-            liquidBase: '',
-            stevia: ''
-        };
-        sandwichTotal = 6; // Reset base price for sandwich
-        smoothieTotal = 5; // Reset base price for smoothie
-        choices.forEach(choice => choice.classList.remove('selected'));
+    cartCountElement.parentElement.addEventListener('click', () => {
+        cartDropdown.style.display = cartDropdown.style.display === 'none' || cartDropdown.style.display === '' ? 'block' : 'none';
     });
 
-    completeOrderButton.addEventListener('click', () => {
-        takeawayModal.style.display = 'block';
+    closeCartButton.addEventListener('click', () => {
+        cartDropdown.style.display = 'none';
     });
 
-    closeTakeawayModal.addEventListener('click', () => {
-        takeawayModal.style.display = 'none';
-    });
-
-    confirmTakeawayButton.addEventListener('click', () => {
-        alert('Takeaway confirmed!');
-        takeawayModal.style.display = 'none';
-        summarySection.classList.add('hidden');
-        currentStep = 0;
-        arrowIcon.classList.remove('hidden');
-        customizeSandwichContent.classList.add('hidden');
-        selectedChoices = {
-            bread: '',
-            protein: '',
-            veggies: [],
-            sauces: [],
-            fruits: [],
-            greens: '',
-            proteinSmoothie: '',
-            liquidBase: '',
-            stevia: ''
-        };
-        sandwichTotal = 6; // Reset base price for sandwich
-        smoothieTotal = 5; // Reset base price for smoothie
-        choices.forEach(choice => choice.classList.remove('selected'));
-    });
-
-    dateButtons.forEach(button => {
-        button.addEventListener('click', () => {
-            dateButtons.forEach(btn => btn.classList.remove('selected'));
-            button.classList.add('selected');
+    addOrdersButton.addEventListener('click', () => {
+        cartDropdown.style.display = 'none';
+        window.scrollTo({
+            top: document.getElementById('customise').offsetTop,
+            behavior: 'smooth'
         });
     });
 
-    const recommendationItems = document.querySelectorAll('.recommendation-item');
-
-    recommendationItems.forEach((item, index) => {
-        item.classList.add('animated', 'fadeInUp');
-        item.style.animationDelay = `${index * 0.3}s`;
-    });
-
+    // Typewriter effect for the recommendations section
     const typewriterText = document.querySelector('#recommendations h2');
-    const text = typewriterText.textContent + cookie('username') + "!";
+    const username = getCookie('username'); // Use getCookie function to get the username
+    const text = `Welcome back ${username}!`;
     typewriterText.textContent = '';
     let i = 0;
 
@@ -478,46 +539,92 @@ document.addEventListener('DOMContentLoaded', function () {
 
     typeWriter();
 
-    promotionAddButtons.forEach(button => {
-        button.addEventListener('click', (e) => {
-            const promotionItem = e.target.closest('.promotion-item');
-            const itemName = promotionItem.querySelector('h3').textContent;
-            const itemPriceText = promotionItem.querySelector('p').textContent;
-            const itemPrice = parseFloat(itemPriceText.replace('$', ''));
-            addToCart(itemName, itemPrice);
-            alert(`${itemName} added to cart!`);
-        });
-    });
-
-    function addToCart(itemName, itemPrice) {
-        cart.push({ name: itemName, price: itemPrice });
-        updateCartCount();
-        updateCartTotal();
-        renderCartItems();
-        cartSection.classList.remove('hidden');
+    // Function to get cookie by name
+    function getCookie(name) {
+        const value = `; ${document.cookie}`;
+        const parts = value.split(`; ${name}=`);
+        if (parts.length === 2) return parts.pop().split(';').shift();
     }
 
+    // Recommendations section animation
+    const recommendationItems = document.querySelectorAll('.recommendation-item');
+    recommendationItems.forEach((item, index) => {
+        item.classList.add('animated', 'fadeInUp');
+        item.style.animationDelay = `${index * 0.3}s`;
+    });
+});
+document.addEventListener('DOMContentLoaded', function () {
+    const cart = [];
+    const cartItemsContainer = document.querySelector('.cart-items');
+    const cartTotalPrice = document.getElementById('cart-total-price');
+    const cartCountElement = document.querySelector('.cart-count');
+    const emptyCartMessage = document.querySelector('.empty-cart-message');
+    const grabButtons = document.querySelectorAll('.grab-now');
+    const addButtons = document.querySelectorAll('.add-to-cart');
+
+    // Function to update cart count
     function updateCartCount() {
         cartCountElement.textContent = cart.length;
+        emptyCartMessage.style.display = cart.length === 0 ? 'block' : 'none';
     }
 
+    // Function to update cart total price
     function updateCartTotal() {
         const total = cart.reduce((sum, item) => sum + item.price, 0);
         cartTotalPrice.textContent = `$${total.toFixed(2)}`;
     }
 
+    // Function to render cart items
     function renderCartItems() {
         cartItemsContainer.innerHTML = '';
-        cart.forEach(item => {
+        cart.forEach((item, index) => {
             const cartItemElement = document.createElement('div');
-            cartItemElement.textContent = `${item.name} - $${item.price.toFixed(2)}`;
+            cartItemElement.classList.add('cart-item');
+            cartItemElement.innerHTML = `
+                <p><strong>${item.name}</strong> - $${item.price.toFixed(2)}</p>
+                <button class="remove-item" data-index="${index}">Remove</button>
+            `;
             cartItemsContainer.appendChild(cartItemElement);
+        });
+
+        const removeButtons = document.querySelectorAll('.remove-item');
+        removeButtons.forEach((button) => {
+            button.addEventListener('click', (e) => {
+                const index = e.target.getAttribute('data-index');
+                cart.splice(index, 1);
+                updateCartCount();
+                updateCartTotal();
+                renderCartItems();
+            });
         });
     }
 
-    checkoutButton.addEventListener('click', () => {
-        alert('Proceeding to checkout');
-        // Add checkout functionality here
+    // Function to highlight cart
+    function highlightCart() {
+        const cartDropdown = document.querySelector('.cart-dropdown');
+        cartDropdown.classList.add('highlight');
+        setTimeout(() => {
+            cartDropdown.classList.remove('highlight');
+        }, 1000);
+    }
+
+    // Event listener for 'Grab now' buttons
+    grabButtons.forEach((button) => {
+        button.addEventListener('click', (e) => {
+            const recommendationItem = e.target.closest('.recommendation-item');
+            const itemName = recommendationItem.getAttribute('data-name');
+            const itemPrice = parseFloat(recommendationItem.getAttribute('data-price'));
+            const cartItem = {
+                name: itemName,
+                price: itemPrice
+            };
+            cart.push(cartItem);
+            updateCartCount();
+            updateCartTotal();
+            renderCartItems();
+            highlightCart();
+            console.log('Added to cart:', cartItem); // Debugging log
+        });
     });
 
     // Logout button functionality
@@ -526,5 +633,24 @@ document.addEventListener('DOMContentLoaded', function () {
         cookie.remove('userid')
         cookie.remove('username')
         window.location.href = 'customer-home.html#home';
+
+    // Event listener for 'Add' buttons
+    addButtons.forEach((button) => {
+        button.addEventListener('click', (e) => {
+            const promotionItem = e.target.closest('.promotion-item');
+            const itemName = promotionItem.getAttribute('data-name');
+            const itemPrice = parseFloat(promotionItem.getAttribute('data-price'));
+            const cartItem = {
+                name: itemName,
+                price: itemPrice
+            };
+            cart.push(cartItem);
+            updateCartCount();
+            updateCartTotal();
+            renderCartItems();
+            highlightCart();
+            console.log('Added to cart:', cartItem); // Debugging log
+        });
+
     });
 });
