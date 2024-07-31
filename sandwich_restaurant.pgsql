@@ -67,51 +67,7 @@ INSERT INTO stores(store_name)
 
 CREATE TABLE product (
     products_id SERIAL PRIMARY KEY, 
-    product_type_id INT NOT NULL,
-    product_name VARCHAR(100),
-    image_path VARCHAR(100),
-    price_point NUMERIC(3, 1),
-    FOREIGN KEY (product_type_id) REFERENCES product_type(product_type_id)
-); 
-
-INSERT INTO product (product_type_id, product_name,image_path, price_point) 
-    VALUES 
-        (1, 'Sourdough', 'asset/sourdough.jpg', 0), 
-        (1, 'Wholemeal', 'asset/wholemeal.jpg', 0),
-        (1, 'Oat bread', 'asset/oatbread.jpg', 0.5),
-        (1, 'Italian Herb', 'asset/italianherb.jpg', 0.5),
-        (2, 'Lamb', 'asset/pulled-lamb.jpg', 0),  
-        (2, 'Chicken', 'asset/chickenbreast.jpg', 0),
-        (2, 'Beef', 'asset/beef.jpg', 2.5),
-        (2, 'Salmon', 'asset/smokedsalmon.jpg', 3),
-        (3, 'Lettuce', 'asset/iceberge-lettuce.png', 0), 
-        (3, 'Tomato', 'asset/tomato.png', 0),
-        (3, 'Cucumber', 'asset/cucumber.png', 0),
-        (3, 'Onion', 'asset/onion.png', 0),
-        (3, 'Bell Pepper', 'asset/bellpeppers.jpg', 0),
-        (4, 'Cranberry Caramalised onion', 'asset/cranberry-sauce.jpeg', 0), 
-        (4, 'Honey Mustard', 'asset/honeymustard.png', 0),
-        (4, 'Egg Mayo', 'asset/egg-mayo.jpg', 0),
-        (4, 'Avocado Lime Crema', 'asset/avocado-lime.png', 0),
-        (4, 'BBQ', 'asset/bbq.jpg', 0),  
-        (5, 'Banana', 'asset/banana.jpeg', 0),  
-        (5, 'Blueberry', 'asset/blueberry.webp', 0),
-        (5, 'Strawberry', 'asset/strawberry.jpg', 0),
-        (5, 'Mango', 'asset/mango.jpg', 0),
-        (5, 'Orange', 'asset/orange.jpg', 0), 
-        (6, 'Spinach', 'asset/spinach.jpeg', 0.6), 
-        (6, 'Kale', 'asset/kale.jpeg', 0.7),
-        (6, 'Avocado', 'asset/avocado.webp', 1.2), 
-        (7, 'Greek Yogurt', 'asset/greekyogurt.jpg', 2),
-        (8, 'Low Fat Milk', 'asset/low-fat-milk.webp', 0), 
-        (8, 'Full Cream Milk', 'asset/full-cream.jpg', 0),
-        (8, 'Oat Milk', 'asset/oat-milk.jpg', 1) 
-;
-
-
-CREATE TABLE inventory (
-    products_id INT, 
-    store_id INT,
+    product_type_id, INT NOT NULL,
     quantity_amount INT NOT NULL,
     uom_id INT NOT NULL,
     FOREIGN KEY (uom_id) REFERENCES uom(uom_id), 
