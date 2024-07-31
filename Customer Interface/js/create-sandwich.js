@@ -83,7 +83,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     sandwichFinishIcon.addEventListener('click', () => {
         if (validateCurrentStep()) {
-            addToCart('Sandwich', selectedChoices, sandwichTotal); // Add the sandwich to the cart directly
+            addToCart(); // Add the sandwich to the cart directly
         } else {
             alert('Please make the required selections before finishing.');
         }
@@ -91,7 +91,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     smoothieFinishIcon.addEventListener('click', () => {
         if (validateCurrentStep()) {
-            addToCart('Smoothie', selectedChoices, smoothieTotal); // Add the smoothie to the cart directly
+            addToCart(); // Add the smoothie to the cart directly
         } else {
             alert('Please make the required selections before finishing.');
         }
@@ -349,12 +349,12 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-    function addToCart(type, choices, total) {
+    function addToCart() {
         const cartItem = {
-            type: type,
-            name: type === 'Sandwich' ? 'Custom Sandwich' : 'Custom Smoothie',
-            details: { ...choices },
-            price: total
+            type: isSandwich ? 'Sandwich' : 'Smoothie',
+            name: isSandwich ? 'Custom Sandwich' : 'Custom Smoothie',
+            details: { ...selectedChoices },
+            price: isSandwich ? sandwichTotal : smoothieTotal
         };
 
         cart.push(cartItem);
@@ -524,5 +524,98 @@ document.addEventListener('DOMContentLoaded', function () {
     recommendationItems.forEach((item, index) => {
         item.classList.add('animated', 'fadeInUp');
         item.style.animationDelay = `${index * 0.3}s`;
+    });
+});
+document.addEventListener('DOMContentLoaded', function () {
+    const cart = [];
+    const cartItemsContainer = document.querySelector('.cart-items');
+    const cartTotalPrice = document.getElementById('cart-total-price');
+    const cartCountElement = document.querySelector('.cart-count');
+    const emptyCartMessage = document.querySelector('.empty-cart-message');
+    const grabButtons = document.querySelectorAll('.grab-now');
+    const addButtons = document.querySelectorAll('.add-to-cart');
+
+    // Function to update cart count
+    function updateCartCount() {
+        cartCountElement.textContent = cart.length;
+        emptyCartMessage.style.display = cart.length === 0 ? 'block' : 'none';
+    }
+
+    // Function to update cart total price
+    function updateCartTotal() {
+        const total = cart.reduce((sum, item) => sum + item.price, 0);
+        cartTotalPrice.textContent = `$${total.toFixed(2)}`;
+    }
+
+    // Function to render cart items
+    function renderCartItems() {
+        cartItemsContainer.innerHTML = '';
+        cart.forEach((item, index) => {
+            const cartItemElement = document.createElement('div');
+            cartItemElement.classList.add('cart-item');
+            cartItemElement.innerHTML = `
+                <p><strong>${item.name}</strong> - $${item.price.toFixed(2)}</p>
+                <button class="remove-item" data-index="${index}">Remove</button>
+            `;
+            cartItemsContainer.appendChild(cartItemElement);
+        });
+
+        const removeButtons = document.querySelectorAll('.remove-item');
+        removeButtons.forEach((button) => {
+            button.addEventListener('click', (e) => {
+                const index = e.target.getAttribute('data-index');
+                cart.splice(index, 1);
+                updateCartCount();
+                updateCartTotal();
+                renderCartItems();
+            });
+        });
+    }
+
+    // Function to highlight cart
+    function highlightCart() {
+        const cartDropdown = document.querySelector('.cart-dropdown');
+        cartDropdown.classList.add('highlight');
+        setTimeout(() => {
+            cartDropdown.classList.remove('highlight');
+        }, 1000);
+    }
+
+    // Event listener for 'Grab now' buttons
+    grabButtons.forEach((button) => {
+        button.addEventListener('click', (e) => {
+            const recommendationItem = e.target.closest('.recommendation-item');
+            const itemName = recommendationItem.getAttribute('data-name');
+            const itemPrice = parseFloat(recommendationItem.getAttribute('data-price'));
+            const cartItem = {
+                name: itemName,
+                price: itemPrice
+            };
+            cart.push(cartItem);
+            updateCartCount();
+            updateCartTotal();
+            renderCartItems();
+            highlightCart();
+            console.log('Added to cart:', cartItem); // Debugging log
+        });
+    });
+
+    // Event listener for 'Add' buttons
+    addButtons.forEach((button) => {
+        button.addEventListener('click', (e) => {
+            const promotionItem = e.target.closest('.promotion-item');
+            const itemName = promotionItem.getAttribute('data-name');
+            const itemPrice = parseFloat(promotionItem.getAttribute('data-price'));
+            const cartItem = {
+                name: itemName,
+                price: itemPrice
+            };
+            cart.push(cartItem);
+            updateCartCount();
+            updateCartTotal();
+            renderCartItems();
+            highlightCart();
+            console.log('Added to cart:', cartItem); // Debugging log
+        });
     });
 });
