@@ -24,34 +24,6 @@
     <section id="oms" class="section">
         <div class="container">
             <h1><span>Order Management System</span></h1>
-
-            <h2>New Orders</h2>
-            <table id="newOrders">
-                <thead>
-                    <tr>
-                        <th>Order No.</th>
-                        <th>Order Details</th>
-                        <th>Ordered By</th>
-                        <th>Ordered Time</th>
-                        <th>Location</th>
-                        <th>Amount</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>000003</td>
-                        <td>Smoothie</td>
-                        <td>Stark</td>
-                        <td>12:30:04</td>
-                        <td>Downtown</td>
-                        <td>$6.00</td>
-                        <td><button class="view-btn" data-status="new">View</button></td>
-                    </tr>
-                    <!-- More rows as needed -->
-                </tbody>
-            </table>
-
             <h2>Preparing Orders</h2>
             <table id="preparingOrders">
                 <thead>
@@ -65,7 +37,7 @@
                         <th>Action</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody id="preparing">
                     <tr>
                         <td>000002</td>
                         <td>Sandwich</td>
@@ -92,7 +64,7 @@
                         <th>Action</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody id="ready">
                     <tr>
                         <td>000001</td>
                         <td>Sandwich</td>
@@ -120,7 +92,7 @@
                         <th>Action</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody id="completed">
                     <tr>
                         <td>999997</td>
                         <td>Sample Item</td>
@@ -309,6 +281,8 @@
         </div>
     </div>
 
+    <script src="js/packages/jquery.min.js"></script>
+    <script src="js/api.js"></script>
     <script src="js/Staff-OrderManagement.js"></script>
 
     <footer>

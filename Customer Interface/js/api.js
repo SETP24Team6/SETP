@@ -15,13 +15,17 @@ function callApi(method, url, data) {
 }
 
 function callApi2(method, url, data) {
+    var result = [];
     $.ajax({
         method: method,
         url: url,
-        data: data
-    }).done(function( msg ) {
-        return msg;
+        data: data,
+        async: false,
+        success: function(data) {
+            result =  data;
+        }
     });
+return result;
 }
 
 function calculateValue() {
