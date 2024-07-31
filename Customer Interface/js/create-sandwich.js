@@ -19,7 +19,8 @@ document.addEventListener('DOMContentLoaded', function () {
     const closeCartButton = document.querySelector('.close-cart');
     const emptyCartMessage = document.querySelector('.empty-cart-message');
     const addOrdersButton = document.querySelector('.add-orders-button');
-    const grabButtons = document.querySelectorAll('.recommendation-item button');
+    const grabButtons = document.querySelectorAll('.grab-now');
+    const addButtons = document.querySelectorAll('.add-to-cart');
 
     let cart = [];
     let currentStep = -1;
@@ -82,7 +83,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     sandwichFinishIcon.addEventListener('click', () => {
         if (validateCurrentStep()) {
-            addToCart(); // Add the sandwich to the cart directly
+            addToCart('Sandwich', selectedChoices, sandwichTotal); // Add the sandwich to the cart directly
         } else {
             alert('Please make the required selections before finishing.');
         }
@@ -90,7 +91,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     smoothieFinishIcon.addEventListener('click', () => {
         if (validateCurrentStep()) {
-            addToCart(); // Add the smoothie to the cart directly
+            addToCart('Smoothie', selectedChoices, smoothieTotal); // Add the smoothie to the cart directly
         } else {
             alert('Please make the required selections before finishing.');
         }
@@ -113,11 +114,30 @@ document.addEventListener('DOMContentLoaded', function () {
     grabButtons.forEach((button) => {
         button.addEventListener('click', (e) => {
             const recommendationItem = e.target.closest('.recommendation-item');
-            const itemName = recommendationItem.querySelector('h3').textContent;
-            const itemPrice = parseFloat(recommendationItem.querySelector('p:last-child').textContent.replace('$', ''));
+            const itemName = recommendationItem.getAttribute('data-name');
+            const itemPrice = parseFloat(recommendationItem.getAttribute('data-price'));
             const cartItem = {
-                type: itemName === 'Exclusive for you' ? 'Colour blast smoothie' : itemName,
-                details: {}, // You can add more details here if necessary
+                type: 'Recommendation',
+                name: itemName,
+                price: itemPrice
+            };
+            cart.push(cartItem);
+            updateCartCount();
+            updateCartTotal();
+            renderCartItems();
+            highlightCart();
+            console.log('Added to cart:', cartItem); // Debugging log
+        });
+    });
+
+    addButtons.forEach((button) => {
+        button.addEventListener('click', (e) => {
+            const promotionItem = e.target.closest('.promotion-item');
+            const itemName = promotionItem.getAttribute('data-name');
+            const itemPrice = parseFloat(promotionItem.getAttribute('data-price'));
+            const cartItem = {
+                type: 'Promotion',
+                name: itemName,
                 price: itemPrice
             };
             cart.push(cartItem);
@@ -329,11 +349,12 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-    function addToCart() {
+    function addToCart(type, choices, total) {
         const cartItem = {
-            type: isSandwich ? 'Sandwich' : 'Smoothie',
-            details: { ...selectedChoices },
-            price: isSandwich ? sandwichTotal : smoothieTotal
+            type: type,
+            name: type === 'Sandwich' ? 'Custom Sandwich' : 'Custom Smoothie',
+            details: { ...choices },
+            price: total
         };
 
         cart.push(cartItem);
@@ -387,7 +408,7 @@ document.addEventListener('DOMContentLoaded', function () {
             const cartItemElement = document.createElement('div');
             cartItemElement.classList.add('cart-item');
             cartItemElement.innerHTML = `
-                <p><strong>${item.type}</strong> - $${item.price.toFixed(2)}</p>
+                <p><strong>${item.type}</strong> - ${item.name} - $${item.price.toFixed(2)}</p>
                 <div class="ingredients-container hidden">
                     ${renderItemDetails(item.details)}
                 </div>
