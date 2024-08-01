@@ -33,6 +33,8 @@ document.addEventListener('DOMContentLoaded', function () {
             filler.innerHTML = products[x] 
           };
     }
+      
+
     const choices = document.querySelectorAll('.choice');
     const cartDropdown = document.querySelector('.cart-dropdown');
     const cartItemsContainer = document.querySelector('.cart-items');
@@ -44,6 +46,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const grabButtons = document.querySelectorAll('.grab-now');
     const addButtons = document.querySelectorAll('.add-to-cart');
 
+    cartLoader();
     // cookie checker (done)
     if (!cookie("userid")){
         window.location.href = 'order-now.html';
@@ -392,16 +395,58 @@ document.addEventListener('DOMContentLoaded', function () {
         };
         callApi2("POST", 'http://127.0.0.1:5000/add_order', 
             {'data': JSON.stringify(requestPayload)});
-    
-        console.log(requestPayload)
-        console.log(cartItem)
+            
+        cartLoader();
 
-        cart.push(cartItem);
-        updateCartCount();
-        updateCartTotal();
+        // cart.push(cartItem);
+        // //updateCartCount();
+        // updateCartTotal();
         // renderCartItems();
         highlightCart();
         resetSelections();
+    }
+
+    function cartLoader() {
+        let cart_loader = callApi2("POST", 'http://127.0.0.1:5000/get_order', 
+            {'data': JSON.stringify(cookie('userid'))});
+        // Updates cart amount and visibility of empty cart message
+        cart_amount = Object.keys(cart_loader[0]['order_ingred']).length
+        cartCountElement.textContent = cart_amount;
+        emptyCartMessage.style.display = cart_amount === 0 ? 'block' : 'none';
+        let cart_item_loader = ''
+        let cart_price = 0.0
+        if(cart_loader){
+            console.log(cart_loader)
+            $.each(cart_loader, function(index, order) {
+                for (let z in order.order_ingred) {
+                    for (let y in order.order_ingred[z]){
+                        cart_price += parseFloat(order.order_ingred[z][y].price)
+                        cart_item_loader += '<div class="cart-item">'
+                        cart_item_loader += '<p><strong>' + y +'</strong> $'+ order.order_ingred[z][y].price+'</p>'
+                        cart_item_loader += '<div class="ingredients-container hidden"><p>'
+                        for (let x in order.order_ingred[z][y]){
+                            if (x != 'price'){
+                                cart_item_loader += x + ': ' + order.order_ingred[z][y][x] + '<br/>'
+                            }
+                        }
+                        cart_item_loader += '</p></div>'
+                        cart_item_loader += '<button class="toggle-ingredients">Show/Hide Ingredients</button>'
+                        cart_item_loader += '<button class="remove-item" data-index='+z+'>Remove</button> </div>'
+                    }
+                }
+            })
+            cartItemsContainer.innerHTML = cart_item_loader
+            const toggleButtons = document.querySelectorAll('.toggle-ingredients');
+            toggleButtons.forEach((button) => {
+                button.addEventListener('click', (e) => {
+                    const ingredientsContainer = e.target.previousElementSibling;
+                    ingredientsContainer.classList.toggle('hidden');
+                });
+            });
+        }
+        cartTotalPrice.textContent = '$'+cart_price.toFixed(2);
+        console.log(cart_price)
+
     }
 
     function highlightCart() {
@@ -566,105 +611,105 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 });
 
-document.addEventListener('DOMContentLoaded', function () {
-    const cart = [];
-    const cartItemsContainer = document.querySelector('.cart-items');
-    const cartTotalPrice = document.getElementById('cart-total-price');
-    const cartCountElement = document.querySelector('.cart-count');
-    const emptyCartMessage = document.querySelector('.empty-cart-message');
-    const grabButtons = document.querySelectorAll('.grab-now');
-    const addButtons = document.querySelectorAll('.add-to-cart');
+// document.addEventListener('DOMContentLoaded', function () {
+//     const cart = [];
+//     const cartItemsContainer = document.querySelector('.cart-items');
+//     const cartTotalPrice = document.getElementById('cart-total-price');
+//     const cartCountElement = document.querySelector('.cart-count');
+//     const emptyCartMessage = document.querySelector('.empty-cart-message');
+//     const grabButtons = document.querySelectorAll('.grab-now');
+//     const addButtons = document.querySelectorAll('.add-to-cart');
 
-    // Function to update cart count
-    function updateCartCount() {
-        cartCountElement.textContent = cart.length;
-        emptyCartMessage.style.display = cart.length === 0 ? 'block' : 'none';
-    }
+//     // Function to update cart count
+//     function updateCartCount() {
+//         cartCountElement.textContent = cart.length;
+//         emptyCartMessage.style.display = cart.length === 0 ? 'block' : 'none';
+//     }
 
-    // Function to update cart total price
-    function updateCartTotal() {
-        const total = cart.reduce((sum, item) => sum + item.price, 0);
-        cartTotalPrice.textContent = `$${total.toFixed(2)}`;
-    }
+//     // Function to update cart total price
+//     function updateCartTotal() {
+//         const total = cart.reduce((sum, item) => sum + item.price, 0);
+//         cartTotalPrice.textContent = `$${total.toFixed(2)}`;
+//     }
 
-    // Function to render cart items
-    function renderCartItems() {
-        cartItemsContainer.innerHTML = '';
-        cart.forEach((item, index) => {
-            const cartItemElement = document.createElement('div');
-            cartItemElement.classList.add('cart-item');
-            cartItemElement.innerHTML = `
-                <p><strong>${item.name}</strong> - $${item.price.toFixed(2)}</p>
-                <button class="remove-item" data-index="${index}">Remove</button>
-            `;
-            cartItemsContainer.appendChild(cartItemElement);
-        });
+//     // Function to render cart items
+//     function renderCartItems() {
+//         cartItemsContainer.innerHTML = '';
+//         cart.forEach((item, index) => {
+//             const cartItemElement = document.createElement('div');
+//             cartItemElement.classList.add('cart-item');
+//             cartItemElement.innerHTML = `
+//                 <p><strong>${item.name}</strong> - $${item.price.toFixed(2)}</p>
+//                 <button class="remove-item" data-index="${index}">Remove</button>
+//             `;
+//             cartItemsContainer.appendChild(cartItemElement);
+//         });
 
-        const removeButtons = document.querySelectorAll('.remove-item');
-        removeButtons.forEach((button) => {
-            button.addEventListener('click', (e) => {
-                const index = e.target.getAttribute('data-index');
-                cart.splice(index, 1);
-                updateCartCount();
-                updateCartTotal();
-                renderCartItems();
-            });
-        });
-    }
+//         const removeButtons = document.querySelectorAll('.remove-item');
+//         removeButtons.forEach((button) => {
+//             button.addEventListener('click', (e) => {
+//                 const index = e.target.getAttribute('data-index');
+//                 cart.splice(index, 1);
+//                 updateCartCount();
+//                 updateCartTotal();
+//                 renderCartItems();
+//             });
+//         });
+//     }
 
-    // Function to highlight cart
-    function highlightCart() {
-        const cartDropdown = document.querySelector('.cart-dropdown');
-        cartDropdown.classList.add('highlight');
-        setTimeout(() => {
-            cartDropdown.classList.remove('highlight');
-        }, 1000);
-    }
+//     // Function to highlight cart
+//     function highlightCart() {
+//         const cartDropdown = document.querySelector('.cart-dropdown');
+//         cartDropdown.classList.add('highlight');
+//         setTimeout(() => {
+//             cartDropdown.classList.remove('highlight');
+//         }, 1000);
+//     }
 
-    // Event listener for 'Grab now' buttons
-    grabButtons.forEach((button) => {
-        button.addEventListener('click', (e) => {
-            const recommendationItem = e.target.closest('.recommendation-item');
-            const itemName = recommendationItem.getAttribute('data-name');
-            const itemPrice = parseFloat(recommendationItem.getAttribute('data-price'));
-            const cartItem = {
-                name: itemName,
-                price: itemPrice
-            };
-            cart.push(cartItem);
-            updateCartCount();
-            updateCartTotal();
-            renderCartItems();
-            highlightCart();
-            console.log('Added to cart:', cartItem); // Debugging log
-        });
-    });
+//     // Event listener for 'Grab now' buttons
+//     grabButtons.forEach((button) => {
+//         button.addEventListener('click', (e) => {
+//             const recommendationItem = e.target.closest('.recommendation-item');
+//             const itemName = recommendationItem.getAttribute('data-name');
+//             const itemPrice = parseFloat(recommendationItem.getAttribute('data-price'));
+//             const cartItem = {
+//                 name: itemName,
+//                 price: itemPrice
+//             };
+//             cart.push(cartItem);
+//             updateCartCount();
+//             updateCartTotal();
+//             renderCartItems();
+//             highlightCart();
+//             console.log('Added to cart:', cartItem); // Debugging log
+//         });
+//     });
 
-    // Logout button functionality (vetted)
-    const logoutBtn = document.getElementById('logout-btn');
-    logoutBtn.addEventListener('click', () => {
-        cookie.remove('userid')
-        cookie.remove('username')
-        window.location.href = 'customer-home.html#home';
-    })
+//     // Logout button functionality (vetted)
+//     const logoutBtn = document.getElementById('logout-btn');
+//     logoutBtn.addEventListener('click', () => {
+//         cookie.remove('userid')
+//         cookie.remove('username')
+//         window.location.href = 'customer-home.html#home';
+//     })
 
-    // Event listener for 'Add' buttons
-    addButtons.forEach((button) => {
-        button.addEventListener('click', (e) => {
-            const promotionItem = e.target.closest('.promotion-item');
-            const itemName = promotionItem.getAttribute('data-name');
-            const itemPrice = parseFloat(promotionItem.getAttribute('data-price'));
-            const cartItem = {
-                name: itemName,
-                price: itemPrice
-            };
-            cart.push(cartItem);
-            updateCartCount();
-            updateCartTotal();
-            renderCartItems();
-            highlightCart();
-            console.log('Added to cart:', cartItem); // Debugging log
-        });
+//     // Event listener for 'Add' buttons
+//     addButtons.forEach((button) => {
+//         button.addEventListener('click', (e) => {
+//             const promotionItem = e.target.closest('.promotion-item');
+//             const itemName = promotionItem.getAttribute('data-name');
+//             const itemPrice = parseFloat(promotionItem.getAttribute('data-price'));
+//             const cartItem = {
+//                 name: itemName,
+//                 price: itemPrice
+//             };
+//             cart.push(cartItem);
+//             updateCartCount();
+//             updateCartTotal();
+//             renderCartItems();
+//             highlightCart();
+//             console.log('Added to cart:', cartItem); // Debugging log
+//         });
 
-    });
-});
+//     });
+// });
