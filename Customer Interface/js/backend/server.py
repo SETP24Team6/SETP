@@ -69,6 +69,17 @@ def get_products():
     response.headers.add('Access-Control-Allow-Origin', '*')
     return response
 
+@app.route('/add_order', methods=['POST'])
+def add_order():
+    request_payload = json.loads(request.form['data'])
+    print(request_payload)
+    result =  products.add_order(connection, request_payload)
+    response = ""
+    print(result)
+    response = jsonify({'row_updated': result})
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
+
 
 if __name__ == "__main__":
     print("Starting Python Flask Server For Sandwich Store Management System")

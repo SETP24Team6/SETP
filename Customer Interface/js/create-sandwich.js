@@ -11,25 +11,14 @@ document.addEventListener('DOMContentLoaded', function () {
     const backArrows = document.querySelectorAll('.back-arrow');
     const sandwichFinishIcon = document.getElementById('sandwich-finish-icon-4');
     const smoothieFinishIcon = document.getElementById('smoothie-finish-icon-5');
-    const choices = document.querySelectorAll('.choice');
-    const cartDropdown = document.querySelector('.cart-dropdown');
-    const cartItemsContainer = document.querySelector('.cart-items');
-    const cartTotalPrice = document.getElementById('cart-total-price');
-    const cartCountElement = document.querySelector('.cart-count');
-    const closeCartButton = document.querySelector('.close-cart');
-    const emptyCartMessage = document.querySelector('.empty-cart-message');
-    const addOrdersButton = document.querySelector('.add-orders-button');
-    const grabButtons = document.querySelectorAll('.grab-now');
-    const addButtons = document.querySelectorAll('.add-to-cart');
 
-  
-  
+    // fields populator (done)
     let populator = callApi2("GET", 'http://127.0.0.1:5000/getProducts', {'data': JSON.stringify("")});
     if(populator){
         const products = {bread:"", protein:"", vegetable:"", sauce:"", fruit:"", yogurt:"", smoothievegetable:"", liquidbase:""}
         $.each(populator, function(index, product) {
             dict_key = product.product_type_name.toLowerCase().replace(" ", "")
-            products[dict_key] += '<div class="choice" data-choice="'+product.product_name
+            products[dict_key] += '<div class="choice" data-choice="'+product.products_id
             products[dict_key] += '" data-price="'+product.price_point+'">' 
             products[dict_key] += '<img src="'+product.image_path+'" alt="'+product.product_name+'">' 
             products[dict_key] += '<h3>'+product.product_name+'</h3>';
@@ -44,7 +33,18 @@ document.addEventListener('DOMContentLoaded', function () {
             filler.innerHTML = products[x] 
           };
     }
-  
+    const choices = document.querySelectorAll('.choice');
+    const cartDropdown = document.querySelector('.cart-dropdown');
+    const cartItemsContainer = document.querySelector('.cart-items');
+    const cartTotalPrice = document.getElementById('cart-total-price');
+    const cartCountElement = document.querySelector('.cart-count');
+    const closeCartButton = document.querySelector('.close-cart');
+    const emptyCartMessage = document.querySelector('.empty-cart-message');
+    const addOrdersButton = document.querySelector('.add-orders-button');
+    const grabButtons = document.querySelectorAll('.grab-now');
+    const addButtons = document.querySelectorAll('.add-to-cart');
+
+    // cookie checker (done)
     if (!cookie("userid")){
         window.location.href = 'order-now.html';
     }
@@ -62,6 +62,9 @@ document.addEventListener('DOMContentLoaded', function () {
         liquidBase: '',
         stevia: ''
     };
+
+    let selectedChoices2 = new Set();
+
 
     let sandwichTotal = 6; // Base price for a sandwich
     let smoothieTotal = 5; // Base price for a smoothie
@@ -96,7 +99,7 @@ document.addEventListener('DOMContentLoaded', function () {
             }
             currentStep++;
             showCurrentStep();
-            preselectChoices();
+            // preselectChoices();
         });
     });
 
@@ -104,7 +107,7 @@ document.addEventListener('DOMContentLoaded', function () {
         arrow.addEventListener('click', () => {
             currentStep--;
             showCurrentStep();
-            preselectChoices();
+            // preselectChoices();
         });
     });
 
@@ -176,69 +179,61 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
-    function getPriceFromChoice(choice) {
-        const priceElement = choice.querySelector('p');
-        return priceElement ? parseFloat(priceElement.textContent.replace('$', '')) : 0;
-    }
+    // unneeded function
+    // function getPriceFromChoice(choice) {
+    //     const priceElement = choice.querySelector('p');
+    //     console.log(priceElement ? parseFloat(priceElement.textContent.replace('$', '')) : 0)
+    //     return priceElement ? parseFloat(priceElement.textContent.replace('$', '')) : 0;
+        
+    // }
 
     function handleSandwichChoice(choice, stepId) {
-        const price = getPriceFromChoice(choice);
+        const price = parseFloat(choice.getAttribute('data-price'));
 
         if (stepId === 'sandwich-step-3') {
-            if (choice.querySelector('h3').textContent === 'None') {
-                selectedChoices.veggies = [{ name: 'None', price: 0 }];
-                sandwichTotal = 6;
-                choices.forEach((c) => c.classList.remove('selected'));
-                choice.classList.add('selected');
-            } else {
-                if (selectedChoices.veggies.some((v) => v.name === 'None')) {
-                    selectedChoices.veggies = [];
-                    choices.forEach((c) => c.classList.remove('selected'));
-                }
-                choice.classList.toggle('selected');
-                const veggieName = choice.querySelector('h3').textContent;
+            choice.classList.toggle('selected');
+            const veggieName = choice.getAttribute('data-choice');
 
-                if (choice.classList.contains('selected')) {
-                    if (selectedChoices.veggies.length < 3 && !selectedChoices.veggies.some((v) => v.name === veggieName)) {
-                        selectedChoices.veggies.push({ name: veggieName, price });
-                    } else {
-                        choice.classList.remove('selected');
-                        alert('You can only select up to 3 veggies.');
-                    }
+            if (choice.classList.contains('selected')) {
+                if (selectedChoices.veggies.length < 3 && !selectedChoices.veggies.some((v) => v.name === veggieName)) {
+                    selectedChoices.veggies.push({ name: veggieName, price });
+                    selectedChoices2.add(veggieName)
                 } else {
-                    selectedChoices.veggies = selectedChoices.veggies.filter((v) => v.name !== veggieName);
+                    choice.classList.remove('selected');
+                    alert('You can only select up to 3 veggies.');
                 }
+            } else {
+                selectedChoices.veggies = selectedChoices.veggies.filter((v) => v.name !== veggieName);
+                selectedChoices2.delete(veggieName)
             }
+            console.log(selectedChoices2)
         } else if (stepId === 'sandwich-step-4') {
-            if (choice.querySelector('h3').textContent === 'None') {
-                selectedChoices.sauces = [{ name: 'None', price: 0 }];
-                sandwichTotal = 6;
+            if (selectedChoices.sauces.some((s) => s.name === 'None')) {
+                selectedChoices.sauces = [];
                 choices.forEach((c) => c.classList.remove('selected'));
-                choice.classList.add('selected');
-            } else {
-                if (selectedChoices.sauces.some((s) => s.name === 'None')) {
-                    selectedChoices.sauces = [];
-                    choices.forEach((c) => c.classList.remove('selected'));
-                }
-                choice.classList.toggle('selected');
-                const sauceName = choice.querySelector('h3').textContent;
+            }
+            choice.classList.toggle('selected');
+            const sauceName = choice.getAttribute('data-choice');
 
-                if (choice.classList.contains('selected')) {
-                    if (selectedChoices.sauces.length < 2 && !selectedChoices.sauces.some((s) => s.name === sauceName)) {
-                        selectedChoices.sauces.push({ name: sauceName, price });
-                    } else {
-                        choice.classList.remove('selected');
-                        alert('You can only select up to 2 sauces.');
-                    }
+            if (choice.classList.contains('selected')) {
+                if (selectedChoices.sauces.length < 2 && !selectedChoices.sauces.some((s) => s.name === sauceName)) {
+                    selectedChoices.sauces.push({ name: sauceName, price });
+                    selectedChoices2.add(sauceName)
                 } else {
-                    selectedChoices.sauces = selectedChoices.sauces.filter((s) => s.name !== sauceName);
+                    choice.classList.remove('selected');
+                    alert('You can only select up to 2 sauces.');
                 }
+            } else {
+                selectedChoices.sauces = selectedChoices.sauces.filter((s) => s.name !== sauceName);
+                selectedChoices2.delete(sauceName);
             }
         } else {
             choices.forEach((c) => c.classList.remove('selected'));
+            choices.forEach((c) => selectedChoices2.delete(c.getAttribute('data-choice')));
             choice.classList.add('selected');
 
-            const choiceName = choice.querySelector('h3').textContent;
+            const choiceName = choice.getAttribute('data-choice');
+           
             if (stepId === 'sandwich-step-1') {
                 sandwichTotal -= selectedChoices.breadPrice || 0;
                 selectedChoices.bread = choiceName;
@@ -250,11 +245,14 @@ document.addEventListener('DOMContentLoaded', function () {
                 selectedChoices.proteinPrice = price;
                 sandwichTotal += price;
             }
+            console.log(selectedChoices2)
         }
+        
+        console.log(selectedChoices)
     }
 
     function handleSmoothieChoice(choice, stepId) {
-        const price = getPriceFromChoice(choice);
+        const price = parseFloat(choice.getAttribute('data-price'));
 
         if (stepId === 'smoothie-step-1') {
             choices.forEach((c) => c.classList.remove('selected'));
@@ -378,16 +376,30 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function addToCart() {
         const cartItem = {
-            type: isSandwich ? 'Sandwich' : 'Smoothie',
+            type: isSandwich ? '1' : '2',
             name: isSandwich ? 'Custom Sandwich' : 'Custom Smoothie',
             details: { ...selectedChoices },
             price: isSandwich ? sandwichTotal : smoothieTotal
         };
+        selectedChoices2.add(selectedChoices.bread)
+        selectedChoices2.add(selectedChoices.protein)
+        var requestPayload = {
+            type: isSandwich ? '1' : '2',
+            name: isSandwich ? 'Sandwich' : 'Smoothie',
+            price: isSandwich ? sandwichTotal : smoothieTotal,
+            ingredents : [...selectedChoices2], 
+            member: cookie('userid')
+        };
+        callApi2("POST", 'http://127.0.0.1:5000/add_order', 
+            {'data': JSON.stringify(requestPayload)});
+    
+        console.log(requestPayload)
+        console.log(cartItem)
 
         cart.push(cartItem);
         updateCartCount();
         updateCartTotal();
-        renderCartItems();
+        // renderCartItems();
         highlightCart();
         resetSelections();
     }
@@ -524,7 +536,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Typewriter effect for the recommendations section
     const typewriterText = document.querySelector('#recommendations h2');
-    const username = getCookie('username'); // Use getCookie function to get the username
+    const username = cookie('username'); // Use getCookie function to get the username
     const text = `Welcome back ${username}!`;
     typewriterText.textContent = '';
     let i = 0;
@@ -539,12 +551,12 @@ document.addEventListener('DOMContentLoaded', function () {
 
     typeWriter();
 
-    // Function to get cookie by name
-    function getCookie(name) {
-        const value = `; ${document.cookie}`;
-        const parts = value.split(`; ${name}=`);
-        if (parts.length === 2) return parts.pop().split(';').shift();
-    }
+    // // Function to get cookie by name
+    // function getCookie(name) {
+    //     const value = `; ${document.cookie}`;
+    //     const parts = value.split(`; ${name}=`);
+    //     if (parts.length === 2) return parts.pop().split(';').shift();
+    // }
 
     // Recommendations section animation
     const recommendationItems = document.querySelectorAll('.recommendation-item');
@@ -553,6 +565,7 @@ document.addEventListener('DOMContentLoaded', function () {
         item.style.animationDelay = `${index * 0.3}s`;
     });
 });
+
 document.addEventListener('DOMContentLoaded', function () {
     const cart = [];
     const cartItemsContainer = document.querySelector('.cart-items');
@@ -627,12 +640,13 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
-    // Logout button functionality
+    // Logout button functionality (vetted)
     const logoutBtn = document.getElementById('logout-btn');
     logoutBtn.addEventListener('click', () => {
         cookie.remove('userid')
         cookie.remove('username')
         window.location.href = 'customer-home.html#home';
+    })
 
     // Event listener for 'Add' buttons
     addButtons.forEach((button) => {
