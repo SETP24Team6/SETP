@@ -217,11 +217,12 @@ CREATE TABLE orders_items (
     item_id SERIAL PRIMARY KEY,
     order_id INT, 
     item_type VARCHAR(10), --Sandwich or Smoothie--
+    item_price NUMERIC(5, 2),
     FOREIGN KEY (order_id) REFERENCES orders(order_id)
 );
 
 
-INSERT INTO orders_items (order_id, item_type, total_price) VALUES 
+INSERT INTO orders_items (order_id, item_type, item_price) VALUES 
     (1, 'Sandwich', 6.00),
     (1, 'Smoothie', 5.00),
     (2, 'Sandwich', 6.00),

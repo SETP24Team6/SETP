@@ -78,35 +78,39 @@ def get_order(conn,order):
     data = (order, 'cart')
     cursor.execute(query, data)
 
-    order_ingred = {}
-    item_ingred = {}
-    product_ingred = {}
-    id_tracker = 0
-    type_tracker = ""
-    for (item_id2, item_type2, item_price, product_type_name, ingred_list) in cursor:
-        if id_tracker == 0:
-            id_tracker = item_id2
-            type_tracker = item_type2
-        
-        if id_tracker != item_id2:
-            item_ingred[type_tracker] = product_ingred
+    print(cursor.rowcount )
+    if cursor.rowcount != 0:
+
+        order_ingred = {}
+        item_ingred = {}
+        product_ingred = {}
+        id_tracker = 0
+        type_tracker = ""
+        for (item_id2, item_type2, item_price, product_type_name, ingred_list) in cursor:
+            if id_tracker == 0:
+                id_tracker = item_id2
+                type_tracker = item_type2
             
-            order_ingred[id_tracker] = item_ingred
-            product_ingred = {}
-            item_ingred = {}
-            id_tracker = item_id2
-            type_tracker = item_type2
+            if id_tracker != item_id2:
+                item_ingred[type_tracker] = product_ingred
+                
+                order_ingred[id_tracker] = item_ingred
+                product_ingred = {}
+                item_ingred = {}
+                id_tracker = item_id2
+                type_tracker = item_type2
 
-        product_ingred[product_type_name] = ingred_list
-        product_ingred['price'] = str(item_price)
-        
-    item_ingred[type_tracker] = product_ingred
-    order_ingred[item_id2] = item_ingred
-        
+            product_ingred[product_type_name] = ingred_list
+            product_ingred['price'] = str(item_price)
+            
+        item_ingred[type_tracker] = product_ingred
+        order_ingred[item_id2] = item_ingred
+            
 
-    response.append({
-        "order_ingred" : order_ingred
-    })
+        response.append({
+            "order_ingred" : order_ingred
+        })
+    
     # print('\n'.join('{}: {}'.format(*k) for k in enumerate(response)))
     return response
 
@@ -119,6 +123,17 @@ def delete_item(conn, order):
     data = (order,)
     cursor.execute(query, data)
     query = ("DELETE FROM orders_items where item_id = %s ")
+    cursor.execute(query, data)
+    conn.commit()
+
+    return cursor.lastrowid
+
+def cart_out(conn, order):
+    cursor = conn.cursor()
+    print(order)
+    cursor.execute("ROLLBACK")
+    query = ("UPDATE orders SET order_status = %s  WHERE member_id = %s AND order_status = %s")
+    data = ('preparing', order, 'cart')
     cursor.execute(query, data)
     conn.commit()
 

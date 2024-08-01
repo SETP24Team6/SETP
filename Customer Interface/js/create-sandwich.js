@@ -45,6 +45,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const addOrdersButton = document.querySelector('.add-orders-button');
     const grabButtons = document.querySelectorAll('.grab-now');
     const addButtons = document.querySelectorAll('.add-to-cart');
+    const cartCheckOut = document.getElementById('checkout');
 
     cartLoader();
     // cookie checker (done)
@@ -400,12 +401,11 @@ document.addEventListener('DOMContentLoaded', function () {
         let cart_loader = callApi2("POST", 'http://127.0.0.1:5000/get_order', 
             {'data': JSON.stringify(cookie('userid'))});
 
-        // Updates cart amount and visibility of empty cart message
-        cart_amount = Object.keys(cart_loader[0]['order_ingred']).length
-        cartCountElement.textContent = cart_amount;
-        emptyCartMessage.style.display = cart_amount === 0 ? 'block' : 'none';
-
-        if(cart_loader){
+        if(cart_loader.length != 0){
+            // Updates cart amount and visibility of empty cart message
+            cart_amount = Object.keys(cart_loader[0]['order_ingred']).length
+            cartCountElement.textContent = cart_amount;
+            emptyCartMessage.style.display = cart_amount === 0 ? 'block' : 'none';
             $.each(cart_loader, function(index, order) {
                 for (let z in order.order_ingred) {
                     for (let y in order.order_ingred[z]){
@@ -441,10 +441,6 @@ document.addEventListener('DOMContentLoaded', function () {
                     callApi2("POST", 'http://127.0.0.1:5000/delete_item', 
                         {'data': JSON.stringify(index)});
                         cartLoader()
-                //     cart.splice(index, 1);
-                //     updateCartCount();
-                //     updateCartTotal();
-                //     renderCartItems();
                 });
             });
 
@@ -494,6 +490,13 @@ document.addEventListener('DOMContentLoaded', function () {
             top: document.getElementById('customise').offsetTop,
             behavior: 'smooth'
         });
+    });
+
+    
+    cartCheckOut.addEventListener('click', () => {
+        callApi2("POST", 'http://127.0.0.1:5000/cart_out', 
+            {'data': JSON.stringify(cookie('userid'))});
+            // cartLoader()
     });
 
     // Typewriter effect for the recommendations section
