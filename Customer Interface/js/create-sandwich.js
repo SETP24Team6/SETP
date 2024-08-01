@@ -182,14 +182,6 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
-    // unneeded function
-    // function getPriceFromChoice(choice) {
-    //     const priceElement = choice.querySelector('p');
-    //     console.log(priceElement ? parseFloat(priceElement.textContent.replace('$', '')) : 0)
-    //     return priceElement ? parseFloat(priceElement.textContent.replace('$', '')) : 0;
-        
-    // }
-
     function handleSandwichChoice(choice, stepId) {
         const price = parseFloat(choice.getAttribute('data-price'));
 
@@ -398,10 +390,6 @@ document.addEventListener('DOMContentLoaded', function () {
             
         cartLoader();
 
-        // cart.push(cartItem);
-        // //updateCartCount();
-        // updateCartTotal();
-        // renderCartItems();
         highlightCart();
         resetSelections();
     }
@@ -476,93 +464,6 @@ document.addEventListener('DOMContentLoaded', function () {
         showCurrentStep();
     }
 
-    function updateCartCount() {
-        cartCountElement.textContent = cart.length;
-        emptyCartMessage.style.display = cart.length === 0 ? 'block' : 'none';
-    }
-
-    function updateCartTotal() {
-        const total = cart.reduce((sum, item) => sum + item.price, 0);
-        cartTotalPrice.textContent = `$${total.toFixed(2)}`;
-    }
-
-    function renderCartItems() {
-        cartItemsContainer.innerHTML = '';
-        cart.forEach((item, index) => {
-            const cartItemElement = document.createElement('div');
-            cartItemElement.classList.add('cart-item');
-            cartItemElement.innerHTML = `
-                <p><strong>${item.type}</strong> - ${item.name} - $${item.price.toFixed(2)}</p>
-                <div class="ingredients-container hidden">
-                    ${renderItemDetails(item.details)}
-                </div>
-                <button class="toggle-ingredients">Show/Hide Ingredients</button>
-                <button class="remove-item" data-index="${index}">Remove</button>
-            `;
-            cartItemsContainer.appendChild(cartItemElement);
-        });
-
-        const removeButtons = document.querySelectorAll('.remove-item');
-        removeButtons.forEach((button) => {
-            button.addEventListener('click', (e) => {
-                const index = e.target.getAttribute('data-index');
-                cart.splice(index, 1);
-                updateCartCount();
-                updateCartTotal();
-                renderCartItems();
-            });
-        });
-
-        const toggleButtons = document.querySelectorAll('.toggle-ingredients');
-        toggleButtons.forEach((button) => {
-            button.addEventListener('click', (e) => {
-                const ingredientsContainer = e.target.previousElementSibling;
-                ingredientsContainer.classList.toggle('hidden');
-            });
-        });
-    }
-
-    function renderItemDetails(details) {
-        const detailItems = [];
-        if (details.bread) {
-            detailItems.push(`<p>Bread: ${details.bread} - $${details.breadPrice.toFixed(2)}</p>`);
-        }
-        if (details.protein) {
-            detailItems.push(`<p>Protein: ${details.protein} - $${details.proteinPrice.toFixed(2)}</p>`);
-        }
-        if (details.veggies.length) {
-            detailItems.push('<p>Veggies:</p>');
-            details.veggies.forEach(v => {
-                detailItems.push(`<p>${v.name} - $${v.price.toFixed(2)}</p>`);
-            });
-        }
-        if (details.sauces.length) {
-            detailItems.push('<p>Sauces:</p>');
-            details.sauces.forEach(s => {
-                detailItems.push(`<p>${s.name} - $${s.price.toFixed(2)}</p>`);
-            });
-        }
-        if (details.fruits.length) {
-            detailItems.push('<p>Fruits:</p>');
-            details.fruits.forEach(f => {
-                detailItems.push(`<p>${f.name} - $${f.price.toFixed(2)}</p>`);
-            });
-        }
-        if (details.greens) {
-            detailItems.push(`<p>Greens: ${details.greens} - $${details.greensPrice.toFixed(2)}</p>`);
-        }
-        if (details.proteinSmoothie) {
-            detailItems.push(`<p>Protein: ${details.proteinSmoothie} - $${details.proteinSmoothiePrice.toFixed(2)}</p>`);
-        }
-        if (details.liquidBase) {
-            detailItems.push(`<p>Liquid Base: ${details.liquidBase} - $${details.liquidBasePrice.toFixed(2)}</p>`);
-        }
-        if (details.stevia) {
-            detailItems.push(`<p>Stevia: ${details.stevia} - $${details.steviaPrice.toFixed(2)}</p>`);
-        }
-        return detailItems.join('');
-    }
-
     cartCountElement.parentElement.addEventListener('click', () => {
         cartDropdown.style.display = cartDropdown.style.display === 'none' || cartDropdown.style.display === '' ? 'block' : 'none';
     });
@@ -596,12 +497,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
     typeWriter();
 
-    // // Function to get cookie by name
-    // function getCookie(name) {
-    //     const value = `; ${document.cookie}`;
-    //     const parts = value.split(`; ${name}=`);
-    //     if (parts.length === 2) return parts.pop().split(';').shift();
-    // }
 
     // Recommendations section animation
     const recommendationItems = document.querySelectorAll('.recommendation-item');
@@ -610,106 +505,3 @@ document.addEventListener('DOMContentLoaded', function () {
         item.style.animationDelay = `${index * 0.3}s`;
     });
 });
-
-// document.addEventListener('DOMContentLoaded', function () {
-//     const cart = [];
-//     const cartItemsContainer = document.querySelector('.cart-items');
-//     const cartTotalPrice = document.getElementById('cart-total-price');
-//     const cartCountElement = document.querySelector('.cart-count');
-//     const emptyCartMessage = document.querySelector('.empty-cart-message');
-//     const grabButtons = document.querySelectorAll('.grab-now');
-//     const addButtons = document.querySelectorAll('.add-to-cart');
-
-//     // Function to update cart count
-//     function updateCartCount() {
-//         cartCountElement.textContent = cart.length;
-//         emptyCartMessage.style.display = cart.length === 0 ? 'block' : 'none';
-//     }
-
-//     // Function to update cart total price
-//     function updateCartTotal() {
-//         const total = cart.reduce((sum, item) => sum + item.price, 0);
-//         cartTotalPrice.textContent = `$${total.toFixed(2)}`;
-//     }
-
-//     // Function to render cart items
-//     function renderCartItems() {
-//         cartItemsContainer.innerHTML = '';
-//         cart.forEach((item, index) => {
-//             const cartItemElement = document.createElement('div');
-//             cartItemElement.classList.add('cart-item');
-//             cartItemElement.innerHTML = `
-//                 <p><strong>${item.name}</strong> - $${item.price.toFixed(2)}</p>
-//                 <button class="remove-item" data-index="${index}">Remove</button>
-//             `;
-//             cartItemsContainer.appendChild(cartItemElement);
-//         });
-
-//         const removeButtons = document.querySelectorAll('.remove-item');
-//         removeButtons.forEach((button) => {
-//             button.addEventListener('click', (e) => {
-//                 const index = e.target.getAttribute('data-index');
-//                 cart.splice(index, 1);
-//                 updateCartCount();
-//                 updateCartTotal();
-//                 renderCartItems();
-//             });
-//         });
-//     }
-
-//     // Function to highlight cart
-//     function highlightCart() {
-//         const cartDropdown = document.querySelector('.cart-dropdown');
-//         cartDropdown.classList.add('highlight');
-//         setTimeout(() => {
-//             cartDropdown.classList.remove('highlight');
-//         }, 1000);
-//     }
-
-//     // Event listener for 'Grab now' buttons
-//     grabButtons.forEach((button) => {
-//         button.addEventListener('click', (e) => {
-//             const recommendationItem = e.target.closest('.recommendation-item');
-//             const itemName = recommendationItem.getAttribute('data-name');
-//             const itemPrice = parseFloat(recommendationItem.getAttribute('data-price'));
-//             const cartItem = {
-//                 name: itemName,
-//                 price: itemPrice
-//             };
-//             cart.push(cartItem);
-//             updateCartCount();
-//             updateCartTotal();
-//             renderCartItems();
-//             highlightCart();
-//             console.log('Added to cart:', cartItem); // Debugging log
-//         });
-//     });
-
-//     // Logout button functionality (vetted)
-//     const logoutBtn = document.getElementById('logout-btn');
-//     logoutBtn.addEventListener('click', () => {
-//         cookie.remove('userid')
-//         cookie.remove('username')
-//         window.location.href = 'customer-home.html#home';
-//     })
-
-//     // Event listener for 'Add' buttons
-//     addButtons.forEach((button) => {
-//         button.addEventListener('click', (e) => {
-//             const promotionItem = e.target.closest('.promotion-item');
-//             const itemName = promotionItem.getAttribute('data-name');
-//             const itemPrice = parseFloat(promotionItem.getAttribute('data-price'));
-//             const cartItem = {
-//                 name: itemName,
-//                 price: itemPrice
-//             };
-//             cart.push(cartItem);
-//             updateCartCount();
-//             updateCartTotal();
-//             renderCartItems();
-//             highlightCart();
-//             console.log('Added to cart:', cartItem); // Debugging log
-//         });
-
-//     });
-// });
