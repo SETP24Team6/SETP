@@ -86,6 +86,16 @@ def get_order():
     request_payload = json.loads(request.form['data'])
     result =  products.get_order(connection, request_payload)
     response = ""
+    # print(result)
+    response = jsonify(result)
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
+
+@app.route('/delete_item', methods=['POST'])
+def delete_item():
+    request_payload = json.loads(request.form['data'])
+    result =  products.delete_item(connection, request_payload)
+    response = ""
     print(result)
     response = jsonify(result)
     print(response)

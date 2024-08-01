@@ -109,3 +109,17 @@ def get_order(conn,order):
     })
     # print('\n'.join('{}: {}'.format(*k) for k in enumerate(response)))
     return response
+
+
+def delete_item(conn, order):
+    cursor = conn.cursor()
+    print(order)
+    cursor.execute("ROLLBACK")
+    query = ("DELETE FROM item_ingredients where item_id = %s ")
+    data = (order,)
+    cursor.execute(query, data)
+    query = ("DELETE FROM orders_items where item_id = %s ")
+    cursor.execute(query, data)
+    conn.commit()
+
+    return cursor.lastrowid

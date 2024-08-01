@@ -395,16 +395,17 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function cartLoader() {
+        let cart_item_loader = ''
+        let cart_price = 0.0
         let cart_loader = callApi2("POST", 'http://127.0.0.1:5000/get_order', 
             {'data': JSON.stringify(cookie('userid'))});
+
         // Updates cart amount and visibility of empty cart message
         cart_amount = Object.keys(cart_loader[0]['order_ingred']).length
         cartCountElement.textContent = cart_amount;
         emptyCartMessage.style.display = cart_amount === 0 ? 'block' : 'none';
-        let cart_item_loader = ''
-        let cart_price = 0.0
+
         if(cart_loader){
-            console.log(cart_loader)
             $.each(cart_loader, function(index, order) {
                 for (let z in order.order_ingred) {
                     for (let y in order.order_ingred[z]){
@@ -431,9 +432,24 @@ document.addEventListener('DOMContentLoaded', function () {
                     ingredientsContainer.classList.toggle('hidden');
                 });
             });
+
+            
+            const removeButtons = document.querySelectorAll('.remove-item');
+            removeButtons.forEach((button) => {
+                button.addEventListener('click', (e) => {
+                    const index = e.target.getAttribute('data-index');
+                    callApi2("POST", 'http://127.0.0.1:5000/delete_item', 
+                        {'data': JSON.stringify(index)});
+                        cartLoader()
+                //     cart.splice(index, 1);
+                //     updateCartCount();
+                //     updateCartTotal();
+                //     renderCartItems();
+                });
+            });
+
         }
         cartTotalPrice.textContent = '$'+cart_price.toFixed(2);
-        console.log(cart_price)
 
     }
 
