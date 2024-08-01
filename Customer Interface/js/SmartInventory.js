@@ -29,6 +29,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const sendEmailButton = document.getElementById('sendEmail');
     const responseMessage = document.getElementById('responseMessage');
     const ingredientInput = document.getElementById('ingredient');
+    const quantityInput = document.getElementById('quantity');
+    const deliveryDateInput = document.getElementById('deliveryDate');
+    const supplierEmailInput = document.getElementById('supplierEmail');
     const messageInput = document.getElementById('message');
 
     restockButtons.forEach(button => {
@@ -43,24 +46,32 @@ document.addEventListener('DOMContentLoaded', () => {
     closeModal.addEventListener('click', () => {
         modal.style.display = 'none';
         responseMessage.style.display = 'none';
-    });
-
-    window.addEventListener('click', (event) => {
-        if (event.target === modal) {
-            modal.style.display = 'none';
-            responseMessage.style.display = 'none';
-        }
+        responseMessage.textContent = '';
     });
 
     sendEmailButton.addEventListener('click', () => {
-        // Fake email sending response
+        const ingredient = ingredientInput.value;
+        const quantity = quantityInput.value;
+        const deliveryDate = deliveryDateInput.value;
+        const supplierEmail = supplierEmailInput.value;
+        const message = messageInput.value;
+
+        if (!ingredient || !quantity || !deliveryDate || !supplierEmail || !message) {
+            responseMessage.style.display = 'block';
+            responseMessage.className = 'show error';
+            responseMessage.textContent = 'All fields must be filled out before sending the email.';
+            return;
+        }
+
         responseMessage.style.display = 'block';
-        responseMessage.className = 'show error'; // Show error response
-        responseMessage.textContent = 'Failed to send email. Please try again later.';
-        
-        // Hide the modal after showing the response message
+        responseMessage.className = 'show success';
+        responseMessage.textContent = 'Email sent successfully!';
+
         setTimeout(() => {
             modal.style.display = 'none';
+            responseMessage.style.display = 'none';
+            responseMessage.textContent = '';
+            document.getElementById('restockForm').reset();
         }, 2000);
     });
 });

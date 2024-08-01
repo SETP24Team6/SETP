@@ -129,25 +129,6 @@ nav .staff-view b {
     transition: background-color 0.3s;
 }
 
-.logout-btn:hover {
-    background-color: darkred;
-}
-
-
-.section {
-    padding: 20px;
-    margin-top: 0px;
-}
-
-.container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0px;
-    background: #fff;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
-}
-
 .section {
     padding: 20px;
     margin-top: 0px;
@@ -208,7 +189,50 @@ h1 span::after {
     transform: translateX(-50%);
 }
 
-#inventoryTable {
+h2 {
+    color: #495057; 
+    background-color: #f8f9fa;
+    border-left: 5px solid #ced4da;
+    padding: 10px 15px;
+    border-radius: 5px;
+    font-size: 1.5em;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    text-align: left;
+    font-weight: bold;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.ingredient-nav {
+    margin: 20px 0;
+    text-align: center;
+    background-color: rgba(173, 216, 230, 0.4); /* Semi-transparent light blue */
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.ingredient-nav a {
+    display: inline-block;
+    margin: 0 20px;
+    text-decoration: none;
+    font-weight: bold;
+    color: #333;
+    font-size: 1.2em;
+    padding: 10px 20px;
+    border-radius: 5px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.ingredient-nav a:hover {
+    text-decoration: underline;
+    background-color: rgba(23, 162, 184, 0.1);
+    color: #138496;
+}
+
+
+/* General Table Styles */
+table {
     width: 100%;
     border-collapse: collapse;
     margin: 20px 0;
@@ -216,33 +240,60 @@ h1 span::after {
     text-align: left;
 }
 
-#inventoryTable th, #inventoryTable td {
+table th, table td {
     padding: 12px;
     border: 1px solid #ddd;
 }
 
-#inventoryTable th {
+table th {
     background-color: #f4f4f4;
 }
 
-#inventoryTable .status.critically-low {
+/* Status Styles */
+table .status.critically-low {
     background-color: red;
     color: white;
 }
 
-#inventoryTable .status.low {
+table .status.low {
     background-color: lightcoral;
     color: black;
 }
 
-#inventoryTable .status.moderate {
+table .status.moderate {
     background-color: yellow;
     color: black;
 }
 
-#inventoryTable .status.high {
+table .status.high {
     background-color: transparent;
     color: black;
+}
+
+/* Sandwich Ingredients Table */
+#sandwichIngredients {
+    margin-bottom: 40px; /* Add space between Sandwich and Smoothie tables */
+}
+
+#sandwichIngredients th {
+    background-color: #d1e7dd; /* Light green header for sandwich ingredients */
+}
+
+#sandwichIngredients td {
+    background-color: #f9f9f9; /* Light grey background for sandwich ingredient rows */
+}
+
+/* Smoothie Ingredients Table */
+#smoothieIngredients {
+    margin-top: 20px; /* Space above the Smoothie table */
+}
+
+#smoothieIngredients th {
+    background-color: #cfe2f3; /* Light blue header for smoothie ingredients */
+}
+
+#smoothieIngredients td {
+    background-color: #f9f9f9; /* Light grey background for smoothie ingredient rows */
 }
 
 .restock-btn {
