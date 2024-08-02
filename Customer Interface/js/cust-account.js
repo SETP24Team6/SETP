@@ -6,15 +6,28 @@ document.addEventListener('DOMContentLoaded', function () {
         option.addEventListener('click', function (event) {
             event.preventDefault();
 
+            const sectionToShow = document.querySelector(option.getAttribute('href'));
+
+            // Check if the clicked section is already visible
+            const isVisible = sectionToShow.style.display === 'block';
+
             // Hide all sections first
             sections.forEach(section => section.style.display = 'none');
 
-            // Show the clicked section
-            const sectionToShow = document.querySelector(option.getAttribute('href'));
-            sectionToShow.style.display = 'block';
+            // If the clicked section was not visible, show it
+            if (!isVisible) {
+                sectionToShow.style.display = 'block';
+                sectionToShow.scrollIntoView({ behavior: 'smooth' });
+            }
+        });
+    });
 
-            // Scroll to the section
-            sectionToShow.scrollIntoView({ behavior: 'smooth' });
+    const tabLinks = document.querySelectorAll('.tablinks');
+    tabLinks.forEach(link => {
+        link.addEventListener('click', function (event) {
+            openTab(event, event.currentTarget.getAttribute('data-tab'));
+            // Scroll to the tab content
+            document.getElementById(event.currentTarget.getAttribute('data-tab')).scrollIntoView({ behavior: 'smooth' });
         });
     });
 });

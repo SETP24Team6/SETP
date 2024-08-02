@@ -5,6 +5,17 @@ body {
     background-size: cover;
     overflow-x: hidden;
     font-size: 14px;
+    position: relative;
+}
+
+.background-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.7); /* White overlay with 70% opacity */
+    z-index: -1;
 }
 
 nav {
@@ -212,9 +223,21 @@ p {
     text-align: center;
 }
 
-.tabcontent th {
-    background-color: #f0f0f0;
-    color: #333;
+.date-column,
+.points-column,
+.details-column {
+    background-color: #fcfcfc; /* Slightly greyish color */
+    text-align: center;
+    padding: 8px;
+}
+
+/* Ensuring table headers also have the greyish background */
+th.date-column,
+th.points-column,
+th.details-column {
+    background-color: #e3e5f0; /* Slightly greyish color */
+    color: #333; /* Text color for better contrast */
+    padding: 8px;
 }
 
 .tabcontent tr:nth-child(even) {
