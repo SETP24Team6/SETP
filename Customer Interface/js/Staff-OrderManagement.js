@@ -30,6 +30,65 @@ document.addEventListener('DOMContentLoaded', () => {
         completedOrderModal: document.getElementById('completedOrderModal')
     };
 
+    function populateFields(){
+        let populator = callApi2("GET", 'http://127.0.0.1:5000/get_all_orders', {'data': JSON.stringify("")});
+        
+        if(populator){
+            const orders = {preparing:"", ready:"", completed:""}
+            $.each(populator, function(index, order) {
+                orders[order.order_status] += '<tr> <td class="order_id" >'+order.order_id+'</td>'
+                orders[order.order_status] += '<td>'
+                for (let z in order.order_ingred) {
+                    for (let y in order.order_ingred[z]){
+                        orders[order.order_status] += '<b><u>'+ y + '</u></b><br/>'
+                        for (let x in order.order_ingred[z][y]){
+                            orders[order.order_status] += x + ': ' +order.order_ingred[z][y][x] + '<br/>'
+                        }
+                    orders[order.order_status] += '<br/>'
+                    }
+                }
+                orders[order.order_status] += '</td>'
+                orders[order.order_status] += '<td>'+order.firstName+'</td>'
+                orders[order.order_status] += '<td>'+order.order_timestamp.substring(5,22)+'</td>'
+                orders[order.order_status] += '<td>'+order.store_name+'</td>'
+                orders[order.order_status] += '<td> FREE </td>'
+                switch(order.order_status) {
+                    case 'preparing':
+                        orders[order.order_status] += '<td><button class="ready">Ready!</button></td>'
+                        break;
+                    case 'ready':
+                        orders[order.order_status] += '<td><button class="complete">Complete!</button></td>'
+                        break;
+                    case 'completed':
+                        orders[order.order_status] += '<td><button class="Done">Done!</button></td>'
+                    break;
+                      default:
+                        // code block
+                    }
+                
+            })
+            for (let x in orders) {
+                const filler = document.getElementById(x);
+                filler.innerHTML = orders[x] 
+            };
+            setTimeout(populateFields, 5000)
+        }
+    }
+    populateFields()
+
+    $(".ready").click(function () {
+        var $row = $(this).closest("tr");
+        var $Area = $row.find(".order_id").text();
+        callApi("POST", 'http://127.0.0.1:5000/ready_order', {'data': JSON.stringify($Area)});
+        
+     });
+     $(".complete").click(function () {
+        var $row = $(this).closest("tr");
+        var $Area = $row.find(".order_id").text();
+        callApi("POST", 'http://127.0.0.1:5000/complete_order', {'data': JSON.stringify($Area)});
+        
+     });
+
     const closeButtons = document.querySelectorAll('.close');
 
     let currentOrder = null;
@@ -104,8 +163,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function getTableForStatus(status) {
         switch (status) {
-            case 'new':
-                return document.getElementById('newOrders').querySelector('tbody');
             case 'preparing':
                 return document.getElementById('preparingOrders').querySelector('tbody');
             case 'ready':
