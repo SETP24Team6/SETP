@@ -6,6 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Menu</title>
     <link rel="stylesheet" href="css/create-sandwich.css">
+    <script src="js/cookie.umd.js"></script>
+    <script src="js/packages/jquery.min.js"></script>
+    <script src="js/api.js"></script>
 </head>
 
 <body>
@@ -21,7 +24,7 @@
                 <a href="#profile"><img src="asset/profile-icon.png" alt="Profile" class="profile-icon"></a>
                 <div class="dropdown-content">
                     <a href="cust-account.html">My Account</a>
-                    <a href="customer-home.html" id="logout-btn">Logout</a>
+                    <a href="#profile" id="logout-btn">Logout</a>
                 </div>
             </div>
             <div class="cart-container">
@@ -101,27 +104,8 @@
                     <!-- Sandwich Steps -->
                     <div class="sandwich-step hidden" id="sandwich-step-1">
                         <h2>Step 1: Pick Your Bread</h2>
-                        <div class="choices">
-                            <div class="choice" data-choice="Sourdough" data-price="1.50">
-                                <img src="asset/sourdough.jpg" alt="Sourdough">
-                                <h3>Sourdough</h3>
-                            </div>
-                            <div class="choice" data-choice="Wholemeal" data-price="1.20">
-                                <img src="asset/wholemeal.jpg" alt="Wholemeal">
-                                <h3>Wholemeal</h3>
-                            </div>
-                            <div class="choice" data-choice="Oat Bread" data-price="1.30">
-                                <img src="asset/oatbread.jpg" alt="Oat Bread">
-                                <h3>Oat Bread</h3>
-                                <p>$0.50</p>
-                            </div>
-                            <div class="choice" data-choice="Italian Herb" data-price="1.40">
-                                <img src="asset/italianherb.jpg" alt="Italian Herb">
-                                <h3>Italian Herb</h3>
-                                <p>$0.50</p>
-                            </div>
-                        </div>
-                        <div class="arrow-icon-1">
+                        <div id="bread" class="choices"></div>
+                        <div class="navigation-buttons">
                             <div class="arrow-icon next-step-arrow hidden" id="sandwich-arrow-icon-1">
                                 Next Step
                                 <div class="arrow"></div>
@@ -140,26 +124,7 @@
                             </div>
                         </div>
                         <h2>Step 2: Pick Your Protein</h2>
-                        <div class="choices">
-                            <div class="choice" data-choice="Pulled Lamb" data-price="3.00">
-                                <img src="asset/pulled-lamb.jpg" alt="Pulled Lamb">
-                                <h3>Pulled Lamb</h3>
-                            </div>
-                            <div class="choice" data-choice="Chicken" data-price="2.50">
-                                <img src="asset/chickenbreast.jpg" alt="Chicken">
-                                <h3>Teriyaki Chicken</h3>
-                            </div>
-                            <div class="choice" data-choice="Beef" data-price="2.80">
-                                <img src="asset/beef.jpg" alt="Beef">
-                                <h3>Ultimate Beef</h3>
-                                <p>$2.50</p>
-                            </div>
-                            <div class="choice" data-choice="Smoked Salmon" data-price="3.20">
-                                <img src="asset/smokedsalmon.jpg" alt="Smoked Salmon">
-                                <h3>Smoked Salmon</h3>
-                                <p> $3.00</p>
-                            </div>
-                        </div>
+                        <div id="protein" class="choices"></div>
                     </div>
                     <div class="sandwich-step hidden" id="sandwich-step-3">
                         <div class="navigation-buttons">
@@ -173,32 +138,7 @@
                             </div>
                         </div>
                         <h2>Step 3: Pick Your Veggies (Required:3)</h2>
-                        <div class="choices">
-                            <div class="choice" data-choice="Lettuce" data-price="0.50">
-                                <img src="asset/iceberge-lettuce.png" alt="Lettuce">
-                                <h3>Lettuce</h3>
-                            </div>
-                            <div class="choice" data-choice="Tomato" data-price="0.60">
-                                <img src="asset/tomato.png" alt="Tomato">
-                                <h3>Tomato</h3>
-                            </div>
-                            <div class="choice" data-choice="Cucumber" data-price="0.40">
-                                <img src="asset/cucumber.png" alt="Cucumber">
-                                <h3>Cucumber</h3>
-                            </div>
-                            <div class="choice" data-choice="Onion" data-price="0.30">
-                                <img src="asset/onion.png" alt="Onion">
-                                <h3>Onion</h3>
-                            </div>
-                            <div class="choice" data-choice="Bell Peppers" data-price="0.70">
-                                <img src="asset/bellpeppers.jpg" alt="Bell Peppers">
-                                <h3>Bell Peppers</h3>
-                            </div>
-                            <div class="choice" data-choice="None" data-price="0.00">
-                                <img src="asset/none-icon.png" alt="None">
-                                <h3>None</h3>
-                            </div>
-                        </div>
+                        <div id="vegetable" class="choices"></div>
                     </div>
                     <div class="sandwich-step hidden" id="sandwich-step-4">
                         <div class="navigation-buttons">
@@ -212,59 +152,13 @@
                             </div>
                         </div>
                         <h2>Step 4: Pick Your Sauce (Required:2)</h2>
-                        <div class="choices">
-                            <div class="choice" data-choice="cranberry-caramalised" data-price="0.80">
-                                <img src="asset/cranberry-sauce.jpeg" alt="cranberry-caramalised">
-                                <h3>cranberry-caramalised<br>onion</h3>
-                            </div>
-                            <div class="choice" data-choice="Mustard" data-price="0.50">
-                                <img src="asset/honeymustard.png" alt="Mustard">
-                                <h3>Honey Mustard</h3>
-                            </div>
-                            <div class="choice" data-choice="egg-mayo" data-price="0.70">
-                                <img src="asset/egg-mayo.jpg" alt="egg-mayo">
-                                <h3>Egg-mayo</h3>
-                            </div>
-                            <div class="choice" data-choice="avocado-lime" data-price="0.90">
-                                <img src="asset/avocado-lime.png" alt="avocado-lime">
-                                <h3>Avocado Lime Crema</h3>
-                            </div>
-                            <div class="choice" data-choice="BBQ Sauce" data-price="0.60">
-                                <img src="asset/bbq.jpg" alt="BBQ Sauce">
-                                <h3>BBQ</h3>
-                            </div>
-                            <div class="choice" data-choice="None" data-price="0.00">
-                                <img src="asset/none-icon.png" alt="None">
-                                <h3>None</h3>
-                            </div>
-                        </div>
+                        <div id="sauce" class="choices"></div>
                     </div>
                     <!-- Smoothie Steps -->
                     <div class="smoothie-step hidden" id="smoothie-step-1">
                         <h2>Step 1: Pick Your Fruits</h2>
-                        <div class="choices">
-                            <div class="choice" data-choice="Banana" data-price="0.70">
-                                <img src="asset/banana.jpeg" alt="Banana">
-                                <h3>Banana</h3>
-                            </div>
-                            <div class="choice" data-choice="Strawberry" data-price="0.80">
-                                <img src="asset/strawberry.jpg" alt="Strawberry">
-                                <h3>Strawberry</h3>
-                            </div>
-                            <div class="choice" data-choice="Blueberry" data-price="0.90">
-                                <img src="asset/blueberry.webp" alt="Blueberry">
-                                <h3>Blueberry</h3>
-                            </div>
-                            <div class="choice" data-choice="Mango" data-price="1.00">
-                                <img src="asset/mango.jpg" alt="Mango">
-                                <h3>Mango</h3>
-                            </div>
-                            <div class="choice" data-choice="Orange" data-price="0.80">
-                                <img src="asset/orange.jpg" alt="Orange">
-                                <h3>Orange</h3>
-                            </div>
-                        </div>
-                        <div class="arrow-icon-1">
+                        <div id="fruit" class="choices"></div>
+                        <div class="navigation-buttons">
                             <div class="arrow-icon next-step-arrow hidden" id="smoothie-arrow-icon-1">
                                 Next Step
                                 <div class="arrow"></div>
@@ -283,27 +177,7 @@
                             </div>
                         </div>
                         <h2>Step 2: Pick Your Greens</h2>
-                        <div class="choices">
-                            <div class="choice" data-choice="Spinach" data-price="0.60">
-                                <img src="asset/spinach.jpeg" alt="Spinach">
-                                <h3>Spinach</h3>
-                                <p>$0.60</p>
-                            </div>
-                            <div class="choice" data-choic="Kale" data-price="0.70">
-                                <img src="asset/kale.jpeg" alt="Kale">
-                                <h3>Kale</h3>
-                                <p>$0.70</p>
-                            </div>
-                            <div class="choice" data-choice="Avocado" data-price="1.20">
-                                <img src="asset/avocado.webp" alt="Avocado">
-                                <h3>Avocado</h3>
-                                <p>$1.20</p>
-                            </div>
-                            <div class="choice" data-choice="None" data-price="0.00">
-                                <img src="asset/none-icon.png" alt="None">
-                                <h3>None</h3>
-                            </div>
-                        </div>
+                        <div id="smoothievegetable" class="choices"></div>
                     </div>
                     <div class="smoothie-step hidden" id="smoothie-step-3">
                         <div class="navigation-buttons">
@@ -317,17 +191,7 @@
                             </div>
                         </div>
                         <h2>Step 3: Pick Your Protein (Optional)</h2>
-                        <div class="choices">
-                            <div class="choice" data-choice="Greek Yogurt" data-price="1.50">
-                                <img src="asset/greekyogurt.jpg" alt="Greek Yogurt">
-                                <h3>Greek Yogurt</h3>
-                                <p>2.00</p>
-                            </div>
-                            <div class="choice" data-choice="None" data-price="0.00">
-                                <img src="asset/none-icon.png" alt="None">
-                                <h3>None</h3>
-                            </div>
-                        </div>
+                        <div id="yogurt" class="choices"></div>
                     </div>
                     <div class="smoothie-step hidden" id="smoothie-step-4">
                         <div class="navigation-buttons">
@@ -341,25 +205,7 @@
                             </div>
                         </div>
                         <h2>Step 4: Pick Your Liquid Base</h2>
-                        <div class="choices">
-                            <div class="choice" data-choice="Water" data-price="0.00">
-                                <img src="asset/water.png" alt="Water">
-                                <h3>Water</h3>
-                            </div>
-                            <div class="choice" data-choice="Low-fat" data-price="0.80">
-                                <img src="asset/low-fat-milk.webp" alt="Low-fat Milk">
-                                <h3>Low-fat Milk</h3>
-                            </div>
-                            <div class="choice" data-choice="Full-Cream" data-price="0.90">
-                                <img src="asset/full-cream.jpg" alt="Full-Cream Milk">
-                                <h3>Full-Cream Milk</h3>
-                            </div>
-                            <div class="choice" data-choice="Oat" data-price="1.00">
-                                <img src="asset/oat-milk.jpg" alt="Oat Milk">
-                                <h3>Oat Milk</h3>
-                                <p>$1.00</p>
-                            </div>
-                        </div>
+                        <div id="liquidbase" class="choices"></div>
                     </div>
                     <div class="smoothie-step hidden" id="smoothie-step-5">
                         <div class="navigation-buttons">

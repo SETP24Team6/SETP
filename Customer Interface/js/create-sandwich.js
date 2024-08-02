@@ -11,6 +11,30 @@ document.addEventListener('DOMContentLoaded', function () {
     const backArrows = document.querySelectorAll('.back-arrow');
     const sandwichFinishIcon = document.getElementById('sandwich-finish-icon-4');
     const smoothieFinishIcon = document.getElementById('smoothie-finish-icon-5');
+
+    // fields populator (done)
+    let populator = callApi2("GET", 'http://127.0.0.1:5000/getProducts', {'data': JSON.stringify("")});
+    if(populator){
+        const products = {bread:"", protein:"", vegetable:"", sauce:"", fruit:"", yogurt:"", smoothievegetable:"", liquidbase:""}
+        $.each(populator, function(index, product) {
+            dict_key = product.product_type_name.toLowerCase().replace(" ", "")
+            products[dict_key] += '<div class="choice" data-choice="'+product.products_id
+            products[dict_key] += '" data-price="'+product.price_point+'">' 
+            products[dict_key] += '<img src="'+product.image_path+'" alt="'+product.product_name+'">' 
+            products[dict_key] += '<h3>'+product.product_name+'</h3>';
+            if(product.price_point > 0.0){
+                products[dict_key] += '<p>$'+product.price_point+'0</p></div>';
+            }else{
+                products[dict_key] += '</div>';
+            }
+        })
+        for (let x in products) {
+            const filler = document.getElementById(x);
+            filler.innerHTML = products[x] 
+          };
+    }
+      
+
     const choices = document.querySelectorAll('.choice');
     const cartDropdown = document.querySelector('.cart-dropdown');
     const cartItemsContainer = document.querySelector('.cart-items');
@@ -21,7 +45,14 @@ document.addEventListener('DOMContentLoaded', function () {
     const addOrdersButton = document.querySelector('.add-orders-button');
     const grabButtons = document.querySelectorAll('.grab-now');
     const addButtons = document.querySelectorAll('.add-to-cart');
+    const cartCheckOut = document.getElementById('checkout');
 
+    cartLoader();
+    // cookie checker (done)
+    if (!cookie("userid")){
+        window.location.href = 'order-now.html';
+    }
+  
     let cart = [];
     let currentStep = -1;
     let selectedChoices = {
@@ -35,6 +66,9 @@ document.addEventListener('DOMContentLoaded', function () {
         liquidBase: '',
         stevia: ''
     };
+
+    let selectedChoices2 = new Set();
+
 
     let sandwichTotal = 6; // Base price for a sandwich
     let smoothieTotal = 5; // Base price for a smoothie
@@ -69,7 +103,7 @@ document.addEventListener('DOMContentLoaded', function () {
             }
             currentStep++;
             showCurrentStep();
-            preselectChoices();
+            // preselectChoices();
         });
     });
 
@@ -77,7 +111,7 @@ document.addEventListener('DOMContentLoaded', function () {
         arrow.addEventListener('click', () => {
             currentStep--;
             showCurrentStep();
-            preselectChoices();
+            // preselectChoices();
         });
     });
 
@@ -149,69 +183,53 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
-    function getPriceFromChoice(choice) {
-        const priceElement = choice.querySelector('p');
-        return priceElement ? parseFloat(priceElement.textContent.replace('$', '')) : 0;
-    }
-
     function handleSandwichChoice(choice, stepId) {
-        const price = getPriceFromChoice(choice);
+        const price = parseFloat(choice.getAttribute('data-price'));
 
         if (stepId === 'sandwich-step-3') {
-            if (choice.querySelector('h3').textContent === 'None') {
-                selectedChoices.veggies = [{ name: 'None', price: 0 }];
-                sandwichTotal = 6;
-                choices.forEach((c) => c.classList.remove('selected'));
-                choice.classList.add('selected');
-            } else {
-                if (selectedChoices.veggies.some((v) => v.name === 'None')) {
-                    selectedChoices.veggies = [];
-                    choices.forEach((c) => c.classList.remove('selected'));
-                }
-                choice.classList.toggle('selected');
-                const veggieName = choice.querySelector('h3').textContent;
+            choice.classList.toggle('selected');
+            const veggieName = choice.getAttribute('data-choice');
 
-                if (choice.classList.contains('selected')) {
-                    if (selectedChoices.veggies.length < 3 && !selectedChoices.veggies.some((v) => v.name === veggieName)) {
-                        selectedChoices.veggies.push({ name: veggieName, price });
-                    } else {
-                        choice.classList.remove('selected');
-                        alert('You can only select up to 3 veggies.');
-                    }
+            if (choice.classList.contains('selected')) {
+                if (selectedChoices.veggies.length < 3 && !selectedChoices.veggies.some((v) => v.name === veggieName)) {
+                    selectedChoices.veggies.push({ name: veggieName, price });
+                    selectedChoices2.add(veggieName)
                 } else {
-                    selectedChoices.veggies = selectedChoices.veggies.filter((v) => v.name !== veggieName);
+                    choice.classList.remove('selected');
+                    alert('You can only select up to 3 veggies.');
                 }
+            } else {
+                selectedChoices.veggies = selectedChoices.veggies.filter((v) => v.name !== veggieName);
+                selectedChoices2.delete(veggieName)
             }
+            console.log(selectedChoices2)
         } else if (stepId === 'sandwich-step-4') {
-            if (choice.querySelector('h3').textContent === 'None') {
-                selectedChoices.sauces = [{ name: 'None', price: 0 }];
-                sandwichTotal = 6;
+            if (selectedChoices.sauces.some((s) => s.name === 'None')) {
+                selectedChoices.sauces = [];
                 choices.forEach((c) => c.classList.remove('selected'));
-                choice.classList.add('selected');
-            } else {
-                if (selectedChoices.sauces.some((s) => s.name === 'None')) {
-                    selectedChoices.sauces = [];
-                    choices.forEach((c) => c.classList.remove('selected'));
-                }
-                choice.classList.toggle('selected');
-                const sauceName = choice.querySelector('h3').textContent;
+            }
+            choice.classList.toggle('selected');
+            const sauceName = choice.getAttribute('data-choice');
 
-                if (choice.classList.contains('selected')) {
-                    if (selectedChoices.sauces.length < 2 && !selectedChoices.sauces.some((s) => s.name === sauceName)) {
-                        selectedChoices.sauces.push({ name: sauceName, price });
-                    } else {
-                        choice.classList.remove('selected');
-                        alert('You can only select up to 2 sauces.');
-                    }
+            if (choice.classList.contains('selected')) {
+                if (selectedChoices.sauces.length < 2 && !selectedChoices.sauces.some((s) => s.name === sauceName)) {
+                    selectedChoices.sauces.push({ name: sauceName, price });
+                    selectedChoices2.add(sauceName)
                 } else {
-                    selectedChoices.sauces = selectedChoices.sauces.filter((s) => s.name !== sauceName);
+                    choice.classList.remove('selected');
+                    alert('You can only select up to 2 sauces.');
                 }
+            } else {
+                selectedChoices.sauces = selectedChoices.sauces.filter((s) => s.name !== sauceName);
+                selectedChoices2.delete(sauceName);
             }
         } else {
             choices.forEach((c) => c.classList.remove('selected'));
+            choices.forEach((c) => selectedChoices2.delete(c.getAttribute('data-choice')));
             choice.classList.add('selected');
 
-            const choiceName = choice.querySelector('h3').textContent;
+            const choiceName = choice.getAttribute('data-choice');
+           
             if (stepId === 'sandwich-step-1') {
                 sandwichTotal -= selectedChoices.breadPrice || 0;
                 selectedChoices.bread = choiceName;
@@ -223,11 +241,14 @@ document.addEventListener('DOMContentLoaded', function () {
                 selectedChoices.proteinPrice = price;
                 sandwichTotal += price;
             }
+            console.log(selectedChoices2)
         }
+        
+        console.log(selectedChoices)
     }
 
     function handleSmoothieChoice(choice, stepId) {
-        const price = getPriceFromChoice(choice);
+        const price = parseFloat(choice.getAttribute('data-price'));
 
         if (stepId === 'smoothie-step-1') {
             choices.forEach((c) => c.classList.remove('selected'));
@@ -351,18 +372,81 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function addToCart() {
         const cartItem = {
-            type: isSandwich ? 'Sandwich' : 'Smoothie',
+            type: isSandwich ? '1' : '2',
             name: isSandwich ? 'Custom Sandwich' : 'Custom Smoothie',
             details: { ...selectedChoices },
             price: isSandwich ? sandwichTotal : smoothieTotal
         };
+        selectedChoices2.add(selectedChoices.bread)
+        selectedChoices2.add(selectedChoices.protein)
+        var requestPayload = {
+            type: isSandwich ? '1' : '2',
+            name: isSandwich ? 'Sandwich' : 'Smoothie',
+            price: isSandwich ? sandwichTotal : smoothieTotal,
+            ingredents : [...selectedChoices2], 
+            member: cookie('userid')
+        };
+        callApi2("POST", 'http://127.0.0.1:5000/add_order', 
+            {'data': JSON.stringify(requestPayload)});
+            
+        cartLoader();
 
-        cart.push(cartItem);
-        updateCartCount();
-        updateCartTotal();
-        renderCartItems();
         highlightCart();
         resetSelections();
+    }
+
+    function cartLoader() {
+        let cart_item_loader = ''
+        let cart_price = 0.0
+        let cart_loader = callApi2("POST", 'http://127.0.0.1:5000/get_order', 
+            {'data': JSON.stringify(cookie('userid'))});
+
+        if(cart_loader.length != 0){
+            // Updates cart amount and visibility of empty cart message
+            cart_amount = Object.keys(cart_loader[0]['order_ingred']).length
+            cartCountElement.textContent = cart_amount;
+            emptyCartMessage.style.display = cart_amount === 0 ? 'block' : 'none';
+            $.each(cart_loader, function(index, order) {
+                for (let z in order.order_ingred) {
+                    for (let y in order.order_ingred[z]){
+                        cart_price += parseFloat(order.order_ingred[z][y].price)
+                        cart_item_loader += '<div class="cart-item">'
+                        cart_item_loader += '<p><strong>' + y +'</strong> $'+ order.order_ingred[z][y].price+'</p>'
+                        cart_item_loader += '<div class="ingredients-container hidden"><p>'
+                        for (let x in order.order_ingred[z][y]){
+                            if (x != 'price'){
+                                cart_item_loader += x + ': ' + order.order_ingred[z][y][x] + '<br/>'
+                            }
+                        }
+                        cart_item_loader += '</p></div>'
+                        cart_item_loader += '<button class="toggle-ingredients">Show/Hide Ingredients</button>'
+                        cart_item_loader += '<button class="remove-item" data-index='+z+'>Remove</button> </div>'
+                    }
+                }
+            })
+            cartItemsContainer.innerHTML = cart_item_loader
+            const toggleButtons = document.querySelectorAll('.toggle-ingredients');
+            toggleButtons.forEach((button) => {
+                button.addEventListener('click', (e) => {
+                    const ingredientsContainer = e.target.previousElementSibling;
+                    ingredientsContainer.classList.toggle('hidden');
+                });
+            });
+
+            
+            const removeButtons = document.querySelectorAll('.remove-item');
+            removeButtons.forEach((button) => {
+                button.addEventListener('click', (e) => {
+                    const index = e.target.getAttribute('data-index');
+                    callApi2("POST", 'http://127.0.0.1:5000/delete_item', 
+                        {'data': JSON.stringify(index)});
+                        cartLoader()
+                });
+            });
+
+        }
+        cartTotalPrice.textContent = '$'+cart_price.toFixed(2);
+
     }
 
     function highlightCart() {
@@ -392,93 +476,6 @@ document.addEventListener('DOMContentLoaded', function () {
         showCurrentStep();
     }
 
-    function updateCartCount() {
-        cartCountElement.textContent = cart.length;
-        emptyCartMessage.style.display = cart.length === 0 ? 'block' : 'none';
-    }
-
-    function updateCartTotal() {
-        const total = cart.reduce((sum, item) => sum + item.price, 0);
-        cartTotalPrice.textContent = `$${total.toFixed(2)}`;
-    }
-
-    function renderCartItems() {
-        cartItemsContainer.innerHTML = '';
-        cart.forEach((item, index) => {
-            const cartItemElement = document.createElement('div');
-            cartItemElement.classList.add('cart-item');
-            cartItemElement.innerHTML = `
-                <p><strong>${item.type}</strong> - ${item.name} - $${item.price.toFixed(2)}</p>
-                <div class="ingredients-container hidden">
-                    ${renderItemDetails(item.details)}
-                </div>
-                <button class="toggle-ingredients">Show/Hide Ingredients</button>
-                <button class="remove-item" data-index="${index}">Remove</button>
-            `;
-            cartItemsContainer.appendChild(cartItemElement);
-        });
-
-        const removeButtons = document.querySelectorAll('.remove-item');
-        removeButtons.forEach((button) => {
-            button.addEventListener('click', (e) => {
-                const index = e.target.getAttribute('data-index');
-                cart.splice(index, 1);
-                updateCartCount();
-                updateCartTotal();
-                renderCartItems();
-            });
-        });
-
-        const toggleButtons = document.querySelectorAll('.toggle-ingredients');
-        toggleButtons.forEach((button) => {
-            button.addEventListener('click', (e) => {
-                const ingredientsContainer = e.target.previousElementSibling;
-                ingredientsContainer.classList.toggle('hidden');
-            });
-        });
-    }
-
-    function renderItemDetails(details) {
-        const detailItems = [];
-        if (details.bread) {
-            detailItems.push(`<p>Bread: ${details.bread} - $${details.breadPrice.toFixed(2)}</p>`);
-        }
-        if (details.protein) {
-            detailItems.push(`<p>Protein: ${details.protein} - $${details.proteinPrice.toFixed(2)}</p>`);
-        }
-        if (details.veggies.length) {
-            detailItems.push('<p>Veggies:</p>');
-            details.veggies.forEach(v => {
-                detailItems.push(`<p>${v.name} - $${v.price.toFixed(2)}</p>`);
-            });
-        }
-        if (details.sauces.length) {
-            detailItems.push('<p>Sauces:</p>');
-            details.sauces.forEach(s => {
-                detailItems.push(`<p>${s.name} - $${s.price.toFixed(2)}</p>`);
-            });
-        }
-        if (details.fruits.length) {
-            detailItems.push('<p>Fruits:</p>');
-            details.fruits.forEach(f => {
-                detailItems.push(`<p>${f.name} - $${f.price.toFixed(2)}</p>`);
-            });
-        }
-        if (details.greens) {
-            detailItems.push(`<p>Greens: ${details.greens} - $${details.greensPrice.toFixed(2)}</p>`);
-        }
-        if (details.proteinSmoothie) {
-            detailItems.push(`<p>Protein: ${details.proteinSmoothie} - $${details.proteinSmoothiePrice.toFixed(2)}</p>`);
-        }
-        if (details.liquidBase) {
-            detailItems.push(`<p>Liquid Base: ${details.liquidBase} - $${details.liquidBasePrice.toFixed(2)}</p>`);
-        }
-        if (details.stevia) {
-            detailItems.push(`<p>Stevia: ${details.stevia} - $${details.steviaPrice.toFixed(2)}</p>`);
-        }
-        return detailItems.join('');
-    }
-
     cartCountElement.parentElement.addEventListener('click', () => {
         cartDropdown.style.display = cartDropdown.style.display === 'none' || cartDropdown.style.display === '' ? 'block' : 'none';
     });
@@ -495,9 +492,16 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
+    
+    cartCheckOut.addEventListener('click', () => {
+        callApi2("POST", 'http://127.0.0.1:5000/cart_out', 
+            {'data': JSON.stringify(cookie('userid'))});
+            // cartLoader()
+    });
+
     // Typewriter effect for the recommendations section
     const typewriterText = document.querySelector('#recommendations h2');
-    const username = getCookie('username'); // Use getCookie function to get the username
+    const username = cookie('username'); // Use getCookie function to get the username
     const text = `Welcome back ${username}!`;
     typewriterText.textContent = '';
     let i = 0;
@@ -512,110 +516,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
     typeWriter();
 
-    // Function to get cookie by name
-    function getCookie(name) {
-        const value = `; ${document.cookie}`;
-        const parts = value.split(`; ${name}=`);
-        if (parts.length === 2) return parts.pop().split(';').shift();
-    }
 
     // Recommendations section animation
     const recommendationItems = document.querySelectorAll('.recommendation-item');
     recommendationItems.forEach((item, index) => {
         item.classList.add('animated', 'fadeInUp');
         item.style.animationDelay = `${index * 0.3}s`;
-    });
-});
-document.addEventListener('DOMContentLoaded', function () {
-    const cart = [];
-    const cartItemsContainer = document.querySelector('.cart-items');
-    const cartTotalPrice = document.getElementById('cart-total-price');
-    const cartCountElement = document.querySelector('.cart-count');
-    const emptyCartMessage = document.querySelector('.empty-cart-message');
-    const grabButtons = document.querySelectorAll('.grab-now');
-    const addButtons = document.querySelectorAll('.add-to-cart');
-
-    // Function to update cart count
-    function updateCartCount() {
-        cartCountElement.textContent = cart.length;
-        emptyCartMessage.style.display = cart.length === 0 ? 'block' : 'none';
-    }
-
-    // Function to update cart total price
-    function updateCartTotal() {
-        const total = cart.reduce((sum, item) => sum + item.price, 0);
-        cartTotalPrice.textContent = `$${total.toFixed(2)}`;
-    }
-
-    // Function to render cart items
-    function renderCartItems() {
-        cartItemsContainer.innerHTML = '';
-        cart.forEach((item, index) => {
-            const cartItemElement = document.createElement('div');
-            cartItemElement.classList.add('cart-item');
-            cartItemElement.innerHTML = `
-                <p><strong>${item.name}</strong> - $${item.price.toFixed(2)}</p>
-                <button class="remove-item" data-index="${index}">Remove</button>
-            `;
-            cartItemsContainer.appendChild(cartItemElement);
-        });
-
-        const removeButtons = document.querySelectorAll('.remove-item');
-        removeButtons.forEach((button) => {
-            button.addEventListener('click', (e) => {
-                const index = e.target.getAttribute('data-index');
-                cart.splice(index, 1);
-                updateCartCount();
-                updateCartTotal();
-                renderCartItems();
-            });
-        });
-    }
-
-    // Function to highlight cart
-    function highlightCart() {
-        const cartDropdown = document.querySelector('.cart-dropdown');
-        cartDropdown.classList.add('highlight');
-        setTimeout(() => {
-            cartDropdown.classList.remove('highlight');
-        }, 1000);
-    }
-
-    // Event listener for 'Grab now' buttons
-    grabButtons.forEach((button) => {
-        button.addEventListener('click', (e) => {
-            const recommendationItem = e.target.closest('.recommendation-item');
-            const itemName = recommendationItem.getAttribute('data-name');
-            const itemPrice = parseFloat(recommendationItem.getAttribute('data-price'));
-            const cartItem = {
-                name: itemName,
-                price: itemPrice
-            };
-            cart.push(cartItem);
-            updateCartCount();
-            updateCartTotal();
-            renderCartItems();
-            highlightCart();
-            console.log('Added to cart:', cartItem); // Debugging log
-        });
-    });
-
-    // Event listener for 'Add' buttons
-    addButtons.forEach((button) => {
-        button.addEventListener('click', (e) => {
-            const promotionItem = e.target.closest('.promotion-item');
-            const itemName = promotionItem.getAttribute('data-name');
-            const itemPrice = parseFloat(promotionItem.getAttribute('data-price'));
-            const cartItem = {
-                name: itemName,
-                price: itemPrice
-            };
-            cart.push(cartItem);
-            updateCartCount();
-            updateCartTotal();
-            renderCartItems();
-            highlightCart();
-            console.log('Added to cart:', cartItem); // Debugging log
-        });
     });
 });
