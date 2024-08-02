@@ -74,3 +74,55 @@ INSERT INTO product (product_type_id, product_name,image_path, price_point)
 
 
 select * from product;
+
+
+
+CREATE TABLE inventory (
+    products_id INT NOT NULL,
+    store_id INT NOT NULL,
+    quantity_amount INT NOT NULL,
+    uom_id INT NOT NULL,
+    CONSTRAINT CK_inventory PRIMARY KEY (products_id, store_id)
+);
+
+INSERT INTO inventory (products_id, store_id, quantity_amount, uom_id) 
+    VALUES (1, 1, 100, 2),
+        (2, 1, 100, 2),
+        (3, 1, 100, 2),
+        (4, 1, 100, 2),
+        (5, 1, 8000, 1),
+        (6, 1, 8000, 1),
+        (7, 1, 8000, 1),
+        (8, 1, 8000, 1),
+        (9, 1, 5000, 1),
+        (10, 1, 5000, 1),
+        (11, 1, 5000, 1),
+        (12, 1, 5000, 1),
+        (13, 1, 5000, 1),
+        (14, 1, 5000, 1),
+        (15, 1, 5000, 1),
+        (16, 1, 5000, 1),
+        (17, 1, 5000, 1),
+        (18, 1, 5000, 1),
+        (19, 1, 10000, 1),
+        (20, 1, 10000, 1),
+        (21, 1, 10000, 1),
+        (22, 1, 10000, 1),
+        (23, 1, 10000, 1),
+        (24, 1, 8000, 1),
+        (25, 1, 8000, 1),
+        (26, 1, 8000, 1),
+        (27, 1, 8000, 1),
+        (28, 1, 10000, 1),
+        (29, 1, 10000, 1),
+        (30, 1, 10000, 1);
+
+
+
+
+SELECT i.products_id, p.product_name, i.quantity_amount, u.uom_name
+FROM inventory i 
+LEFT JOIN product p on i.products_id = p.products_id
+LEFT JOIN uom u on u.uom_id = i.uom_id
+ORDER BY i.quantity_amount;
+
