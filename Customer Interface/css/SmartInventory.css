@@ -241,36 +241,14 @@ table th, table td {
     border-radius: 4px;
 }
 
+/* Sandwich Table Alignment */
 .sandwich-table th, .sandwich-table td {
     text-align: center;
 }
 
-.sandwich-table th:nth-child(1), .sandwich-table td:nth-child(1) {
-    text-align: left;
-}
-
-.sandwich-table th:nth-child(2), .sandwich-table td:nth-child(2) {
-    text-align: center;
-}
-
-.sandwich-table th:nth-child(3), .sandwich-table td:nth-child(3) {
-    text-align: right;
-}
-
+/* Smoothie Table Alignment */
 .smoothie-table th, .smoothie-table td {
     text-align: center;
-}
-
-.smoothie-table th:nth-child(1), .smoothie-table td:nth-child(1) {
-    text-align: left;
-}
-
-.smoothie-table th:nth-child(2), .smoothie-table td:nth-child(2) {
-    text-align: center;
-}
-
-.smoothie-table th:nth-child(3), .smoothie-table td:nth-child(3) {
-    text-align: right;
 }
 
 /* Status Styles */
