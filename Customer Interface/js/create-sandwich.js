@@ -12,28 +12,35 @@ document.addEventListener('DOMContentLoaded', function () {
     const sandwichFinishIcon = document.getElementById('sandwich-finish-icon-4');
     const smoothieFinishIcon = document.getElementById('smoothie-finish-icon-5');
 
+    // Ensure "Next Step" buttons are positioned correctly
+    nextStepArrows.forEach((arrow) => {
+        const parent = arrow.closest('.sandwich-step') || arrow.closest('.smoothie-step');
+        const navigationButtons = parent.querySelector('.navigation-buttons');
+        navigationButtons.appendChild(arrow);
+    });
+
     // fields populator (done)
-    let populator = callApi2("GET", 'http://127.0.0.1:5000/getProducts', {'data': JSON.stringify("")});
-    if(populator){
-        const products = {bread:"", protein:"", vegetable:"", sauce:"", fruit:"", yogurt:"", smoothievegetable:"", liquidbase:""}
-        $.each(populator, function(index, product) {
+    let populator = callApi2("GET", 'http://127.0.0.1:5000/getProducts', { 'data': JSON.stringify("") });
+    if (populator) {
+        const products = { bread: "", protein: "", vegetable: "", sauce: "", fruit: "", yogurt: "", smoothievegetable: "", liquidbase: "" }
+        $.each(populator, function (index, product) {
             dict_key = product.product_type_name.toLowerCase().replace(" ", "")
-            products[dict_key] += '<div class="choice" data-choice="'+product.products_id
-            products[dict_key] += '" data-price="'+product.price_point+'">' 
-            products[dict_key] += '<img src="'+product.image_path+'" alt="'+product.product_name+'">' 
-            products[dict_key] += '<h3>'+product.product_name+'</h3>';
-            if(product.price_point > 0.0){
-                products[dict_key] += '<p>$'+product.price_point+'0</p></div>';
-            }else{
+            products[dict_key] += '<div class="choice" data-choice="' + product.products_id
+            products[dict_key] += '" data-price="' + product.price_point + '">'
+            products[dict_key] += '<img src="' + product.image_path + '" alt="' + product.product_name + '">'
+            products[dict_key] += '<h3>' + product.product_name + '</h3>';
+            if (product.price_point > 0.0) {
+                products[dict_key] += '<p>$' + product.price_point + '0</p></div>';
+            } else {
                 products[dict_key] += '</div>';
             }
         })
         for (let x in products) {
             const filler = document.getElementById(x);
-            filler.innerHTML = products[x] 
-          };
+            filler.innerHTML = products[x]
+        };
     }
-      
+
 
     const choices = document.querySelectorAll('.choice');
     const cartDropdown = document.querySelector('.cart-dropdown');
@@ -49,10 +56,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
     cartLoader();
     // cookie checker (done)
-    if (!cookie("userid")){
+    if (!cookie("userid")) {
         window.location.href = 'order-now.html';
     }
-  
+
     let cart = [];
     let currentStep = -1;
     let selectedChoices = {
@@ -229,7 +236,7 @@ document.addEventListener('DOMContentLoaded', function () {
             choice.classList.add('selected');
 
             const choiceName = choice.getAttribute('data-choice');
-           
+
             if (stepId === 'sandwich-step-1') {
                 sandwichTotal -= selectedChoices.breadPrice || 0;
                 selectedChoices.bread = choiceName;
@@ -243,7 +250,7 @@ document.addEventListener('DOMContentLoaded', function () {
             }
             console.log(selectedChoices2)
         }
-        
+
         console.log(selectedChoices)
     }
 
@@ -383,12 +390,12 @@ document.addEventListener('DOMContentLoaded', function () {
             type: isSandwich ? '1' : '2',
             name: isSandwich ? 'Sandwich' : 'Smoothie',
             price: isSandwich ? sandwichTotal : smoothieTotal,
-            ingredents : [...selectedChoices2], 
+            ingredents: [...selectedChoices2],
             member: cookie('userid')
         };
-        callApi2("POST", 'http://127.0.0.1:5000/add_order', 
-            {'data': JSON.stringify(requestPayload)});
-            
+        callApi2("POST", 'http://127.0.0.1:5000/add_order',
+            { 'data': JSON.stringify(requestPayload) });
+
         cartLoader();
 
         highlightCart();
@@ -398,29 +405,29 @@ document.addEventListener('DOMContentLoaded', function () {
     function cartLoader() {
         let cart_item_loader = ''
         let cart_price = 0.0
-        let cart_loader = callApi2("POST", 'http://127.0.0.1:5000/get_order', 
-            {'data': JSON.stringify(cookie('userid'))});
+        let cart_loader = callApi2("POST", 'http://127.0.0.1:5000/get_order',
+            { 'data': JSON.stringify(cookie('userid')) });
 
-        if(cart_loader.length != 0){
+        if (cart_loader.length != 0) {
             // Updates cart amount and visibility of empty cart message
             cart_amount = Object.keys(cart_loader[0]['order_ingred']).length
             cartCountElement.textContent = cart_amount;
             emptyCartMessage.style.display = cart_amount === 0 ? 'block' : 'none';
-            $.each(cart_loader, function(index, order) {
+            $.each(cart_loader, function (index, order) {
                 for (let z in order.order_ingred) {
-                    for (let y in order.order_ingred[z]){
+                    for (let y in order.order_ingred[z]) {
                         cart_price += parseFloat(order.order_ingred[z][y].price)
                         cart_item_loader += '<div class="cart-item">'
-                        cart_item_loader += '<p><strong>' + y +'</strong> $'+ order.order_ingred[z][y].price+'</p>'
+                        cart_item_loader += '<p><strong>' + y + '</strong> $' + order.order_ingred[z][y].price + '</p>'
                         cart_item_loader += '<div class="ingredients-container hidden"><p>'
-                        for (let x in order.order_ingred[z][y]){
-                            if (x != 'price'){
+                        for (let x in order.order_ingred[z][y]) {
+                            if (x != 'price') {
                                 cart_item_loader += x + ': ' + order.order_ingred[z][y][x] + '<br/>'
                             }
                         }
                         cart_item_loader += '</p></div>'
                         cart_item_loader += '<button class="toggle-ingredients">Show/Hide Ingredients</button>'
-                        cart_item_loader += '<button class="remove-item" data-index='+z+'>Remove</button> </div>'
+                        cart_item_loader += '<button class="remove-item" data-index=' + z + '>Remove</button> </div>'
                     }
                 }
             })
@@ -433,19 +440,19 @@ document.addEventListener('DOMContentLoaded', function () {
                 });
             });
 
-            
+
             const removeButtons = document.querySelectorAll('.remove-item');
             removeButtons.forEach((button) => {
                 button.addEventListener('click', (e) => {
                     const index = e.target.getAttribute('data-index');
-                    callApi2("POST", 'http://127.0.0.1:5000/delete_item', 
-                        {'data': JSON.stringify(index)});
-                        cartLoader()
+                    callApi2("POST", 'http://127.0.0.1:5000/delete_item',
+                        { 'data': JSON.stringify(index) });
+                    cartLoader()
                 });
             });
 
         }
-        cartTotalPrice.textContent = '$'+cart_price.toFixed(2);
+        cartTotalPrice.textContent = '$' + cart_price.toFixed(2);
 
     }
 
@@ -492,11 +499,11 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
-    
+
     cartCheckOut.addEventListener('click', () => {
-        callApi2("POST", 'http://127.0.0.1:5000/cart_out', 
-            {'data': JSON.stringify(cookie('userid'))});
-            // cartLoader()
+        callApi2("POST", 'http://127.0.0.1:5000/cart_out',
+            { 'data': JSON.stringify(cookie('userid')) });
+        // cartLoader()
     });
 
     // Typewriter effect for the recommendations section
