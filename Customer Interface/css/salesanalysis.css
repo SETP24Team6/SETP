@@ -1,0 +1,129 @@
+/* General Styles */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f8f9fc;
+}
+
+#page-top {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* Page Wrapper */
+#wrapper {
+    flex: 1;
+}
+
+/* Content Wrapper */
+#content-wrapper {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+/* Main Content */
+#content {
+    padding: 2rem;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+/* Header */
+h1 {
+    font-size: 2rem;
+    color: #4e73df;
+    margin-bottom: 1rem;
+}
+
+/* Horizontal Line */
+hr {
+    border: 0;
+    height: 1px;
+    background: #e3e6f0;
+    margin-bottom: 1.5rem;
+}
+
+/* Card Styles */
+.card {
+    border: 1px solid #e3e6f0;
+    border-radius: 8px;
+    background-color: #ffffff;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.card-body {
+    padding: 1.5rem;
+}
+
+.border-left-primary {
+    border-left: 4px solid #4e73df;
+}
+
+.text-primary {
+    color: #4e73df;
+}
+
+.text-gray-800 {
+    color: #5a5c69;
+}
+
+/* Earnings Cards */
+.earnings-yearly {
+    border-left-color: #1cc88a; /* Green for yearly earnings */
+}
+
+.earnings-monthly {
+    border-left-color: #36b9cc; /* Blue for monthly earnings */
+}
+
+/* Footer */
+.sticky-footer {
+    background-color: #ffffff;
+    padding: 1rem;
+    box-shadow: 0 -1px 3px rgba(0,0,0,0.1);
+}
+
+footer .copyright {
+    color: #5a5c69;
+}
+
+/* Scroll to Top Button */
+.scroll-to-top {
+    position: fixed;
+    bottom: 1rem;
+    right: 1rem;
+    background-color: #4e73df;
+    color: #ffffff;
+    border-radius: 50%;
+    padding: 0.5rem;
+    text-align: center;
+    cursor: pointer;
+}
+
+.scroll-to-top:hover {
+    background-color: #2e59d9;
+}
+
+/* Flexbox Layout for Row */
+.row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem; /* Space between columns */
+}
+
+.col-xl-6 {
+    flex: 1 1 calc(50% - 1rem); /* 50% width minus the gap */
+    max-width: calc(50% - 1rem);
+}
+
+/* Responsive Layout */
+@media (max-width: 768px) {
+    .col-xl-6 {
+        flex: 1 1 100%;
+        max-width: 100%;
+    }
+}
