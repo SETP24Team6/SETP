@@ -7,303 +7,340 @@
     <link rel="stylesheet" href="css/Staff-OrderManagement.css">
 </head>
 <body>
-    <nav>
-        <div class="nav-items">
-            <ul>
-                <li><a href="#home">HOME</a></li>
-                <li><a href="SmartInventory.html">Inventory</a></li>
-                <li><a href="Staff-OrderManagement.html">Manage Orders (OMS)</a></li>
-                <li><a href="#contact">CONTACT</a></li>
-            </ul>
-        </div>
-        <div class="staff-view">
-            <b><span>Staff View</span></b>
-        </div>
-    </nav>
-
-    <section id="oms" class="section">
-        <div class="container">
-            <h1><span>Order Management System</span></h1>
-            <h2>Preparing Orders</h2>
-            <table id="preparingOrders">
-                <thead>
-                    <tr>
-                        <th>Order No.</th>
-                        <th>Order Details</th>
-                        <th>Ordered By</th>
-                        <th>Ordered Time</th>
-                        <th>Location</th>
-                        <th>Amount</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody id="preparing">
-                    <tr>
-                        <td>000002</td>
-                        <td>Sandwich</td>
-                        <td>Fern</td>
-                        <td>12:30:04</td>
-                        <td>Downtown</td>
-                        <td>$13.00</td>
-                        <td><button class="view-btn" data-status="preparing">View</button></td>
-                    </tr>
-                    <!-- More rows as needed -->
-                </tbody>
-            </table>
-
-            <h2>Ready for Pickup</h2>
-            <table id="readyOrders">
-                <thead>
-                    <tr>
-                        <th>Order No.</th>
-                        <th>Order Details</th>
-                        <th>Ordered By</th>
-                        <th>Ordered Time</th>
-                        <th>Location</th>
-                        <th>Amount</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody id="ready">
-                    <tr>
-                        <td>000001</td>
-                        <td>Sandwich</td>
-                        <td>Frieren</td>
-                        <td>12:30:04</td>
-                        <td>Downtown</td>
-                        <td>$13.00</td>
-                        <td><button class="view-btn" data-status="ready">View</button></td>
-                    </tr>
-                    <!-- More rows as needed -->
-                </tbody>
-            </table>
-
-            <h2>Completed Orders</h2>
-            <table id="completedOrders">
-                <thead>
-                    <tr>
-                        <th>Order No.</th>
-                        <th>Order Details</th>
-                        <th>Ordered By</th>
-                        <th>Ordered Time</th>
-                        <th>Location</th>
-                        <th>Amount</th>
-                        <th>Completion Time</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody id="completed">
-                    <tr>
-                        <td>999997</td>
-                        <td>Sample Item</td>
-                        <td>Himmel</td>
-                        <td>11:56:03</td>
-                        <td>Downtown</td>
-                        <td>$13.00</td>
-                        <td>12:21:00</td>
-                        <td><button class="view-btn" data-status="completed">View</button></td>
-                    </tr>
-                    <tr>
-                        <td>999998</td>
-                        <td>Sample Item</td>
-                        <td>Heiter</td>
-                        <td>11:58:44</td>
-                        <td>Downtown</td>
-                        <td>$6.00</td>
-                        <td>12:38:07</td>
-                        <td><button class="view-btn" data-status="completed">View</button></td>
-                    </tr>
-                    <tr>
-                        <td>999999</td>
-                        <td>Sample Item</td>
-                        <td>Eisen</td>
-                        <td>12:21:27</td>
-                        <td>Downtown</td>
-                        <td>$11.00</td>
-                        <td>12:44:06</td>
-                        <td><button class="view-btn" data-status="completed">View</button></td>
-                    </tr>
-                    <!-- More rows as needed -->
-                </tbody>
-            </table>
-        </div>
-    </section>
-
-    <!-- Modal for New Orders -->
-    <div id="newOrderModal" class="modal">
-        <div class="modal-content">
-            <span class="close" data-modal="newOrderModal">&times;</span>
-            <h2>New Order Details</h2>
-            <table id="newOrderDetailsTable">
-                <thead>
-                    <tr>
-                        <th>Order No.</th>
-                        <th>Order Details</th>
-                        <th>Ordered By</th>
-                        <th>Ordered Time</th>
-                        <th>Location</th>
-                        <th>Amount</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- Content to be pulled from Database Data -->
-                </tbody>
-            </table>
-            <div class="ingredient-list">
-                <h3>Selected Ingredients:</h3>
-                <table id="newOrderIngredients">
-                    <thead>
-                        <tr>
-                            <th>Step</th>
-                            <th>Details</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <!-- Content to be pulled from Database Data -->
-                    </tbody>
-                </table>
+    <div class="wrapper">
+        <nav>
+            <div class="nav-items">
+                <ul>
+                    <li><a href="Businessoverview.html">HOME</a></li>
+                    <li><a href="#analytics">Analytics</a></li>
+                    <li><a href="SmartInventory.html">Inventory</a></li>
+                    <li><a href="Staff-OrderManagement.html">Manage Orders (OMS)</a></li>
+                    <li><a href="#contact">CONTACT</a></li>
+                </ul>
             </div>
-            <button id="newOrderButton">Prepare This Order</button>
-        </div>
+            <div class="dropdown">
+                <a href="#" class="dropdown-toggle">Staff View</a>
+                <ul class="dropdown-menu">
+                    <li><a href="staff-profile.html">Staff Profile</a></li>
+                    <li><a href="customer-home.html" class="logout-btn">Logout</a></li>
+                </ul>
+            </div>
+        </nav>
+
+        <main>
+            <section id="oms" class="section">
+                <div class="container">
+                    <h1><span>Order Management System</span></h1>
+
+                    <h2>New Orders</h2>
+                    <table id="newOrders">
+                        <thead>
+                            <tr>
+                                <th>Order No.</th>
+                                <th>Order Details</th>
+                                <th>Ordered By</th>
+                                <th>Ordered Time</th>
+                                <th>Location</th>
+                                <th>Amount</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>000003</td>
+                                <td>Smoothie</td>
+                                <td>Stark</td>
+                                <td>12:30:04</td>
+                                <td>Downtown</td>
+                                <td>$6.00</td>
+                                <td><button class="view-btn" data-status="new">View</button></td>
+                            </tr>
+                            <!-- More rows as needed -->
+                        </tbody>
+                    </table>
+
+                    <h2>Preparing Orders</h2>
+                    <table id="preparingOrders">
+                        <thead>
+                            <tr>
+                                <th>Order No.</th>
+                                <th>Order Details</th>
+                                <th>Ordered By</th>
+                                <th>Ordered Time</th>
+                                <th>Location</th>
+                                <th>Amount</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>000002</td>
+                                <td>Sandwich</td>
+                                <td>Fern</td>
+                                <td>12:30:04</td>
+                                <td>Downtown</td>
+                                <td>$13.00</td>
+                                <td><button class="view-btn" data-status="preparing">View</button></td>
+                            </tr>
+                            <!-- More rows as needed -->
+                        </tbody>
+                    </table>
+
+                    <h2>Ready for Pickup</h2>
+                    <table id="readyOrders">
+                        <thead>
+                            <tr>
+                                <th>Order No.</th>
+                                <th>Order Details</th>
+                                <th>Ordered By</th>
+                                <th>Ordered Time</th>
+                                <th>Location</th>
+                                <th>Amount</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>000001</td>
+                                <td>Sandwich</td>
+                                <td>Frieren</td>
+                                <td>12:30:04</td>
+                                <td>Downtown</td>
+                                <td>$13.00</td>
+                                <td><button class="view-btn" data-status="ready">View</button></td>
+                            </tr>
+                            <!-- More rows as needed -->
+                        </tbody>
+                    </table>
+
+                    <h2>Completed Orders</h2>
+                    <table id="completedOrders">
+                        <thead>
+                            <tr>
+                                <th>Order No.</th>
+                                <th>Order Details</th>
+                                <th>Ordered By</th>
+                                <th>Ordered Time</th>
+                                <th>Location</th>
+                                <th>Amount</th>
+                                <th>Completion Time</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>999997</td>
+                                <td>Sample Item</td>
+                                <td>Himmel</td>
+                                <td>11:56:03</td>
+                                <td>Downtown</td>
+                                <td>$13.00</td>
+                                <td>12:21:00</td>
+                                <td><button class="view-btn" data-status="completed">View</button></td>
+                            </tr>
+                            <tr>
+                                <td>999998</td>
+                                <td>Sample Item</td>
+                                <td>Heiter</td>
+                                <td>11:58:44</td>
+                                <td>Downtown</td>
+                                <td>$6.00</td>
+                                <td>12:38:07</td>
+                                <td><button class="view-btn" data-status="completed">View</button></td>
+                            </tr>
+                            <tr>
+                                <td>999999</td>
+                                <td>Sample Item</td>
+                                <td>Eisen</td>
+                                <td>12:21:27</td>
+                                <td>Downtown</td>
+                                <td>$11.00</td>
+                                <td>12:44:06</td>
+                                <td><button class="view-btn" data-status="completed">View</button></td>
+                            </tr>
+                            <!-- More rows as needed -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Modal for New Orders -->
+            <div id="newOrderModal" class="modal">
+                <div class="modal-content">
+                    <span class="close" data-modal="newOrderModal">&times;</span>
+                    <h2>New Order Details</h2>
+                    <table id="newOrderDetailsTable">
+                        <thead>
+                            <tr>
+                                <th>Order No.</th>
+                                <th>Order Details</th>
+                                <th>Ordered By</th>
+                                <th>Ordered Time</th>
+                                <th>Location</th>
+                                <th>Amount</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Content to be pulled from Database Data -->
+                        </tbody>
+                    </table>
+                    <div class="ingredient-list">
+                        <h3>Selected Ingredients:</h3>
+                        <table id="newOrderIngredients">
+                            <thead>
+                                <tr>
+                                    <th>Step</th>
+                                    <th>Details</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Content to be pulled from Database Data -->
+                            </tbody>
+                        </table>
+                    </div>
+                    <button id="newOrderButton">Prepare This Order</button>
+                </div>
+            </div>
+
+            <!-- Modal for Preparing Orders -->
+            <div id="preparingOrderModal" class="modal">
+                <div class="modal-content">
+                    <span class="close" data-modal="preparingOrderModal">&times;</span>
+                    <h2>Preparing Order Details</h2>
+                    <table id="preparingOrderDetailsTable">
+                        <thead>
+                            <tr>
+                                <th>Order No.</th>
+                                <th>Order Details</th>
+                                <th>Ordered By</th>
+                                <th>Ordered Time</th>
+                                <th>Location</th>
+                                <th>Amount</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Content to be pulled from Database Data -->
+                        </tbody>
+                    </table>
+                    <div class="ingredient-list">
+                        <h3>Selected Ingredients:</h3>
+                        <table id="preparingOrderIngredients">
+                            <thead>
+                                <tr>
+                                    <th>Step</th>
+                                    <th>Details</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Content to be pulled from Database Data -->
+                            </tbody>
+                        </table>
+                    </div>
+                    <button id="preparingOrderButton">Ready for Pickup</button>
+                </div>
+            </div>
+
+            <!-- Modal for Ready for Pickup Orders -->
+            <div id="readyOrderModal" class="modal">
+                <div class="modal-content">
+                    <span class="close" data-modal="readyOrderModal">&times;</span>
+                    <h2>Ready Order Details</h2>
+                    <table id="readyOrderDetailsTable">
+                        <thead>
+                            <tr>
+                                <th>Order No.</th>
+                                <th>Order Details</th>
+                                <th>Ordered By</th>
+                                <th>Ordered Time</th>
+                                <th>Location</th>
+                                <th>Amount</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Content to be pulled from Database Data -->
+                        </tbody>
+                    </table>
+                    <div class="ingredient-list">
+                        <h3>Selected Ingredients:</h3>
+                        <table id="readyOrderIngredients">
+                            <thead>
+                                <tr>
+                                    <th>Step</th>
+                                    <th>Details</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Content to be pulled from Database Data -->
+                            </tbody>
+                        </table>
+                    </div>
+                    <button id="readyOrderButton">Complete Order</button>
+                </div>
+            </div>
+
+            <!-- Modal for Completed Orders -->
+            <div id="completedOrderModal" class="modal">
+                <div class="modal-content">
+                    <span class="close" data-modal="completedOrderModal">&times;</span>
+                    <h2>Completed Order Details</h2>
+                    <table id="completedOrderDetailsTable">
+                        <thead>
+                            <tr>
+                                <th>Order No.</th>
+                                <th>Order Details</th>
+                                <th>Ordered By</th>
+                                <th>Ordered Time</th>
+                                <th>Location</th>
+                                <th>Amount</th>
+                                <th>Completion Time</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Content to be pulled from Database Data -->
+                        </tbody>
+                    </table>
+                    <div class="ingredient-list">
+                        <h3>Selected Ingredients:</h3>
+                        <table id="completedOrderIngredients">
+                            <thead>
+                                <tr>
+                                    <th>Step</th>
+                                    <th>Details</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Content to be pulled from Database Data -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <script src="js/packages/jquery.min.js"></script>
+        <script src="js/api.js"></script>
+        <script src="js/Staff-OrderManagement.js"></script>
+        <footer>
+            <div class="footer-content">
+                <h3>Find Out More!</h3>
+                <ul class="footer-links">
+                    <li><a href="customer-home.html#home">Home</a></li>
+                    <li><a href="customer-home.html#about">About</a></li>
+                    <li><a href="customer-home.html#locations">Locations</a></li>
+                    <li><a href="customer-home.html#contact">Contact</a></li>
+                </ul>
+                <div class="social-media">
+                    <a href="#"><img src="asset/footer/twitter-icon.png" alt="Twitter"></a>
+                    <a href="#"><img src="asset/footer/facebook-icon.png" alt="Facebook"></a>
+                    <a href="#"><img src="asset/footer/instagram-icon.png" alt="Instagram"></a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 All Rights Reserved | Bite & Delight</p>
+            </div>
+        </footer>
     </div>
 
-    <!-- Modal for Preparing Orders -->
-    <div id="preparingOrderModal" class="modal">
-        <div class="modal-content">
-            <span class="close" data-modal="preparingOrderModal">&times;</span>
-            <h2>Preparing Order Details</h2>
-            <table id="preparingOrderDetailsTable">
-                <thead>
-                    <tr>
-                        <th>Order No.</th>
-                        <th>Order Details</th>
-                        <th>Ordered By</th>
-                        <th>Ordered Time</th>
-                        <th>Location</th>
-                        <th>Amount</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- Content to be pulled from Database Data -->
-                </tbody>
-            </table>
-            <div class="ingredient-list">
-                <h3>Selected Ingredients:</h3>
-                <table id="preparingOrderIngredients">
-                    <thead>
-                        <tr>
-                            <th>Step</th>
-                            <th>Details</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <!-- Content to be pulled from Database Data -->
-                    </tbody>
-                </table>
-            </div>
-            <button id="preparingOrderButton">Ready for Pickup</button>
-        </div>
-    </div>
-
-    <!-- Modal for Ready for Pickup Orders -->
-    <div id="readyOrderModal" class="modal">
-        <div class="modal-content">
-            <span class="close" data-modal="readyOrderModal">&times;</span>
-            <h2>Ready Order Details</h2>
-            <table id="readyOrderDetailsTable">
-                <thead>
-                    <tr>
-                        <th>Order No.</th>
-                        <th>Order Details</th>
-                        <th>Ordered By</th>
-                        <th>Ordered Time</th>
-                        <th>Location</th>
-                        <th>Amount</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- Content to be pulled from Database Data -->
-                </tbody>
-            </table>
-            <div class="ingredient-list">
-                <h3>Selected Ingredients:</h3>
-                <table id="readyOrderIngredients">
-                    <thead>
-                        <tr>
-                            <th>Step</th>
-                            <th>Details</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <!-- Content to be pulled from Database Data -->
-                    </tbody>
-                </table>
-            </div>
-            <button id="readyOrderButton">Complete Order</button>
-        </div>
-    </div>
-
-    <!-- Modal for Completed Orders -->
-    <div id="completedOrderModal" class="modal">
-        <div class="modal-content">
-            <span class="close" data-modal="completedOrderModal">&times;</span>
-            <h2>Completed Order Details</h2>
-            <table id="completedOrderDetailsTable">
-                <thead>
-                    <tr>
-                        <th>Order No.</th>
-                        <th>Order Details</th>
-                        <th>Ordered By</th>
-                        <th>Ordered Time</th>
-                        <th>Location</th>
-                        <th>Amount</th>
-                        <th>Completion Time</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- Content to be pulled from Database Data -->
-                </tbody>
-            </table>
-            <div class="ingredient-list">
-                <h3>Selected Ingredients:</h3>
-                <table id="completedOrderIngredients">
-                    <thead>
-                        <tr>
-                            <th>Step</th>
-                            <th>Details</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <!-- Content to be pulled from Database Data -->
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-
-    <script src="js/packages/jquery.min.js"></script>
-    <script src="js/api.js"></script>
     <script src="js/Staff-OrderManagement.js"></script>
-
-    <footer>
-        <div class="footer-content">
-            <h3>Find Out More!</h3>
-            <ul class="footer-links">
-                <li><a href="customer-home.html#home">Home</a></li>
-                <li><a href="customer-home.html#about">About</a></li>
-                <li><a href="customer-home.html#locations">Locations</a></li>
-                <li><a href="customer-home.html#contact">Contact</a></li>
-            </ul>
-            <div class="social-media">
-                <a href="#"><img src="asset/footer/twitter-icon.png" alt="Twitter"></a>
-                <a href="#"><img src="asset/footer/facebook-icon.png" alt="Facebook"></a>
-                <a href="#"><img src="asset/footer/instagram-icon.png" alt="Instagram"></a>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <p>&copy; 2024 All Rights Reserved | Bite & Delight</p>
-        </div>
-    </footer>
-
 </body>
 </html>

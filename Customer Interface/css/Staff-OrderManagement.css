@@ -1,9 +1,15 @@
-body,
-html {
+html, body {
     margin: 0;
     padding: 0;
     font-family: Arial, sans-serif;
     height: 100%;
+    overflow-x: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+body > main {
+    flex: 1;
 }
 
 nav {
@@ -62,6 +68,72 @@ nav .staff-view b {
     display: block;
 }
 
+/* Dropdown styles */
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-toggle {
+    color: white;
+    text-decoration: none;
+    padding: 15px;
+    display: block;
+    text-transform: uppercase;
+    transition: background-color 0.3s;
+    font-weight: bold;
+}
+
+.dropdown-toggle:hover {
+    background-color: rgba(0, 255, 255, 0.5);
+}
+
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: #333;
+    min-width: 160px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+}
+
+.dropdown-menu li {
+    list-style: none;
+}
+
+.dropdown-menu li a {
+    color: white;
+    padding: 12px 16px;
+    display: block;
+    text-decoration: none;
+    transition: background-color 0.3s;
+}
+
+.dropdown-menu li a:hover {
+    background-color: rgba(0, 255, 255, 0.3);
+}
+
+.dropdown:hover .dropdown-menu {
+    display: block;
+}
+
+.logout-btn {
+    color: white;
+    font-weight: bold;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.logout-btn:hover {
+    background-color: darkred;
+}
+
+/* Section styling */
 .section {
     padding: 20px;
     margin-top: 0px;
@@ -170,7 +242,6 @@ button:hover {
     background-color: #138496;
 }
 
-
 /* Footer */
 footer {
     background-color: #343a40;
@@ -239,7 +310,6 @@ footer {
 .footer-bottom a:hover {
     text-decoration: underline;
 }
-
 
 /* Modal */
 .modal {
@@ -314,4 +384,45 @@ footer {
 
 .modal-content button:hover {
     background-color: #138496;
+}
+
+/* Staff Profile Page Styles */
+.profile-info {
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.profile-info h2 {
+    color: #495057;
+    background-color: #f8f9fa;
+    border-left: 5px solid #ced4da;
+    padding: 10px 15px;
+    border-radius: 5px;
+    font-size: 1.5em;
+    margin-top: 0;
+    margin-bottom: 20px;
+    text-align: left;
+    font-weight: bold;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.profile-info table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.profile-info th, .profile-info td {
+    border: 1px solid #dee2e6;
+    padding: 12px;
+    text-align: left;
+}
+
+.profile-info th {
+    background-color: #f1f1f1;
+}
+
+.profile-info tbody tr:nth-child(odd) {
+    background-color: #f9f9f9;
 }

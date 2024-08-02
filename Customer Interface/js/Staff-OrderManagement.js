@@ -1,3 +1,27 @@
+document.addEventListener('click', function (event) {
+    var dropdowns = document.querySelectorAll('.dropdown');
+    dropdowns.forEach(function (dropdown) {
+        var dropdownMenu = dropdown.querySelector('.dropdown-menu');
+        if (!dropdown.contains(event.target)) {
+            dropdownMenu.style.display = 'none';
+        }
+    });
+});
+
+document.querySelectorAll('.dropdown-toggle').forEach(function (toggle) {
+    toggle.addEventListener('click', function (event) {
+        event.preventDefault();
+        var dropdownMenu = this.nextElementSibling;
+        var isVisible = dropdownMenu.style.display === 'block';
+        document.querySelectorAll('.dropdown-menu').forEach(function (menu) {
+            menu.style.display = 'none';
+        });
+        if (!isVisible) {
+            dropdownMenu.style.display = 'block';
+        }
+    });
+});
+
 document.addEventListener('DOMContentLoaded', () => {
     const modals = {
         newOrderModal: document.getElementById('newOrderModal'),
@@ -217,3 +241,4 @@ document.addEventListener('DOMContentLoaded', () => {
 
     attachEventDelegation();
 });
+
