@@ -230,6 +230,14 @@ table {
     text-align: left;
 }
 
+table#sandwichIngredients th,
+table#sandwichIngredients td,
+table#smoothieIngredients th,
+table#smoothieIngredients td {
+    width: 20%;
+    box-sizing: border-box;
+}
+
 table thead th {
     background-color: #f4f4f4;
     font-weight: bold;
