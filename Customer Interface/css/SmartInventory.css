@@ -227,7 +227,7 @@ table {
     border-collapse: collapse;
     margin: 20px 0;
     font-size: 16px;
-    text-align: left;
+    text-align: center;
 }
 
 table thead th {
@@ -239,6 +239,16 @@ table th, table td {
     padding: 12px;
     border: 1px solid #ddd;
     border-radius: 4px;
+    text-align: center;
+}
+
+/* Set Equal Column Widths */
+table th, table td {
+    width: 25%;
+}
+
+table {
+    table-layout: fixed;
 }
 
 /* Sandwich Table Alignment */
