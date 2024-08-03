@@ -1,47 +1,64 @@
 document.addEventListener('DOMContentLoaded', function () {
-    const accountOptions = document.querySelectorAll('.account-option');
-    const sections = document.querySelectorAll('.update-profile-section, .order-history-section, .reward-points-section');
+    const urlParams = new URLSearchParams(window.location.search);
+    const orderNumber = urlParams.get('orderNumber');
+    const orderDetails = urlParams.get('orderDetails');
+    const totalAmount = urlParams.get('totalAmount');
+    const pickupTime = urlParams.get('pickupTime');
 
-    accountOptions.forEach(option => {
-        option.addEventListener('click', function (event) {
-            event.preventDefault();
+    // Debugging logs
+    console.log('Order Number:', orderNumber);
+    console.log('Order Details:', orderDetails);
+    console.log('Total Amount:', totalAmount);
+    console.log('Pickup Time:', pickupTime);
 
-            const sectionToShow = document.querySelector(option.getAttribute('href'));
+    // Check if orderDetails is valid JSON
+    let orderDetailsParsed;
+    try {
+        orderDetailsParsed = JSON.parse(orderDetails);
+    } catch (e) {
+        console.error('Failed to parse orderDetails:', e);
+        return;
+    }
 
-            // Check if the clicked section is already visible
-            const isVisible = sectionToShow.style.display === 'block';
+    // Debugging log for parsed order details
+    console.log('Parsed Order Details:', orderDetailsParsed);
 
-            // Hide all sections first
-            sections.forEach(section => section.style.display = 'none');
+    document.getElementById('order-number').textContent = orderNumber;
+    document.getElementById('order-details').innerHTML = orderDetailsParsed.map(item => {
+        const isSandwich = item.type === 'sandwich';
+        const details = isSandwich ? `
+            Bread: ${item.details.bread}<br>
+            Protein: ${item.details.protein}<br>
+            Sauce: ${item.details.sauces.join(', ')}<br>
+            Vegetable: ${item.details.veggies.join(', ')}
+        ` : `
+            Fruits: ${item.details.fruits.join(', ')}<br>
+            Greens: ${item.details.greens}<br>
+            Protein: ${item.details.proteinSmoothie}<br>
+            Liquid Base: ${item.details.liquidBase}<br>
+            Stevia: ${item.details.stevia}
+        `;
 
-            // If the clicked section was not visible, show it
-            if (!isVisible) {
-                sectionToShow.style.display = 'block';
-                sectionToShow.scrollIntoView({ behavior: 'smooth' });
-            }
-        });
-    });
+        return `
+            <div class="order-item">
+                <p><strong>${item.name}</strong> - $${item.price.toFixed(2)}</p>
+                <div class="ingredients hidden">
+                    ${details}
+                </div>
+                <button class="toggle-ingredients">Show/Hide Ingredients</button>
+            </div>
+        `;
+    }).join('');
+    document.getElementById('total-amount').textContent = totalAmount;
+    document.getElementById('pickup-time').textContent = pickupTime;
 
-    const tabLinks = document.querySelectorAll('.tablinks');
-    tabLinks.forEach(link => {
-        link.addEventListener('click', function (event) {
-            openTab(event, event.currentTarget.getAttribute('data-tab'));
-            // Scroll to the tab content
-            document.getElementById(event.currentTarget.getAttribute('data-tab')).scrollIntoView({ behavior: 'smooth' });
+    // Calculate and display points earned
+    const pointsEarned = Math.floor(parseFloat(totalAmount));
+    document.querySelector('.order-details').innerHTML += `<p>Points Earned: ${pointsEarned} points</p>`;
+
+    document.querySelectorAll('.toggle-ingredients').forEach(button => {
+        button.addEventListener('click', function () {
+            this.previousElementSibling.classList.toggle('hidden');
         });
     });
 });
-
-function openTab(evt, tabName) {
-    var i, tabcontent, tablinks;
-    tabcontent = document.getElementsByClassName("tabcontent");
-    for (i = 0; i < tabcontent.length; i++) {
-        tabcontent[i].style.display = "none";
-    }
-    tablinks = document.getElementsByClassName("tablinks");
-    for (i = 0; i < tablinks.length; i++) {
-        tablinks[i].className = tablinks[i].className.replace(" active", "");
-    }
-    document.getElementById(tabName).style.display = "block";
-    evt.currentTarget.className += " active";
-}

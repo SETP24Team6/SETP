@@ -11,6 +11,12 @@ document.addEventListener('DOMContentLoaded', function () {
     const backArrows = document.querySelectorAll('.back-arrow');
     const sandwichFinishIcon = document.getElementById('sandwich-finish-icon-4');
     const smoothieFinishIcon = document.getElementById('smoothie-finish-icon-5');
+    const rewardsSelect = document.getElementById('rewards');
+    const cartTotalPrice = document.getElementById('cart-total-price');
+    const rewardsDeductionElement = document.querySelector('.rewards-deduction');
+    const availablePointsElement = document.getElementById('available-points');
+
+    let cartTotal = 0;
 
     // Ensure "Next Step" buttons are positioned correctly
     nextStepArrows.forEach((arrow) => {
@@ -44,7 +50,6 @@ document.addEventListener('DOMContentLoaded', function () {
     const choices = document.querySelectorAll('.choice');
     const cartDropdown = document.querySelector('.cart-dropdown');
     const cartItemsContainer = document.querySelector('.cart-items');
-    const cartTotalPrice = document.getElementById('cart-total-price');
     const cartCountElement = document.querySelector('.cart-count');
     const closeCartButton = document.querySelector('.close-cart');
     const emptyCartMessage = document.querySelector('.empty-cart-message');
@@ -447,7 +452,8 @@ document.addEventListener('DOMContentLoaded', function () {
             });
 
         }
-        cartTotalPrice.textContent = '$' + cart_price.toFixed(2);
+        cartTotal = cart_price;
+        cartTotalPrice.textContent = `$${cart_price.toFixed(2)}`;
     }
 
     function highlightCart() {
@@ -476,6 +482,21 @@ document.addEventListener('DOMContentLoaded', function () {
         currentStep = -1;
         showCurrentStep();
     }
+
+    rewardsSelect.addEventListener('change', function () {
+        let deduction = 0;
+        const selectedValue = rewardsSelect.value;
+        if (selectedValue === '10') {
+            deduction = 0.5;
+        } else if (selectedValue === '20') {
+            deduction = 1.0;
+        } else if (selectedValue === '30') {
+            deduction = 1.5;
+        }
+        const totalPrice = cartTotal - deduction;
+        cartTotalPrice.textContent = `$${totalPrice.toFixed(2)}`;
+        rewardsDeductionElement.textContent = `-$${deduction.toFixed(2)} redeemed`;
+    });
 
     cartCountElement.parentElement.addEventListener('click', () => {
         cartDropdown.style.display = cartDropdown.style.display === 'none' || cartDropdown.style.display === '' ? 'block' : 'none';
@@ -520,4 +541,8 @@ document.addEventListener('DOMContentLoaded', function () {
         item.classList.add('animated', 'fadeInUp');
         item.style.animationDelay = `${index * 0.3}s`;
     });
+
+    // Display available points
+    availablePointsElement.textContent = "Available Points: 47";
 });
+
