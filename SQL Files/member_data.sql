@@ -13,10 +13,6 @@ CREATE TABLE member (
 
 -- Password: 12345678 (for all members' accounts) --
 
-INSERT INTO member (firstName, lastName, birthday, phone, email, gender, passwordhash, points) VALUES ('SUET SIN', 'CHEN', '2000-05-19', '+65 8130 6639', 'suetsinchen@gmail.com', 'F', '25d55ad283aa400af464c76d713c07ad', 40);
-
-SELECT * from member;
-
 INSERT INTO member (firstName, lastName, birthday, phone, email, gender, passwordhash, points) VALUES ('Brocky', 'Huggard', '1998-05-19', '+65 1341 0315', 'bhuggard0@so-net.ne.jp', 'M', '25d55ad283aa400af464c76d713c07ad', 40);
 INSERT INTO member (firstName, lastName, birthday, phone, email, gender, passwordhash, points) VALUES ('Griselda', 'Dranfield', '2008-08-11', '+65 5758 2319', 'gdranfield1@lulu.com', 'F', '25d55ad283aa400af464c76d713c07ad', 40);
 INSERT INTO member (firstName, lastName, birthday, phone, email, gender, passwordhash, points) VALUES ('Katti', 'Penner', '1992-06-12', '+65 1089 7220', 'kpenner2@microsoft.com', 'F', '25d55ad283aa400af464c76d713c07ad', 40);
