@@ -23,6 +23,8 @@ nav {
     top: 0;
     left: 0;
     z-index: 1000;
+    opacity: 0;
+    animation: fadeIn 1s forwards;
 }
 
 nav ul {
@@ -44,7 +46,7 @@ nav ul li a {
     text-decoration: none;
     font-size: 16px;
     padding: 8px 15px;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.2s ease;
 }
 
 nav ul li a:hover {
@@ -61,6 +63,9 @@ nav ul li a:hover {
     width: 80%;
     max-width: 500px;
     margin-top: 60px;
+    opacity: 0;
+    animation: fadeIn 1s forwards 0.5s;
+    /* Delay start to allow nav to fade in first */
 }
 
 h1 {
@@ -110,4 +115,15 @@ button:hover {
 
 .ingredients.hidden {
     display: none;
+}
+
+/* Fade-in animation */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
 }

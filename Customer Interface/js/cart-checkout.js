@@ -1,17 +1,30 @@
 document.addEventListener('DOMContentLoaded', function () {
     const urlParams = new URLSearchParams(window.location.search);
     const orderNumber = urlParams.get('orderNumber');
-    const orderDetails = JSON.parse(urlParams.get('orderDetails'));
+    const orderDetails = urlParams.get('orderDetails');
     const totalAmount = urlParams.get('totalAmount');
     const pickupTime = urlParams.get('pickupTime');
 
+    // Debugging logs
     console.log('Order Number:', orderNumber);
     console.log('Order Details:', orderDetails);
     console.log('Total Amount:', totalAmount);
     console.log('Pickup Time:', pickupTime);
 
+    // Check if orderDetails is valid JSON
+    let orderDetailsParsed;
+    try {
+        orderDetailsParsed = JSON.parse(orderDetails);
+    } catch (e) {
+        console.error('Failed to parse orderDetails:', e);
+        return;
+    }
+
+    // Debugging log for parsed order details
+    console.log('Parsed Order Details:', orderDetailsParsed);
+
     document.getElementById('order-number').textContent = orderNumber;
-    document.getElementById('order-details').innerHTML = orderDetails.map(item => {
+    document.getElementById('order-details').innerHTML = orderDetailsParsed.map(item => {
         const isSandwich = item.type === 'sandwich';
         const details = isSandwich ? `
             Bread: ${item.details.bread}<br>
