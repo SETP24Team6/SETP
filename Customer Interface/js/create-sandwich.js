@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', function () {
     if (populator) {
         const products = { bread: "", protein: "", vegetable: "", sauce: "", fruit: "", yogurt: "", smoothievegetable: "", liquidbase: "" }
         $.each(populator, function (index, product) {
-            dict_key = product.product_type_name.toLowerCase().replace(" ", "")
+            let dict_key = product.product_type_name.toLowerCase().replace(" ", "")
             products[dict_key] += '<div class="choice" data-choice="' + product.products_id
             products[dict_key] += '" data-price="' + product.price_point + '">'
             products[dict_key] += '<img src="' + product.image_path + '" alt="' + product.product_name + '">'
@@ -40,7 +40,6 @@ document.addEventListener('DOMContentLoaded', function () {
             filler.innerHTML = products[x]
         };
     }
-
 
     const choices = document.querySelectorAll('.choice');
     const cartDropdown = document.querySelector('.cart-dropdown');
@@ -76,7 +75,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
     let selectedChoices2 = new Set();
 
-
     let sandwichTotal = 6; // Base price for a sandwich
     let smoothieTotal = 5; // Base price for a smoothie
     let isSandwich = false;
@@ -110,7 +108,6 @@ document.addEventListener('DOMContentLoaded', function () {
             }
             currentStep++;
             showCurrentStep();
-            // preselectChoices();
         });
     });
 
@@ -118,7 +115,6 @@ document.addEventListener('DOMContentLoaded', function () {
         arrow.addEventListener('click', () => {
             currentStep--;
             showCurrentStep();
-            // preselectChoices();
         });
     });
 
@@ -440,7 +436,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 });
             });
 
-
             const removeButtons = document.querySelectorAll('.remove-item');
             removeButtons.forEach((button) => {
                 button.addEventListener('click', (e) => {
@@ -453,7 +448,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
         }
         cartTotalPrice.textContent = '$' + cart_price.toFixed(2);
-
     }
 
     function highlightCart() {
@@ -500,9 +494,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     cartCheckOut.addEventListener('click', () => {
-        callApi2("POST", 'http://127.0.0.1:5000/cart_out',
-            { 'data': JSON.stringify(cookie('userid')) });
-        showOrderSuccessPopup(); // Show the order success popup
+        window.location.href = 'cart-checkout.html';
     });
 
     // Typewriter effect for the recommendations section
@@ -522,39 +514,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
     typeWriter();
 
-
     // Recommendations section animation
     const recommendationItems = document.querySelectorAll('.recommendation-item');
     recommendationItems.forEach((item, index) => {
         item.classList.add('animated', 'fadeInUp');
         item.style.animationDelay = `${index * 0.3}s`;
     });
-
-    function showOrderSuccessPopup() {
-        const orderNumber = Math.floor(Math.random() * 1000000); // Generate a random order number
-        const totalAmount = cartTotalPrice.textContent;
-        const pickupTime = new Date(new Date().getTime() + 20 * 60000).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-
-        const message = `
-            <p>Order placed successfully, please make payment directly at Bite & Delight Downtown</p>
-            <p>Order Number: ${orderNumber}</p>
-            <p>Total Amount: ${totalAmount}</p>
-            <p>Pickup Estimated Time: ${pickupTime}</p>
-        `;
-
-        const popup = document.createElement('div');
-        popup.classList.add('order-success-popup');
-        popup.innerHTML = `
-            <div class="popup-content">
-                <span class="close-popup">&times;</span>
-                ${message}
-            </div>
-        `;
-        document.body.appendChild(popup);
-
-        // Close the popup when the close button is clicked
-        popup.querySelector('.close-popup').addEventListener('click', () => {
-            document.body.removeChild(popup);
-        });
-    }
 });

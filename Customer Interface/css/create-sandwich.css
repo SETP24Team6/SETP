@@ -322,12 +322,14 @@ section {
     border-right: 10px solid white;
     margin-left: 0;
     margin-right: 10px;
+
 }
 
 .next-step-arrow,
 .back-arrow {
     position: relative;
     z-index: 10;
+    
 }
 
 /* Align Next Step button to the right for Step 1 and smoothie steps */
