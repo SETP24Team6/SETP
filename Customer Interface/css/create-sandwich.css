@@ -875,6 +875,7 @@ section {
     color: white;
     border: none;
     padding: 10px 15px;
+    width: 100%;
     border-radius: 5px;
     cursor: pointer;
     font-size: 14px;
@@ -910,4 +911,9 @@ section {
     border-radius: 50%;
     padding: 2px 5px;
     font-size: 10px;
+}
+
+/* New Styles for Payment Mode */
+.payment-mode {
+    color: rgb(146, 46, 46)
 }
