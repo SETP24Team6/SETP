@@ -499,11 +499,10 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
-
     cartCheckOut.addEventListener('click', () => {
         callApi2("POST", 'http://127.0.0.1:5000/cart_out',
             { 'data': JSON.stringify(cookie('userid')) });
-        // cartLoader()
+        showOrderSuccessPopup(); // Show the order success popup
     });
 
     // Typewriter effect for the recommendations section
@@ -530,4 +529,32 @@ document.addEventListener('DOMContentLoaded', function () {
         item.classList.add('animated', 'fadeInUp');
         item.style.animationDelay = `${index * 0.3}s`;
     });
+
+    function showOrderSuccessPopup() {
+        const orderNumber = Math.floor(Math.random() * 1000000); // Generate a random order number
+        const totalAmount = cartTotalPrice.textContent;
+        const pickupTime = new Date(new Date().getTime() + 20 * 60000).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+        const message = `
+            <p>Order placed successfully, please make payment directly at Bite & Delight Downtown</p>
+            <p>Order Number: ${orderNumber}</p>
+            <p>Total Amount: ${totalAmount}</p>
+            <p>Pickup Estimated Time: ${pickupTime}</p>
+        `;
+
+        const popup = document.createElement('div');
+        popup.classList.add('order-success-popup');
+        popup.innerHTML = `
+            <div class="popup-content">
+                <span class="close-popup">&times;</span>
+                ${message}
+            </div>
+        `;
+        document.body.appendChild(popup);
+
+        // Close the popup when the close button is clicked
+        popup.querySelector('.close-popup').addEventListener('click', () => {
+            document.body.removeChild(popup);
+        });
+    }
 });
