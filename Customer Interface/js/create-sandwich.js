@@ -58,6 +58,8 @@ document.addEventListener('DOMContentLoaded', function () {
     const addButtons = document.querySelectorAll('.add-to-cart');
     const cartCheckOut = document.getElementById('checkout');
 
+    
+    cartLoader()
     // cookie checker (done)
     if (!cookie("userid")) {
         window.location.href = 'order-now.html';
@@ -209,7 +211,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 selectedChoices.veggies = selectedChoices.veggies.filter((v) => v.name !== veggieName);
                 selectedChoices2.delete(veggieName)
             }
-            console.log(selectedChoices2)
         } else if (stepId === 'sandwich-step-4') {
             if (selectedChoices.sauces.some((s) => s.name === 'None')) {
                 selectedChoices.sauces = [];
@@ -236,7 +237,7 @@ document.addEventListener('DOMContentLoaded', function () {
             choice.classList.add('selected');
 
             const choiceName = choice.getAttribute('data-choice');
-
+            
             if (stepId === 'sandwich-step-1') {
                 sandwichTotal -= selectedChoices.breadPrice || 0;
                 selectedChoices.bread = choiceName;
@@ -248,47 +249,44 @@ document.addEventListener('DOMContentLoaded', function () {
                 selectedChoices.proteinPrice = price;
                 sandwichTotal += price;
             }
-            console.log(selectedChoices2)
         }
+        
+        console.log(selectedChoices2)
 
-        console.log(selectedChoices)
     }
 
     function handleSmoothieChoice(choice, stepId) {
         const price = parseFloat(choice.getAttribute('data-price'));
+        const choiceName = choice.getAttribute('data-choice');
 
         if (stepId === 'smoothie-step-1') {
             choices.forEach((c) => c.classList.remove('selected'));
             choice.classList.add('selected');
-            const fruitName = choice.querySelector('h3').textContent;
 
-            selectedChoices.fruits = [{ name: fruitName, price }];
+            selectedChoices.fruits = [{ name: choiceName, price }];
             smoothieTotal = 5 + price; // Reset smoothieTotal to base price + selected fruit price
         } else if (stepId === 'smoothie-step-2') {
             choices.forEach((c) => c.classList.remove('selected'));
             choice.classList.add('selected');
 
-            const greenName = choice.querySelector('h3').textContent;
             smoothieTotal -= selectedChoices.greensPrice || 0;
-            selectedChoices.greens = greenName;
+            selectedChoices.greens = choiceName;
             selectedChoices.greensPrice = price;
             smoothieTotal += price;
         } else if (stepId === 'smoothie-step-3') {
             choices.forEach((c) => c.classList.remove('selected'));
             choice.classList.add('selected');
 
-            const proteinName = choice.querySelector('h3').textContent;
             smoothieTotal -= selectedChoices.proteinSmoothiePrice || 0;
-            selectedChoices.proteinSmoothie = proteinName;
+            selectedChoices.proteinSmoothie = choiceName;
             selectedChoices.proteinSmoothiePrice = price;
             smoothieTotal += price;
         } else if (stepId === 'smoothie-step-4') {
             choices.forEach((c) => c.classList.remove('selected'));
             choice.classList.add('selected');
 
-            const liquidBaseName = choice.querySelector('h3').textContent;
             smoothieTotal -= selectedChoices.liquidBasePrice || 0;
-            selectedChoices.liquidBase = liquidBaseName;
+            selectedChoices.liquidBase = choiceName;
             selectedChoices.liquidBasePrice = price;
             smoothieTotal += price;
         } else if (stepId === 'smoothie-step-5') {
@@ -384,8 +382,16 @@ document.addEventListener('DOMContentLoaded', function () {
             details: { ...selectedChoices },
             price: isSandwich ? sandwichTotal : smoothieTotal
         };
-        selectedChoices2.add(selectedChoices.bread)
-        selectedChoices2.add(selectedChoices.protein)
+        if (isSandwich){
+            
+            selectedChoices2.add(selectedChoices.bread)
+            selectedChoices2.add(selectedChoices.protein)
+        }else{
+            selectedChoices2.add(selectedChoices.fruits[0].name)
+            selectedChoices2.add(selectedChoices.greens)
+            selectedChoices2.add(selectedChoices.proteinSmoothie)
+            selectedChoices2.add(selectedChoices.liquidBase)
+        }
         var requestPayload = {
             type: isSandwich ? '1' : '2',
             name: isSandwich ? 'Sandwich' : 'Smoothie',
@@ -393,6 +399,7 @@ document.addEventListener('DOMContentLoaded', function () {
             ingredents: [...selectedChoices2],
             member: cookie('userid')
         };
+        console.log(requestPayload)
         callApi2("POST", 'http://127.0.0.1:5000/add_order',
             { 'data': JSON.stringify(requestPayload) });
 
