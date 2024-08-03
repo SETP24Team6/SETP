@@ -25,7 +25,7 @@ function callApi2(method, url, data) {
             result =  data;
         }
     });
-return result;
+    return result;
 }
 
 function calculateValue() {
