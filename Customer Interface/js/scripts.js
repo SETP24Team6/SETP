@@ -15,28 +15,8 @@ document.addEventListener("DOMContentLoaded", function () {
     const signupTitle = document.getElementById('signup-title');
     const forgotPasswordTitle = document.getElementById('forgot-password-title');
 	
-    function callApi(method, url, data) {
-        $.ajax({
-            method: method,
-            url: url,
-            data: data
-        }).done(function( msg ) {
-            window.location.reload();
-        });
-    }
-    
-    function callApi2(method, url, data) {
-        var result = [];
-        $.ajax({
-            method: method,
-            url: url,
-            data: data,
-            async: false,
-            success: function(data) {
-                result =  data;
-            }
-        });
-        return result;
+    if (cookie("userid")){
+        window.location.href = 'create-sandwich.html';
     }
 
     dropdownContent.forEach(item => {
