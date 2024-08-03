@@ -11,6 +11,12 @@ document.addEventListener('DOMContentLoaded', function () {
     const backArrows = document.querySelectorAll('.back-arrow');
     const sandwichFinishIcon = document.getElementById('sandwich-finish-icon-4');
     const smoothieFinishIcon = document.getElementById('smoothie-finish-icon-5');
+    const rewardsSelect = document.getElementById('rewards');
+    const cartTotalPrice = document.getElementById('cart-total-price');
+    const rewardsDeductionElement = document.querySelector('.rewards-deduction');
+    const availablePointsElement = document.getElementById('available-points');
+
+    let cartTotal = 0;
 
     // Ensure "Next Step" buttons are positioned correctly
     nextStepArrows.forEach((arrow) => {
@@ -24,7 +30,7 @@ document.addEventListener('DOMContentLoaded', function () {
     if (populator) {
         const products = { bread: "", protein: "", vegetable: "", sauce: "", fruit: "", yogurt: "", smoothievegetable: "", liquidbase: "" }
         $.each(populator, function (index, product) {
-            dict_key = product.product_type_name.toLowerCase().replace(" ", "")
+            let dict_key = product.product_type_name.toLowerCase().replace(" ", "")
             products[dict_key] += '<div class="choice" data-choice="' + product.products_id
             products[dict_key] += '" data-price="' + product.price_point + '">'
             products[dict_key] += '<img src="' + product.image_path + '" alt="' + product.product_name + '">'
@@ -41,11 +47,9 @@ document.addEventListener('DOMContentLoaded', function () {
         };
     }
 
-
     const choices = document.querySelectorAll('.choice');
     const cartDropdown = document.querySelector('.cart-dropdown');
     const cartItemsContainer = document.querySelector('.cart-items');
-    const cartTotalPrice = document.getElementById('cart-total-price');
     const cartCountElement = document.querySelector('.cart-count');
     const closeCartButton = document.querySelector('.close-cart');
     const emptyCartMessage = document.querySelector('.empty-cart-message');
@@ -54,7 +58,6 @@ document.addEventListener('DOMContentLoaded', function () {
     const addButtons = document.querySelectorAll('.add-to-cart');
     const cartCheckOut = document.getElementById('checkout');
 
-    cartLoader();
     // cookie checker (done)
     if (!cookie("userid")) {
         window.location.href = 'order-now.html';
@@ -75,7 +78,6 @@ document.addEventListener('DOMContentLoaded', function () {
     };
 
     let selectedChoices2 = new Set();
-
 
     let sandwichTotal = 6; // Base price for a sandwich
     let smoothieTotal = 5; // Base price for a smoothie
@@ -110,7 +112,6 @@ document.addEventListener('DOMContentLoaded', function () {
             }
             currentStep++;
             showCurrentStep();
-            // preselectChoices();
         });
     });
 
@@ -118,7 +119,6 @@ document.addEventListener('DOMContentLoaded', function () {
         arrow.addEventListener('click', () => {
             currentStep--;
             showCurrentStep();
-            // preselectChoices();
         });
     });
 
@@ -440,7 +440,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 });
             });
 
-
             const removeButtons = document.querySelectorAll('.remove-item');
             removeButtons.forEach((button) => {
                 button.addEventListener('click', (e) => {
@@ -452,8 +451,8 @@ document.addEventListener('DOMContentLoaded', function () {
             });
 
         }
-        cartTotalPrice.textContent = '$' + cart_price.toFixed(2);
-
+        cartTotal = cart_price;
+        cartTotalPrice.textContent = `$${cart_price.toFixed(2)}`;
     }
 
     function highlightCart() {
@@ -483,6 +482,21 @@ document.addEventListener('DOMContentLoaded', function () {
         showCurrentStep();
     }
 
+    rewardsSelect.addEventListener('change', function () {
+        let deduction = 0;
+        const selectedValue = rewardsSelect.value;
+        if (selectedValue === '10') {
+            deduction = 0.5;
+        } else if (selectedValue === '20') {
+            deduction = 1.0;
+        } else if (selectedValue === '30') {
+            deduction = 1.5;
+        }
+        const totalPrice = cartTotal - deduction;
+        cartTotalPrice.textContent = `$${totalPrice.toFixed(2)}`;
+        rewardsDeductionElement.textContent = `-$${deduction.toFixed(2)} redeemed`;
+    });
+
     cartCountElement.parentElement.addEventListener('click', () => {
         cartDropdown.style.display = cartDropdown.style.display === 'none' || cartDropdown.style.display === '' ? 'block' : 'none';
     });
@@ -499,11 +513,10 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
-
     cartCheckOut.addEventListener('click', () => {
-        callApi2("POST", 'http://127.0.0.1:5000/cart_out',
-            { 'data': JSON.stringify(cookie('userid')) });
-        // cartLoader()
+        // Clear the cart before navigating to checkout page
+        clearCart();
+        window.location.href = 'cart-checkout.html';
     });
 
     // Typewriter effect for the recommendations section
@@ -523,11 +536,25 @@ document.addEventListener('DOMContentLoaded', function () {
 
     typeWriter();
 
-
     // Recommendations section animation
     const recommendationItems = document.querySelectorAll('.recommendation-item');
     recommendationItems.forEach((item, index) => {
         item.classList.add('animated', 'fadeInUp');
         item.style.animationDelay = `${index * 0.3}s`;
     });
+
+    // Display available points
+    availablePointsElement.textContent = "Available Points: 47";
+
+    function clearCart() {
+        // Clear the cart in the frontend
+        cart = [];
+        cartCountElement.textContent = 0;
+        cartItemsContainer.innerHTML = '';
+        cartTotalPrice.textContent = '$0.00';
+        emptyCartMessage.style.display = 'block';
+
+        // Clear the cart in the backend
+        callApi2("POST", 'http://127.0.0.1:5000/clear_cart', { 'data': JSON.stringify({ member: cookie('userid') }) });
+    }
 });
