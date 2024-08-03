@@ -329,7 +329,25 @@ section {
     position: relative;
     z-index: 10;
 }
+#sandwich-next-step-1,
+#smoothie-next-step-1 {
+    position: absolute;
+    top: 40%;
+    right: 15%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 
+/* Media query for smaller screens */
+@media (max-width: 768px) {
+
+    #sandwich-next-step-1,
+    #smoothie-next-step-1 {
+        top: 40%;
+        right: 5%;
+    }
+}
 .sandwich-step .navigation-buttons,
 .smoothie-step .navigation-buttons {
     justify-content: center;
