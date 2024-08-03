@@ -1,6 +1,7 @@
 document.addEventListener('DOMContentLoaded', function () {
     const sandwichOption = document.getElementById('sandwich-option');
     const smoothieOption = document.getElementById('smoothie-option');
+    const logoutButton = document.getElementById('logout-btn');
     const customizeSandwichContent = document.getElementById('customize-sandwich-content');
     const customizeTitle = document.getElementById('customize-title');
     const customizeDescription = document.querySelector('#customize-sandwich-content p');
@@ -49,6 +50,12 @@ document.addEventListener('DOMContentLoaded', function () {
     let smoothieTotal = 5; // Base price for a smoothie
 
     let isSandwich = false;
+
+    logoutButton.addEventListener('click', () => {
+        cookie.remove('username')
+        cookie.remove('userid')
+        window.location.href = 'order-now.html';
+    });
     let addSmoothie = false; // Track if the user adds a smoothie
 
     sandwichOption.addEventListener('click', () => {
@@ -215,7 +222,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function handleSmoothieChoice(choice, stepId) {
-        const price = getPriceFromChoice(choice);
+        const price = parseFloat(choice.getAttribute('data-price'));
 
         if (stepId === 'smoothie-step-1') {
             choice.classList.toggle('selected');
