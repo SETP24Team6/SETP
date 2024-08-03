@@ -73,22 +73,24 @@ document.addEventListener('DOMContentLoaded', () => {
             };
             setTimeout(populateFields, 5000)
         }
+        $(".ready").click(function () {
+            var $row = $(this).closest("tr");
+            var $Area = $row.find(".order_id").text();
+            console.log($Area)
+            callApi("POST", 'http://127.0.0.1:5000/ready_order', {'data': JSON.stringify($Area)});
+            
+         });
+         $(".complete").click(function () {
+            var $row = $(this).closest("tr");
+            var $Area = $row.find(".order_id").text();
+            callApi("POST", 'http://127.0.0.1:5000/complete_order', {'data': JSON.stringify($Area)});
+            
+         });
+    
     }
     populateFields()
 
-    $(".ready").click(function () {
-        var $row = $(this).closest("tr");
-        var $Area = $row.find(".order_id").text();
-        callApi("POST", 'http://127.0.0.1:5000/ready_order', {'data': JSON.stringify($Area)});
-        
-     });
-     $(".complete").click(function () {
-        var $row = $(this).closest("tr");
-        var $Area = $row.find(".order_id").text();
-        callApi("POST", 'http://127.0.0.1:5000/complete_order', {'data': JSON.stringify($Area)});
-        
-     });
-
+    
     const closeButtons = document.querySelectorAll('.close');
 
     let currentOrder = null;
