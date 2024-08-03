@@ -52,6 +52,10 @@ document.addEventListener('DOMContentLoaded', function () {
     document.getElementById('total-amount').textContent = totalAmount;
     document.getElementById('pickup-time').textContent = pickupTime;
 
+    // Calculate and display points earned
+    const pointsEarned = Math.floor(parseFloat(totalAmount));
+    document.querySelector('.order-details').innerHTML += `<p>Points Earned: ${pointsEarned} points</p>`;
+
     document.querySelectorAll('.toggle-ingredients').forEach(button => {
         button.addEventListener('click', function () {
             this.previousElementSibling.classList.toggle('hidden');
