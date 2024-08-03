@@ -457,6 +457,11 @@ document.addEventListener('DOMContentLoaded', function () {
                 });
             });
 
+        }else{
+            cartItemsContainer.innerHTML = cart_item_loader
+            cartCountElement.textContent = 0;
+            emptyCartMessage.style.display = 'block';
+
         }
         cartTotal = cart_price;
         cartTotalPrice.textContent = `$${cart_price.toFixed(2)}`;
