@@ -915,17 +915,11 @@ section {
 
 .available-points {
     font-weight: bold;
-    color:rgb(2, 64, 62);
+    color:rgb(5, 35, 83);
 }
 /* New Styles for Payment Mode */
 .payment-mode {
-    color: rgb(146, 46, 46);
-    font-weight: bold;
-}
-
-.reward-deduction {
-    color: rgb(119, 8, 8);
-
+    color: rgb(146, 46, 46)
 }
 
 .cart-total {

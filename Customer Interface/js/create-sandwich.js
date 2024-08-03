@@ -36,7 +36,7 @@ document.addEventListener('DOMContentLoaded', function () {
             products[dict_key] += '<img src="' + product.image_path + '" alt="' + product.product_name + '">'
             products[dict_key] += '<h3>' + product.product_name + '</h3>';
             if (product.price_point > 0.0) {
-                products[dict_key] += '<p>$' + product.price_point + '0</div>';
+                products[dict_key] += '<p>$' + product.price_point + '0</p></div>';
             } else {
                 products[dict_key] += '</div>';
             }
@@ -58,7 +58,6 @@ document.addEventListener('DOMContentLoaded', function () {
     const addButtons = document.querySelectorAll('.add-to-cart');
     const cartCheckOut = document.getElementById('checkout');
 
-    cartLoader();
     // cookie checker (done)
     if (!cookie("userid")) {
         window.location.href = 'order-now.html';
@@ -515,6 +514,8 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     cartCheckOut.addEventListener('click', () => {
+        // Clear the cart before navigating to checkout page
+        clearCart();
         window.location.href = 'cart-checkout.html';
     });
 
@@ -544,5 +545,16 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Display available points
     availablePointsElement.textContent = "Available Points: 47";
-});
 
+    function clearCart() {
+        // Clear the cart in the frontend
+        cart = [];
+        cartCountElement.textContent = 0;
+        cartItemsContainer.innerHTML = '';
+        cartTotalPrice.textContent = '$0.00';
+        emptyCartMessage.style.display = 'block';
+
+        // Clear the cart in the backend
+        callApi2("POST", 'http://127.0.0.1:5000/clear_cart', { 'data': JSON.stringify({ member: cookie('userid') }) });
+    }
+});
