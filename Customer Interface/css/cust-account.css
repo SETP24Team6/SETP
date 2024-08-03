@@ -14,7 +14,8 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(255, 255, 255, 0.7); /* White overlay with 70% opacity */
+    background: rgba(255, 255, 255, 0.7);
+    /* White overlay with 70% opacity */
     z-index: -1;
 }
 
@@ -66,6 +67,52 @@ nav ul li a:hover {
     border-radius: 8px;
     margin-top: 0px;
     /* Adjusted for fixed navigation */
+    position: relative;
+    /* Make container relative for absolute positioning of button */
+}
+
+.back-button {
+    position: absolute;
+    top: 20px;
+    /* Adjust as needed */
+  left: 100px;
+    /* Adjust as needed */
+    background-color: #0f2d2d;
+    /* Teal background color */
+    color: white;
+    /* White text color */
+    border: none;
+    /* No border */
+    padding: 10px 20px;
+    /* Padding around the text */
+    border-radius: 5px;
+    /* Rounded corners */
+    cursor: pointer;
+    /* Pointer cursor on hover */
+    font-size: 16px;
+    /* Font size */
+    display: flex;
+    /* Flexbox for alignment */
+    align-items: center;
+    /* Center items vertically */
+    text-align: center;
+    /* Center text horizontally */
+    text-decoration: none;
+    /* No underline for text */
+    transition: background-color 0.3s ease;
+    /* Smooth background color transition */
+}
+
+.back-button:hover {
+    background-color: #FF7F11;
+    /* Change background color on hover */
+}
+
+.back-button::before {
+    content: "◀";
+    /* Left arrow symbol */
+    margin-right: 10px;
+    /* Space between arrow and text */
 }
 
 h1 {
@@ -117,7 +164,7 @@ h1 {
 .reward-points-section,
 .order-history-section,
 .update-profile-section {
-    margin-top: 40px;
+    margin-top: 100px;
 }
 
 .reward-points-section h2,
@@ -226,7 +273,8 @@ p {
 .date-column,
 .points-column,
 .details-column {
-    background-color: #fcfcfc; /* Slightly greyish color */
+    background-color: #fcfcfc;
+    /* Slightly greyish color */
     text-align: center;
     padding: 8px;
 }
@@ -235,8 +283,10 @@ p {
 th.date-column,
 th.points-column,
 th.details-column {
-    background-color: #e3e5f0; /* Slightly greyish color */
-    color: #333; /* Text color for better contrast */
+    background-color: #e3e5f0;
+    /* Slightly greyish color */
+    color: #333;
+    /* Text color for better contrast */
     padding: 8px;
 }
 
