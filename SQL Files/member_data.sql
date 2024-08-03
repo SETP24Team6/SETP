@@ -11,6 +11,7 @@ CREATE TABLE member (
     CONSTRAINT chk_member_gender CHECK (gender IN ('M', 'F'))
 );
 
+-- Password: 12345678 (for all members' accounts) --
 
 INSERT INTO member (firstName, lastName, birthday, phone, email, gender, passwordhash, points) VALUES ('SUET SIN', 'CHEN', '2000-05-19', '+65 8130 6639', 'suetsinchen@gmail.com', 'F', '25d55ad283aa400af464c76d713c07ad', 40);
 
