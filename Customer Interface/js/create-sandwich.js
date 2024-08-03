@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', function () {
             products[dict_key] += '<img src="' + product.image_path + '" alt="' + product.product_name + '">'
             products[dict_key] += '<h3>' + product.product_name + '</h3>';
             if (product.price_point > 0.0) {
-                products[dict_key] += '<p>$' + product.price_point + '0</p></div>';
+                products[dict_key] += '<p>$' + product.price_point + '0</div>';
             } else {
                 products[dict_key] += '</div>';
             }
