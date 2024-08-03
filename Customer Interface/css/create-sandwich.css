@@ -913,7 +913,16 @@ section {
     font-size: 10px;
 }
 
+.available-points {
+    font-weight: bold;
+    color:rgb(2, 64, 62);
+}
 /* New Styles for Payment Mode */
 .payment-mode {
     color: rgb(146, 46, 46)
+}
+
+.cart-total {
+    font-size: 18px;
+    font-weight: bold;
 }
