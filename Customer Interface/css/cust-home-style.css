@@ -84,6 +84,7 @@ nav ul li.order-now a:hover {
 nav ul li.staff-signin a:hover {
     background-color: darkcyan;
 }
+
 .section {
     position: relative;
     height: 100vh;
@@ -146,6 +147,53 @@ h2 {
 
 p {
     margin: 10px 0 0;
+}
+
+#about h2 {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.about-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: stretch;
+    /* Make sure containers stretch to the same height */
+    gap: 20px;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.about-section {
+    flex: 1;
+    background-color: rgba(0, 0, 0, 0.6);
+    padding: 20px;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    /* Ensure even spacing */
+    min-height: 300px;
+    /* Set a minimum height */
+}
+
+.about-section h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.about-section p {
+    line-height: 1.6;
+    flex-grow: 1;
+    /* Make paragraph take up available space */
+}
+
+#about {
+    background-image: url('../asset/about-home.jpg');
+    background-size: cover;
+    background-position: center;
+    color: white;
+    padding: 50px 20px;
 }
 
 .contact-section {
@@ -269,7 +317,7 @@ button:hover,
 
 .product img:hover {
     transform: scale(1.05);
-    }
+}
 
 #products {
     background-color: beige;
