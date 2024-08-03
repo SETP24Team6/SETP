@@ -53,13 +53,14 @@ nav ul li a:hover {
 }
 
 .container {
-    background: rgba(0, 0, 0, 0.8);
+    background-color: rgba(0, 0, 0, 0.7);
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     text-align: center;
     width: 80%;
     max-width: 500px;
+    margin-top: 60px;
 }
 
 h1 {
@@ -86,4 +87,27 @@ button {
 
 button:hover {
     background-color: #FF7F11;
+}
+
+/* Styles for the order details */
+.order-item {
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    text-align: left;
+}
+
+.order-item p {
+    margin: 5px 0;
+}
+
+.toggle-ingredients {
+    display: block;
+    margin: 10px 0;
+    text-align: center;
+}
+
+.ingredients.hidden {
+    display: none;
 }
