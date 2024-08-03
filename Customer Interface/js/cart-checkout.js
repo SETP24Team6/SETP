@@ -22,6 +22,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Debugging log for parsed order details
     console.log('Parsed Order Details:', orderDetailsParsed);
+    console.log('userid:', cookie('userid'));
 
     document.getElementById('order-number').textContent = orderNumber;
     document.getElementById('order-details').innerHTML = orderDetailsParsed.map(item => {

@@ -59,13 +59,12 @@ document.addEventListener('DOMContentLoaded', function () {
     const cartCheckOut = document.getElementById('checkout');
 
     
-    cartLoader()
     // cookie checker (done)
     if (!cookie("userid")) {
         window.location.href = 'order-now.html';
     }
 
-    let cart = [];
+    let cart = {};
     let currentStep = -1;
     let selectedChoices = {
         bread: '',
@@ -80,10 +79,14 @@ document.addEventListener('DOMContentLoaded', function () {
     };
 
     let selectedChoices2 = new Set();
+    
+    cartLoader()
 
     let sandwichTotal = 6; // Base price for a sandwich
     let smoothieTotal = 5; // Base price for a smoothie
     let isSandwich = false;
+    let isSpecial = false;
+    let specialHolder = new Object();
 
     sandwichOption.addEventListener('click', () => {
         customizeSandwichContent.classList.remove('hidden');
@@ -155,40 +158,50 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     grabButtons.forEach((button) => {
+        isSpecial = true
         button.addEventListener('click', (e) => {
             const recommendationItem = e.target.closest('.recommendation-item');
             const itemName = recommendationItem.getAttribute('data-name');
             const itemPrice = parseFloat(recommendationItem.getAttribute('data-price'));
-            const cartItem = {
-                type: 'Recommendation',
-                name: itemName,
-                price: itemPrice
-            };
-            cart.push(cartItem);
-            updateCartCount();
-            updateCartTotal();
-            renderCartItems();
+            specialHolder.name = itemName
+            specialHolder.price = itemPrice
+            switch(itemName){
+                case "Sandwich munches" :
+                    selectedChoices2 = new Set(["4","6","10","12","13","16","18"]);
+                    break;
+                case "Blend Berry" :
+                    selectedChoices2 = new Set(["20","28"]);
+                    break;
+                case "Colour Blast" :
+                    selectedChoices2 = new Set(["20","21","22","23","25","29"]);
+                    break;
+            }
+            console.log(selectedChoices2)
+            addToCart();
             highlightCart();
-            console.log('Added to cart:', cartItem); // Debugging log
+            // console.log('Added to cart:', cartItem); // Debugging log
         });
     });
 
     addButtons.forEach((button) => {
+        isSpecial = true
         button.addEventListener('click', (e) => {
             const promotionItem = e.target.closest('.promotion-item');
             const itemName = promotionItem.getAttribute('data-name');
             const itemPrice = parseFloat(promotionItem.getAttribute('data-price'));
-            const cartItem = {
-                type: 'Promotion',
-                name: itemName,
-                price: itemPrice
-            };
-            cart.push(cartItem);
-            updateCartCount();
-            updateCartTotal();
-            renderCartItems();
+            specialHolder.name = itemName
+            specialHolder.price = itemPrice
+            switch(itemName){
+                case "Salmon Sensation" :
+                    selectedChoices2 = new Set(["2","8","10","9","13","15","17"]);
+                    break;
+                case "Summer Berry" :
+                    selectedChoices2 = new Set(["22","21","27","28"]);
+                    break;
+            }
+            console.log(selectedChoices2)
+            addToCart();
             highlightCart();
-            console.log('Added to cart:', cartItem); // Debugging log
         });
     });
 
@@ -376,29 +389,33 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function addToCart() {
-        const cartItem = {
-            type: isSandwich ? '1' : '2',
-            name: isSandwich ? 'Custom Sandwich' : 'Custom Smoothie',
-            details: { ...selectedChoices },
-            price: isSandwich ? sandwichTotal : smoothieTotal
-        };
-        if (isSandwich){
-            
-            selectedChoices2.add(selectedChoices.bread)
-            selectedChoices2.add(selectedChoices.protein)
+        var requestPayload = new Object();
+        if(isSpecial){
+            requestPayload = {
+                type: '3',
+                name: specialHolder.name,
+                price: specialHolder.price,
+                ingredents: [...selectedChoices2],
+                member: cookie('userid')
+            };
         }else{
-            selectedChoices2.add(selectedChoices.fruits[0].name)
-            selectedChoices2.add(selectedChoices.greens)
-            selectedChoices2.add(selectedChoices.proteinSmoothie)
-            selectedChoices2.add(selectedChoices.liquidBase)
+            if (isSandwich){
+                selectedChoices2.add(selectedChoices.bread)
+                selectedChoices2.add(selectedChoices.protein)
+            }else{
+                selectedChoices2.add(selectedChoices.fruits[0].name)
+                selectedChoices2.add(selectedChoices.greens)
+                selectedChoices2.add(selectedChoices.proteinSmoothie)
+                selectedChoices2.add(selectedChoices.liquidBase)
+            }
+            requestPayload = {
+                type: isSandwich ? '1' : '2',
+                name: isSandwich ? 'Sandwich' : 'Smoothie',
+                price: isSandwich ? sandwichTotal : smoothieTotal,
+                ingredents: [...selectedChoices2],
+                member: cookie('userid')
+            };
         }
-        var requestPayload = {
-            type: isSandwich ? '1' : '2',
-            name: isSandwich ? 'Sandwich' : 'Smoothie',
-            price: isSandwich ? sandwichTotal : smoothieTotal,
-            ingredents: [...selectedChoices2],
-            member: cookie('userid')
-        };
         console.log(requestPayload)
         callApi2("POST", 'http://127.0.0.1:5000/add_order',
             { 'data': JSON.stringify(requestPayload) });
@@ -465,6 +482,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
         cartTotal = cart_price;
         cartTotalPrice.textContent = `$${cart_price.toFixed(2)}`;
+        selectedChoices2 = new Set();
     }
 
     function highlightCart() {
@@ -526,8 +544,9 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     cartCheckOut.addEventListener('click', () => {
-        // Clear the cart before navigating to checkout page
-        clearCart();
+        callApi2("POST", 'http://127.0.0.1:5000/cart_out', 
+            {'data': JSON.stringify(cookie('userid'))});
+        cartLoader()
         window.location.href = 'cart-checkout.html';
     });
 

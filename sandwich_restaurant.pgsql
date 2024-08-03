@@ -216,7 +216,7 @@ INSERT INTO orders (member_id, store_id, order_timestamp, order_status)
 CREATE TABLE orders_items ( 
     item_id SERIAL PRIMARY KEY,
     order_id INT, 
-    item_type VARCHAR(10), --Sandwich or Smoothie--
+    item_type VARCHAR(30), --Sandwich or Smoothie--
     item_price NUMERIC(5, 2),
     FOREIGN KEY (order_id) REFERENCES orders(order_id)
 );
