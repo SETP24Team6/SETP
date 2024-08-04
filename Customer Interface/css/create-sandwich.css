@@ -468,7 +468,35 @@ section {
         border-left: none;
     }
 }
+.notification {
+    position: fixed;
+    top: auto;
+    right: 20px;
+    bottom: 20px;
+    left: 20px;
+    background-color: rgba(0, 128, 0, 0.9);
+    /* Green background with some transparency */
+    color: white;
+    padding: 20px;
+    /* Increased padding for better visibility */
+    border-radius: 10px;
+    /* Increased border radius */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    /* Deeper shadow for more emphasis */
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+    z-index: 2000;
+    text-align: center;
+    /* Centered text */
+    font-size: 18px;
+    /* Larger font size */
+    font-weight: bold;
+    /* Bold text */
+}
 
+.notification.show {
+    opacity: 1;
+}
 #summary {
     background-color: rgba(0, 0, 0, 0.7);
     color: white;

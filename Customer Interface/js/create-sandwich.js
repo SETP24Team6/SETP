@@ -437,6 +437,26 @@ document.addEventListener('DOMContentLoaded', function () {
 
         highlightCart();
         resetSelections();
+        showNotification('Item(s) added to cart successfully');
+    }
+
+    function showNotification(message) {
+        const notificationPlaceholder = document.getElementById('notification-placeholder');
+        const notification = document.createElement('div');
+        notification.className = 'notification';
+        notification.textContent = message;
+        notificationPlaceholder.appendChild(notification);
+
+        setTimeout(() => {
+            notification.classList.add('show');
+        }, 10);
+
+        setTimeout(() => {
+            notification.classList.remove('show');
+            setTimeout(() => {
+                notification.remove();
+            }, 300);
+        }, 3000);
     }
 
     function cartLoader() {
@@ -583,6 +603,11 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     typeWriter();
+    cartCheckOut.addEventListener('click', () => {
+        callApi2("POST", 'http://127.0.0.1:5000/cart_out',
+            { 'data': JSON.stringify(cookie('userid')) });
+        // cartLoader()
+    });
 
     // Recommendations section animation
     const recommendationItems = document.querySelectorAll('.recommendation-item');
