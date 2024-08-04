@@ -15,6 +15,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const cartTotalPrice = document.getElementById('cart-total-price');
     const rewardsDeductionElement = document.querySelector('.rewards-deduction');
     const availablePointsElement = document.getElementById('available-points');
+    const logout = document.getElementById('logout-btn');
 
     let cartTotal = 0;
 
@@ -88,7 +89,14 @@ document.addEventListener('DOMContentLoaded', function () {
     let isSpecial = false;
     let specialHolder = new Object();
 
+    logout.addEventListener('click', () => {
+        cookie.remove("userid")
+        cookie.remove("username")
+        window.location.href = 'order-now.html';
+    });
+
     sandwichOption.addEventListener('click', () => {
+        isSpecial = false
         customizeSandwichContent.classList.remove('hidden');
         customizeTitle.textContent = 'Make Your Sandwich';
         customizeDescription.textContent = 'Freshly baked bread layered with grilled herb-spiced meat and crisp, garden-fresh vegetables.';
@@ -99,6 +107,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     smoothieOption.addEventListener('click', () => {
+        isSpecial = false
         customizeSandwichContent.classList.remove('hidden');
         customizeTitle.textContent = 'Blend Your Smoothie';
         customizeDescription.textContent = 'A symphony of fresh fruits and creamy delights, healthy greens to create the perfect smoothie that wins health goals!';
@@ -121,6 +130,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     backArrows.forEach((arrow) => {
+        
         arrow.addEventListener('click', () => {
             currentStep--;
             showCurrentStep();
@@ -158,8 +168,8 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     grabButtons.forEach((button) => {
-        isSpecial = true
         button.addEventListener('click', (e) => {
+            isSpecial = true
             const recommendationItem = e.target.closest('.recommendation-item');
             const itemName = recommendationItem.getAttribute('data-name');
             const itemPrice = parseFloat(recommendationItem.getAttribute('data-price'));
@@ -184,8 +194,8 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     addButtons.forEach((button) => {
-        isSpecial = true
         button.addEventListener('click', (e) => {
+            isSpecial = true
             const promotionItem = e.target.closest('.promotion-item');
             const itemName = promotionItem.getAttribute('data-name');
             const itemPrice = parseFloat(promotionItem.getAttribute('data-price'));
@@ -390,6 +400,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function addToCart() {
         var requestPayload = new Object();
+        console.log('isSpecial = ' + isSpecial)
+        console.log('isSandwich = ' + isSandwich)
         if(isSpecial){
             requestPayload = {
                 type: '3',
@@ -417,6 +429,7 @@ document.addEventListener('DOMContentLoaded', function () {
             };
         }
         console.log(requestPayload)
+        console.log(isSandwich)
         callApi2("POST", 'http://127.0.0.1:5000/add_order',
             { 'data': JSON.stringify(requestPayload) });
 
@@ -544,9 +557,13 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     cartCheckOut.addEventListener('click', () => {
-        callApi2("POST", 'http://127.0.0.1:5000/cart_out', 
+        checkout_result = callApi2("POST", 'http://127.0.0.1:5000/cart_out', 
             {'data': JSON.stringify(cookie('userid'))});
-        cartLoader()
+            
+            cookie.remove('order_id')
+            cookie.set('order_id', checkout_result, {
+                expires: 1/24
+            });
         window.location.href = 'cart-checkout.html';
     });
 

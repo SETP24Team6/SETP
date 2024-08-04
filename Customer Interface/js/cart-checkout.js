@@ -1,9 +1,15 @@
 document.addEventListener('DOMContentLoaded', function () {
-    const urlParams = new URLSearchParams(window.location.search);
-    const orderNumber = urlParams.get('orderNumber');
-    const orderDetails = urlParams.get('orderDetails');
-    const totalAmount = urlParams.get('totalAmount');
-    const pickupTime = urlParams.get('pickupTime');
+    if (!cookie("userid")) {
+        window.location.href = 'order-now.html';
+    }
+    if (!cookie("order_id")) {
+        window.location.href = 'create-sandwich.html';
+    }
+
+    console.log(cookie('order_id'))
+
+    lastCheckOut = callApi2("POST", 'http://127.0.0.1:5000/last_checkout', 
+        {'data': JSON.stringify(cookie('order_id'))});
 
     // Debugging logs
     console.log('Order Number:', orderNumber);

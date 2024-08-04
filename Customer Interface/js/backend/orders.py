@@ -64,9 +64,9 @@ def get_all_orders(conn):
 def ready_order(conn,order):
     cursor = conn.cursor()
     cursor.execute("ROLLBACK")
-    query = ("UPDATE orders SET order_status = 'ready' where order_id = %s")
+    query = ("UPDATE orders SET order_status = 'ready' where order_id = {0} ")
     data = (order)
-    cursor.execute(query, data)
+    cursor.execute(query.format(data))
     conn.commit()
 
     return cursor.lastrowid
@@ -74,9 +74,9 @@ def ready_order(conn,order):
 def complete_order(conn,order):
     cursor = conn.cursor()
     cursor.execute("ROLLBACK")
-    query = ("UPDATE orders SET order_status = 'completed' where order_id = %s")
+    query = ("UPDATE orders SET order_status = 'completed' where order_id = {0} ")
     data = (order)
-    cursor.execute(query, data)
+    cursor.execute(query.format(data))
     conn.commit()
 
     return cursor.lastrowid

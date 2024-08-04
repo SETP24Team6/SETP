@@ -75,7 +75,7 @@ def get_products():
 @app.route('/add_order', methods=['POST'])
 def add_order():
     request_payload = json.loads(request.form['data'])
-    print(request_payload)
+    # print(request_payload)
     result =  products.add_order(connection, request_payload)
     response = ""
     #print(result)
@@ -88,7 +88,7 @@ def get_order():
     request_payload = json.loads(request.form['data'])
     result =  products.get_order(connection, request_payload)
     response = ""
-    print(result)
+    # print(result)
     response = jsonify(result)
     response.headers.add('Access-Control-Allow-Origin', '*')
     return response
@@ -109,9 +109,17 @@ def cart_out():
     request_payload = json.loads(request.form['data'])
     result =  products.cart_out(connection, request_payload)
     response = ""
-    print(result)
+    # print(result)
     response = jsonify(result)
-    print(response)
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
+
+@app.route('/last_checkout', methods=['POST'])
+def last_checkout():
+    request_payload = json.loads(request.form['data'])
+    result =  products.last_checkout(connection, request_payload)
+    response = ""
+    response = jsonify(result)
     response.headers.add('Access-Control-Allow-Origin', '*')
     return response
 
@@ -127,6 +135,7 @@ def get_all_orders():
 @app.route('/ready_order', methods=['POST'])
 def ready_order():
     request_payload = json.loads(request.form['data'])
+    print(request_payload)
     result =  orders.ready_order(connection, request_payload)
     response = ""
     response = jsonify({'row_updated': result})
