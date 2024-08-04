@@ -107,6 +107,7 @@ def delete_item():
 @app.route('/cart_out', methods=['POST'])
 def cart_out():
     request_payload = json.loads(request.form['data'])
+    print(request_payload)
     result =  products.cart_out(connection, request_payload)
     response = ""
     # print(result)

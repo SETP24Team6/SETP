@@ -558,7 +558,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     cartCheckOut.addEventListener('click', () => {
         checkout_result = callApi2("POST", 'http://127.0.0.1:5000/cart_out', 
-            {'data': JSON.stringify(cookie('userid'))});
+            {'data': JSON.stringify([cookie('userid'),cartTotalPrice.textContent])});
             
             cookie.remove('order_id')
             cookie.set('order_id', checkout_result, {
