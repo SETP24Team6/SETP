@@ -6,7 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Menu</title>
     <link rel="stylesheet" href="css/create-sandwich.css">
-</head> 
+    <script src="js/cookie.umd.js"></script>
+    <script src="js/packages/jquery.min.js"></script>
+    <script src="js/api.js"></script>
+</head>
 
 <body>
     <!-- Navigation -->
@@ -21,10 +24,37 @@
                 <a href="#profile"><img src="asset/profile-icon.png" alt="Profile" class="profile-icon"></a>
                 <div class="dropdown-content">
                     <a href="cust-account.html">My Account</a>
-                    <a href="customer-home.html" id="logout-btn">Logout</a>
+                    <a href="#profile" id="logout-btn">Logout</a>
                 </div>
             </div>
-            <a href="#cart-section"><img src="asset/cart-icon.png" alt="Cart"><span class="cart-count">0</span></a>
+            <div class="cart-container">
+                <a href="#"><img src="asset/cart-icon.png" alt="Cart"><span class="cart-count">0</span></a>
+                <div class="cart-dropdown">
+                    <span class="close-cart">&times;</span>
+                    <h3>Your Cart</h3>
+                    <div class="cart-items">
+                        <!-- Cart items will be dynamically added here -->
+                    </div>
+                    <div class="empty-cart-message">Your shopping bag is empty :(</div>
+                    <button class="add-orders-button">Add Orders</button>
+                    <div class="cart-summary">
+                        <p id="available-points"></p>
+                        <p class="rewards-deduction" style="color: red;"></p>
+                        <label for="rewards">Rewards:</label>
+                        <select id="rewards">
+                            <option value="0">Select Points</option>
+                            <option value="10">10 Points (-$0.50)</option>
+                            <option value="20">20 Points (-$1.00)</option>
+                            <option value="30">30 Points (-$1.50)</option>
+                        </select>
+                        <p class="payment-mode" style="font-weight: bold; color: rgb(146, 46, 46);">Payment Mode: Cash
+                        </p>
+                        <p class="cart-total" style="font-size: 18px; font-weight: bold;">Total: <span
+                                id="cart-total-price">$0.00</span></p>
+                    </div>
+                    <button id="checkout">Checkout</button>
+                </div>
+            </div>
         </div>
     </nav>
 
@@ -33,28 +63,30 @@
         <!-- Personalized Recommendations Section -->
         <section id="recommendations">
             <h2>Welcome back </h2>
-
             <div class="recommendations-list">
-                <div class="recommendation-item">
+                <div class="recommendation-item" data-name="Sandwich munches" data-price="6.00">
                     <h3>Sandwich munches</h3>
                     <p>🥪 Enjoy your favorite: Teriyaki Deli Chicken Sandwich!<br> Made just the way you love it, every
                         bite is pure satisfaction.</p>
                     <img src="asset/teriyaki sandwich.png" alt="Sandwich munches">
-                    <button>Grab now</button>
+                    <p>$6.00</p>
+                    <button class="grab-now">Grab now</button>
                 </div>
-                <div class="recommendation-item">
+                <div class="recommendation-item" data-name="Blend Berry" data-price="5.00">
                     <h3>Blend Berry</h3>
                     <p>🥤 Renew your love for our Blueberry Smoothie,<br> a delicious and health-conscious choice.
                         Delight your taste buds!</p>
                     <img src="asset/blueberry2.jpg" alt="Blend Berry">
-                    <button>Grab now</button>
+                    <p>$5.00</p>
+                    <button class="grab-now">Grab now</button>
                 </div>
-                <div class="recommendation-item">
+                <div class="recommendation-item" data-name="Colour Blast" data-price="8.50">
                     <h3>Exclusive for you</h3>
                     <p>🌟 Member-special blended smoothie with rainbow fruits.<br> Packed with antioxidants and protein
                         for your optimal health.</p>
                     <img src="asset/rainbow-smoothie.jpg" alt="Colour Blast">
-                    <button>Grab now</button>
+                    <p>$8.50</p>
+                    <button class="grab-now">Grab now</button>
                 </div>
             </div>
         </section>
@@ -73,6 +105,7 @@
                         <h3>Smoothie</h3>
                     </div>
                 </div>
+                <div id="notification-placeholder"></div>
                 <div id="customize-sandwich-content" class="hidden">
                     <p>Select your preferred sauces and toppings to create an exceptionally tasty sandwich.</p>
 
@@ -84,28 +117,9 @@
                     <!-- Sandwich Steps -->
                     <div class="sandwich-step hidden" id="sandwich-step-1">
                         <h2>Step 1: Pick Your Bread</h2>
-                        <div class="choices">
-                            <div class="choice" data-choice="Sourdough" data-price="1.50">
-                                <img src="asset/sourdough.jpg" alt="Sourdough">
-                                <h3>Sourdough</h3>
-                            </div>
-                            <div class="choice" data-choice="Wholemeal" data-price="1.20">
-                                <img src="asset/wholemeal.jpg" alt="Wholemeal">
-                                <h3>Wholemeal</h3>
-                            </div>
-                            <div class="choice" data-choice="Oat Bread" data-price="1.30">
-                                <img src="asset/oatbread.jpg" alt="Oat Bread">
-                                <h3>Oat Bread</h3>
-                                <p>$0.50</p>
-                            </div>
-                            <div class="choice" data-choice="Italian Herb" data-price="1.40">
-                                <img src="asset/italianherb.jpg" alt="Italian Herb">
-                                <h3>Italian Herb</h3>
-                                <p>$0.50</p>
-                            </div>
-                        </div>
-                        <div class="arrow-icon-1">
-                            <div class="arrow-icon next-step-arrow hidden" id="sandwich-arrow-icon-1">
+                        <div id="bread" class="choices"></div>
+                        <div class="navigation-buttons">
+                            <div class="arrow-icon next-step-arrow" id="sandwich-next-step-1">
                                 Next Step
                                 <div class="arrow"></div>
                             </div>
@@ -117,32 +131,13 @@
                                 <div class="arrow left"></div>
                                 Back
                             </div>
-                            <div class="arrow-icon next-step-arrow hidden" id="sandwich-arrow-icon-2">
+                            <div class="arrow-icon next-step-arrow" id="sandwich-arrow-icon-2">
                                 Next Step
                                 <div class="arrow"></div>
                             </div>
                         </div>
                         <h2>Step 2: Pick Your Protein</h2>
-                        <div class="choices">
-                            <div class="choice" data-choice="Pulled Lamb" data-price="3.00">
-                                <img src="asset/pulled-lamb.jpg" alt="Pulled Lamb">
-                                <h3>Pulled Lamb</h3>
-                            </div>
-                            <div class="choice" data-choice="Chicken" data-price="2.50">
-                                <img src="asset/chickenbreast.jpg" alt="Chicken">
-                                <h3>Teriyaki Chicken</h3>
-                            </div>
-                            <div class="choice" data-choice="Beef" data-price="2.80">
-                                <img src="asset/beef.jpg" alt="Beef">
-                                <h3>Ultimate Beef</h3>
-                                <p>$2.50</p>
-                            </div>
-                            <div class="choice" data-choice="Smoked Salmon" data-price="3.20">
-                                <img src="asset/smokedsalmon.jpg" alt="Smoked Salmon">
-                                <h3>Smoked Salmon</h3>
-                                <p> $3.00</p>
-                            </div>
-                        </div>
+                        <div id="protein" class="choices"></div>
                     </div>
                     <div class="sandwich-step hidden" id="sandwich-step-3">
                         <div class="navigation-buttons">
@@ -150,38 +145,13 @@
                                 <div class="arrow left"></div>
                                 Back
                             </div>
-                            <div class="arrow-icon next-step-arrow hidden" id="sandwich-arrow-icon-3">
+                            <div class="arrow-icon next-step-arrow" id="sandwich-arrow-icon-3">
                                 Next Step
                                 <div class="arrow"></div>
                             </div>
                         </div>
                         <h2>Step 3: Pick Your Veggies (Required:3)</h2>
-                        <div class="choices">
-                            <div class="choice" data-choice="Lettuce" data-price="0.50">
-                                <img src="asset/iceberge-lettuce.png" alt="Lettuce">
-                                <h3>Lettuce</h3>
-                            </div>
-                            <div class="choice" data-choice="Tomato" data-price="0.60">
-                                <img src="asset/tomato.png" alt="Tomato">
-                                <h3>Tomato</h3>
-                            </div>
-                            <div class="choice" data-choice="Cucumber" data-price="0.40">
-                                <img src="asset/cucumber.png" alt="Cucumber">
-                                <h3>Cucumber</h3>
-                            </div>
-                            <div class="choice" data-choice="Onion" data-price="0.30">
-                                <img src="asset/onion.png" alt="Onion">
-                                <h3>Onion</h3>
-                            </div>
-                            <div class="choice" data-choice="Bell Peppers" data-price="0.70">
-                                <img src="asset/bellpeppers.jpg" alt="Bell Peppers">
-                                <h3>Bell Peppers</h3>
-                            </div>
-                            <div class="choice" data-choice="None" data-price="0.00">
-                                <img src="asset/none-icon.png" alt="None">
-                                <h3>None</h3>
-                            </div>
-                        </div>
+                        <div id="vegetable" class="choices"></div>
                     </div>
                     <div class="sandwich-step hidden" id="sandwich-step-4">
                         <div class="navigation-buttons">
@@ -195,60 +165,14 @@
                             </div>
                         </div>
                         <h2>Step 4: Pick Your Sauce (Required:2)</h2>
-                        <div class="choices">
-                            <div class="choice" data-choice="cranberry-caramalised" data-price="0.80">
-                                <img src="asset/cranberry-sauce.jpeg" alt="cranberry-caramalised">
-                                <h3>cranberry-caramalised<br>onion</h3>
-                            </div>
-                            <div class="choice" data-choice="Mustard" data-price="0.50">
-                                <img src="asset/honeymustard.png" alt="Mustard">
-                                <h3>Honey Mustard</h3>
-                            </div>
-                            <div class="choice" data-choice="egg-mayo" data-price="0.70">
-                                <img src="asset/egg-mayo.jpg" alt="egg-mayo">
-                                <h3>Egg-mayo</h3>
-                            </div>
-                            <div class="choice" data-choice="avocado-lime" data-price="0.90">
-                                <img src="asset/avocado-lime.png" alt="avocado-lime">
-                                <h3>Avocado Lime Crema</h3>
-                            </div>
-                            <div class="choice" data-choice="BBQ Sauce" data-price="0.60">
-                                <img src="asset/bbq.jpg" alt="BBQ Sauce">
-                                <h3>BBQ</h3>
-                            </div>
-                            <div class="choice" data-choice="None" data-price="0.00">
-                                <img src="asset/none-icon.png" alt="None">
-                                <h3>None</h3>
-                            </div>
-                        </div>
+                        <div id="sauce" class="choices"></div>
                     </div>
                     <!-- Smoothie Steps -->
                     <div class="smoothie-step hidden" id="smoothie-step-1">
                         <h2>Step 1: Pick Your Fruits</h2>
-                        <div class="choices">
-                            <div class="choice" data-choice="Banana" data-price="0.70">
-                                <img src="asset/banana.jpeg" alt="Banana">
-                                <h3>Banana</h3>
-                            </div>
-                            <div class="choice" data-choice="Strawberry" data-price="0.80">
-                                <img src="asset/strawberry.jpg" alt="Strawberry">
-                                <h3>Strawberry</h3>
-                            </div>
-                            <div class="choice" data-choice="Blueberry" data-price="0.90">
-                                <img src="asset/blueberry.webp" alt="Blueberry">
-                                <h3>Blueberry</h3>
-                            </div>
-                            <div class="choice" data-choice="Mango" data-price="1.00">
-                                <img src="asset/mango.jpg" alt="Mango">
-                                <h3>Mango</h3>
-                            </div>
-                            <div class="choice" data-choice="Orange" data-price="0.80">
-                                <img src="asset/orange.jpg" alt="Orange">
-                                <h3>Orange</h3>
-                            </div>
-                        </div>
-                        <div class="arrow-icon-1">
-                            <div class="arrow-icon next-step-arrow hidden" id="smoothie-arrow-icon-1">
+                        <div id="fruit" class="choices"></div>
+                        <div class="navigation-buttons">
+                            <div class="arrow-icon next-step-arrow" id="smoothie-next-step-1">
                                 Next Step
                                 <div class="arrow"></div>
                             </div>
@@ -260,33 +184,13 @@
                                 <div class="arrow left"></div>
                                 Back
                             </div>
-                            <div class="arrow-icon next-step-arrow hidden" id="smoothie-arrow-icon-2">
+                            <div class="arrow-icon next-step-arrow" id="smoothie-arrow-icon-2">
                                 Next Step
                                 <div class="arrow"></div>
                             </div>
                         </div>
                         <h2>Step 2: Pick Your Greens</h2>
-                        <div class="choices">
-                            <div class="choice" data-choice="Spinach" data-price="0.60">
-                                <img src="asset/spinach.jpeg" alt="Spinach">
-                                <h3>Spinach</h3>
-                                <p>$0.60</p>
-                            </div>
-                            <div class="choice" data-choic="Kale" data-price="0.70">
-                                <img src="asset/kale.jpeg" alt="Kale">
-                                <h3>Kale</h3>
-                                <p>$0.70</p>
-                            </div>
-                            <div class="choice" data-choice="Avocado" data-price="1.20">
-                                <img src="asset/avocado.webp" alt="Avocado">
-                                <h3>Avocado</h3>
-                                <p>$1.20</p>
-                            </div>
-                            <div class="choice" data-choice="None" data-price="0.00">
-                                <img src="asset/none-icon.png" alt="None">
-                                <h3>None</h3>
-                            </div>
-                        </div>
+                        <div id="smoothievegetable" class="choices"></div>
                     </div>
                     <div class="smoothie-step hidden" id="smoothie-step-3">
                         <div class="navigation-buttons">
@@ -294,59 +198,17 @@
                                 <div class="arrow left"></div>
                                 Back
                             </div>
-                            <div class="arrow-icon next-step-arrow hidden" id="smoothie-arrow-icon-3">
+                            <div class="arrow-icon next-step-arrow" id="smoothie-arrow-icon-3">
                                 Next Step
                                 <div class="arrow"></div>
                             </div>
                         </div>
-                        <h2>Step 3: Pick Your Protein (Optional)</h2>
-                        <div class="choices">
-                            <div class="choice" data-choice="Greek Yogurt" data-price="1.50">
-                                <img src="asset/greekyogurt.jpg" alt="Greek Yogurt">
-                                <h3>Greek Yogurt</h3>
-                                <p>2.00</p>
-                            </div>
-                            <div class="choice" data-choice="None" data-price="0.00">
-                                <img src="asset/none-icon.png" alt="None">
-                                <h3>None</h3>
-                            </div>
-                        </div>
+                        <h2>Step 3: Pick Your Protein</h2>
+                        <div id="yogurt" class="choices"></div>
                     </div>
                     <div class="smoothie-step hidden" id="smoothie-step-4">
                         <div class="navigation-buttons">
                             <div class="arrow-icon back-arrow" id="smoothie-back-arrow-4">
-                                <div class="arrow left"></div>
-                                Back
-                            </div>
-                            <div class="arrow-icon next-step-arrow hidden" id="smoothie-arrow-icon-4">
-                                Next Step
-                                <div class="arrow"></div>
-                            </div>
-                        </div>
-                        <h2>Step 4: Pick Your Liquid Base</h2>
-                        <div class="choices">
-                            <div class="choice" data-choice="Water" data-price="0.00">
-                                <img src="asset/water.png" alt="Water">
-                                <h3>Water</h3>
-                            </div>
-                            <div class="choice" data-choice="Low-fat" data-price="0.80">
-                                <img src="asset/low-fat-milk.webp" alt="Low-fat Milk">
-                                <h3>Low-fat Milk</h3>
-                            </div>
-                            <div class="choice" data-choice="Full-Cream" data-price="0.90">
-                                <img src="asset/full-cream.jpg" alt="Full-Cream Milk">
-                                <h3>Full-Cream Milk</h3>
-                            </div>
-                            <div class="choice" data-choice="Oat" data-price="1.00">
-                                <img src="asset/oat-milk.jpg" alt="Oat Milk">
-                                <h3>Oat Milk</h3>
-                                <p>$1.00</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="smoothie-step hidden" id="smoothie-step-5">
-                        <div class="navigation-buttons">
-                            <div class="arrow-icon back-arrow" id="smoothie-back-arrow-5">
                                 <div class="arrow left"></div>
                                 Back
                             </div>
@@ -355,34 +217,11 @@
                                 <div class="arrow"></div>
                             </div>
                         </div>
-                        <h2>Step 5: Pick Your Stevia Level</h2>
-                        <div class="choices">
-                            <div class="choice" data-choice="0%" data-price="0.00">
-                                <img src="asset/none-icon.png" alt="No Stevia">
-                                <h3>0%</h3>
-                            </div>
-                            <div class="choice" data-choice="10%" data-price="0.10">
-                                <img src="asset/10 Percent.png" alt="Low Stevia">
-                                <h3>10%</h3>
-                            </div>
-                            <div class="choice" data-choice="25%" data-price="0.20">
-                                <img src="asset/25 Percent.png" alt="Medium Stevia">
-                                <h3>25%</h3>
-                            </div>
-                            <div class="choice" data-choice="100%" data-price="0.30">
-                                <img src="asset/100.png" alt="High Stevia">
-                                <h3>100%</h3>
-                            </div>
-                        </div>
+                        <h2>Step 4: Pick Your Liquid Base</h2>
+                        <div id="liquidbase" class="choices"></div>
                     </div>
+
                 </div>
-            </div>
-            <div id="summary" class="hidden">
-                <h3>Your Order Summary</h3>
-                <div id="summary-steps"></div>
-                <div id="total-price"></div>
-                <button id="back-to-selection">Back to Selection</button>
-                <button id="complete-order">Complete</button>
             </div>
         </section>
 
@@ -390,11 +229,11 @@
         <section id="promotions">
             <h2>Promotions</h2>
             <div class="promotions-list">
-                <div class="promotion-item">
+                <div class="promotion-item" data-name="Salmon Sensation" data-price="9.00">
                     <img src="asset/1-for-1.jpeg" alt="Promotion 1">
                     <div class="promotion-details">
                         <h3>Salmon Sensation</h3>
-                        <p> $9.00</p>
+                        <p>$9.00</p>
                         <p>Dive into deliciousness with our Salmon Sensation – a perfect blend of savory smoked salmon
                             and fresh, crisp veggies. Enjoy our 1-for-1 promotion – buy one, get one free! Packed with
                             omega-3s for heart health and high-quality protein that protect against cell damages,
@@ -402,79 +241,25 @@
                         <p class="highlight">✔ Rich in Protein</p>
                         <p class="highlight">✔ Muscle repair</p>
                         <p class="highlight">Approx. Calories: 400</p>
-                        <button>Add</button>
+                        <button class="add-to-cart">Add</button>
                     </div>
                 </div>
-                <div class="promotion-item">
+                <div class="promotion-item" data-name="Summer Berry" data-price="8.50">
                     <img src="asset/mango-berry-smoothie.jpg" alt="Promotion 2">
                     <div class="promotion-details">
                         <h3>Summer Berry</h3>
-                        <p> $8.50</p>
+                        <p>$8.50</p>
                         <p>Refresh your summer with our Summer Berry – a luscious blend of ripe mangoes and juicy
                             berries. Rich in vitamins and antioxidants to boost your immune system and enhance skin
                             health.</p>
                         <p class="highlight">✔ Rich in Vitamin C</p>
                         <p class="highlight">✔ Summer glow</p>
                         <p class="highlight">Approx. Calories: 250</p>
-                        <button>Add</button>
+                        <button class="add-to-cart">Add</button>
                     </div>
                 </div>
             </div>
         </section>
-
-        <!-- Cart Section -->
-        <section id="cart-section" class="hidden">
-            <h2>Your Cart</h2>
-            <div class="cart-items">
-                <!-- Cart items will be dynamically added here -->
-            </div>
-            <div class="cart-summary">
-                <p>Total: <span id="cart-total-price">$0.00</span></p>
-                <button id="checkout">Checkout</button>
-            </div>
-        </section>
-    </div>
-
-<!-- Takeaway Modal -->
-<div id="takeaway-modal" class="modal">
-    <div class="modal-content">
-        <span class="close">&times;</span>
-        <h3>Pick Up</h3>
-        <p>You have selected 📍Bite & Delight Downtown </p>
-        <p>Select Pick Up Date</p>
-        <input type="date" id="takeaway-date" placeholder="Select Date">
-        <p>Select Pick Up Time</p>
-        <select id="takeaway-time">
-            <option value="8:00 AM - 8:30 AM" >8:00 AM - 8:30 AM</option>
-            <option value="9:00 AM - 9:30 AM">9:00 AM - 9:30 AM</option>
-            <option value="9:30 AM - 10:00 AM">9:30 AM - 10:00 AM</option>
-            <option value="10:00 AM - 10:30 AM">10:00 AM - 10:30 AM</option>
-            <option value="10:30 AM - 11:00 AM">10:30 AM - 11:00 AM</option>  
-            <option value="11:30 AM - 12:00 PM">11:30 AM - 12:00 PM</option>
-            <option value="12:00 PM - 12:30 PM">12:00 PM - 12:30 PM</option>
-            <option value="12:30 PM - 1:00 PM">12:30 PM - 1:00 PM</option>
-            <option value="1:30 PM - 2:00 PM">1:00 PM - 1:30 PM</option>
-            <option value="1:30 PM - 2:00 PM">1:30 PM - 2:00 PM</option>
-            <option value="2:00 PM - 2:30 PM">2:00 PM - 2:30 PM</option>
-            <option value="2:30 PM - 3:00 PM">2:30 PM - 3:00 PM</option>
-            <option value="3:00 PM - 3:30PM">3:00 PM - 3:30PM</option>
-            <option value="3:30 PM - 4:00PM ">3:30 PM - 4:00PM</option>
-            <option value="4:00 PM - 4:30PM">4:00 PM - 4:30PM</option>
-            <option value="4:30 PM - 5:00PM">4:30 PM - 5:00PM</option>
-     
-        </select>
-        <button id="confirm-takeaway">Confirm</button>
-    </div>
-</div>
-
-
-    <!-- Smoothie Prompt Modal -->
-    <div id="smoothie-prompt-modal" class="modal">
-        <div class="modal-content">
-            <h3>Add a Smoothie to Your Meal?</h3>
-            <button id="yes-add-smoothie">Yes</button>
-            <button id="no-add-smoothie">No</button>
-        </div>
     </div>
 
     <!-- JavaScript -->

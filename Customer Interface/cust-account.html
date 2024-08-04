@@ -9,13 +9,16 @@
 </head>
 
 <body>
+    <!-- Back Button -->
+    <button class="back-button" onclick="window.location.href='create-sandwich.html'">Back</button>
+
     <div class="container">
         <h1>My Account</h1>
         <a href="#update-profile" class="account-option">
             <img src="asset/profile.webp" alt="Update My Profile">
             <div>
                 <h2>Update My Profile</h2>
-                <p>Update your Email & Contact </p>
+                <p>Update your Email & Contact</p>
             </div>
         </a>
 
@@ -36,7 +39,7 @@
         </a>
 
         <!-- Update Profile Section -->
-        <div id="update-profile" class="update-profile-section">
+        <div id="update-profile" class="update-profile-section" style="display: none;">
             <h2>My Account Information</h2>
             <form id="update-profile-form">
                 <div class="form-group">
@@ -59,7 +62,7 @@
                     <label for="birthday"> Birthday</label>
                     <input type="date" id="birthday" name="birthday" value="2000-01-01" readonly>
                 </div>
-             
+
                 <div class="form-group">
                     <button type="button" id="update-profile-btn">Continue</button>
                 </div>
@@ -70,7 +73,7 @@
         </div>
 
         <!-- Order History Section -->
-        <div id="order-history" class="order-history-section">
+        <div id="order-history" class="order-history-section" style="display: none;">
             <h2 class="order-history-heading">Purchased</h2>
             <div class="order-item">
                 <img src="asset/mango-smoothie.jpg" alt="Mango Passion">
@@ -111,15 +114,15 @@
             <div class="order-item">
                 <img src="asset/teriyaki sandwich.png" alt="Teriyaki Deli">
                 <div>
-                    <h3>Teriyaki Deli Chicken</h3>
+                    <h3>Chicken Delight</h3>
                     <p>Sandwich</p>
-                    <p>Choice of Bread: Sourdough</p>
-                    <p>Choice of Protein: Teriyaki Chicken</p>
+                    <p>Choice of Bread: Italian Herb</p>
+                    <p>Choice of Protein: Chicken</p>
                     <p>Base: Onion, Bell Peppers, Tomato</p>
                     <p>Sauces: BBQ, Egg-mayo</p>
                     <p>Quantity: 1</p>
                     <p>Order Date: 14 Jun 2024</p>
-                    <p>$6.00</p>
+                    <p>$6.50</p>
                 </div>
                 <div class="order-actions">
                     <button class="reorder-button">Re-Order</button>
@@ -128,7 +131,7 @@
         </div>
 
         <!-- Reward Points Section -->
-        <div id="reward-points" class="reward-points-section">
+        <div id="reward-points" class="reward-points-section" style="display: none;">
             <div class="overlay-background">
                 <h2>How to earn?</h2>
                 <p>Savor and Save! Every dollar you spend earns you a point towards delicious rewards.</p>
@@ -150,31 +153,31 @@
                 <table>
                     <thead>
                         <tr>
-                            <th>DATE</th>
-                            <th>POINTS</th>
-                            <th>DETAILS</th>
+                            <th class="date-column">DATE</th>
+                            <th class="points-column">POINTS</th>
+                            <th class="details-column">DETAILS</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <td>22/06/2024</td>
-                            <td>-4</td>
-                            <td>Redeemed Points</td>
+                            <td class="date-column">22/06/2024</td>
+                            <td class="points-column">-4</td>
+                            <td class="details-column">Redeemed Points</td>
                         </tr>
                         <tr>
-                            <td>18/06/2024</td>
-                            <td>5</td>
-                            <td>Purchased Points</td>
+                            <td class="date-column">18/06/2024</td>
+                            <td class="points-column">5</td>
+                            <td class="details-column">Purchased Points</td>
                         </tr>
                         <tr>
-                            <td>14/06/2024</td>
-                            <td>16</td>
-                            <td>Purchased Points</td>
+                            <td class="date-column">14/06/2024</td>
+                            <td class="points-column">16</td>
+                            <td class="details-column">Purchased Points</td>
                         </tr>
                         <tr>
-                            <td>27/05/2024</td>
-                            <td>30</td>
-                            <td>Registration of Bite & Delight Online Account</td>
+                            <td class="date-column">27/05/2024</td>
+                            <td class="points-column">30</td>
+                            <td class="details-column">Registration of Bite & Delight Online Account</td>
                         </tr>
                         <tr class="total-row">
                             <td colspan="2">TOTAL</td>
@@ -187,16 +190,16 @@
                 <table>
                     <thead>
                         <tr>
-                            <th>DATE</th>
-                            <th>POINTS</th>
-                            <th>DETAILS</th>
+                            <th class="date-column">DATE</th>
+                            <th class="points-column">POINTS</th>
+                            <th class="details-column">DETAILS</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <td>22/06/2024</td>
-                            <td>-4</td>
-                            <td>Redeemed Points</td>
+                            <td class="date-column">22/06/2024</td>
+                            <td class="points-column">-4</td>
+                            <td class="details-column">Redeemed Points</td>
                         </tr>
                     </tbody>
                 </table>
