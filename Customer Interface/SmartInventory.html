@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Inventory - Bite & Delight</title>
+    <link rel="stylesheet" href="css/SmartInventory.css">
+</head>
+<body>
+    <nav>
+        <div class="nav-items">
+            <ul>
+                <li><a href="Businessoverview.html">HOME</a></li>
+                <li><a href="#analytics">Analytics</a></li>
+                <li><a href="SmartInventory.html">Inventory</a></li>
+                <li><a href="Staff-OrderManagement.html">Manage Orders (OMS)</a></li>
+                <li><a href="#contact">CONTACT</a></li>
+            </ul>
+        </div>
+        <div class="dropdown">
+            <a href="#" class="dropdown-toggle">Staff View</a>
+            <ul class="dropdown-menu">
+                <li><a href="staff-profile.html">Staff Profile</a></li>
+                <li><a href="customer-home.html" class="logout-btn">Logout</a></li>
+            </ul>
+        </div>
+    </nav>
+    
+    <main>
+        <section id="inventory" class="section">
+            <div class="container">
+                <h1><span>Inventory Tracking System</span></h1>
+            
+                <!-- Navigation Links -->
+                <div class="ingredient-nav">
+                    <a href="#sandwichIngredients">SANDWICH</a>
+                    <a href="#smoothieIngredients">SMOOTHIE</a>
+                </div>
+
+                <!-- Sandwich Ingredients Table -->
+                <h2>Sandwich Ingredients</h2>
+                <table class="sandwich-table" id="sandwichIngredients">
+                    <thead>
+                        <tr>
+                            <th>Ingredient</th>
+                            <th>Current Amount/Stock</th>
+                            <th>Optimal Stock Level</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                            <th>Update Stock</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>SOURDOUGH</td>
+                            <td>20 kg</td>
+                            <td>30 kg</td>
+                            <td class="status high">High</td>
+                            <td><button class="restock-btn">Restock</button></td>
+                            <td><button class="update-stock-btn">Update Stock</button></td>
+                        </tr>
+                        <tr>
+                            <td>WHOLEMEAL</td>
+                            <td>15 kg</td>
+                            <td>20 kg</td>
+                            <td class="status moderate">Moderate</td>
+                            <td><button class="restock-btn">Restock</button></td>
+                            <td><button class="update-stock-btn">Update Stock</button></td>
+                        </tr>
+                        <tr>
+                            <td>OAT BREAD</td>
+                            <td>10 kg</td>
+                            <td>15 kg</td>
+                            <td class="status low">Low</td>
+                            <td><button class="restock-btn">Restock</button></td>
+                            <td><button class="update-stock-btn">Update Stock</button></td>
+                        </tr>
+                        <tr>
+                            <td>ITALIAN HERB</td>
+                            <td>5 kg</td>
+                            <td>10 kg</td>
+                            <td class="status critically-low">Critically Low</td>
+                            <td><button class="restock-btn">Restock</button></td>
+                            <td><button class="update-stock-btn">Update Stock</button></td>
+                        </tr>
+                        <tr>
+                            <td>PULLED LAMB</td>
+                            <td>12 kg</td>
+                            <td>15 kg</td>
+                            <td class="status moderate">Moderate</td>
+                            <td><button class="restock-btn">Restock</button></td>
+                            <td><button class="update-stock-btn">Update Stock</button></td>
+                        </tr>
+                        <tr>
+                            <td>TERIYAKI CHICKEN</td>
+                            <td>18 kg</td>
+                            <td>20 kg</td>
+                            <td class="status high">High</td>
+                            <td><button class="restock-btn">Restock</button></td>
+                            <td><button class="update-stock-btn">Update Stock</button></td>
+                        </tr>
+                        <tr>
+                            <td>ULTIMATE BEEF</td>
+                            <td>22 kg</td>
+                            <td>25 kg</td>
+                            <td class="status high">High</td>
+                            <td><button class="restock-btn">Restock</button></td>
+                            <td><button class="update-stock-btn">Update Stock</button></td>
+                        </tr>
+                        <tr>
+                            <td>SMOKED SALMON</td>
+                            <td>8 kg</td>
+                            <td>10 kg</td>
+                            <td class="status moderate">Moderate</td>
+                            <td><button class="restock-btn">Restock</button></td>
+                            <td><button class="update-stock-btn">Update Stock</button></td>
+                        </tr>
+                        <tr>
+                            <td>LETTUCE</td>
+                            <td>30 kg</td>
+                            <td>50 kg</td>
+                            <td class="status low">Low</td>
+                            <td><button class="restock-btn">Restock</button></td>
+                            <td><button class="update-stock-btn">Update Stock</button></td>
+                        </tr>
+                        <tr>
+                            <td>TOMATO</td>
+                            <td>15 kg</td>
+                            <td>50 kg</td>
+                            <td class="status critically-low">Critically Low</td>
+                            <td><button class="restock-btn">Restock</button></td>
+                            <td><button class="update-stock-btn">Update Stock</button></td>
+                        </tr>
+                        <tr>
+                            <td>CUCUMBER</td>
+                            <td>20 kg</td>
+                            <td>25 kg</td>
+                            <td class="status high">High</td>
+                            <td><button class="restock-btn">Restock</button></td>
+                            <td><button class="update-stock-btn">Update Stock</button></td>
+                        </tr>
+                        <tr>
+                            <td>ONION</td>
+                            <td>12 kg</td>
+                            <td>15 kg</td>
+                            <td class="status moderate">Moderate</td>
+                            <td><button class="restock-btn">Restock</button></td>
+                            <td><button class="update-stock-btn">Update Stock</button></td>
+                        </tr>
+                        <tr>
+                            <td>BELL PEPPERS</td>
+                            <td>14 kg</td>
+                            <td>20 kg</td>
+                            <td class="status low">Low</td>
+                            <td><button class="restock-btn">Restock</button></td>
+                            <td><button class="update-stock-btn">Update Stock</button></td>
+                        </tr>
+                        <tr>
+                            <td>CRANBERRY-CARAMALISED ONION</td>
+                            <td>7 kg</td>
+                            <td>10 kg</td>
+                            <td class="status moderate">Moderate</td>
+                            <td><button class="restock-btn">Restock</button></td>
+                            <td><button class="update-stock-btn">Update Stock</button></td>
+                        </tr>
+                        <tr>
+                            <td>HONEY MUSTARD</td>
+                            <td>9 kg</td>
+                            <td>12 kg</td>
+                            <td class="status moderate">Moderate</td>
+                            <td><button class="restock-btn">Restock</button></td>
+                            <td><button class="update-stock-btn">Update Stock</button></td>
+                        </tr>
+                        <tr>
+                            <td>EGG-MAYO</td>
+                            <td>11 kg</td>
+                            <td>15 kg</td>
+                            <td class="status low">Low</td>
+                            <td><button class="restock-btn">Restock</button></td>
+                            <td><button class="update-stock-btn">Update Stock</button></td>
+                        </tr>
+                        <tr>
+                            <td>AVOCADO LIME CREMA</td>
+                            <td>6 kg</td>
+                            <td>10 kg</td>
+                            <td class="status critically-low">Critically Low</td>
+                            <td><button class="restock-btn">Restock</button></td>
+                            <td><button class="update-stock-btn">Update Stock</button></td>
+                        </tr>
+                        <tr>
+                            <td>BBQ</td>
+                            <td>8 kg</td>
+                            <td>12 kg</td>
+                            <td class="status moderate">Moderate</td>
+                            <td><button class="restock-btn">Restock</button></td>
+                            <td><button class="update-stock-btn">Update Stock</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            
+                <!-- Smoothie Ingredients Table -->
+                <h2>Smoothie Ingredients</h2>
+                <table class="smoothie-table" id="smoothieIngredients">
+                    <thead>
+                        <tr>
+                            <th>Ingredient</th>
+                            <th>Current Amount/Stock</th>
+                            <th>Optimal Stock Level</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                            <th>Update Stock</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>BANANA</td>
+                            <td>25 kg</td>
+                            <td>30 kg</td>
+                            <td class="status high">High</td>
+                            <td><button class="restock-btn">Restock</button></td>
+                            <td><button class="update-stock-btn">Update Stock</button></td>
+                        </tr>
+                        <tr>
+                            <td>STRAWBERRY</td>
+                            <td>20 kg</td>
+                            <td>25 kg</td>
+                            <td class="status moderate">Moderate</td>
+                            <td><button class="restock-btn">Restock</button></td>
+                            <td><button class="update-stock-btn">Update Stock</button></td>
+                        </tr>
+                        <tr>
+                            <td>BLUEBERRY</td>
+                            <td>18 kg</td>
+                            <td>20 kg</td>
+                            <td class="status moderate">Moderate</td>
+                            <td><button class="restock-btn">Restock</button></td>
+                            <td><button class="update-stock-btn">Update Stock</button></td>
+                        </tr>
+                        <tr>
+                            <td>MANGO</td>
+                            <td>12 kg</td>
+                            <td>15 kg</td>
+                            <td class="status low">Low</td>
+                            <td><button class="restock-btn">Restock</button></td>
+                            <td><button class="update-stock-btn">Update Stock</button></td>
+                        </tr>
+                        <tr>
+                            <td>ORANGE</td>
+                            <td>14 kg</td>
+                            <td>20 kg</td>
+                            <td class="status low">Low</td>
+                            <td><button class="restock-btn">Restock</button></td>
+                            <td><button class="update-stock-btn">Update Stock</button></td>
+                        </tr>
+                        <tr>
+                            <td>SPINACH</td>
+                            <td>22 kg</td>
+                            <td>30 kg</td>
+                            <td class="status high">High</td>
+                            <td><button class="restock-btn">Restock</button></td>
+                            <td><button class="update-stock-btn">Update Stock</button></td>
+                        </tr>
+                        <tr>
+                            <td>KALE</td>
+                            <td>19 kg</td>
+                            <td>25 kg</td>
+                            <td class="status moderate">Moderate</td>
+                            <td><button class="restock-btn">Restock</button></td>
+                            <td><button class="update-stock-btn">Update Stock</button></td>
+                        </tr>
+                        <tr>
+                            <td>AVOCADO</td>
+                            <td>15 kg</td>
+                            <td>20 kg</td>
+                            <td class="status low">Low</td>
+                            <td><button class="restock-btn">Restock</button></td>
+                            <td><button class="update-stock-btn">Update Stock</button></td>
+                        </tr>
+                        <tr>
+                            <td>GREEK YOGURT</td>
+                            <td>10 kg</td>
+                            <td>15 kg</td>
+                            <td class="status critically-low">Critically Low</td>
+                            <td><button class="restock-btn">Restock</button></td>
+                            <td><button class="update-stock-btn">Update Stock</button></td>
+                        </tr>
+                        <tr>
+                            <td>LOW-FAT MILK</td>
+                            <td>30 kg</td>
+                            <td>35 kg</td>
+                            <td class="status high">High</td>
+                            <td><button class="restock-btn">Restock</button></td>
+                            <td><button class="update-stock-btn">Update Stock</button></td>
+                        </tr>
+                        <tr>
+                            <td>FULL-CREAM MILK</td>
+                            <td>25 kg</td>
+                            <td>30 kg</td>
+                            <td class="status high">High</td>
+                            <td><button class="restock-btn">Restock</button></td>
+                            <td><button class="update-stock-btn">Update Stock</button></td>
+                        </tr>
+                        <tr>
+                            <td>OAT MILK</td>
+                            <td>20 kg</td>
+                            <td>25 kg</td>
+                            <td class="status moderate">Moderate</td>
+                            <td><button class="restock-btn">Restock</button></td>
+                            <td><button class="update-stock-btn">Update Stock</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Restock Modal -->
+        <div id="restockModal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h2>Restock Request</h2>
+                <form id="restockForm">
+                    <label for="ingredient">Ingredient:</label>
+                    <input type="text" id="ingredient" name="ingredient" readonly>
+                    
+                    <label for="quantity">Quantity (KG):</label>
+                    <input type="number" id="quantity" name="quantity" step="0.01" placeholder="Enter quantity">
+
+                    <label for="deliveryDate">Expected Delivery Date:</label>
+                    <input type="date" id="deliveryDate" name="deliveryDate">
+
+                    <label for="supplierEmail">Business Supplier Email:</label>
+                    <select id="supplierEmail" name="supplierEmail">
+                        <option value="supplier1@gmail.com">supplier1@gmail.com</option>
+                        <option value="supplier2@gmail.com">supplier2@gmail.com</option>
+                    </select>
+                    
+                    <label for="message">Message:</label>
+                    <textarea id="message" name="message" rows="4" placeholder="Type your message here..."></textarea>
+                    
+                    <button type="button" id="sendEmail">Send Email</button>
+                </form>
+                <div id="responseMessage" style="display:none; margin-top: 10px; font-weight: bold;"></div>
+            </div>
+        </div>
+
+        <!-- Update Stock Count Modal -->
+        <div id="updateStockModal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h2>Update Stock Count</h2>
+                <form id="updateStockForm">
+                    <label for="updateIngredient">Ingredient:</label>
+                    <input type="text" id="updateIngredient" name="updateIngredient" readonly>
+                    
+                    <label for="updateQuantity">Update Quantity:</label>
+                    <select id="updateQuantity" name="updateQuantity">
+                        <option value="2">2 kg</option>
+                        <option value="5">5 kg</option>
+                        <option value="10">10 kg</option>
+                    </select>
+                    
+                    <button type="button" id="confirmUpdate">Confirm Update</button>
+                </form>
+                <div id="updateResponseMessage" style="display:none; margin-top: 10px; font-weight: bold;"></div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <h3>Find Out More!</h3>
+            <ul class="footer-links">
+                <li><a href="customer-home.html#home">Home</a></li>
+                <li><a href="customer-home.html#about">About</a></li>
+                <li><a href="customer-home.html#locations">Locations</a></li>
+                <li><a href="customer-home.html#contact">Contact</a></li>
+            </ul>
+            <div class="social-media">
+                <a href="#"><img src="asset/footer/twitter-icon.png" alt="Twitter"></a>
+                <a href="#"><img src="asset/footer/facebook-icon.png" alt="Facebook"></a>
+                <a href="#"><img src="asset/footer/instagram-icon.png" alt="Instagram"></a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 Bite & Delight. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script src="js/SmartInventory.js"></script>
+</body>
+</html>
