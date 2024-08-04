@@ -1,7 +1,6 @@
 loader = callApi2("GET", 'http://127.0.0.1:5000/getInventory', 
     { 'data': JSON.stringify("") });
 
-console.log(loader)
 
 document.addEventListener('click', function (event) {
     var dropdowns = document.querySelectorAll('.dropdown');
@@ -178,23 +177,15 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        // Logic to update the stock amount in the table
-        const row = Array.from(document.querySelectorAll('.update-stock-btn')).find(btn => btn.closest('tr').querySelector('td').textContent === ingredient).closest('tr');
-        const currentAmountCell = row.querySelector('td:nth-child(2)');
-        const currentAmount = parseFloat(currentAmountCell.textContent.split(' ')[0]);
-        const newAmount = currentAmount + parseFloat(quantity);
-
-        currentAmountCell.textContent = `${newAmount} kg`;
-
+        callApi2("POST", 'http://127.0.0.1:5000/update_stock', 
+            { 'data': JSON.stringify({ingredient: ingredient, quantity: quantity}) });
+        
         updateResponseMessage.style.display = 'block';
         updateResponseMessage.className = 'show success';
         updateResponseMessage.textContent = 'Stock updated successfully!';
 
         setTimeout(() => {
-            updateStockModal.style.display = 'none';
-            updateResponseMessage.style.display = 'none';
-            updateResponseMessage.textContent = '';
-            document.getElementById('updateStockForm').reset();
+            window.location.reload();
         }, 2000);
     });
 });

@@ -58,12 +58,20 @@ def update_inventory(conn,order):
 
     return cursor.lastrowid
 
-def complete_order(conn,order):
+def update_stock(conn,order):
     cursor = conn.cursor()
+    print(order)
     cursor.execute("ROLLBACK")
-    query = ("UPDATE orders SET order_status = 'completed' where order_id = {0} ")
-    data = (order)
-    cursor.execute(query.format(data))
+    query = ("select inventory.products_id, quantity_amount from inventory " +
+            "INNER JOIN product ON inventory.products_id = product.products_id " + 
+            "where product.product_name = '{0}'")
+    cursor.execute(query.format(order['ingredient']))
+    for (products_id, quantity_amount) in cursor:
+        cursor2 = conn.cursor()
+        query2 = ("UPDATE inventory SET quantity_amount = {0} where products_id = {1}")
+        updatedAmount = quantity_amount + (int(order['quantity'])*1000)
+        data = (updatedAmount, products_id)
+        cursor2.execute(query2.format(*data))
     conn.commit()
 
     return cursor.lastrowid

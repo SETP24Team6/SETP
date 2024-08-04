@@ -161,6 +161,15 @@ def get_inventory():
     response.headers.add('Access-Control-Allow-Origin', '*')
     return response
 
+@app.route('/update_stock', methods=['POST'])
+def update_stock():
+    request_payload = json.loads(request.form['data'])
+    result =  its.update_stock(connection,request_payload)
+    response = ""
+    response = jsonify(result)
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
+
 if __name__ == "__main__":
     print("Starting Python Flask Server For Sandwich Store Management System")
     app.run(port=5000)
