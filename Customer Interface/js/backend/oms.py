@@ -10,10 +10,7 @@ def get_all_orders(conn):
              "store_name, order_status from orders " + 
              "INNER JOIN member ON orders.member_id = member.member_id " +
              "INNER JOIN stores on stores.store_id = orders.store_id " +
-             "where order_timestamp BETWEEN " +
-            "NOW()::DATE-EXTRACT(DOW FROM NOW())::INTEGER-7 "+
-            "AND NOW()::DATE-EXTRACT(DOW from NOW())::INTEGER " +
-             "ORDER BY orders.order_timestamp DESC")
+             "ORDER BY orders.order_id DESC LIMIT 30")
     cursor.execute(query)
     response = []
     for (order_id, firstName, order_timestamp, store_name, order_status) in cursor:

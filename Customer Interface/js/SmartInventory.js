@@ -1,3 +1,8 @@
+loader = callApi2("GET", 'http://127.0.0.1:5000/getInventory', 
+    { 'data': JSON.stringify("") });
+
+console.log(loader)
+
 document.addEventListener('click', function (event) {
     var dropdowns = document.querySelectorAll('.dropdown');
     dropdowns.forEach(function (dropdown) {
@@ -23,6 +28,69 @@ document.querySelectorAll('.dropdown-toggle').forEach(function (toggle) {
 });
 
 document.addEventListener('DOMContentLoaded', () => {
+    
+    const sandwichIngred = document.getElementById('sandwichIngredients');
+    const smoothieIngred = document.getElementById('smoothieIngredients');
+    preamble = `
+        <thead>
+            <tr>
+                <th>Ingredient</th>
+                <th>Current Amount/Stock</th>
+                <th>Optimal Stock Level</th>
+                <th>Status</th>
+                <th>Action</th>
+                <th>Update Stock</th>
+            </tr>
+        </thead>
+        <tbody>
+    `
+    sandwichLoader = ""
+    smoothieLoader = ""
+    for (let i = 0; i < 30; i++) {
+        if (i < 19){
+            currentInv = loader[i]["quantity_amount"]/1000
+            optInv = loader[i]["amount"]*loader[i]["uom"]/1000 
+            sandwichLoader += "<tr>"
+            sandwichLoader += "<td>"+loader[i]["product_name"] + "</td>"
+            sandwichLoader += "<td>"+currentInv + "KG</td>"
+            sandwichLoader += "<td>"+optInv + "KG</td>" 
+            if (currentInv / optInv < 0.2){
+                sandwichLoader += "<td class='status critically-low'>Critically Low</td>"
+            }else if (currentInv / optInv < 0.4){
+                sandwichLoader += "<td class='status low'>Low</td>"
+            }else if (currentInv / optInv < 0.7){
+                sandwichLoader += "<td class='status moderate'>Moderate</td>"
+            }else {
+                sandwichLoader += "<td class='status high'>High</td>"
+            }
+            sandwichLoader += "<td><button class='restock-btn'>Restock</button></td>" 
+            sandwichLoader += "<td><button class='update-stock-btn'>Update Stock</button></td>" 
+            sandwichLoader += "</tr>"
+        }else{
+            currentInv = loader[i]["quantity_amount"]/1000
+            optInv = loader[i]["amount"]*loader[i]["uom"]/1000 
+            smoothieLoader += "<tr>"
+            smoothieLoader += "<td>"+loader[i]["product_name"] + "</td>"
+            smoothieLoader += "<td>"+currentInv + "KG</td>"
+            smoothieLoader += "<td>"+optInv + "KG</td>" 
+            if (currentInv / optInv < 0.2){
+                smoothieLoader += "<td class='status critically-low'>Critically Low</td>"
+            }else if (currentInv / optInv < 0.4){
+                smoothieLoader += "<td class='status low'>Low</td>"
+            }else if (currentInv / optInv < 0.7){
+                smoothieLoader += "<td class='status moderate'>Moderate</td>"
+            }else {
+                smoothieLoader += "<td class='status high'>High</td>"
+            }
+            smoothieLoader += "<td><button class='restock-btn'>Restock</button></td>" 
+            smoothieLoader += "<td><button class='update-stock-btn'>Update Stock</button></td>" 
+            smoothieLoader += "</tr>"
+        }
+        
+    }
+    sandwichIngred.innerHTML = preamble+sandwichLoader+"</tbody>"
+    smoothieIngred.innerHTML = preamble+smoothieLoader+"</tbody>"
+
     const restockButtons = document.querySelectorAll('.restock-btn');
     const modal = document.getElementById('restockModal');
     const closeModal = document.querySelector('.close');
@@ -33,6 +101,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const deliveryDateInput = document.getElementById('deliveryDate');
     const supplierEmailInput = document.getElementById('supplierEmail');
     const messageInput = document.getElementById('message');
+
 
     restockButtons.forEach(button => {
         button.addEventListener('click', () => {
@@ -75,7 +144,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 2000);
     });
 
-const updateStockButtons = document.querySelectorAll('.update-stock-btn');
+    const updateStockButtons = document.querySelectorAll('.update-stock-btn');
     const updateStockModal = document.getElementById('updateStockModal');
     const closeUpdateStockModal = updateStockModal.querySelector('.close');
     const confirmUpdateButton = document.getElementById('confirmUpdate');
