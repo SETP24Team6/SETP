@@ -71,7 +71,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const filler = document.getElementById(x);
                 filler.innerHTML = orders[x] 
             };
-            setTimeout(populateFields, 5000)
+            setTimeout(populateFields, 60000)
         }
         $(".ready").click(function () {
             var $row = $(this).closest("tr");
