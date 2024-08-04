@@ -74,4 +74,58 @@ document.addEventListener('DOMContentLoaded', () => {
             document.getElementById('restockForm').reset();
         }, 2000);
     });
+
+const updateStockButtons = document.querySelectorAll('.update-stock-btn');
+    const updateStockModal = document.getElementById('updateStockModal');
+    const closeUpdateStockModal = updateStockModal.querySelector('.close');
+    const confirmUpdateButton = document.getElementById('confirmUpdate');
+    const updateResponseMessage = document.getElementById('updateResponseMessage');
+    const updateIngredientInput = document.getElementById('updateIngredient');
+    const updateQuantitySelect = document.getElementById('updateQuantity');
+
+    updateStockButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            const row = button.closest('tr');
+            const ingredient = row.querySelector('td').textContent;
+            updateIngredientInput.value = ingredient;
+            updateStockModal.style.display = 'block';
+        });
+    });
+
+    closeUpdateStockModal.addEventListener('click', () => {
+        updateStockModal.style.display = 'none';
+        updateResponseMessage.style.display = 'none';
+        updateResponseMessage.textContent = '';
+    });
+
+    confirmUpdateButton.addEventListener('click', () => {
+        const ingredient = updateIngredientInput.value;
+        const quantity = updateQuantitySelect.value;
+
+        if (!ingredient || !quantity) {
+            updateResponseMessage.style.display = 'block';
+            updateResponseMessage.className = 'show error';
+            updateResponseMessage.textContent = 'Please select a valid quantity for the update.';
+            return;
+        }
+
+        // Logic to update the stock amount in the table
+        const row = Array.from(document.querySelectorAll('.update-stock-btn')).find(btn => btn.closest('tr').querySelector('td').textContent === ingredient).closest('tr');
+        const currentAmountCell = row.querySelector('td:nth-child(2)');
+        const currentAmount = parseFloat(currentAmountCell.textContent.split(' ')[0]);
+        const newAmount = currentAmount + parseFloat(quantity);
+
+        currentAmountCell.textContent = `${newAmount} kg`;
+
+        updateResponseMessage.style.display = 'block';
+        updateResponseMessage.className = 'show success';
+        updateResponseMessage.textContent = 'Stock updated successfully!';
+
+        setTimeout(() => {
+            updateStockModal.style.display = 'none';
+            updateResponseMessage.style.display = 'none';
+            updateResponseMessage.textContent = '';
+            document.getElementById('updateStockForm').reset();
+        }, 2000);
+    });
 });
