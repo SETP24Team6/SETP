@@ -7,13 +7,13 @@ connection = sql_connection.get_sql_connection()
 def get_all_orders(conn):
     cursor = conn.cursor()
     query = ("select orders.order_id, firstName, order_timestamp, " + 
-             "store_name, order_status from orders " + 
+             "store_name, order_status, order_price from orders " + 
              "INNER JOIN member ON orders.member_id = member.member_id " +
              "INNER JOIN stores on stores.store_id = orders.store_id " +
              "ORDER BY orders.order_id DESC LIMIT 30")
     cursor.execute(query)
     response = []
-    for (order_id, firstName, order_timestamp, store_name, order_status) in cursor:
+    for (order_id, firstName, order_timestamp, store_name, order_status, order_price) in cursor:
         
         cursor2 = conn.cursor()
         query2 = ("select orders_items.item_id, item_type, product_type_name, string_agg(product_name, ', ') from item_ingredients " +
@@ -55,7 +55,8 @@ def get_all_orders(conn):
             'order_timestamp': order_timestamp,
             'store_name': store_name,
             'order_status' : order_status,
-            "order_ingred" : order_ingred
+            "order_ingred" : order_ingred,
+            "order_price" : order_price
         })
         # print('\n'.join('{}: {}'.format(*k) for k in enumerate(response)))
     return response

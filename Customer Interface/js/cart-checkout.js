@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // Debugging log for parsed order details
 
     document.getElementById('order-number').textContent = lastCheckOut[0]["order_id"];
-    document.getElementById('total-amount').textContent = '$'+lastCheckOut[0]["order_price"];
+    document.getElementById('total-amount').textContent = '$'+parseFloat(lastCheckOut[0]["order_price"]).toFixed(2);
     var t=new Date(lastCheckOut[0]["order_timestamp"]);
     var testme = new Date(t.getTime() + (30*60000) - (28800000))
     pickupTime = ""

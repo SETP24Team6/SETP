@@ -51,7 +51,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 orders[order.order_status] += '<td>'+order.firstName+'</td>'
                 orders[order.order_status] += '<td>'+order.order_timestamp.substring(5,22)+'</td>'
                 orders[order.order_status] += '<td>'+order.store_name+'</td>'
-                orders[order.order_status] += '<td> FREE </td>'
+                orders[order.order_status] += '<td> $'+parseFloat(order.order_price).toFixed(2)+' </td>'
                 switch(order.order_status) {
                     case 'preparing':
                         orders[order.order_status] += '<td><button class="ready">Ready!</button></td>'
