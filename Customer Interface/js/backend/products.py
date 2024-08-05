@@ -78,7 +78,7 @@ def get_order(conn,order):
     data = (order, 'cart')
     cursor.execute(query, data)
 
-    print(cursor.rowcount )
+    # print(cursor.rowcount )
     if cursor.rowcount != 0:
 
         order_ingred = {}
@@ -130,11 +130,30 @@ def delete_item(conn, order):
 
 def cart_out(conn, order):
     cursor = conn.cursor()
-    print(order)
+    ts = datetime.datetime.now()
     cursor.execute("ROLLBACK")
-    query = ("UPDATE orders SET order_status = %s  WHERE member_id = %s AND order_status = %s")
-    data = ('preparing', order, 'cart')
+    print(order)
+    query = ("UPDATE orders SET order_status = %s, order_timestamp = %s, "
+             "order_price = %s "
+             "WHERE member_id = %s AND order_status = %s  RETURNING order_id")
+    data = ('preparing', ts, float(order[1][1:]), order[0], 'cart')
     cursor.execute(query, data)
     conn.commit()
 
-    return cursor.lastrowid
+    return cursor.fetchone()[0]
+
+def last_checkout(conn, order):
+    cursor = conn.cursor()
+    print(order)
+    query = ("SELECT order_id, order_timestamp, order_price from orders WHERE order_id = {0} ")
+    data = (order)
+    cursor.execute(query.format(data))
+    response = []
+    for (order_id, order_timestamp, order_price) in cursor:
+        response.append({
+            'order_id': order_id,
+            'order_timestamp': order_timestamp,
+            'order_price': order_price
+        })
+
+    return response

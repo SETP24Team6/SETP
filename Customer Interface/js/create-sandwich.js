@@ -15,6 +15,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const cartTotalPrice = document.getElementById('cart-total-price');
     const rewardsDeductionElement = document.querySelector('.rewards-deduction');
     const availablePointsElement = document.getElementById('available-points');
+    const logout = document.getElementById('logout-btn');
 
     let cartTotal = 0;
 
@@ -58,12 +59,13 @@ document.addEventListener('DOMContentLoaded', function () {
     const addButtons = document.querySelectorAll('.add-to-cart');
     const cartCheckOut = document.getElementById('checkout');
 
+    
     // cookie checker (done)
     if (!cookie("userid")) {
         window.location.href = 'order-now.html';
     }
 
-    let cart = [];
+    let cart = {};
     let currentStep = -1;
     let selectedChoices = {
         bread: '',
@@ -78,12 +80,23 @@ document.addEventListener('DOMContentLoaded', function () {
     };
 
     let selectedChoices2 = new Set();
+    
+    cartLoader()
 
     let sandwichTotal = 6; // Base price for a sandwich
     let smoothieTotal = 5; // Base price for a smoothie
     let isSandwich = false;
+    let isSpecial = false;
+    let specialHolder = new Object();
+
+    logout.addEventListener('click', () => {
+        cookie.remove("userid")
+        cookie.remove("username")
+        window.location.href = 'order-now.html';
+    });
 
     sandwichOption.addEventListener('click', () => {
+        isSpecial = false
         customizeSandwichContent.classList.remove('hidden');
         customizeTitle.textContent = 'Make Your Sandwich';
         customizeDescription.textContent = 'Freshly baked bread layered with grilled herb-spiced meat and crisp, garden-fresh vegetables.';
@@ -94,6 +107,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     smoothieOption.addEventListener('click', () => {
+        isSpecial = false
         customizeSandwichContent.classList.remove('hidden');
         customizeTitle.textContent = 'Blend Your Smoothie';
         customizeDescription.textContent = 'A symphony of fresh fruits and creamy delights, healthy greens to create the perfect smoothie that wins health goals!';
@@ -116,6 +130,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     backArrows.forEach((arrow) => {
+        
         arrow.addEventListener('click', () => {
             currentStep--;
             showCurrentStep();
@@ -154,39 +169,49 @@ document.addEventListener('DOMContentLoaded', function () {
 
     grabButtons.forEach((button) => {
         button.addEventListener('click', (e) => {
+            isSpecial = true
             const recommendationItem = e.target.closest('.recommendation-item');
             const itemName = recommendationItem.getAttribute('data-name');
             const itemPrice = parseFloat(recommendationItem.getAttribute('data-price'));
-            const cartItem = {
-                type: 'Recommendation',
-                name: itemName,
-                price: itemPrice
-            };
-            cart.push(cartItem);
-            updateCartCount();
-            updateCartTotal();
-            renderCartItems();
+            specialHolder.name = itemName
+            specialHolder.price = itemPrice
+            switch(itemName){
+                case "Sandwich munches" :
+                    selectedChoices2 = new Set(["4","6","10","12","13","16","18"]);
+                    break;
+                case "Blend Berry" :
+                    selectedChoices2 = new Set(["20","28"]);
+                    break;
+                case "Colour Blast" :
+                    selectedChoices2 = new Set(["20","21","22","23","25","29"]);
+                    break;
+            }
+            console.log(selectedChoices2)
+            addToCart();
             highlightCart();
-            console.log('Added to cart:', cartItem); // Debugging log
+            // console.log('Added to cart:', cartItem); // Debugging log
         });
     });
 
     addButtons.forEach((button) => {
         button.addEventListener('click', (e) => {
+            isSpecial = true
             const promotionItem = e.target.closest('.promotion-item');
             const itemName = promotionItem.getAttribute('data-name');
             const itemPrice = parseFloat(promotionItem.getAttribute('data-price'));
-            const cartItem = {
-                type: 'Promotion',
-                name: itemName,
-                price: itemPrice
-            };
-            cart.push(cartItem);
-            updateCartCount();
-            updateCartTotal();
-            renderCartItems();
+            specialHolder.name = itemName
+            specialHolder.price = itemPrice
+            switch(itemName){
+                case "Salmon Sensation" :
+                    selectedChoices2 = new Set(["2","8","10","9","13","15","17"]);
+                    break;
+                case "Summer Berry" :
+                    selectedChoices2 = new Set(["22","21","27","28"]);
+                    break;
+            }
+            console.log(selectedChoices2)
+            addToCart();
             highlightCart();
-            console.log('Added to cart:', cartItem); // Debugging log
         });
     });
 
@@ -209,7 +234,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 selectedChoices.veggies = selectedChoices.veggies.filter((v) => v.name !== veggieName);
                 selectedChoices2.delete(veggieName)
             }
-            console.log(selectedChoices2)
         } else if (stepId === 'sandwich-step-4') {
             if (selectedChoices.sauces.some((s) => s.name === 'None')) {
                 selectedChoices.sauces = [];
@@ -236,7 +260,7 @@ document.addEventListener('DOMContentLoaded', function () {
             choice.classList.add('selected');
 
             const choiceName = choice.getAttribute('data-choice');
-
+            
             if (stepId === 'sandwich-step-1') {
                 sandwichTotal -= selectedChoices.breadPrice || 0;
                 selectedChoices.bread = choiceName;
@@ -248,47 +272,44 @@ document.addEventListener('DOMContentLoaded', function () {
                 selectedChoices.proteinPrice = price;
                 sandwichTotal += price;
             }
-            console.log(selectedChoices2)
         }
+        
+        console.log(selectedChoices2)
 
-        console.log(selectedChoices)
     }
 
     function handleSmoothieChoice(choice, stepId) {
         const price = parseFloat(choice.getAttribute('data-price'));
+        const choiceName = choice.getAttribute('data-choice');
 
         if (stepId === 'smoothie-step-1') {
             choices.forEach((c) => c.classList.remove('selected'));
             choice.classList.add('selected');
-            const fruitName = choice.querySelector('h3').textContent;
 
-            selectedChoices.fruits = [{ name: fruitName, price }];
+            selectedChoices.fruits = [{ name: choiceName, price }];
             smoothieTotal = 5 + price; // Reset smoothieTotal to base price + selected fruit price
         } else if (stepId === 'smoothie-step-2') {
             choices.forEach((c) => c.classList.remove('selected'));
             choice.classList.add('selected');
 
-            const greenName = choice.querySelector('h3').textContent;
             smoothieTotal -= selectedChoices.greensPrice || 0;
-            selectedChoices.greens = greenName;
+            selectedChoices.greens = choiceName;
             selectedChoices.greensPrice = price;
             smoothieTotal += price;
         } else if (stepId === 'smoothie-step-3') {
             choices.forEach((c) => c.classList.remove('selected'));
             choice.classList.add('selected');
 
-            const proteinName = choice.querySelector('h3').textContent;
             smoothieTotal -= selectedChoices.proteinSmoothiePrice || 0;
-            selectedChoices.proteinSmoothie = proteinName;
+            selectedChoices.proteinSmoothie = choiceName;
             selectedChoices.proteinSmoothiePrice = price;
             smoothieTotal += price;
         } else if (stepId === 'smoothie-step-4') {
             choices.forEach((c) => c.classList.remove('selected'));
             choice.classList.add('selected');
 
-            const liquidBaseName = choice.querySelector('h3').textContent;
             smoothieTotal -= selectedChoices.liquidBasePrice || 0;
-            selectedChoices.liquidBase = liquidBaseName;
+            selectedChoices.liquidBase = choiceName;
             selectedChoices.liquidBasePrice = price;
             smoothieTotal += price;
         } else if (stepId === 'smoothie-step-5') {
@@ -378,21 +399,37 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function addToCart() {
-        const cartItem = {
-            type: isSandwich ? '1' : '2',
-            name: isSandwich ? 'Custom Sandwich' : 'Custom Smoothie',
-            details: { ...selectedChoices },
-            price: isSandwich ? sandwichTotal : smoothieTotal
-        };
-        selectedChoices2.add(selectedChoices.bread)
-        selectedChoices2.add(selectedChoices.protein)
-        var requestPayload = {
-            type: isSandwich ? '1' : '2',
-            name: isSandwich ? 'Sandwich' : 'Smoothie',
-            price: isSandwich ? sandwichTotal : smoothieTotal,
-            ingredents: [...selectedChoices2],
-            member: cookie('userid')
-        };
+        var requestPayload = new Object();
+        console.log('isSpecial = ' + isSpecial)
+        console.log('isSandwich = ' + isSandwich)
+        if(isSpecial){
+            requestPayload = {
+                type: '3',
+                name: specialHolder.name,
+                price: specialHolder.price,
+                ingredents: [...selectedChoices2],
+                member: cookie('userid')
+            };
+        }else{
+            if (isSandwich){
+                selectedChoices2.add(selectedChoices.bread)
+                selectedChoices2.add(selectedChoices.protein)
+            }else{
+                selectedChoices2.add(selectedChoices.fruits[0].name)
+                selectedChoices2.add(selectedChoices.greens)
+                selectedChoices2.add(selectedChoices.proteinSmoothie)
+                selectedChoices2.add(selectedChoices.liquidBase)
+            }
+            requestPayload = {
+                type: isSandwich ? '1' : '2',
+                name: isSandwich ? 'Sandwich' : 'Smoothie',
+                price: isSandwich ? sandwichTotal : smoothieTotal,
+                ingredents: [...selectedChoices2],
+                member: cookie('userid')
+            };
+        }
+        console.log(requestPayload)
+        console.log(isSandwich)
         callApi2("POST", 'http://127.0.0.1:5000/add_order',
             { 'data': JSON.stringify(requestPayload) });
 
@@ -470,9 +507,15 @@ document.addEventListener('DOMContentLoaded', function () {
                 });
             });
 
+        }else{
+            cartItemsContainer.innerHTML = cart_item_loader
+            cartCountElement.textContent = 0;
+            emptyCartMessage.style.display = 'block';
+
         }
         cartTotal = cart_price;
         cartTotalPrice.textContent = `$${cart_price.toFixed(2)}`;
+        selectedChoices2 = new Set();
     }
 
     function highlightCart() {
@@ -534,8 +577,13 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     cartCheckOut.addEventListener('click', () => {
-        // Clear the cart before navigating to checkout page
-        clearCart();
+        checkout_result = callApi2("POST", 'http://127.0.0.1:5000/cart_out', 
+            {'data': JSON.stringify([cookie('userid'), cartTotalPrice.textContent])});
+            
+            cookie.remove('order_id')
+            cookie.set('order_id', checkout_result, {
+                expires: 1/24
+            });
         window.location.href = 'cart-checkout.html';
     });
 
@@ -555,11 +603,11 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     typeWriter();
-    cartCheckOut.addEventListener('click', () => {
-        callApi2("POST", 'http://127.0.0.1:5000/cart_out',
-            { 'data': JSON.stringify(cookie('userid')) });
-        // cartLoader()
-    });
+    // cartCheckOut.addEventListener('click', () => {
+    //     callApi2("POST", 'http://127.0.0.1:5000/cart_out',
+    //         { 'data': JSON.stringify(cookie('userid')) });
+    //     // cartLoader()
+    // });
 
     // Recommendations section animation
     const recommendationItems = document.querySelectorAll('.recommendation-item');
