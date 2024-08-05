@@ -2184,7 +2184,8 @@ CREATE TABLE orders (
     store_id INT NOT NULL, 
     order_timestamp timestamp NOT NULL DEFAULT now(), 
     order_status varchar(10) NOT NULL,  
-    CONSTRAINT chk_order_status CHECK (order_status IN ('ordered', 'preparing', 'ready', 'completed')), 
+    order_price NUMERIC(5, 1),  
+    CONSTRAINT chk_order_status CHECK (order_status IN ('cart', 'preparing', 'ready', 'completed')), 
     FOREIGN KEY (member_id) REFERENCES member(member_id)
 );
 

@@ -578,7 +578,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     cartCheckOut.addEventListener('click', () => {
         checkout_result = callApi2("POST", 'http://127.0.0.1:5000/cart_out', 
-            {'data': JSON.stringify([cookie('userid'),cartTotalPrice.textContent])});
+            {'data': JSON.stringify([cookie('userid'), cartTotalPrice.textContent])});
             
             cookie.remove('order_id')
             cookie.set('order_id', checkout_result, {
@@ -603,11 +603,11 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     typeWriter();
-    cartCheckOut.addEventListener('click', () => {
-        callApi2("POST", 'http://127.0.0.1:5000/cart_out',
-            { 'data': JSON.stringify(cookie('userid')) });
-        // cartLoader()
-    });
+    // cartCheckOut.addEventListener('click', () => {
+    //     callApi2("POST", 'http://127.0.0.1:5000/cart_out',
+    //         { 'data': JSON.stringify(cookie('userid')) });
+    //     // cartLoader()
+    // });
 
     // Recommendations section animation
     const recommendationItems = document.querySelectorAll('.recommendation-item');
