@@ -106,14 +106,16 @@ document.addEventListener("DOMContentLoaded", function () {
             phone: "1"
         }
         
-        let checker = callApi2("POST", 'http://127.0.0.1:5000/checkuser', {'data': JSON.stringify(requestUser)});
+        let checker = callApi2("POST", 'http://127.0.0.1:5000/checkuser', 
+            {'data': JSON.stringify(requestUser)});
         if (checker.exists){
             hash = hex_md5(document.getElementById('password').value);
             var requestPayload = {
                 email: document.getElementById('email').value,
                 passwordhash: hash
             };
-            let login_success = callApi2("POST", 'http://127.0.0.1:5000/login', {'data': JSON.stringify(requestPayload)});
+            let login_success = callApi2("POST", 'http://127.0.0.1:5000/login', 
+                {'data': JSON.stringify(requestPayload)});
             
             if(login_success.name){
                 alert('Logged in successfully!');
