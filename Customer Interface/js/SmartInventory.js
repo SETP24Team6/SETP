@@ -1,3 +1,7 @@
+if (!cookie("employeeBool")) {
+    window.location.href = 'create-sandwich.html';
+}
+
 loader = callApi2("GET", 'http://127.0.0.1:5000/getInventory', 
     { 'data': JSON.stringify("") });
 
@@ -27,7 +31,14 @@ document.querySelectorAll('.dropdown-toggle').forEach(function (toggle) {
 });
 
 document.addEventListener('DOMContentLoaded', () => {
+    const logout = document.getElementById('logout-btn');
     
+    logout.addEventListener('click', () => {
+        cookie.remove("userid")
+        cookie.remove("username")
+        cookie.remove("employeeBool")
+        window.location.href = 'order-now.html';
+    });
     const sandwichIngred = document.getElementById('sandwichIngredients');
     const smoothieIngred = document.getElementById('smoothieIngredients');
     preamble = `

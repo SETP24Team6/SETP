@@ -1,3 +1,7 @@
+if (!cookie("employeeBool")) {
+    window.location.href = 'create-sandwich.html';
+}
+
 document.addEventListener('click', function (event) {
     var dropdowns = document.querySelectorAll('.dropdown');
     dropdowns.forEach(function (dropdown) {
@@ -23,6 +27,15 @@ document.querySelectorAll('.dropdown-toggle').forEach(function (toggle) {
 });
 
 document.addEventListener('DOMContentLoaded', () => {
+    const logout = document.getElementById('logout-btn');
+
+    logout.addEventListener('click', () => {
+        cookie.remove("userid")
+        cookie.remove("username")
+        cookie.remove("employeeBool")
+        window.location.href = 'order-now.html';
+    });
+
     const modals = {
         newOrderModal: document.getElementById('newOrderModal'),
         preparingOrderModal: document.getElementById('preparingOrderModal'),

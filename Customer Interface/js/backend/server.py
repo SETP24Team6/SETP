@@ -27,14 +27,13 @@ def checkuser():
     response = jsonify({
         'exists': exist
     })
-    print(type(response))
     response.headers.add('Access-Control-Allow-Origin', '*')
     return response
 
-@app.route('/login', methods=['POST'])
-def login():
+@app.route('/member_login', methods=['POST'])
+def member_login():
     request_payload = json.loads(request.form['data'])
-    result =  members.login(connection, request_payload)
+    result =  members.member_login(connection, request_payload)
     response = ""
     try:
         response = jsonify({
@@ -43,7 +42,23 @@ def login():
         })
     except:
         response = jsonify({
+        })
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
 
+@app.route('/employee_login', methods=['POST'])
+def employee_login():
+    request_payload = json.loads(request.form['data'])
+    result =  members.employee_login(connection, request_payload)
+    print(result)
+    response = ""
+    try:
+        response = jsonify({
+            'userid': result["employee_id"],
+            'name': result["firstname"]
+        })
+    except:
+        response = jsonify({
         })
     response.headers.add('Access-Control-Allow-Origin', '*')
     return response

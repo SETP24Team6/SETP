@@ -61,6 +61,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
     
     // cookie checker (done)
+    if (cookie("employeeBool")) {
+        window.location.href = 'Staff-OrderManagement.html';
+    }
     if (!cookie("userid")) {
         window.location.href = 'order-now.html';
     }
