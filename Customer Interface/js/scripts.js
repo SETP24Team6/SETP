@@ -131,7 +131,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 console.log(cookie('userid)'))
                 console.log(cookie('username)'))
                 console.log(cookie('type)'))
-                // window.location.href = 'create-sandwich.html';
+                window.location.href = 'create-sandwich.html';
             }else{
                 alert('Wrong Password!');
             }
@@ -152,7 +152,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     username: login_success.name,
                     type: 'staff'
                 });
-                // window.location.href = 'Staff-OrderManagement.html';
+                window.location.href = 'Staff-OrderManagement.html';
             }else{
                 alert('Wrong Password!');
             }
