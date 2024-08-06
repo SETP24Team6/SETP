@@ -1,6 +1,7 @@
-if (!cookie("employeeBool")) {
+if (cookie("type") == 'member') {
     window.location.href = 'create-sandwich.html';
 }
+
 
 document.addEventListener('click', function (event) {
     var dropdowns = document.querySelectorAll('.dropdown');

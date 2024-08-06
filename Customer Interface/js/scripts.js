@@ -119,19 +119,24 @@ document.addEventListener("DOMContentLoaded", function () {
             };
             let login_success = callApi2("POST", 'http://127.0.0.1:5000/member_login', 
                 {'data': JSON.stringify(requestPayload)});
-            
+            console.log(login_success)
             if(login_success.name){
                 alert('Logged in successfully!');
                 cookie.set({
                     userid: login_success.userid,
                     username: login_success.name,
-                    employeeBool: false
+                    type: 'member'
                 });
-                window.location.href = 'create-sandwich.html';
+                
+                console.log(cookie('userid)'))
+                console.log(cookie('username)'))
+                console.log(cookie('type)'))
+                // window.location.href = 'create-sandwich.html';
             }else{
                 alert('Wrong Password!');
             }
         }else if (checker.exists == 'employee'){
+            console.log('staff')
             hash = hex_md5(document.getElementById('password').value);
             var requestPayload = {
                 email: document.getElementById('email').value,
@@ -145,9 +150,9 @@ document.addEventListener("DOMContentLoaded", function () {
                 cookie.set({
                     userid: login_success.userid,
                     username: login_success.name,
-                    employeeBool: true
+                    type: 'staff'
                 });
-                window.location.href = 'Staff-OrderManagement.html';
+                // window.location.href = 'Staff-OrderManagement.html';
             }else{
                 alert('Wrong Password!');
             }

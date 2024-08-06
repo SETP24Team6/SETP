@@ -1,6 +1,10 @@
-if (!cookie("employeeBool")) {
+if (cookie("type") == 'member') {
     window.location.href = 'create-sandwich.html';
 }
+
+console.log(cookie('userid)'))
+console.log(cookie('username)'))
+console.log(cookie('type)'))
 
 loader = callApi2("GET", 'http://127.0.0.1:5000/getInventory', 
     { 'data': JSON.stringify("") });
