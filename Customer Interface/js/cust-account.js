@@ -2,8 +2,8 @@ document.addEventListener('DOMContentLoaded', function () {
     const accountOptions = document.querySelectorAll('.account-option');
     const sections = document.querySelectorAll('.update-profile-section, .order-history-section, .reward-points-section');
     const orderHistory = document.getElementById('order-history');
-    let populator = callApi2("POST", 'http://127.0.0.1:5000/get_5_orders', {'data': JSON.stringify(cookie("userid"))});
-    console.log(populator)
+    let populator = callApi2("POST", 'http://127.0.0.1:5000/get_5_orders', 
+        {'data': JSON.stringify(cookie("userid"))});
     if(populator){
         orderHistory.innerHTML = ""
         const orders = []
@@ -34,7 +34,27 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
     }
-    
+
+    let custProfile = callApi2("POST", 'http://127.0.0.1:5000/cust_profile', 
+        {'data': JSON.stringify(cookie("userid"))});
+    console.log(custProfile)
+    const firstName = document.getElementById('first-name');
+    const lastName = document.getElementById('last-name');
+    const email = document.getElementById('email');
+    const phone = document.getElementById('contact-no');
+    const birthday = document.getElementById('birthday');
+    firstName.value = custProfile.firstname
+    lastName.value = custProfile.lastname
+    email.value = custProfile.email
+    phone.value = custProfile.phone
+    var custBirthday=new Date(custProfile.birthday);
+    var cusMonth = parseInt(custBirthday.getMonth()+1)
+    if (cusMonth.toString().length == 1){
+        cusMonth = '0' +cusMonth.toString()
+    }
+    custBirthday = custBirthday.getFullYear() + '-' + cusMonth +'-'+custBirthday.getDate()
+    birthday.value = custBirthday
+
     const reorderButtons = document.querySelectorAll('.reorder-button');
     reorderButtons.forEach((button) => {
         button.addEventListener('click', (e) => {

@@ -145,6 +145,14 @@ def get_5_orders():
     response.headers.add('Access-Control-Allow-Origin', '*')
     return response
 
+@app.route('/cust_profile', methods=['POST'])
+def cust_profile():
+    request_payload = json.loads(request.form['data'])
+    response = custprofile.cust_profile(connection, request_payload)
+    response = jsonify(response)
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
+
 @app.route('/reorderitems', methods=['POST'])
 def reorderitems():
     request_payload = json.loads(request.form['data'])

@@ -109,3 +109,18 @@ def reorderitems(conn, order):
         cursor2.execute(query, data)
 
     return cursor.fetchone()
+
+def cust_profile(conn,member):
+    cursor = conn.cursor()
+    query = ("SELECT firstname, lastname, email, phone, birthday "
+             "from member "
+             "where member_id = %s ")
+    cursor.execute(query, member)
+    result = {}
+    for (firstname, lastname, email, phone, birthday) in cursor:
+        result["firstname"] = firstname
+        result["lastname"] = lastname
+        result["email"] = email
+        result["phone"] = phone
+        result["birthday"] = birthday
+    return result
