@@ -2,14 +2,13 @@ document.addEventListener('DOMContentLoaded', function () {
     const accountOptions = document.querySelectorAll('.account-option');
     const sections = document.querySelectorAll('.update-profile-section, .order-history-section, .reward-points-section');
     const orderHistory = document.getElementById('order-history');
-    console.log(cookie("userid"))
     let populator = callApi2("POST", 'http://127.0.0.1:5000/get_5_orders', {'data': JSON.stringify(cookie("userid"))});
     console.log(populator)
     if(populator){
         orderHistory.innerHTML = ""
         const orders = []
         $.each(populator, function(index, order) {
-            order_details = '<div class="order-item"><div>'
+            order_details = '<div class="order-item" data-choice="'+order.order_id+'"><div>'
             var t=new Date(order.order_timestamp);
             var testme = new Date(t.getTime() - (28800000))
             if (parseInt(testme.toString().slice(16,18)) < 13){
@@ -28,13 +27,25 @@ document.addEventListener('DOMContentLoaded', function () {
                     order_details += '</p>'
                 }
             }
-            order_details += '<p>$'+parseFloat(order.order_price).toFixed(2)+'</p></div>'
+            order_details += '<h2>Total: $'+parseFloat(order.order_price).toFixed(2)+'</h2></div>'
             order_details += '<div class="order-actions"><button class="reorder-button">Re-Order</button></div>'
             orderHistory.innerHTML += order_details
         })
 
 
     }
+    
+    const reorderButtons = document.querySelectorAll('.reorder-button');
+    reorderButtons.forEach((button) => {
+        button.addEventListener('click', (e) => {
+            const recommendationItem = e.target.closest('.order-item');
+            const order_id = recommendationItem.getAttribute('data-choice');
+            callApi2("POST", 'http://127.0.0.1:5000/reorderitems', 
+                { 'data': JSON.stringify([order_id, cookie('userid')]) })
+            window.location.href='create-sandwich.html'
+        });
+    });
+
     accountOptions.forEach(option => {
         option.addEventListener('click', function (event) {
             event.preventDefault();

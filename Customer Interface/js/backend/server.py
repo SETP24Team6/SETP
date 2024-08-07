@@ -2,7 +2,7 @@ from flask import Flask, request, jsonify
 from sql_connection import get_sql_connection
 import json
 
-import members, products
+import members, products, custprofile
 import members, oms, its
 
 app = Flask(__name__)
@@ -136,10 +136,19 @@ def last_checkout():
     response.headers.add('Access-Control-Allow-Origin', '*')
     return response
 
+# cust profile page apis
 @app.route('/get_5_orders', methods=['POST'])
 def get_5_orders():
     request_payload = json.loads(request.form['data'])
-    response = products.get_5_orders(connection, request_payload)
+    response = custprofile.get_5_orders(connection, request_payload)
+    response = jsonify(response)
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
+
+@app.route('/reorderitems', methods=['POST'])
+def reorderitems():
+    request_payload = json.loads(request.form['data'])
+    response = custprofile.reorderitems(connection, request_payload)
     response = jsonify(response)
     response.headers.add('Access-Control-Allow-Origin', '*')
     return response
