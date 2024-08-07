@@ -1,7 +1,40 @@
 document.addEventListener('DOMContentLoaded', function () {
     const accountOptions = document.querySelectorAll('.account-option');
     const sections = document.querySelectorAll('.update-profile-section, .order-history-section, .reward-points-section');
+    const orderHistory = document.getElementById('order-history');
+    console.log(cookie("userid"))
+    let populator = callApi2("POST", 'http://127.0.0.1:5000/get_5_orders', {'data': JSON.stringify(cookie("userid"))});
+    console.log(populator)
+    if(populator){
+        orderHistory.innerHTML = ""
+        const orders = []
+        $.each(populator, function(index, order) {
+            order_details = '<div class="order-item"><div>'
+            var t=new Date(order.order_timestamp);
+            var testme = new Date(t.getTime() - (28800000))
+            if (parseInt(testme.toString().slice(16,18)) < 13){
+                testme = testme.toString().slice(0,21) + "AM"
+            }else{
+                testme = testme.toString().slice(0,16) + (parseInt(testme.toString().slice(16,18))-12).toString() + testme.toString().slice(18,21) + "PM"
+            }
+            
+            order_details += '<h2>'+testme+'</h2>'
+            for (x in order.order_ingred){
+                for (y in order.order_ingred[x]){
+                    order_details += '<p><h3 style="margin:0px;padding:0px;">'+y+'</h3>'
+                    for (z in order.order_ingred[x][y]){
+                        order_details += order.order_ingred[x][y][z]+'<br>'
+                    }
+                    order_details += '</p>'
+                }
+            }
+            order_details += '<p>$'+parseFloat(order.order_price).toFixed(2)+'</p></div>'
+            order_details += '<div class="order-actions"><button class="reorder-button">Re-Order</button></div>'
+            orderHistory.innerHTML += order_details
+        })
 
+
+    }
     accountOptions.forEach(option => {
         option.addEventListener('click', function (event) {
             event.preventDefault();

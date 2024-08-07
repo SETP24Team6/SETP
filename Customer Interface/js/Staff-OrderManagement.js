@@ -46,7 +46,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function populateFields(){
         let populator = callApi2("GET", 'http://127.0.0.1:5000/get_all_orders', {'data': JSON.stringify("")});
-        
         if(populator){
             const orders = {preparing:"", ready:"", completed:""}
             $.each(populator, function(index, order) {
