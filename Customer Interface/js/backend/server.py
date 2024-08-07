@@ -161,6 +161,14 @@ def reorderitems():
     response.headers.add('Access-Control-Allow-Origin', '*')
     return response
 
+@app.route('/update_cust_profile', methods=['POST'])
+def update_cust_profile():
+    request_payload = json.loads(request.form['data'])
+    response = custprofile.update_cust_profile(connection, request_payload)
+    response = jsonify(response)
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
+
     
 # OMS page apis
 @app.route('/get_all_orders', methods=['GET'])

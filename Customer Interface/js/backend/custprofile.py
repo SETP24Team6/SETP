@@ -124,3 +124,11 @@ def cust_profile(conn,member):
         result["phone"] = phone
         result["birthday"] = birthday
     return result
+
+def update_cust_profile(conn,member):
+    cursor = conn.cursor()
+    query = ("UPDATE member SET firstname = %s, lastname = %s "
+             "where member_id = %s ")
+    cursor.execute(query, member)
+
+    return cursor.lastrowid

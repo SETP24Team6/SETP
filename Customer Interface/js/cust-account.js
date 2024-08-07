@@ -37,7 +37,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
     let custProfile = callApi2("POST", 'http://127.0.0.1:5000/cust_profile', 
         {'data': JSON.stringify(cookie("userid"))});
-    console.log(custProfile)
     const firstName = document.getElementById('first-name');
     const lastName = document.getElementById('last-name');
     const email = document.getElementById('email');
@@ -54,6 +53,13 @@ document.addEventListener('DOMContentLoaded', function () {
     }
     custBirthday = custBirthday.getFullYear() + '-' + cusMonth +'-'+custBirthday.getDate()
     birthday.value = custBirthday
+    
+    const updateCustProf = document.getElementById('update-profile-btn');
+    updateCustProf.addEventListener('click', () => {
+        callApi2("POST", 'http://127.0.0.1:5000/update_cust_profile', 
+            {'data': JSON.stringify([firstName.value, lastName.value, cookie("userid")])});
+            window.location.href='cust-account.html'
+    });
 
     const reorderButtons = document.querySelectorAll('.reorder-button');
     reorderButtons.forEach((button) => {
@@ -65,6 +71,7 @@ document.addEventListener('DOMContentLoaded', function () {
             window.location.href='create-sandwich.html'
         });
     });
+
 
     accountOptions.forEach(option => {
         option.addEventListener('click', function (event) {
