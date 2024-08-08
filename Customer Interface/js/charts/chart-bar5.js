@@ -28,17 +28,17 @@ function number_format(number, decimals, dec_point, thousands_sep) {
 }
 
 // Bar Chart Example
-var ctx = document.getElementById("myBarChart2");
+var ctx = document.getElementById("myBarChart5");
 var myBarChart = new Chart(ctx, {
   type: 'bar',
   data: {
-    labels: ["11","12","13","14","15","16","17","18","19","20","21"],
+    labels: ["1-3 item","4-6 item","7-9 item","10-12 item","13-15 item"],
     datasets: [{
-      label: "Hourly Sales",
+      label: "Average preparation",
       backgroundColor: "#4e73df",
       hoverBackgroundColor: "#2e59d9",
       borderColor: "#4e73df",
-      data: [245,567,789,530,356,480,410,526,321,234,122],
+      data: [7,12,17,22,27],
     }],
   },
   options: {
@@ -54,24 +54,24 @@ var myBarChart = new Chart(ctx, {
     scales: {
       xAxes: [{
         time: {
-          unit: 'dollars'
+          unit: 'month'
         },
         gridLines: {
           display: false,
           drawBorder: false
         },
         ticks: {
-          maxTicksLimit: 6
+          maxTicksLimit: 5
         },
         maxBarThickness: 25,
       }],
       yAxes: [{
         ticks: {
           min: 0,
-          max: 1500,
+          max: 50,
           maxTicksLimit: 5,
           padding: 5,
-          // Include a dollar sign in the ticks
+          
           callback: function(value, index, values) {
             return '$' + number_format(value);
           }

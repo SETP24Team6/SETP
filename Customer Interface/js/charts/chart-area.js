@@ -3,8 +3,6 @@ Chart.defaults.global.defaultFontFamily = 'Nunito', '-apple-system,system-ui,Bli
 Chart.defaults.global.defaultFontColor = '#858796';
 
 function number_format(number, decimals, dec_point, thousands_sep) {
-  // *     example: number_format(1234.56, 2, ',', ' ');
-  // *     return: '1 234,56'
   number = (number + '').replace(',', '').replace(' ', '');
   var n = !isFinite(+number) ? 0 : +number,
     prec = !isFinite(+decimals) ? 0 : Math.abs(decimals),
@@ -15,7 +13,6 @@ function number_format(number, decimals, dec_point, thousands_sep) {
       var k = Math.pow(10, prec);
       return '' + Math.round(n * k) / k;
     };
-  // Fix for IE parseFloat(0.55).toFixed(0) = 0;
   s = (prec ? toFixedFix(n, prec) : '' + Math.round(n)).split('.');
   if (s[0].length > 3) {
     s[0] = s[0].replace(/\B(?=(?:\d{3})+(?!\d))/g, sep);
@@ -32,24 +29,40 @@ var ctx = document.getElementById("myAreaChart");
 var myLineChart = new Chart(ctx, {
   type: 'line',
   data: {
-    labels: ["18-25","26-35","36-45","46-55","56-65"],
-    datasets: [{
-      label: "Earnings",
-      lineTension: 0.3,
-      backgroundColor: "rgba(78, 115, 223, 0.05)",
-      borderColor: "rgba(78, 115, 223, 1)",
-      pointRadius: 3,
-      pointBackgroundColor: "rgba(78, 115, 223, 1)",
-      pointBorderColor: "rgba(78, 115, 223, 1)",
-      pointHoverRadius: 3,
-      pointHoverBackgroundColor: "rgba(78, 115, 223, 1)",
-      pointHoverBorderColor: "rgba(78, 115, 223, 1)",
-      pointHitRadius: 10,
-      pointBorderWidth: 2,
-      data: [5000, 15000, 30000, 20000, 15000],
-    }],
+    labels: ["Jan","Feb", "Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],
+    datasets: [
+      {
+        label: "2023",
+        lineTension: 0.3,
+        backgroundColor: "rgba(78, 115, 223, 0.05)",
+        borderColor: "rgba(78, 115, 223, 1)",
+        pointRadius: 3,
+        pointBackgroundColor: "rgba(78, 115, 223, 1)",
+        pointBorderColor: "rgba(78, 115, 223, 1)",
+        pointHoverRadius: 3,
+        pointHoverBackgroundColor: "rgba(78, 115, 223, 1)",
+        pointHoverBorderColor: "rgba(78, 115, 223, 1)",
+        pointHitRadius: 10,
+        pointBorderWidth: 2,
+        data: [14056, 16905,19984,18998,16009,17090,15099,19945,18910,19119,17899,14909],
+      },
+      {
+        label: "2024", // New dataset for Expenses
+        lineTension: 0.3,
+        backgroundColor: "rgba(255, 99, 132, 0.05)",
+        borderColor: "rgba(255, 99, 132, 1)",
+        pointRadius: 3,
+        pointBackgroundColor: "rgba(255, 99, 132, 1)",
+        pointBorderColor: "rgba(255, 99, 132, 1)",
+        pointHoverRadius: 3,
+        pointHoverBackgroundColor: "rgba(255, 99, 132, 1)",
+        pointHoverBorderColor: "rgba(255, 99, 132, 1)",
+        pointHitRadius: 10,
+        pointBorderWidth: 2,
+        data: [12056, 18905,17984,20998,18009,15090,16099,17945], // Data for the new dataset
+      }
+    ],
   },
-  
   options: {
     maintainAspectRatio: false,
     layout: {
@@ -63,21 +76,20 @@ var myLineChart = new Chart(ctx, {
     scales: {
       xAxes: [{
         time: {
-          unit: 'date'
+          unit: 'month'
         },
         gridLines: {
           display: false,
           drawBorder: false
         },
         ticks: {
-          maxTicksLimit: 7
+          maxTicksLimit: 12
         }
       }],
       yAxes: [{
         ticks: {
           maxTicksLimit: 5,
           padding: 10,
-          // Include a dollar sign in the ticks
           callback: function(value, index, values) {
             return '$' + number_format(value);
           }
@@ -92,7 +104,7 @@ var myLineChart = new Chart(ctx, {
       }],
     },
     legend: {
-      display: false
+      display: true // Set to true to show legend
     },
     tooltips: {
       backgroundColor: "rgb(255,255,255)",
@@ -104,7 +116,7 @@ var myLineChart = new Chart(ctx, {
       borderWidth: 1,
       xPadding: 15,
       yPadding: 15,
-      displayColors: false,
+      displayColors: true,
       intersect: false,
       mode: 'index',
       caretPadding: 10,

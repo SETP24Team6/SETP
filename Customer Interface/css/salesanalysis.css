@@ -5,6 +5,62 @@ body {
     padding: 0;
     background-color: #f8f9fc;
 }
+nav {
+    top: 0;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    padding: 10px 20px; 
+    box-sizing: border-box;
+}
+
+nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+nav ul li {
+    margin: 0 10px;
+}
+
+nav ul li a {
+    color: white;
+    text-decoration: none;
+    padding: 15px;
+    display: block;
+    text-transform: uppercase;
+    transition: background-color 0.3s;
+}
+
+nav ul li a:hover {
+    background-color: rgba(0, 255, 255, 0.5);
+}
+
+nav .nav-items {
+    display: flex;
+    flex-grow: 1;
+    justify-content: center;
+}
+
+nav .staff-view {
+    margin-left: auto;
+    margin-right: 30px;
+}
+
+nav .staff-view b {
+    color: white;
+    text-transform: uppercase;
+    font-weight: bold;
+    padding: 15px;
+    display: block;
+}
+
 
 #page-top {
     display: flex;
@@ -34,9 +90,18 @@ body {
 
 /* Header */
 h1 {
-    font-size: 2rem;
-    color: #4e73df;
-    margin-bottom: 1rem;
+    color: #fff;
+    text-align: center;
+    font-size: 2.5em;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 20px 0;
+    background: linear-gradient(135deg, #17a2b8, #138496);
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin: 20px 0;
+    position: relative;
+    overflow: hidden;
 }
 
 /* Horizontal Line */
@@ -79,6 +144,8 @@ hr {
 .earnings-monthly {
     border-left-color: #36b9cc; /* Blue for monthly earnings */
 }
+
+
 
 /* Footer */
 .sticky-footer {

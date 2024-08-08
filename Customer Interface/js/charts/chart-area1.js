@@ -3,8 +3,6 @@ Chart.defaults.global.defaultFontFamily = 'Nunito', '-apple-system,system-ui,Bli
 Chart.defaults.global.defaultFontColor = '#858796';
 
 function number_format(number, decimals, dec_point, thousands_sep) {
-  // *     example: number_format(1234.56, 2, ',', ' ');
-  // *     return: '1 234,56'
   number = (number + '').replace(',', '').replace(' ', '');
   var n = !isFinite(+number) ? 0 : +number,
     prec = !isFinite(+decimals) ? 0 : Math.abs(decimals),
@@ -15,7 +13,6 @@ function number_format(number, decimals, dec_point, thousands_sep) {
       var k = Math.pow(10, prec);
       return '' + Math.round(n * k) / k;
     };
-  // Fix for IE parseFloat(0.55).toFixed(0) = 0;
   s = (prec ? toFixedFix(n, prec) : '' + Math.round(n)).split('.');
   if (s[0].length > 3) {
     s[0] = s[0].replace(/\B(?=(?:\d{3})+(?!\d))/g, sep);
@@ -27,19 +24,44 @@ function number_format(number, decimals, dec_point, thousands_sep) {
   return s.join(dec);
 }
 
-// Bar Chart Example
-var ctx = document.getElementById("myBarChart2");
-var myBarChart = new Chart(ctx, {
-  type: 'bar',
+// Area Chart Example
+var ctx = document.getElementById("myAreaChart1");
+var myLineChart = new Chart(ctx, {
+  type: 'line',
   data: {
-    labels: ["11","12","13","14","15","16","17","18","19","20","21"],
-    datasets: [{
-      label: "Hourly Sales",
-      backgroundColor: "#4e73df",
-      hoverBackgroundColor: "#2e59d9",
-      borderColor: "#4e73df",
-      data: [245,567,789,530,356,480,410,526,321,234,122],
-    }],
+    labels: ["1st Qtr","2nd Qtr", "3rd Qtr","4th Qtr"],
+    datasets: [
+      {
+        label: "2023",
+        lineTension: 0.3,
+        backgroundColor: "rgba(78, 115, 223, 0.05)",
+        borderColor: "rgba(78, 115, 223, 1)",
+        pointRadius: 3,
+        pointBackgroundColor: "rgba(78, 115, 223, 1)",
+        pointBorderColor: "rgba(78, 115, 223, 1)",
+        pointHoverRadius: 3,
+        pointHoverBackgroundColor: "rgba(78, 115, 223, 1)",
+        pointHoverBorderColor: "rgba(78, 115, 223, 1)",
+        pointHitRadius: 10,
+        pointBorderWidth: 2,
+        data: [50945,52097,53954,51927],
+      },
+      {
+        label: "2024", // New dataset for Expenses
+        lineTension: 0.3,
+        backgroundColor: "rgba(255, 99, 132, 0.05)",
+        borderColor: "rgba(255, 99, 132, 1)",
+        pointRadius: 3,
+        pointBackgroundColor: "rgba(255, 99, 132, 1)",
+        pointBorderColor: "rgba(255, 99, 132, 1)",
+        pointHoverRadius: 3,
+        pointHoverBackgroundColor: "rgba(255, 99, 132, 1)",
+        pointHoverBorderColor: "rgba(255, 99, 132, 1)",
+        pointHitRadius: 10,
+        pointBorderWidth: 2,
+        data: [48945,54091], // Data for the new dataset
+      }
+    ],
   },
   options: {
     maintainAspectRatio: false,
@@ -54,24 +76,20 @@ var myBarChart = new Chart(ctx, {
     scales: {
       xAxes: [{
         time: {
-          unit: 'dollars'
+          unit: 'quarterly'
         },
         gridLines: {
           display: false,
           drawBorder: false
         },
         ticks: {
-          maxTicksLimit: 6
-        },
-        maxBarThickness: 25,
+          maxTicksLimit: 4
+        }
       }],
       yAxes: [{
         ticks: {
-          min: 0,
-          max: 1500,
           maxTicksLimit: 5,
-          padding: 5,
-          // Include a dollar sign in the ticks
+          padding: 10,
           callback: function(value, index, values) {
             return '$' + number_format(value);
           }
@@ -86,19 +104,21 @@ var myBarChart = new Chart(ctx, {
       }],
     },
     legend: {
-      display: false
+      display: true // Set to true to show legend
     },
     tooltips: {
+      backgroundColor: "rgb(255,255,255)",
+      bodyFontColor: "#0x555555",
       titleMarginBottom: 10,
       titleFontColor: '#6e707e',
       titleFontSize: 14,
-      backgroundColor: "rgb(255,255,255)",
-      bodyFontColor: "#858796",
       borderColor: '#dddfeb',
       borderWidth: 1,
       xPadding: 15,
       yPadding: 15,
-      displayColors: false,
+      displayColors: true,
+      intersect: false,
+      mode: 'index',
       caretPadding: 10,
       callbacks: {
         label: function(tooltipItem, chart) {
@@ -106,6 +126,6 @@ var myBarChart = new Chart(ctx, {
           return datasetLabel + ': $' + number_format(tooltipItem.yLabel);
         }
       }
-    },
+    }
   }
 });

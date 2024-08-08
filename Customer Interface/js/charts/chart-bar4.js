@@ -3,8 +3,6 @@ Chart.defaults.global.defaultFontFamily = 'Nunito', '-apple-system,system-ui,Bli
 Chart.defaults.global.defaultFontColor = '#858796';
 
 function number_format(number, decimals, dec_point, thousands_sep) {
-  // *     example: number_format(1234.56, 2, ',', ' ');
-  // *     return: '1 234,56'
   number = (number + '').replace(',', '').replace(' ', '');
   var n = !isFinite(+number) ? 0 : +number,
     prec = !isFinite(+decimals) ? 0 : Math.abs(decimals),
@@ -15,7 +13,6 @@ function number_format(number, decimals, dec_point, thousands_sep) {
       var k = Math.pow(10, prec);
       return '' + Math.round(n * k) / k;
     };
-  // Fix for IE parseFloat(0.55).toFixed(0) = 0;
   s = (prec ? toFixedFix(n, prec) : '' + Math.round(n)).split('.');
   if (s[0].length > 3) {
     s[0] = s[0].replace(/\B(?=(?:\d{3})+(?!\d))/g, sep);
@@ -28,62 +25,59 @@ function number_format(number, decimals, dec_point, thousands_sep) {
 }
 
 // Bar Chart Example
-var ctx = document.getElementById("myBarChart2");
+var ctx = document.getElementById("myBarChart4").getContext("2d");
 var myBarChart = new Chart(ctx, {
-  type: 'bar',
+  type: 'horizontalBar',
   data: {
-    labels: ["11","12","13","14","15","16","17","18","19","20","21"],
+    labels: ["Banana","Strawberry","Mango"],
     datasets: [{
-      label: "Hourly Sales",
+      label: "Items",
       backgroundColor: "#4e73df",
       hoverBackgroundColor: "#2e59d9",
       borderColor: "#4e73df",
-      data: [245,567,789,530,356,480,410,526,321,234,122],
+      data: [450,478,367],
+      maxBarThickness: 25 // Set maxBarThickness here
     }],
   },
   options: {
+    indexAxis: 'y',  // This makes the bars horizontal
     maintainAspectRatio: false,
     layout: {
       padding: {
-        left: 10,
+        left: 5,
         right: 25,
-        top: 25,
+        top:0,
         bottom: 0
       }
     },
     scales: {
-      xAxes: [{
-        time: {
-          unit: 'dollars'
-        },
-        gridLines: {
-          display: false,
-          drawBorder: false
-        },
-        ticks: {
-          maxTicksLimit: 6
-        },
-        maxBarThickness: 25,
-      }],
-      yAxes: [{
+      x: {
         ticks: {
           min: 0,
-          max: 1500,
+          max: 250,
           maxTicksLimit: 5,
-          padding: 5,
-          // Include a dollar sign in the ticks
+          padding: 10,
           callback: function(value, index, values) {
-            return '$' + number_format(value);
+            return number_format(value);
           }
         },
-        gridLines: {
+        grid: {
           color: "rgb(234, 236, 244)",
           zeroLineColor: "rgb(234, 236, 244)",
           drawBorder: false,
           borderDash: [2],
           zeroLineBorderDash: [2]
         }
-      }],
+      },
+      y: {
+        grid: {
+          display: false,
+          drawBorder: false
+        },
+        ticks: {
+          maxTicksLimit: 5
+        }
+      }
     },
     legend: {
       display: false
@@ -103,7 +97,7 @@ var myBarChart = new Chart(ctx, {
       callbacks: {
         label: function(tooltipItem, chart) {
           var datasetLabel = chart.datasets[tooltipItem.datasetIndex].label || '';
-          return datasetLabel + ': $' + number_format(tooltipItem.yLabel);
+          return datasetLabel + ': ' + number_format(tooltipItem.raw);
         }
       }
     },

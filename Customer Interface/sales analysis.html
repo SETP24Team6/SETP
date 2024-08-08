@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Business overview page showing yearly and monthly earnings.">
     <meta name="keywords" content="business, overview, earnings, financials">
-    <title>Bite & Delight</title>
+    <title>Sales Analytics - Bite & Delight</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="stylesheet" href="css/salesanalysis.css">
 </head>
@@ -15,7 +15,17 @@
 
 <body id="page-top">
    
-
+    <nav>
+        <div class="nav-items">
+            <ul>
+                <li><a href="#home">HOME</a></li>
+                <li><a href="SmartInventory.html">Inventory</a></li>
+                <li><a href="Staff-OrderManagement.html">Manage Orders (OMS)</a></li>
+                <li><a href="#contact">CONTACT</a></li>
+            </ul>
+        </div>
+    
+    </nav>
     <!-- Page Wrapper -->
     <div id="wrapper">
 
@@ -82,23 +92,41 @@
                     <hr>
                     <div class="row">
                         
+                       
+
                         <!-- Area Chart -->
                         <div class="col-xl-4 col-md-4 mb-4">
                             <div class="card shadow mb-4">
                                 <div 
                                 class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                <h3 class="m-0 font-weight-bold text-primary">Year On Year Revenue</h3>
+                                <h3 class="m-0 font-weight-bold text-primary">Current Year Revenue</h3>
                                 </div>
                                
                                 <!-- Card Body -->
                                 <div class="card-body">
                                     <div class="chart-area">
-                                        <canvas id="myBarChart" height="200" width="300"></canvas>
+                                        <canvas id="myBarChart" height="200" width="1150"></canvas>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
+                              <!-- Area Chart -->
+                              <div class="col-xl-4 col-md-4 mb-4">
+                                <div class="card shadow mb-4">
+                                    <div 
+                                    class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                    <h3 class="m-0 font-weight-bold text-primary">Hourly Sales</h3>
+                                    </div>
+                                    <!-- Card Body -->
+                                    <div class="card-body">
+                                        <div class="chart-area">
+                                            <canvas id="myBarChart2" height="470" width="500"></canvas>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        <vr>
                          <!-- Area Chart -->
                         <div class="col-xl-4 col-md-4 mb-4">
                             <div class="card shadow mb-4">
@@ -109,65 +137,65 @@
                                 <!-- Card Body -->
                                 <div class="card-body">
                                     <div class="chart-area">
-                                        <canvas id="myBarChart1" height="200" width="300"></canvas>
+                                        <canvas id="myAreaChart" height="180" width="550"></canvas>
                                     </div>
                                 </div>
                             </div>
                         </div>
+
+                            <!-- Area Chart -->
+                            <div class="col-xl-4 col-md-4 mb-4">
+                                <div class="card shadow mb-4">
+                                    <div 
+                                    class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                    <h3 class="m-0 font-weight-bold text-primary">Qtr on Qtr Revenue</h3>
+                                    </div>
+                                    <!-- Card Body -->
+                                    <div class="card-body">
+                                        <div class="chart-area">
+                                            <canvas id="myAreaChart1" height="180" width="550"></canvas>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                       
-                         <!-- Area Chart -->
-                        <div class="col-xl-4 col-md-4 mb-4">
-                            <div class="card shadow mb-4">
-                                <div 
-                                class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                <h3 class="m-0 font-weight-bold text-primary">Hourly Sales</h3>
-                                </div>
-                                <!-- Card Body -->
-                                <div class="card-body">
-                                    <div class="chart-area">
-                                        <canvas id="myBarChart2" height="200" width="300"></canvas>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                   
                     </div>
 
                     <h1>CUSTOMER</h1>
                     <hr>
                     <div class="row">
 
-                             <!-- Pie Chart -->
+                             <!-- Bar Chart -->
                             <div class="col-xl-4 col-md-4 mb-4">
                                 <div class="card shadow mb-4">
                                     <div
                                         class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                        <h3 class="m-0 font-weight-bold text-primary">Top Selling Bread</h3>
+                                        <h3 class="m-0 font-weight-bold text-primary">Top 10 Favorite Ingredients</h3>
                                     </div>
 
                                     <!-- Card Body -->
                                     <div class="card-body">
                                         <div class="chart-area">
-                                            <canvas id="myPieChart" height="200" width="300"></canvas>
+                                            <canvas id="myBarChart3" height="300" width="500"></canvas>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                                                      
-                        
-                        
-
-                              <!-- Pie Chart -->
+                
+                              <!-- Bar Chart -->
                             <div class="col-xl-4 col-md-4 mb-4">
                                 <div class="card shadow mb-4">
                                     <div
                                         class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                        <h3 class="m-0 font-weight-bold text-primary">Top Selling Protein</h3>
+                                        <h3 class="m-0 font-weight-bold text-primary">Top 3 Smootheis</h3>
                                     </div>
 
                                     <!-- Card Body -->
                                     <div class="card-body">
                                         <div class="chart-area">
-                                            <canvas id="myPieChart1" height="200" width="300"></canvas>
+                                            <canvas id="myBarChart4" height="300" width="500"></canvas>
                                         </div>
                                     </div>
                                 </div>
@@ -186,7 +214,29 @@
                                     <!-- Card Body -->
                                     <div class="card-body">
                                         <div class="chart-area">
-                                             <canvas id="myAreaChart" height="200" width="300"></canvas>
+                                             <canvas id="myAreaChart2" height="300" width="500"></canvas>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                    </div>
+
+                    <h1>Staff</h1>
+                    <hr>
+                    <vr>
+                    <div class="row">
+                            <!-- Area Chart -->
+                            <div class="col-xl-4 col-md-4 mb-4">
+                                <div class="card shadow mb-4">
+                                    <div 
+                                    class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                    <h3 class="m-0 font-weight-bold text-primary">Average Preparation Time</h3>
+                                    </div>
+                                    <!-- Card Body -->
+                                    <div class="card-body">
+                                        <div class="chart-area">
+                                            <canvas id="myBarChart5" height="300" width="300"></canvas>
                                         </div>
                                     </div>
                                 </div>
@@ -229,9 +279,13 @@
     <script src="js/charts/chart-bar.js"></script>
     <script src="js/charts/chart-bar1.js"></script>
     <script src="js/charts/chart-bar2.js"></script>
-    <script src="js/charts/chart-pie.js"></script>
+    <script src="js/charts/chart-bar3.js"></script>
+    <script src="js/charts/chart-bar4.js"></script>
+    <script src="js/charts/chart-bar5.js"></script>
     <script src="js/charts/chart-pie1.js"></script>
     <script src="js/charts/chart-area.js"></script>
+    <script src="js/charts/chart-area1.js"></script>
+    <script src="js/charts/chart-area2.js"></script>
 
 </body>
 
