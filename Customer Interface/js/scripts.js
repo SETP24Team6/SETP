@@ -15,6 +15,9 @@ document.addEventListener("DOMContentLoaded", function () {
     const signupTitle = document.getElementById('signup-title');
     const forgotPasswordTitle = document.getElementById('forgot-password-title');
 	
+    if (cookie("employeeBool")) {
+        window.location.href = 'Staff-OrderManagement.html';
+    }
     if (cookie("userid")){
         window.location.href = 'create-sandwich.html';
     }
@@ -105,23 +108,51 @@ document.addEventListener("DOMContentLoaded", function () {
             email: document.getElementById('email').value,
             phone: "1"
         }
-        
-        let checker = callApi2("POST", 'http://127.0.0.1:5000/checkuser', {'data': JSON.stringify(requestUser)});
-        if (checker.exists){
+        let checker = callApi2("POST", 'http://127.0.0.1:5000/checkuser', 
+            {'data': JSON.stringify(requestUser)});
+            
+        if (checker.exists == 'member'){
             hash = hex_md5(document.getElementById('password').value);
             var requestPayload = {
                 email: document.getElementById('email').value,
                 passwordhash: hash
             };
-            let login_success = callApi2("POST", 'http://127.0.0.1:5000/login', {'data': JSON.stringify(requestPayload)});
+            let login_success = callApi2("POST", 'http://127.0.0.1:5000/member_login', 
+                {'data': JSON.stringify(requestPayload)});
+            console.log(login_success)
+            if(login_success.name){
+                alert('Logged in successfully!');
+                cookie.set({
+                    userid: login_success.userid,
+                    username: login_success.name,
+                    type: 'member'
+                });
+                
+                console.log(cookie('userid)'))
+                console.log(cookie('username)'))
+                console.log(cookie('type)'))
+                window.location.href = 'create-sandwich.html';
+            }else{
+                alert('Wrong Password!');
+            }
+        }else if (checker.exists == 'employee'){
+            console.log('staff')
+            hash = hex_md5(document.getElementById('password').value);
+            var requestPayload = {
+                email: document.getElementById('email').value,
+                passwordhash: hash
+            };
+            let login_success = callApi2("POST", 'http://127.0.0.1:5000/employee_login', 
+                {'data': JSON.stringify(requestPayload)});
             
             if(login_success.name){
                 alert('Logged in successfully!');
                 cookie.set({
                     userid: login_success.userid,
-                    username: login_success.name
+                    username: login_success.name,
+                    type: 'staff'
                 });
-                window.location.href = 'create-sandwich.html';
+                window.location.href = 'Staff-OrderManagement.html';
             }else{
                 alert('Wrong Password!');
             }

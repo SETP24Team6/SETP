@@ -1,3 +1,8 @@
+if (cookie("type") == 'member') {
+    window.location.href = 'create-sandwich.html';
+}
+
+
 document.addEventListener('click', function (event) {
     var dropdowns = document.querySelectorAll('.dropdown');
     dropdowns.forEach(function (dropdown) {
@@ -23,6 +28,15 @@ document.querySelectorAll('.dropdown-toggle').forEach(function (toggle) {
 });
 
 document.addEventListener('DOMContentLoaded', () => {
+    const logout = document.getElementById('logout-btn');
+
+    logout.addEventListener('click', () => {
+        cookie.remove("userid")
+        cookie.remove("username")
+        cookie.remove("employeeBool")
+        window.location.href = 'order-now.html';
+    });
+
     const modals = {
         newOrderModal: document.getElementById('newOrderModal'),
         preparingOrderModal: document.getElementById('preparingOrderModal'),
@@ -32,7 +46,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function populateFields(){
         let populator = callApi2("GET", 'http://127.0.0.1:5000/get_all_orders', {'data': JSON.stringify("")});
-        
         if(populator){
             const orders = {preparing:"", ready:"", completed:""}
             $.each(populator, function(index, order) {
@@ -51,7 +64,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 orders[order.order_status] += '<td>'+order.firstName+'</td>'
                 orders[order.order_status] += '<td>'+order.order_timestamp.substring(5,22)+'</td>'
                 orders[order.order_status] += '<td>'+order.store_name+'</td>'
-                orders[order.order_status] += '<td> FREE </td>'
+                orders[order.order_status] += '<td> $'+parseFloat(order.order_price).toFixed(2)+' </td>'
                 switch(order.order_status) {
                     case 'preparing':
                         orders[order.order_status] += '<td><button class="ready">Ready!</button></td>'
@@ -72,6 +85,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 filler.innerHTML = orders[x] 
             };
             setTimeout(populateFields, 60000)
+        }else{
+            
         }
         $(".ready").click(function () {
             var $row = $(this).closest("tr");

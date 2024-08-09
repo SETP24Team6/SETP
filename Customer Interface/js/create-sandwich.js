@@ -1,3 +1,10 @@
+if (cookie("type") == 'staff') {
+    window.location.href = 'Staff-OrderManagement.html';
+}
+if (!cookie("userid")) {
+    window.location.href = 'order-now.html';
+}
+
 document.addEventListener('DOMContentLoaded', function () {
     const sandwichOption = document.getElementById('sandwich-option');
     const smoothieOption = document.getElementById('smoothie-option');
@@ -61,10 +68,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     
     // cookie checker (done)
-    if (!cookie("userid")) {
-        window.location.href = 'order-now.html';
-    }
-
+    
     let cart = {};
     let currentStep = -1;
     let selectedChoices = {
@@ -92,6 +96,7 @@ document.addEventListener('DOMContentLoaded', function () {
     logout.addEventListener('click', () => {
         cookie.remove("userid")
         cookie.remove("username")
+        cookie.remove("type")
         window.location.href = 'order-now.html';
     });
 
