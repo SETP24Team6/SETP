@@ -105,8 +105,8 @@ def reorderitems(conn, order):
             query = ("INSERT INTO item_ingredients "
                     "(products_id, item_id)"
                     "VALUES (%s, %s)")
-        data = (x, item_id)
-        cursor2.execute(query, data)
+            data = (x, item_id)
+            cursor2.execute(query, data)
 
     return cursor.fetchone()
 
