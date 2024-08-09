@@ -1,0 +1,324 @@
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow-x: hidden; /* Prevent horizontal overflow */
+    background-image: url('../asset/sandwich.jpg'); /* Ensure correct path */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+/* Reset some default styles */
+body, h1, h2, h3, p, ul, li, a {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    text-decoration: none;
+    color: inherit;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+}
+
+/* Navigation */
+nav {
+    top: 0;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    padding: 10px 20px; 
+    box-sizing: border-box;
+}
+
+nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+nav ul li {
+    margin: 0 10px;
+}
+
+nav ul li a {
+    color: white;
+    text-decoration: none;
+    padding: 15px;
+    display: block;
+    text-transform: uppercase;
+    transition: background-color 0.3s;
+}
+
+nav ul li a:hover {
+    background-color: rgba(0, 255, 255, 0.5);
+}
+
+nav .nav-items {
+    display: flex;
+    flex-grow: 1;
+    justify-content: center;
+}
+
+nav .dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-toggle {
+    color: white;
+    text-decoration: none;
+    padding: 15px;
+    display: block;
+    text-transform: uppercase;
+    transition: background-color 0.3s;
+    font-weight: bold;
+}
+
+.dropdown-toggle:hover {
+    background-color: rgba(0, 255, 255, 0.5);
+}
+
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: #333;
+    min-width: 160px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s, visibility 0.3s;
+}
+
+.dropdown-menu li {
+    list-style: none;
+}
+
+.dropdown-menu li a {
+    color: white;
+    padding: 12px 16px;
+    display: block;
+    text-decoration: none;
+    transition: background-color 0.3s;
+}
+
+.dropdown-menu li a:hover {
+    background-color: rgba(0, 255, 255, 0.3);
+}
+
+.dropdown:hover .dropdown-menu {
+    display: block;
+    opacity: 1;
+    visibility: visible;
+}
+
+.logout-btn {
+    color: white;
+    font-weight: bold;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+/* Container */
+.container {
+    width: 100%;
+    height: auto; /* Ensure the height adjusts to the content */
+    margin: 0;
+    padding: 20px;
+    background: none; /* Ensure no background is set here */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Form Box */
+.form-box {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    padding: 20px;
+    max-width: 600px; /* Ensure it doesn't exceed the page width */
+    width: 100%;
+}
+
+/* General Form Styles */
+.signup-form, .forgot-password-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+/* Form Title Container */
+.form-title-container {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.signup-form h2, .forgot-password-form h2 {
+    font-size: 24px;
+    margin: 0;
+}
+
+/* Form Row Styles */
+.form-row {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 15px;
+    width: 100%;
+}
+
+.form-row label {
+    margin-bottom: 5px;
+    font-weight: bold;
+    text-align: left;
+    width: 100%;
+}
+
+/* Input Styles */
+
+.signup-form input[type="text"],
+.signup-form input[type="email"],
+.signup-form input[type="password"],
+.forgot-password-form input[type="text"],
+.forgot-password-form input[type="password"],
+.forgot-password-form input[type="email"] {
+    width: 100%;
+    max-width: 500px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+
+
+/* Button Styles */
+
+.signup-form button.submit-button,
+.forgot-password-form button.submit-button {
+    background-color: #007bff;
+    color: #fff;
+    border: 1px solid #007bff;
+    border-radius: 4px;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 16px;
+    text-align: center;
+    display: inline-block;
+    margin-top: 20px;
+}
+
+/* Ensure the form-row containing the button is centered */
+
+.signup-form .form-row:last-child,
+.forgot-password-form .form-row:last-child {
+    margin-top: 20px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+/* Link Styles */
+.link-container {
+    margin-top: 15px;
+    text-align: center;
+}
+
+
+.signup-form button.switch-button,
+.signup-form button.forgot-password,
+.forgot-password-form button.switch-button,
+.forgot-password-form button.forgot-password {
+    background: none;
+    border: none;
+    color: #007bff;
+    cursor: pointer;
+    font-size: 16px;
+    text-decoration: underline;
+    margin: 5px 0;
+}
+
+
+.signup-form button.switch-button:hover,
+.signup-form button.forgot-password:hover,
+.forgot-password-form button.switch-button:hover,
+.forgot-password-form button.forgot-password:hover {
+    color: #0056b3;
+    text-decoration: none;
+}
+
+/* Footer */
+footer {
+    background: #111;
+    color: white;
+    padding: 20px 0;
+    text-align: center;
+}
+
+.footer-content h3 {
+    margin: 0;
+    padding-bottom: 10px;
+}
+
+.footer-links {
+    list-style: none;
+    padding: 0;
+}
+
+.footer-links li {
+    display: inline;
+    margin: 0 15px;
+}
+
+.footer-links a {
+    color: white;
+    text-decoration: none;
+    text-transform: uppercase;
+    font-size: 14px;
+}
+
+.social-media a {
+    margin: 0 10px;
+    display: inline-block;
+}
+
+.social-media img {
+    width: 20px;
+    height: 20px;
+}
+
+.footer-bottom {
+    padding-top: 10px;
+    font-size: 12px;
+}
+
+.footer-bottom span {
+    color: red;
+}
+
+.footer-bottom a {
+    color: #00ff00;
+    text-decoration: none;
+}
