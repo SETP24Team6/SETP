@@ -24,15 +24,16 @@ def get_all_members(conn):
 
 def check_member_exist(conn,member):
     cursor = conn.cursor()
-    query = ("select email from member where email = %s or phone = %s")
-    data = (member['email'], member['phone'])
+    query = ("select \'member\' AS \"TYPE\" from member where email = %s or phone = %s"
+             "UNION select \'employee\' AS \"TYPE\" from employee "
+             "where email = %s or phone = %s")
+    data = (member['email'], member['phone'],member['email'], member['phone'])
     cursor.execute(query, data)
     result = ""
-    for (email) in cursor:
-        result = email
-    return bool(result)
+    result = cursor.fetchone()
+    return result
 
-def login(conn,member):
+def member_login(conn,member):
     cursor = conn.cursor()
     query = ("select firstname, member_id from member where email = %s and passwordhash = %s")
     data = (member['email'], member['passwordhash'])
@@ -43,15 +44,15 @@ def login(conn,member):
         result["member_id"] = member_id
     return result
 
-def login(conn,member):
+def employee_login(conn,employee):
     cursor = conn.cursor()
-    query = ("select firstname, member_id from member where email = %s and passwordhash = %s")
-    data = (member['email'], member['passwordhash'])
+    query = ("select firstname, employee_id from employee where email = %s and passwordhash = %s")
+    data = (employee['email'], employee['passwordhash'])
     cursor.execute(query, data)
     result = {}
-    for (firstname, member_id) in cursor:
+    for (firstname, employee_id) in cursor:
         result["firstname"] = firstname
-        result["member_id"] = member_id
+        result["employee_id"] = employee_id
     return result
 
 def change_password(conn,member):
