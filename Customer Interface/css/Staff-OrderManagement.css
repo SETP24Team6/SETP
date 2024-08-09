@@ -228,6 +228,10 @@ table tbody tr:nth-child(odd) {
     background-color: #f9f9f9;
 }
 
+.no-data-message {
+    display: none;
+}
+
 button {
     background-color: #17a2b8;
     color: #fff;
