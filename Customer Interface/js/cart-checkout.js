@@ -13,7 +13,6 @@ document.addEventListener('DOMContentLoaded', function () {
     console.log('Order Number:', lastCheckOut);
 
     // Debugging log for parsed order details
-
     document.getElementById('order-number').textContent = lastCheckOut[0]["order_id"];
     document.getElementById('total-amount').textContent = '$'+parseFloat(lastCheckOut[0]["order_price"]).toFixed(2);
     var t=new Date(lastCheckOut[0]["order_timestamp"]);

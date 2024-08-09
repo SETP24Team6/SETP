@@ -155,6 +155,7 @@ def last_checkout(conn, order):
             'order_timestamp': order_timestamp,
             'order_price': order_price
         })
+    return response
 
 def get_5_orders(conn, member):
     cursor = conn.cursor()
