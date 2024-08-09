@@ -60,30 +60,12 @@ nav ul li.order-now a {
     text-align: center;
 }
 
-nav ul li.staff-signin a {
-    display: block;
-    width: 100px;
-    height: 40px;
-    background-color: teal;
-    color: white;
-    font-weight: bold;
-    border-radius: 20px;
-    text-transform: uppercase;
-    transition: background-color 0.3s;
-    text-decoration: none;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-}
+
 
 nav ul li.order-now a:hover {
     background-color: darkcyan;
 }
 
-nav ul li.staff-signin a:hover {
-    background-color: darkcyan;
-}
 
 .section {
     position: relative;
