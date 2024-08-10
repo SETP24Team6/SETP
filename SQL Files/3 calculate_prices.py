@@ -80,11 +80,14 @@ def order_get(conn):
 
     for (order_price, order_id) in cursor:
         cursor2 = conn.cursor()
+        cursor2.execute("ROLLBACK")
         query2 = ("UPDATE orders SET order_price = {0} where order_id = {1} ")
         data = (order_price, order_id)
+        # print(query2.format(*data))
         cursor2.execute(query2.format(*data))
+        conn.commit()
         # order_price(connection, order_id)
-        if order_id % 100 == 0:
+        if order_id % 1000 == 0:
             print("Updated to order id : " + str(order_id) )
         
     return 0
@@ -113,6 +116,6 @@ def update_points(conn):
         
     return 0
 
-item_get(connection)
+# item_get(connection)
 order_get(connection)
 update_points(connection)
