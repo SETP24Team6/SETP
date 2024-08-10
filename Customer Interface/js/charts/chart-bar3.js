@@ -35,7 +35,7 @@ var myBarChart = new Chart(ctx, {
       backgroundColor: "#4e73df",
       hoverBackgroundColor: "#2e59d9",
       borderColor: "#4e73df",
-      data: [210,179,200,194,170,175,190,185,170,181,0],
+      data: [210,200,194,190,185,181,179,175,170,170,0],
       maxBarThickness: 25 // Set maxBarThickness here
     }],
   },

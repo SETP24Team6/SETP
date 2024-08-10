@@ -136,6 +136,11 @@ hr {
     color: #5a5c69;
 }
 
+.card-header h3 {
+    margin-left: 30px; /* Adjust the spacing as needed */
+}
+
+
 /* Earnings Cards */
 .earnings-yearly {
     border-left-color: #1cc88a; /* Green for yearly earnings */

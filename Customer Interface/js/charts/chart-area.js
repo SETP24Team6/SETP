@@ -104,7 +104,11 @@ var myLineChart = new Chart(ctx, {
       }],
     },
     legend: {
-      display: true // Set to true to show legend
+      display: true,
+      labels: {
+        usePointStyle: true, // Use point style instead of a box
+        
+      }
     },
     tooltips: {
       backgroundColor: "rgb(255,255,255)",

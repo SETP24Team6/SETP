@@ -54,7 +54,7 @@ var myBarChart = new Chart(ctx, {
     scales: {
       xAxes: [{
         time: {
-          unit: 'month'
+          unit: 'time'
         },
         gridLines: {
           display: false,
@@ -69,11 +69,11 @@ var myBarChart = new Chart(ctx, {
         ticks: {
           min: 0,
           max: 50,
-          maxTicksLimit: 5,
+          maxTicksLimit: 10,
           padding: 5,
           
           callback: function(value, index, values) {
-            return '$' + number_format(value);
+            return  number_format(value);
           }
         },
         gridLines: {
