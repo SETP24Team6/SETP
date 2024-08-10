@@ -132,3 +132,24 @@ def update_cust_profile(conn,member):
     cursor.execute(query, member)
 
     return cursor.lastrowid
+
+def get_points(conn,member):
+    cursor = conn.cursor()
+    query = ("SELECT points from member where member_id = %s ")
+    cursor.execute(query, member)
+    member_points = cursor.fetchone()[0]
+    response = {}
+    results = []
+    query = ("select timestamp_redeemed, points_redeemed from points_redemption " +
+            "where member_id = %s " +
+            "order by timestamp_redeemed desc " + 
+            "limit 10 ")
+    cursor.execute(query, member)
+
+    for (timestamp, points) in cursor:
+        results.append((timestamp, points))
+    
+    response["current"] = member_points
+    response["expended"] = results
+
+    return response

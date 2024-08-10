@@ -105,10 +105,14 @@ def update_points(conn):
 
     for (order_price, member_id) in cursor:
         cursor2 = conn.cursor()
-        
+        query2 = ("SELECT sum(points_redeemed) from points_redemption " + 
+                  "where member_id = {0} ")
+        cursor2.execute(query2.format(member_id))
+        expended_points = cursor2.fetchone()[0]
+
         cursor2.execute("ROLLBACK")
         query2 = ("UPDATE member SET points = {0} where member_id = {1} ")
-        data = (int(order_price//4)+40, member_id)
+        data = ((int(order_price//4)+40)-int(expended_points), member_id)
         cursor2.execute(query2.format(*data))
         # order_price(connection, order_id)
         if member_id % 100 == 0:
@@ -117,5 +121,5 @@ def update_points(conn):
     return 0
 
 # item_get(connection)
-order_get(connection)
+# order_get(connection)
 update_points(connection)

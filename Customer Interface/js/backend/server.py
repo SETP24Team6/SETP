@@ -169,6 +169,14 @@ def update_cust_profile():
     response.headers.add('Access-Control-Allow-Origin', '*')
     return response
 
+@app.route('/get_points', methods=['POST'])
+def get_points():
+    request_payload = json.loads(request.form['data'])
+    response = custprofile.get_points(connection, request_payload)
+    response = jsonify(response)
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
+
 # staff sign up api
 
 @app.route('/staff_signup', methods=['POST'])
