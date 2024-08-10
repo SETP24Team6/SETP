@@ -76,7 +76,11 @@ document.addEventListener('DOMContentLoaded', function () {
     if (cusMonth.toString().length == 1){
         cusMonth = '0' +cusMonth.toString()
     }
-    custBirthday = custBirthday.getFullYear() + '-' + cusMonth +'-'+custBirthday.getDate()
+    var cusDate = parseInt(custBirthday.getDate())
+    if (cusDate.toString().length == 1){
+        cusDate = '0' +cusDate.toString()
+    }
+    custBirthday = custBirthday.getFullYear() + '-' + cusMonth +'-'+cusDate
     birthday.value = custBirthday
     
     const updateCustProf = document.getElementById('update-profile-btn');

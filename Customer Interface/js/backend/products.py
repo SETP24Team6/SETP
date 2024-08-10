@@ -139,8 +139,8 @@ def cart_out(conn, order):
     data = (order[0], ts, order[2])
     cursor.execute(query, data)
     query = ("select points from member " +
-             "where member_id = %s ")
-    cursor.execute(query, order[0])
+             "where member_id = {0} ")
+    cursor.execute(query.format(order[0]))
     current_points = cursor.fetchone()[0]
 
     query = ("UPDATE member SET points = %s " +

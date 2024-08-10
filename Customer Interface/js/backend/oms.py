@@ -78,19 +78,23 @@ def complete_order(conn,order):
     cursor = conn.cursor()
     cursor.execute("ROLLBACK")
 
-    query = ("UPDATE orders SET order_status = 'completed' where order_id = {0} RETURNING order_price")
+    query = ("UPDATE orders SET order_status = 'completed' where order_id = {0} RETURNING order_price, member_id")
     data = (order)
     cursor.execute(query.format(data))
-    points_to_add = cursor.fetchone()[0]//4
+    member_data = cursor.fetchone()
+    points_to_add = member_data[0] // 4
+    member_cursor = member_data[1]
 
     query = ("select points from member " +
-             "where member_id = %s ")
-    cursor.execute(query, order)
+             "where member_id = {0} ")
+    cursor.execute(query.format(member_cursor))
     current_points = cursor.fetchone()[0]
 
     query = ("UPDATE member SET points = %s " +
              "WHERE member_id = %s ")
-    data = (current_points+points_to_add, order[0])
+    data = (current_points+points_to_add, member_cursor)
+    
+    # print(query.format(order))
     cursor.execute(query, data)
 
     query = ("UPDATE orders SET order_status = 'completed' where order_id = {0} ")

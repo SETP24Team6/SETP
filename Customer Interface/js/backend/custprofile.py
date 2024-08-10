@@ -135,7 +135,6 @@ def update_cust_profile(conn,member):
 
 def get_points(conn,member):
     cursor = conn.cursor()
-    print(member)
     query = ("SELECT points from member where member_id = {0} ")
     cursor.execute(query.format(member))
     member_points = cursor.fetchone()[0]
