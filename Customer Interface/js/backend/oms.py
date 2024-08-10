@@ -74,8 +74,15 @@ def ready_order(conn,order):
     return cursor.lastrowid
 
 def complete_order(conn,order):
+    
     cursor = conn.cursor()
     cursor.execute("ROLLBACK")
+
+    query = ("UPDATE orders SET order_status = 'completed' where order_id = {0} RETURNING order_price")
+    data = (order)
+    cursor.execute(query.format(data))
+    points_to_add = cursor.fetchone()[0]//4
+
     query = ("select points from member " +
              "where member_id = %s ")
     cursor.execute(query, order)
@@ -83,7 +90,7 @@ def complete_order(conn,order):
 
     query = ("UPDATE member SET points = %s " +
              "WHERE member_id = %s ")
-    data = (current_points-int(order[2]), order[0])
+    data = (current_points+points_to_add, order[0])
     cursor.execute(query, data)
 
     query = ("UPDATE orders SET order_status = 'completed' where order_id = {0} ")
