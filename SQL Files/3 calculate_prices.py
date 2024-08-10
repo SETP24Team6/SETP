@@ -89,5 +89,30 @@ def order_get(conn):
         
     return 0
 
-# item_get(connection)
+def update_points(conn):
+    cursor = conn.cursor()
+    query = ("select SUM(order_price), member_id from orders " +
+            "group by member_id order by sum(order_price) ")
+    cursor.execute(query)
+
+    # for x in range(cursor.fetchone()[0]):
+    #     order_price(connection, x+1)
+    #     if (x+1) % 100 == 0:
+    #         print("Updated to order id : " + str(x+1) )
+
+    for (order_price, member_id) in cursor:
+        cursor2 = conn.cursor()
+        
+        cursor2.execute("ROLLBACK")
+        query2 = ("UPDATE member SET points = {0} where member_id = {1} ")
+        data = (int(order_price//4)+40, member_id)
+        cursor2.execute(query2.format(*data))
+        # order_price(connection, order_id)
+        if member_id % 100 == 0:
+            print("Updated to member id : " + str(member_id) )
+        
+    return 0
+
+item_get(connection)
 order_get(connection)
+update_points(connection)
