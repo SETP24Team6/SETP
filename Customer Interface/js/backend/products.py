@@ -133,11 +133,27 @@ def cart_out(conn, order):
     ts = datetime.datetime.now()
     cursor.execute("ROLLBACK")
     print(order)
+    query = ("INSERT INTO points_redemption " +
+             "(member_id, timestamp_redeemed, points_redeemed) VALUES "
+             "(%s, %s, %s)")
+    data = (order[0], ts, order[2])
+    cursor.execute(query, data)
+    query = ("select points from member " +
+             "where member_id = %s ")
+    cursor.execute(query, order[0])
+    current_points = cursor.fetchone()[0]
+
+    query = ("UPDATE member SET points = %s " +
+             "WHERE member_id = %s ")
+    data = (current_points-int(order[2]), order[0])
+    cursor.execute(query, data)
+
     query = ("UPDATE orders SET order_status = %s, order_timestamp = %s, "
              "order_price = %s "
              "WHERE member_id = %s AND order_status = %s  RETURNING order_id")
     data = ('preparing', ts, float(order[1][1:]), order[0], 'cart')
     cursor.execute(query, data)
+
     conn.commit()
 
     return cursor.fetchone()[0]
@@ -147,7 +163,7 @@ def last_checkout(conn, order):
     print(order)
     query = ("SELECT order_id, order_timestamp, order_price from orders WHERE order_id = {0} ")
     data = (order)
-    cursor.execute(query.format(data))
+    cursor.execute(query.format(order))
     response = []
     for (order_id, order_timestamp, order_price) in cursor:
         response.append({

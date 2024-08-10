@@ -114,8 +114,8 @@ def cust_profile(conn,member):
     cursor = conn.cursor()
     query = ("SELECT firstname, lastname, email, phone, birthday "
              "from member "
-             "where member_id = %s ")
-    cursor.execute(query, member)
+             "where member_id = {0} ")
+    cursor.execute(query.format(member))
     result = {}
     for (firstname, lastname, email, phone, birthday) in cursor:
         result["firstname"] = firstname
@@ -135,16 +135,17 @@ def update_cust_profile(conn,member):
 
 def get_points(conn,member):
     cursor = conn.cursor()
-    query = ("SELECT points from member where member_id = %s ")
-    cursor.execute(query, member)
+    print(member)
+    query = ("SELECT points from member where member_id = {0} ")
+    cursor.execute(query.format(member))
     member_points = cursor.fetchone()[0]
     response = {}
     results = []
     query = ("select timestamp_redeemed, points_redeemed from points_redemption " +
-            "where member_id = %s " +
+            "where member_id = {0} " +
             "order by timestamp_redeemed desc " + 
             "limit 10 ")
-    cursor.execute(query, member)
+    cursor.execute(query.format(member))
 
     for (timestamp, points) in cursor:
         results.append((timestamp, points))

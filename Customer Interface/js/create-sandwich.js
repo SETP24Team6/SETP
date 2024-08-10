@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const logout = document.getElementById('logout-btn');
 
     let cartTotal = 0;
-
+    console.log(cookie("order_id"))
     // Ensure "Next Step" buttons are positioned correctly
     nextStepArrows.forEach((arrow) => {
         const parent = arrow.closest('.sandwich-step') || arrow.closest('.smoothie-step');
@@ -433,8 +433,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 member: cookie('userid')
             };
         }
-        console.log(requestPayload)
-        console.log(isSandwich)
         callApi2("POST", 'http://127.0.0.1:5000/add_order',
             { 'data': JSON.stringify(requestPayload) });
 
@@ -465,6 +463,12 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function cartLoader() {
+        
+        let pointsLoader = callApi2("POST", 'http://127.0.0.1:5000/get_points', 
+            {'data': JSON.stringify(cookie("userid"))});
+        
+        availablePointsElement.innerHTML = 'Available Points: ' + pointsLoader.current
+
         let cart_item_loader = ''
         let cart_price = 0.0
         let cart_loader = callApi2("POST", 'http://127.0.0.1:5000/get_order',
@@ -582,8 +586,9 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     cartCheckOut.addEventListener('click', () => {
+        // console.log([cookie('userid'), cartTotalPrice.textContent, rewardsSelect.value])
         checkout_result = callApi2("POST", 'http://127.0.0.1:5000/cart_out', 
-            {'data': JSON.stringify([cookie('userid'), cartTotalPrice.textContent])});
+            {'data': JSON.stringify([cookie('userid'), cartTotalPrice.textContent, rewardsSelect.value])});
             
             cookie.remove('order_id')
             cookie.set('order_id', checkout_result, {
@@ -621,8 +626,6 @@ document.addEventListener('DOMContentLoaded', function () {
         item.style.animationDelay = `${index * 0.3}s`;
     });
 
-    // Display available points
-    availablePointsElement.textContent = "Available Points: 47";
 
     function clearCart() {
         // Clear the cart in the frontend

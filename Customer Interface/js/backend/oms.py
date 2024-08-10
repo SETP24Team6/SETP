@@ -76,6 +76,16 @@ def ready_order(conn,order):
 def complete_order(conn,order):
     cursor = conn.cursor()
     cursor.execute("ROLLBACK")
+    query = ("select points from member " +
+             "where member_id = %s ")
+    cursor.execute(query, order)
+    current_points = cursor.fetchone()[0]
+
+    query = ("UPDATE member SET points = %s " +
+             "WHERE member_id = %s ")
+    data = (current_points-int(order[2]), order[0])
+    cursor.execute(query, data)
+
     query = ("UPDATE orders SET order_status = 'completed' where order_id = {0} ")
     data = (order)
     cursor.execute(query.format(data))
