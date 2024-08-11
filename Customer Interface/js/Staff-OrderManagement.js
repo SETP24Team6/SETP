@@ -45,9 +45,12 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     function populateFields(){
+        console.time();
         let populator = callApi2("GET", 'http://127.0.0.1:5000/get_all_orders', {'data': JSON.stringify("")});
+        console.timeEnd();
+        console.time();
         if(populator){
-            const orders = {preparing:"", ready:"", completed:""}
+            const orders = {preparing:"", ready:""}
             $.each(populator, function(index, order) {
                 orders[order.order_status] += '<tr> <td class="order_id" >'+order.order_id+'</td>'
                 orders[order.order_status] += '<td>'
@@ -72,10 +75,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     case 'ready':
                         orders[order.order_status] += '<td><button class="complete">Complete!</button></td>'
                         break;
-                    case 'completed':
-                        orders[order.order_status] += '<td><button class="Done">Done!</button></td>'
-                    break;
-                      default:
+                    default:
                         // code block
                     }
                 
@@ -88,6 +88,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }else{
             
         }
+        console.timeEnd();
+        console.time();
         $(".ready").click(function () {
             var $row = $(this).closest("tr");
             var $Area = $row.find(".order_id").text();
@@ -101,9 +103,13 @@ document.addEventListener('DOMContentLoaded', () => {
             callApi("POST", 'http://127.0.0.1:5000/complete_order', {'data': JSON.stringify($Area)});
             
          });
+         
+        console.timeEnd();
     
     }
+    // console.time();
     populateFields()
+    
 
     
     const closeButtons = document.querySelectorAll('.close');

@@ -10,8 +10,8 @@ def get_all_orders(conn):
              "store_name, order_status, order_price from orders " + 
              "INNER JOIN member ON orders.member_id = member.member_id " +
              "INNER JOIN stores on stores.store_id = orders.store_id " +
-             "where NOT order_status = 'cart' " +
-             "ORDER BY orders.order_id DESC LIMIT 30")
+             "where NOT order_status IN ('cart', 'completed') " +
+             "ORDER BY orders.order_id ")
     cursor.execute(query)
     response = []
     for (order_id, firstName, order_timestamp, store_name, order_status, order_price) in cursor:

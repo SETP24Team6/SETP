@@ -49,3 +49,18 @@ def staff_signup_new(conn, member):
     conn.commit()
 
     return cursor.lastrowid
+
+def staff_profile(conn,staff):
+    cursor = conn.cursor()
+    query = ("SELECT firstname, lastname, email, phone, birthday "
+             "from employee "
+             "where employee_id = {0} ")
+    cursor.execute(query.format(staff))
+    result = {}
+    for (firstname, lastname, email, phone, birthday) in cursor:
+        result["firstname"] = firstname
+        result["lastname"] = lastname
+        result["email"] = email
+        result["phone"] = phone
+        result["birthday"] = birthday
+    return result

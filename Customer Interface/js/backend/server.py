@@ -208,6 +208,14 @@ def staff_change_pw():
     response.headers.add('Access-Control-Allow-Origin', '*')
     return response
 
+@app.route('/staff_profile', methods=['POST'])
+def staff_profile():
+    request_payload = json.loads(request.form['data'])
+    response = staff.staff_profile(connection, request_payload)
+    response = jsonify(response)
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
+
     
 # OMS page apis
 @app.route('/get_all_orders', methods=['GET'])
