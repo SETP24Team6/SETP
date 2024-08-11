@@ -1,4 +1,3 @@
-
 document.addEventListener("DOMContentLoaded", function () {
     const dropdownContent = document.querySelectorAll('.dropdown-content a');
     const selectedLocation = document.getElementById('selected-location');
@@ -15,30 +14,12 @@ document.addEventListener("DOMContentLoaded", function () {
     const formTitle = document.getElementById('form-title');
     const signupTitle = document.getElementById('signup-title');
     const forgotPasswordTitle = document.getElementById('forgot-password-title');
-
-    function callApi(method, url, data) {
-        $.ajax({
-            method: method,
-            url: url,
-            data: data
-        }).done(function( msg ) {
-            window.location.reload();
-        });
+	
+    if (cookie("employeeBool")) {
+        window.location.href = 'Staff-OrderManagement.html';
     }
-
-    
-    function callApi2(method, url, data) {
-        var result = [];
-        $.ajax({
-            method: method,
-            url: url,
-            data: data,
-            async: false,
-            success: function(data) {
-                result =  data;
-            }
-        });
-        return result;
+    if (cookie("userid")){
+        window.location.href = 'create-sandwich.html';
     }
 
     dropdownContent.forEach(item => {
@@ -65,7 +46,7 @@ document.addEventListener("DOMContentLoaded", function () {
         if (selectedLocation.textContent === 'Choose Location') {
             alert('Please select a location first.');
         } else {
-            modal.style.display = 'flex';
+            window.location.href = 'create-sandwich.html';
         }
     };
 
@@ -75,11 +56,11 @@ document.addEventListener("DOMContentLoaded", function () {
         };
     });
 
-    window.onclick = function (event) {
-        if (event.target === modal) {
-            modal.style.display = 'none';
-        }
-    };
+    // window.onclick = function (event) {
+    //     if (!event.target.closest('.modal-content')) {
+    //         modal.style.display = 'flex';
+    //     }
+    // };
 
     switchToSignup.onclick = function () {
         authForm.style.display = 'none';
@@ -88,6 +69,7 @@ document.addEventListener("DOMContentLoaded", function () {
         formTitle.style.display = 'none';
         signupTitle.style.display = 'block';
         forgotPasswordTitle.style.display = 'none';
+        clearFields();
     };
 
     switchToLogin.onclick = function () {
@@ -97,6 +79,7 @@ document.addEventListener("DOMContentLoaded", function () {
         formTitle.style.display = 'block';
         signupTitle.style.display = 'none';
         forgotPasswordTitle.style.display = 'none';
+        clearFields();
     };
 
     switchToLoginFromForgot.onclick = function () {
@@ -106,6 +89,7 @@ document.addEventListener("DOMContentLoaded", function () {
         formTitle.style.display = 'block';
         signupTitle.style.display = 'none';
         forgotPasswordTitle.style.display = 'none';
+        clearFields();
     };
 
     forgotPassword.onclick = function () {
@@ -115,6 +99,7 @@ document.addEventListener("DOMContentLoaded", function () {
         formTitle.style.display = 'none';
         signupTitle.style.display = 'none';
         forgotPasswordTitle.style.display = 'block';
+        clearFields();
     };
 
     authForm.onsubmit = function (event) {
@@ -123,24 +108,51 @@ document.addEventListener("DOMContentLoaded", function () {
             email: document.getElementById('email').value,
             phone: "1"
         }
-        
-        let checker = callApi2("POST", 'http://127.0.0.1:5000/checkuser', {'data': JSON.stringify(requestUser)});
-
-        if (checker.exists){
+        let checker = callApi2("POST", 'http://127.0.0.1:5000/checkuser', 
+            {'data': JSON.stringify(requestUser)});
+            
+        if (checker.exists == 'member'){
             hash = hex_md5(document.getElementById('password').value);
             var requestPayload = {
                 email: document.getElementById('email').value,
                 passwordhash: hash
             };
-            let login_success = callApi2("POST", 'http://127.0.0.1:5000/login', {'data': JSON.stringify(requestPayload)});
+            let login_success = callApi2("POST", 'http://127.0.0.1:5000/member_login', 
+                {'data': JSON.stringify(requestPayload)});
+            console.log(login_success)
+            if(login_success.name){
+                alert('Logged in successfully!');
+                cookie.set({
+                    userid: login_success.userid,
+                    username: login_success.name,
+                    type: 'member'
+                });
+                
+                console.log(cookie('userid)'))
+                console.log(cookie('username)'))
+                console.log(cookie('type)'))
+                window.location.href = 'create-sandwich.html';
+            }else{
+                alert('Wrong Password!');
+            }
+        }else if (checker.exists == 'employee'){
+            console.log('staff')
+            hash = hex_md5(document.getElementById('password').value);
+            var requestPayload = {
+                email: document.getElementById('email').value,
+                passwordhash: hash
+            };
+            let login_success = callApi2("POST", 'http://127.0.0.1:5000/employee_login', 
+                {'data': JSON.stringify(requestPayload)});
             
             if(login_success.name){
                 alert('Logged in successfully!');
                 cookie.set({
                     userid: login_success.userid,
-                    username: login_success.name
+                    username: login_success.name,
+                    type: 'staff'
                 });
-                window.location.href = 'create-sandwich.html';
+                window.location.href = 'Staff-OrderManagement.html';
             }else{
                 alert('Wrong Password!');
             }
@@ -156,7 +168,7 @@ document.addEventListener("DOMContentLoaded", function () {
             phone: document.getElementById('phone').value
         }
         
-        let checker = callApi2("POST", 'http://127.0.0.1:5000/checkuser', 
+        let checker = callApi2("POST", 'http://127.0.0.1:5000/checkuser',
             {'data': JSON.stringify(requestUser)});
         
         if (!checker.exists){
@@ -169,10 +181,11 @@ document.addEventListener("DOMContentLoaded", function () {
                 birthday: document.getElementById('birthday').value,
                 passwordhash: hash
             };
-            callApi("POST", 'http://127.0.0.1:5000/signup', 
+            callApi("POST", 'http://127.0.0.1:5000/signup',
                 {'data': JSON.stringify(requestPayload)});
             alert('Account created successfully!');
-            // alert(requestPayload.lastname);
+            document.getElementById('order-container').style.display = 'block';
+            modal.style.display = 'none';
             window.location.href = 'create-sandwich.html';
         } else {
             alert('Phone or Email already exist!');
@@ -195,18 +208,18 @@ document.addEventListener("DOMContentLoaded", function () {
                 alert('Password reset successfully!');
                 modal.style.display = 'none';
             }else{
+                //wrong email and birthday combo
                 alert('YOU WERE WRONG BOO');
             }
         }else{
             alert('Password do not match');
         }
-        
-        
     };
 
-    document.addEventListener('click', function (event) {
-        if (!event.target.matches('.dropbtn, .dropbtn *')) {
-            closeDropdown();
-        }
-    });
+    function clearFields() {
+        const inputs = document.querySelectorAll('input');
+        inputs.forEach(input => input.value = '');
+    }
+
+    modal.style.display = 'flex';
 });

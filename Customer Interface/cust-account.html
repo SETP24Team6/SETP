@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Account</title>
+    <link rel="stylesheet" href="css/cust-account.css">
+</head>
+
+<body>
+    <!-- Back Button -->
+    <button class="back-button" onclick="window.location.href='create-sandwich.html'">Back</button>
+
+    <div class="container">
+        <h1>My Account</h1>
+        <a href="#update-profile" class="account-option">
+            <img src="asset/profile.webp" alt="Update My Profile">
+            <div>
+                <h2>Update My Profile</h2>
+                <p>Update your Email & Contact</p>
+            </div>
+        </a>
+
+        <a href="#order-history" class="account-option order-link">
+            <img src="asset/order-history-icon.png" alt="My Order History">
+            <div>
+                <h2>My Order History</h2>
+                <p>Track orders</p>
+            </div>
+        </a>
+
+        <a href="#reward-points" class="account-option reward-link">
+            <img src="asset/reward-icon.png" alt="My Reward Points">
+            <div>
+                <h2>My Reward Points</h2>
+                <p>Track reward points</p>
+            </div>
+        </a>
+
+        <!-- Update Profile Section -->
+        <div id="update-profile" class="update-profile-section" style="display: none;">
+            <h2>My Account Information</h2>
+            <form id="update-profile-form">
+                <div class="form-group">
+                    <label for="first-name">First Name</label>
+                    <input type="text" id="first-name" name="first-name" value="John" required>
+                </div>
+                <div class="form-group">
+                    <label for="last-name">Last Name</label>
+                    <input type="text" id="last-name" name="last-name" value="Doe" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">* Email</label>
+                    <input type="email" id="email" name="email" value="john.doe@example.com" readonly>
+                </div>
+                <div class="form-group">
+                    <label for="contact-no">* Contact No.</label>
+                    <input type="tel" id="contact-no" name="contact-no" value="1234567890" readonly>
+                </div>
+                <div class="form-group">
+                    <label for="birthday"> Birthday</label>
+                    <input type="date" id="birthday" name="birthday" value="2000-01-01" readonly>
+                </div>
+
+                <div class="form-group">
+                    <button type="button" id="update-profile-btn">Continue</button>
+                </div>
+            </form>
+            <div id="success-message" class="success-message" style="display: none;">
+                Success: Your account has been successfully updated.
+            </div>
+        </div>
+
+        <!-- Order History Section -->
+        <div id="order-history" class="order-history-section" style="display: none;">
+            <h2 class="order-history-heading">Purchased</h2>
+        </div>
+
+        <!-- Reward Points Section -->
+        <div id="reward-points" class="reward-points-section" style="display: none;">
+            <div class="overlay-background">
+                <h2>How to earn?</h2>
+                <p>Savor and Save! Every dollar you spend earns you a point towards delicious rewards.</p>
+            </div>
+            <div class="overlay-background">
+                <h2>Redemption details</h2>
+                <p>Turn 4 points into $1 savings and enjoy more of what you love with every bite and sip.</p>
+            </div>
+
+            <h2 class="points-summary-heading">
+                <img src="asset/points-summary-icon.png" alt="Points Summary Icon" class="points-summary-icon"> Points
+                Summary
+            </h2>
+            <div class="tab">
+                <button class="tablinks" data-tab="Summary" onclick="openTab(event, 'Summary')">SUMMARY</button>
+                <button class="tablinks" data-tab="Deducted" onclick="openTab(event, 'Deducted')">DEDUCTED</button>
+            </div>
+            <div id="Summary" class="tabcontent">
+                <table>
+                    <thead>
+                        <tr>
+                            <th class="date-column">DATE</th>
+                            <th class="points-column">POINTS</th>
+                            <th class="details-column">DETAILS</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="date-column">22/06/2024</td>
+                            <td class="points-column">-4</td>
+                            <td class="details-column">Redeemed Points</td>
+                        </tr>
+                        <tr>
+                            <td class="date-column">18/06/2024</td>
+                            <td class="points-column">5</td>
+                            <td class="details-column">Purchased Points</td>
+                        </tr>
+                        <tr>
+                            <td class="date-column">14/06/2024</td>
+                            <td class="points-column">16</td>
+                            <td class="details-column">Purchased Points</td>
+                        </tr>
+                        <tr>
+                            <td class="date-column">27/05/2024</td>
+                            <td class="points-column">30</td>
+                            <td class="details-column">Registration of Bite & Delight Online Account</td>
+                        </tr>
+                        <tr class="total-row">
+                            <td colspan="2">TOTAL</td>
+                            <td>47</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div id="Deducted" class="tabcontent">
+                <table>
+                    <thead>
+                        <tr>
+                            <th class="date-column">DATE</th>
+                            <th class="points-column">POINTS</th>
+                            <th class="details-column">DETAILS</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="date-column">22/06/2024</td>
+                            <td class="points-column">-4</td>
+                            <td class="details-column">Redeemed Points</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/cust-account.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/cookie.umd.js"></script>
+    <script src="js/packages/jquery.min.js"></script>
+</body>
+
+</html>

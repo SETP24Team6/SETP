@@ -60,30 +60,13 @@ nav ul li.order-now a {
     text-align: center;
 }
 
-nav ul li.staff-signin a {
-    display: block;
-    width: 100px;
-    height: 40px;
-    background-color: teal;
-    color: white;
-    font-weight: bold;
-    border-radius: 20px;
-    text-transform: uppercase;
-    transition: background-color 0.3s;
-    text-decoration: none;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-}
+
 
 nav ul li.order-now a:hover {
     background-color: darkcyan;
 }
 
-nav ul li.staff-signin a:hover {
-    background-color: darkcyan;
-}
+
 .section {
     position: relative;
     height: 100vh;
@@ -148,6 +131,117 @@ p {
     margin: 10px 0 0;
 }
 
+#about h2 {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.about-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: stretch;
+    /* Make sure containers stretch to the same height */
+    gap: 20px;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.about-section {
+    flex: 1;
+    background-color: rgba(0, 0, 0, 0.6);
+    padding: 20px;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    /* Ensure even spacing */
+    min-height: 300px;
+    /* Set a minimum height */
+}
+
+.about-section h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.about-section p {
+    line-height: 1.6;
+    flex-grow: 1;
+    /* Make paragraph take up available space */
+}
+
+#about {
+    background-image: url('../asset/about-home.jpg');
+    background-size: cover;
+    background-position: center;
+    color: white;
+    padding: 50px 20px;
+}
+
+#Rewards {
+    background-image: url('../asset/reward-home.webp');
+    background-size: cover;
+    background-position: center;
+    color: white;
+    padding: 60px 20px;
+    text-align: center;
+}
+
+#Rewards .content {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+#Rewards h2 {
+    margin-bottom: 20px;
+    font-size: 2.5em;
+    font-weight: bold;
+}
+
+#Rewards p {
+    margin: 20px 0;
+    font-size: 1.2em;
+    line-height: 1.5;
+}
+
+#Rewards .rewards-items {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    margin: 20px 0;
+}
+
+#Rewards .reward-item {
+    background: rgba(0, 0, 0, 0.6);
+    border-radius: 10px;
+    padding: 20px;
+    width: 30%;
+    min-width: 250px;
+    margin: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    text-align: center;
+}
+
+#Rewards .reward-item img {
+    width: 60px;
+    height: 60px;
+    margin-bottom: 10px;
+}
+
+#Rewards .reward-item p {
+    font-size: 1.1em;
+    line-height: 1.4;
+}
+
+#Rewards a {
+    color: #FFD700;
+    /* Gold color for the link */
+    text-decoration: underline;
+}
+
+#Rewards a:hover {
+    text-decoration: none;
+}
 .contact-section {
     background: #000;
     color: white;
@@ -269,13 +363,57 @@ button:hover,
 
 .product img:hover {
     transform: scale(1.05);
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
 
 #products {
-    background-color: beige;
-    padding: 20px;
+    background-image:url('../asset/reward-home.webp');
+    padding: 20px;  
     border-radius: 8px;
+}
+
+#locations {
+    background-image: url('../asset/downtown-cafe.jpg');
+    padding: 50px 20px;
+    text-align: center;
+}
+
+#locations .content {
+    max-width: 1800px;
+    /* Increase the max-width */
+    margin: 0 auto;
+}
+
+#locations h2 {
+    margin-bottom: 40px;
+    font-size: 2.5em;
+    font-weight: bold;
+}
+
+#locations .location {
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+    padding: 30px;
+    /* Increase padding */
+    margin: 30px 0;
+    /* Increase margin */
+  
+    text-align: left;
+}
+
+#locations .location h3 {
+    margin-bottom: 15px;
+    /* Increase margin-bottom */
+    font-size: 1.75em;
+    /* Increase font-size */
+    color: #faf4f4;
+}
+
+#locations .location p {
+    margin: 10px 0;
+    /* Increase margin */
+    font-size: 1.1em;
+    /* Increase font-size */
+    color: #f8f8f8;
 }
 
 /* Animation Keyframes */

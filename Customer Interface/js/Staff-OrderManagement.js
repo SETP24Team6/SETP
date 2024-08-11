@@ -1,4 +1,42 @@
+if (cookie("type") == 'member') {
+    window.location.href = 'create-sandwich.html';
+}
+
+
+document.addEventListener('click', function (event) {
+    var dropdowns = document.querySelectorAll('.dropdown');
+    dropdowns.forEach(function (dropdown) {
+        var dropdownMenu = dropdown.querySelector('.dropdown-menu');
+        if (!dropdown.contains(event.target)) {
+            dropdownMenu.style.display = 'none';
+        }
+    });
+});
+
+document.querySelectorAll('.dropdown-toggle').forEach(function (toggle) {
+    toggle.addEventListener('click', function (event) {
+        event.preventDefault();
+        var dropdownMenu = this.nextElementSibling;
+        var isVisible = dropdownMenu.style.display === 'block';
+        document.querySelectorAll('.dropdown-menu').forEach(function (menu) {
+            menu.style.display = 'none';
+        });
+        if (!isVisible) {
+            dropdownMenu.style.display = 'block';
+        }
+    });
+});
+
 document.addEventListener('DOMContentLoaded', () => {
+    const logout = document.getElementById('logout-btn');
+
+    logout.addEventListener('click', () => {
+        cookie.remove("userid")
+        cookie.remove("username")
+        cookie.remove("employeeBool")
+        window.location.href = 'order-now.html';
+    });
+
     const modals = {
         newOrderModal: document.getElementById('newOrderModal'),
         preparingOrderModal: document.getElementById('preparingOrderModal'),
@@ -6,6 +44,68 @@ document.addEventListener('DOMContentLoaded', () => {
         completedOrderModal: document.getElementById('completedOrderModal')
     };
 
+    function populateFields(){
+        let populator = callApi2("GET", 'http://127.0.0.1:5000/get_all_orders', {'data': JSON.stringify("")});
+        if(populator){
+            const orders = {preparing:"", ready:"", completed:""}
+            $.each(populator, function(index, order) {
+                orders[order.order_status] += '<tr> <td class="order_id" >'+order.order_id+'</td>'
+                orders[order.order_status] += '<td>'
+                for (let z in order.order_ingred) {
+                    for (let y in order.order_ingred[z]){
+                        orders[order.order_status] += '<b><u>'+ y + '</u></b><br/>'
+                        for (let x in order.order_ingred[z][y]){
+                            orders[order.order_status] += x + ': ' +order.order_ingred[z][y][x] + '<br/>'
+                        }
+                    orders[order.order_status] += '<br/>'
+                    }
+                }
+                orders[order.order_status] += '</td>'
+                orders[order.order_status] += '<td>'+order.firstName+'</td>'
+                orders[order.order_status] += '<td>'+order.order_timestamp.substring(5,22)+'</td>'
+                orders[order.order_status] += '<td>'+order.store_name+'</td>'
+                orders[order.order_status] += '<td> $'+parseFloat(order.order_price).toFixed(2)+' </td>'
+                switch(order.order_status) {
+                    case 'preparing':
+                        orders[order.order_status] += '<td><button class="ready">Ready!</button></td>'
+                        break;
+                    case 'ready':
+                        orders[order.order_status] += '<td><button class="complete">Complete!</button></td>'
+                        break;
+                    case 'completed':
+                        orders[order.order_status] += '<td><button class="Done">Done!</button></td>'
+                    break;
+                      default:
+                        // code block
+                    }
+                
+            })
+            for (let x in orders) {
+                const filler = document.getElementById(x);
+                filler.innerHTML = orders[x] 
+            };
+            setTimeout(populateFields, 60000)
+        }else{
+            
+        }
+        $(".ready").click(function () {
+            var $row = $(this).closest("tr");
+            var $Area = $row.find(".order_id").text();
+            console.log($Area)
+            callApi("POST", 'http://127.0.0.1:5000/ready_order', {'data': JSON.stringify($Area)});
+            
+         });
+         $(".complete").click(function () {
+            var $row = $(this).closest("tr");
+            var $Area = $row.find(".order_id").text();
+            callApi("POST", 'http://127.0.0.1:5000/complete_order', {'data': JSON.stringify($Area)});
+            
+         });
+    
+    }
+    populateFields()
+
+    
     const closeButtons = document.querySelectorAll('.close');
 
     let currentOrder = null;
@@ -80,8 +180,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function getTableForStatus(status) {
         switch (status) {
-            case 'new':
-                return document.getElementById('newOrders').querySelector('tbody');
             case 'preparing':
                 return document.getElementById('preparingOrders').querySelector('tbody');
             case 'ready':
@@ -160,3 +258,4 @@ document.addEventListener('DOMContentLoaded', () => {
 
     attachEventDelegation();
 });
+
