@@ -36,92 +36,62 @@
 
     <main>
    
-    <!-- Page Wrapper -->
     <div id="wrapper">
-
-
-
-        <!-- Content Wrapper -->
         <div id="content-wrapper" class="d-flex flex-column">
-
-            <!-- Main Content -->
             <div id="content">
-
-    
-
-                <!-- Begin Page Content -->
                 <div class="container-fluid">
                     <h1>BUSINESS OVERVIEW</h1>
                     <hr>
                     <section id="sales" class="section">
                         <div class="container">
-                            
-                        
-                            <!-- Navigation Links -->
                             <div class="salesanalysis-nav">
-                                <a href="#myBarChart2">STORE</a>
-                                <a href="#myBarChart3">CUSTOMER</a>
-                                <a href="#myBarChart5">STAFF</a>
+                                <a href="#store">STORE</a>
+                                <a href="#customer">CUSTOMER</a>
+                                <a href="#staff">STAFF</a>
                             </div>
-                    <!-- Content Row -->
-                    <div class="row">
+                        </div>
+                    </section>
 
-                        <!-- Earnings (Yearly) Chart 1 -->
+                    <div class="row">
+                        <!-- Earnings (Yearly) -->
                         <div class="col-xl-6 col-md-12 mb-4">
                             <div class="card border-left-primary shadow h-100 py-2">
                                 <div class="card-body">
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                                Earnings (Yearly)</div>
-                                            <div class="h2 mb-0 font-weight-bold text-gray-800">$60,000</div>
+                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Earnings (Yearly)</div>
+                                            <div id="yearlySales" class="h2 mb-0 font-weight-bold text-gray-800">$60,000</div>
                                         </div>
-                                        <div class="col-auto">
-                                            <i class="fas fa-calendar fa-2x text-gray-300"></i>
-                                        </div>
+                                        <div class="col-auto"><i class="fas fa-calendar fa-2x text-gray-300"></i></div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-
-                        
                         <!-- Earnings (Monthly) Chart 2 -->
                         <div class="col-xl-6 col-md-12 mb-4">
                             <div class="card border-left-primary shadow h-100 py-2">
                                 <div class="card-body">
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                                Earnings (Monthly)</div>
-                                            <div class="h2 mb-0 font-weight-bold text-gray-800">$8,000</div>
+                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Earnings (Monthly)</div>
+                                            <div id="monthlySales" class="h2 mb-0 font-weight-bold text-gray-800">$8,000</div>
                                         </div>
-                                        <div class="col-auto">
-                                            <i class="fas fa-calendar fa-2x text-gray-300"></i>
-                                        </div>
+                                        <div class="col-auto"><i class="fas fa-calendar fa-2x text-gray-300"></i></div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-
                     </div>
-   
 
-                    <!-- Content Row -->
-                    <h1>STORE</h1>
+                    <h1 id="store">STORE</h1>
                     <hr>
                     <div class="row">
-                        
-                       
-
-                        <!-- Area Chart -->
                         <div class="col-xl-4 col-md-4 mb-4">
                             <div class="card shadow mb-4">
                                 <div 
                                 class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                                 <h3 class="m-0 font-weight-bold text-primary">Current Year Revenue</h3>
                                 </div>
-                               
-                                <!-- Card Body -->
                                 <div class="card-body">
                                     <div class="chart-area">
                                         <canvas id="currentYearRevenue" height="200" width="1150"></canvas>
@@ -129,24 +99,21 @@
                                 </div>
                             </div>
                         </div>
-
-                              <!-- Area Chart -->
-                              <div class="col-xl-4 col-md-4 mb-4">
-                                <div class="card shadow mb-4">
-                                    <div 
-                                    class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                    <h3 class="m-0 font-weight-bold text-primary">Hourly Sales</h3>
-                                    </div>
-                                    <!-- Card Body -->
-                                    <div class="card-body">
-                                        <div class="chart-area">
-                                            <canvas id="hourlySales" height="470" width="500"></canvas>
-                                        </div>
+                        <div class="col-xl-4 col-md-4 mb-4">
+                            <div class="card shadow mb-4">
+                                <div 
+                                class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                <h3 class="m-0 font-weight-bold text-primary">Hourly Sales</h3>
+                                </div>
+                                <!-- Card Body -->
+                                <div class="card-body">
+                                    <div class="chart-area">
+                                        <canvas id="hourlySales" height="470" width="500"></canvas>
                                     </div>
                                 </div>
                             </div>
+                        </div>
                         <vr>
-                         <!-- Area Chart -->
                         <div class="col-xl-4 col-md-4 mb-4">
                             <div class="card shadow mb-4">
                                 <div 
@@ -161,115 +128,88 @@
                                 </div>
                             </div>
                         </div>
-
-                            <!-- Area Chart -->
-                            <div class="col-xl-4 col-md-4 mb-4">
-                                <div class="card shadow mb-4">
-                                    <div 
-                                    class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                    <h3 class="m-0 font-weight-bold text-primary">Qtr on Qtr Revenue</h3>
-                                    </div>
-                                    <!-- Card Body -->
-                                    <div class="card-body">
-                                        <div class="chart-area">
-                                            <canvas id="QOQR" height="180" width="550"></canvas>
-                                        </div>
+                        <div class="col-xl-4 col-md-4 mb-4">
+                            <div class="card shadow mb-4">
+                                <div 
+                                class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                <h3 class="m-0 font-weight-bold text-primary">Qtr on Qtr Revenue</h3>
+                                </div>
+                                <!-- Card Body -->
+                                <div class="card-body">
+                                    <div class="chart-area">
+                                        <canvas id="QOQR" height="180" width="550"></canvas>
                                     </div>
                                 </div>
                             </div>
-                      
-                   
+                        </div>
                     </div>
-
-                    <h1>CUSTOMER</h1>
+                    <h1 id="customer">CUSTOMER</h1>
                     <hr>
                     <div class="row">
-
-                             <!-- Bar Chart -->
-                            <div class="col-xl-4 col-md-4 mb-4">
-                                <div class="card shadow mb-4">
-                                    <div
-                                        class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                        <h3 class="m-0 font-weight-bold text-primary">Top 10 Favorite Ingredients</h3>
-                                    </div>
-
-                                    <!-- Card Body -->
-                                    <div class="card-body">
-                                        <div class="chart-area">
-                                            <canvas id="topTenIngred" height="300" width="500"></canvas>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                                                     
-                
-                              <!-- Bar Chart -->
-                            <div class="col-xl-4 col-md-4 mb-4">
-                                <div class="card shadow mb-4">
-                                    <div
-                                        class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                        <h3 class="m-0 font-weight-bold text-primary">Top 3 Smoothies</h3>
-                                    </div>
-
-                                    <!-- Card Body -->
-                                    <div class="card-body">
-                                        <div class="chart-area">
-                                            <canvas id="topThreeSmoothie" height="300" width="500"></canvas>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                             <!-- Area Chart -->
-                            <div class="col-xl-4 col-md-4 mb-4">
-                                <div class="card shadow mb-4">
-
-                                    <!-- Card Header - Dropdown -->
-                                     <div
-                                         class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                        <h3 class="m-0 font-weight-bold text-primary">Spendings By Age Group</h3>
-                                     </div>
-                                
-                                    <!-- Card Body -->
-                                    <div class="card-body">
-                                        <div class="chart-area">
-                                             <canvas id="spendbyAge" height="300" width="500"></canvas>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                    </div>
-
-                    <h1>Staff</h1>
-                    <hr>
-                 
-                    <div class="row">
-                            <!-- Area Chart -->
-                            <div class="col-xl-4 col-md-4 mb-4">
-                                <div class="card shadow mb-4">
-                                    <div 
+                        <div class="col-xl-4 col-md-4 mb-4">
+                            <div class="card shadow mb-4">
+                                <div
                                     class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                    <h3 class="m-0 font-weight-bold text-primary">Average Preparation Time</h3>
-                                    </div>
-                                    <!-- Card Body -->
-                                    <div class="card-body">
-                                        <div class="chart-area">
-                                            <canvas id="avgPrepTime" height="300" width="300"></canvas>
-                                        </div>
+                                    <h3 class="m-0 font-weight-bold text-primary">Top 10 Favorite Ingredients</h3>
+                                </div>
+
+                                <div class="card-body">
+                                    <div class="chart-area">
+                                        <canvas id="topTenIngred" height="300" width="500"></canvas>
                                     </div>
                                 </div>
                             </div>
+                        </div>
+                        <div class="col-xl-4 col-md-4 mb-4">
+                            <div class="card shadow mb-4">
+                                <div
+                                    class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                    <h3 class="m-0 font-weight-bold text-primary">Top 3 Smoothies</h3>
+                                </div>
+
+                                <div class="card-body">
+                                    <div class="chart-area">
+                                        <canvas id="topThreeSmoothie" height="300" width="500"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-4 col-md-4 mb-4">
+                            <div class="card shadow mb-4">
+                                <div
+                                    class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                <h3 class="m-0 font-weight-bold text-primary">Spendings By Age Group</h3>
+                                </div>
+                                <div class="card-body">
+                                    <div class="chart-area">
+                                        <canvas id="spendbyAge" height="300" width="500"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
                     </div>
 
+                    <h1 id="staff">Staff</h1>
+                    <hr>
+                    <div class="row">
+                        <div class="col-xl-4 col-md-4 mb-4">
+                            <div class="card shadow mb-4">
+                                <div 
+                                class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                <h3 class="m-0 font-weight-bold text-primary">Average Preparation Time</h3>
+                                </div>
+                                <div class="card-body">
+                                    <div class="chart-area">
+                                        <canvas id="avgPrepTime" height="300" width="300"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
                 </div>
-                <!-- /.container-fluid -->
-
             </div>
-            <!-- End of Main Content -->
-
-            <!-- Footer -->
             <footer class="sticky-footer bg-white">
                 <div class="container my-auto">
                     <div class="copyright text-center my-auto">
@@ -277,13 +217,8 @@
                     </div>
                 </div>
             </footer>
-            <!-- End of Footer -->
-
         </div>
-        <!-- End of Content Wrapper -->
-
     </div>
-    <!-- End of Page Wrapper -->
 </main>
 
 
@@ -295,6 +230,8 @@
     <script src="js/packages/Chart.min.js"></script>
 
     <!-- Page level custom scripts -->
+    <script src="js/api.js"></script>
+    <script src="js/packages/jquery.min.js"></script>
     <script src="js/sales-analysis-charts.js"></script>
    
 

@@ -3,7 +3,7 @@ from sql_connection import get_sql_connection
 import json
 
 import members, products, custprofile
-import members, oms, its, staff
+import members, oms, its, staff, analysis
 
 app = Flask(__name__)
 connection = get_sql_connection()
@@ -257,6 +257,16 @@ def get_inventory():
 def update_stock():
     request_payload = json.loads(request.form['data'])
     result =  its.update_stock(connection,request_payload)
+    response = ""
+    response = jsonify(result)
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
+
+
+# sales analysis page apis
+@app.route('/getSales', methods=['POST'])
+def getSales():
+    result =  analysis.getSales(connection)
     response = ""
     response = jsonify(result)
     response.headers.add('Access-Control-Allow-Origin', '*')

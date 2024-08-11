@@ -1,3 +1,13 @@
+let sales = callApi2("POST", 'http://127.0.0.1:5000/getSales', 
+    {'data': JSON.stringify()});
+let moneyFormat = new Intl.NumberFormat('en-US', {style: 'currency', currency: 'SGD'})
+console.log(sales)
+const yearlySales = document.getElementById('yearlySales');
+yearlySales.innerHTML = moneyFormat.format(sales.yearly)
+
+const monthlySales = document.getElementById('monthlySales');
+monthlySales.innerHTML = moneyFormat.format(sales.monthly)
+
 // Set new default font family and font color to mimic Bootstrap's default styling
 Chart.defaults.global.defaultFontFamily = 'Nunito', '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
 Chart.defaults.global.defaultFontColor = '#858796';
@@ -28,98 +38,105 @@ function number_format(number, decimals, dec_point, thousands_sep) {
 }
 
 var cyr = document.getElementById("currentYearRevenue");
+monthLabel = ["Jan","Feb", "Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"]
 var currentYearRevenue = new Chart(cyr, {
-  type: 'bar',
-  data: {
-    labels: ["Jan","Feb", "Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],
-    datasets: [{
-      label: "Quarterly Revenue",
-      backgroundColor: "#4e73df",
-      hoverBackgroundColor: "#2e59d9",
-      borderColor: "#4e73df",
-      data: [12056, 18905,17984,20998,18009,15090,16099,17945,19823,16091,17890,14322],
-    }],
-  },
-  options: {
-    maintainAspectRatio: false,
-    layout: {
-      padding: {
-        left: 10,
-        right: 25,
-        top: 25,
-        bottom: 0
-      }
-    },
-    scales: {
-      xAxes: [{
-        time: {
-          unit: 'Month'
-        },
-        gridLines: {
-          display: false,
-          drawBorder: false
-        },
-        ticks: {
-          maxTicksLimit: 6
-        },
-        maxBarThickness: 25,
+    type: 'bar',
+    data: {
+      labels:monthLabel.slice(0, sales.thisYearMonthly.length),
+      datasets: [{
+        label: "Yearly Revenue",
+        backgroundColor: "#4e73df",
+        hoverBackgroundColor: "#2e59d9",
+        borderColor: "#4e73df",
+        data: sales.thisYearMonthly,
       }],
-      yAxes: [{
-        ticks: {
-          min: 0,
-          max: 25000,
-          maxTicksLimit: 10,
-          padding: 10,
-          // Include a dollar sign in the ticks
-          callback: function(value, index, values) {
-            return '$' + number_format(value);
+    },
+    options: {
+      maintainAspectRatio: false,
+      layout: {
+        padding: {
+          left: 10,
+          right: 25,
+          top: 25,
+          bottom: 0
+        }
+      },
+      scales: {
+        xAxes: [{
+          time: {
+            unit: 'month'
+          },
+          gridLines: {
+            display: false,
+            drawBorder: false
+          },
+          ticks: {
+            maxTicksLimit: 12
+          },
+          maxBarThickness: 30,
+        }],
+        yAxes: [{
+          ticks: {
+            min: 0,
+            max: 200000,
+            maxTicksLimit: 10,
+            padding: 10,
+            // Include a dollar sign in the ticks
+            callback: function(value, index, values) {
+              return '$' + number_format(value);
+            }
+          },
+          gridLines: {
+            color: "rgb(234, 236, 244)",
+            zeroLineColor: "rgb(234, 236, 244)",
+            drawBorder: false,
+            borderDash: [2],
+            zeroLineBorderDash: [2]
           }
-        },
-        gridLines: {
-          color: "rgb(234, 236, 244)",
-          zeroLineColor: "rgb(234, 236, 244)",
-          drawBorder: false,
-          borderDash: [2],
-          zeroLineBorderDash: [2]
+        }],
+      },
+      legend: {
+        display: false
+      },
+      tooltips: {
+        titleMarginBottom: 10,
+        titleFontColor: '#6e707e',
+        titleFontSize: 14,
+        backgroundColor: "rgb(255,255,255)",
+        bodyFontColor: "#858796",
+        borderColor: '#dddfeb',
+        borderWidth: 1,
+        xPadding: 15,
+        yPadding: 15,
+        displayColors: false,
+        caretPadding: 10,
+        callbacks: {
+          label: function(tooltipItem, chart) {
+            var datasetLabel = chart.datasets[tooltipItem.datasetIndex].label || '';
+            return datasetLabel + ': $' + number_format(tooltipItem.yLabel);
+          }
         }
-      }],
-    },
-    legend: {
-      display: false
-    },
-    tooltips: {
-      titleMarginBottom: 10,
-      titleFontColor: '#6e707e',
-      titleFontSize: 14,
-      backgroundColor: "rgb(255,255,255)",
-      bodyFontColor: "#858796",
-      borderColor: '#dddfeb',
-      borderWidth: 1,
-      xPadding: 15,
-      yPadding: 15,
-      displayColors: false,
-      caretPadding: 10,
-      callbacks: {
-        label: function(tooltipItem, chart) {
-          var datasetLabel = chart.datasets[tooltipItem.datasetIndex].label || '';
-          return datasetLabel + ': $' + number_format(tooltipItem.yLabel);
-        }
-      }
-    },
-  }
-});
-
+      },
+    }
+  });
+  
 var hs = document.getElementById("hourlySales");
+hours = []
+hourSales = []
+for (x in sales.hourlySales){
+    hours.push(parseInt(x))
+    hourSales.push(sales.hourlySales[x])
+}
 var hourlySales = new Chart(hs, {
   type: 'bar',
   data: {
-    labels: ["11","12","13","14","15","16","17","18","19","20","21"],
+    labels: hours,
     datasets: [{
       label: "Hourly Sales",
       backgroundColor: "#4e73df",
       hoverBackgroundColor: "#2e59d9",
       borderColor: "#4e73df",
-      data: [245,567,789,530,356,480,410,526,321,234,122],
+      data: hourSales,
     }],
   },
   options: {
@@ -142,15 +159,15 @@ var hourlySales = new Chart(hs, {
           drawBorder: false
         },
         ticks: {
-          maxTicksLimit: 6
+          maxTicksLimit: 10
         },
         maxBarThickness: 25,
       }],
       yAxes: [{
         ticks: {
           min: 0,
-          max: 1500,
-          maxTicksLimit: 5,
+          max: 16000,
+          maxTicksLimit: 10,
           padding: 5,
           // Include a dollar sign in the ticks
           callback: function(value, index, values) {
@@ -199,7 +216,7 @@ var MOMR = new Chart(mr, {
     labels: ["Jan","Feb", "Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],
     datasets: [
       {
-        label: "2023",
+        label: "Previous",
         lineTension: 0.3,
         backgroundColor: "rgba(78, 115, 223, 0.05)",
         borderColor: "rgba(78, 115, 223, 1)",
@@ -211,10 +228,10 @@ var MOMR = new Chart(mr, {
         pointHoverBorderColor: "rgba(78, 115, 223, 1)",
         pointHitRadius: 10,
         pointBorderWidth: 2,
-        data: [14056, 16905,19984,18998,16009,17090,15099,19945,18910,19119,17899,14909],
+        data: sales.lastYearMonthly,
       },
       {
-        label: "2024", // New dataset for Expenses
+        label: "Current", // New dataset for Expenses
         lineTension: 0.3,
         backgroundColor: "rgba(255, 99, 132, 0.05)",
         borderColor: "rgba(255, 99, 132, 1)",
@@ -226,7 +243,7 @@ var MOMR = new Chart(mr, {
         pointHoverBorderColor: "rgba(255, 99, 132, 1)",
         pointHitRadius: 10,
         pointBorderWidth: 2,
-        data: [12056, 18905,17984,20998,18009,15090,16099,17945], // Data for the new dataset
+        data: sales.thisYearMonthly.slice(0, -1), // Data for the new dataset
       }
     ],
   },
@@ -741,3 +758,4 @@ var avgPrepTime = new Chart(apt, {
     },
   }
 });
+
