@@ -57,7 +57,7 @@ document.addEventListener('DOMContentLoaded', () => {
     sandwichLoader = ""
     smoothieLoader = ""
     for (let i = 0; i < 30; i++) {
-        if (i < 19){
+        if (i < 18){
             currentInv = loader[i]["quantity_amount"]/1000
             optInv = loader[i]["amount"]*loader[i]["uom"]/1000 
             sandwichLoader += "<tr>"

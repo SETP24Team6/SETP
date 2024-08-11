@@ -321,13 +321,33 @@ var MOMR = new Chart(mr, {
 
 // Quarter on Quarter Revenue
 var qr = document.getElementById("QOQR");
+lastYearQtr = []
+thisYearQtr = []
+placeholder1 = 0.0
+placeholder2 = 0.0
+function checkValid(qtr) {
+    return !isNaN(qtr);
+  }
+for (let i = 1; i <= 13; i++) {
+    if (i % 3 == 0){
+        
+        lastYearQtr.push(placeholder1.toFixed(2))
+        placeholder1 = 0.0
+        thisYearQtr.push(placeholder2.toFixed(2))
+        placeholder2 = 0.0
+    }else{
+        placeholder1 += parseFloat(sales.lastYearMonthly[i])
+        placeholder2 += parseFloat(sales.thisYearMonthly[i])
+    }
+  }
+  thisYearQtr = thisYearQtr.filter(checkValid)
 var QOQR = new Chart(qr, {
   type: 'line',
   data: {
     labels: ["1st Qtr","2nd Qtr", "3rd Qtr","4th Qtr"],
     datasets: [
       {
-        label: "2023",
+        label: "Previous",
         lineTension: 0.3,
         backgroundColor: "rgba(78, 115, 223, 0.05)",
         borderColor: "rgba(78, 115, 223, 1)",
@@ -339,10 +359,10 @@ var QOQR = new Chart(qr, {
         pointHoverBorderColor: "rgba(78, 115, 223, 1)",
         pointHitRadius: 10,
         pointBorderWidth: 2,
-        data: [50945,52097,53954,51927],
+        data: lastYearQtr,
       },
       {
-        label: "2024", // New dataset for Expenses
+        label: "Current", // New dataset for Expenses
         lineTension: 0.3,
         backgroundColor: "rgba(255, 99, 132, 0.05)",
         borderColor: "rgba(255, 99, 132, 1)",
@@ -354,7 +374,7 @@ var QOQR = new Chart(qr, {
         pointHoverBorderColor: "rgba(255, 99, 132, 1)",
         pointHitRadius: 10,
         pointBorderWidth: 2,
-        data: [48945,54091], // Data for the new dataset
+        data: thisYearQtr, // Data for the new dataset
       }
     ],
   },
@@ -433,13 +453,13 @@ var tti = document.getElementById("topTenIngred").getContext("2d");
 var topTenIngred = new Chart(tti, {
   type: 'horizontalBar',
   data: {
-    labels: ["Pulled-lamb","Smoked Salmon", "Oat Bread","Italian Herb", "Iceberg Lettuce", "Tomato","Cucumber","Onion","BBQ","Egg Mayo"],
+    labels: sales.top_sandwich[1],
     datasets: [{
       label: "Items",
       backgroundColor: "#4e73df",
       hoverBackgroundColor: "#2e59d9",
       borderColor: "#4e73df",
-      data: [210,200,194,190,185,181,179,175,170,170,0],
+      data: sales.top_sandwich[0],
       maxBarThickness: 25 // Set maxBarThickness here
     }],
   },
@@ -501,7 +521,7 @@ var topTenIngred = new Chart(tti, {
       callbacks: {
         label: function(tooltipItem, chart) {
           var datasetLabel = chart.datasets[tooltipItem.datasetIndex].label || '';
-          return datasetLabel + ': ' + number_format(tooltipItem.raw);
+          return datasetLabel + ': ' + number_format(tooltipItem.xLabel);
         }
       }
     },
@@ -512,13 +532,13 @@ var tts = document.getElementById("topThreeSmoothie").getContext("2d");
 var topThreeSmoothie = new Chart(tts, {
   type: 'horizontalBar',
   data: {
-    labels: ["Banana","Strawberry","Mango"],
+    labels: sales.top_smoothie[1],
     datasets: [{
       label: "Items",
       backgroundColor: "#4e73df",
       hoverBackgroundColor: "#2e59d9",
       borderColor: "#4e73df",
-      data: [478,450,367],
+      data: sales.top_smoothie[0],
       maxBarThickness: 25 // Set maxBarThickness here
     }],
   },
@@ -580,7 +600,7 @@ var topThreeSmoothie = new Chart(tts, {
       callbacks: {
         label: function(tooltipItem, chart) {
           var datasetLabel = chart.datasets[tooltipItem.datasetIndex].label || '';
-          return datasetLabel + ': ' + number_format(tooltipItem.raw);
+          return datasetLabel + ': ' + number_format(tooltipItem.xLabel);
         }
       }
     },
@@ -588,10 +608,16 @@ var topThreeSmoothie = new Chart(tts, {
 });
 
 var sba = document.getElementById("spendbyAge");
+ageGroup = []
+ageSpend = []
+for (x in sales.age_sales){
+    ageGroup.push(x)
+    ageSpend.push(sales.age_sales[x])
+}
 var spendbyAge = new Chart(sba, {
   type: 'line',
   data: {
-    labels: ["18-25","26-35","36-45","46-55","56-65"],
+    labels: ageGroup,
     datasets: [{
       label: "Earnings",
       lineTension: 0.3,
@@ -605,7 +631,7 @@ var spendbyAge = new Chart(sba, {
       pointHoverBorderColor: "rgba(78, 115, 223, 1)",
       pointHitRadius: 10,
       pointBorderWidth: 2,
-      data: [5000, 15000, 30000, 20000, 15000],
+      data: ageSpend,
     }],
   },
   
