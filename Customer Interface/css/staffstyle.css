@@ -1,17 +1,30 @@
 html, body {
     margin: 0;
     padding: 0;
-    font-family: Arial, sans-serif;
+    width: 100%;
     height: 100%;
-    overflow-x: hidden;
-    display: flex;
-    flex-direction: column;
+    overflow-x: hidden; /* Prevent horizontal overflow */
+    background-image: url('../asset/sandwich.jpg'); /* Ensure correct path */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
 }
 
-body > main {
-    flex: 1;
+/* Reset some default styles */
+body, h1, h2, h3, p, ul, li, a {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    text-decoration: none;
+    color: inherit;
 }
 
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+}
+
+/* Navigation */
 nav {
     top: 0;
     width: 100%;
@@ -55,21 +68,7 @@ nav .nav-items {
     justify-content: center;
 }
 
-nav .staff-view {
-    margin-left: auto;
-    margin-right: 30px;
-}
-
-nav .staff-view b {
-    color: white;
-    text-transform: uppercase;
-    font-weight: bold;
-    padding: 15px;
-    display: block;
-}
-
-/* Dropdown styles */
-.dropdown {
+nav .dropdown {
     position: relative;
     display: inline-block;
 }
@@ -97,6 +96,9 @@ nav .staff-view b {
     min-width: 160px;
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
     z-index: 1;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s, visibility 0.3s;
 }
 
 .dropdown-menu li {
@@ -117,6 +119,8 @@ nav .staff-view b {
 
 .dropdown:hover .dropdown-menu {
     display: block;
+    opacity: 1;
+    visibility: visible;
 }
 
 .logout-btn {
@@ -129,136 +133,153 @@ nav .staff-view b {
     transition: background-color 0.3s;
 }
 
-.logout-btn:hover {
-    background-color: darkred;
-}
-
-/* Section styling */
-.section {
-    padding: 20px;
-    margin-top: 0px;
-}
-
+/* Container */
 .container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0px;
-    background: #fff;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
-}
-
-h1 {
-    color: #fff;
-    text-align: center;
-    font-size: 2.5em;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    padding: 20px 0;
-    background: linear-gradient(135deg, #17a2b8, #138496);
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    margin: 20px 0;
-    position: relative;
-    overflow: hidden;
-}
-
-h1 span {
-    display: inline-block;
-    padding: 0 10px;
-    position: relative;
-    z-index: 1;
-}
-
-h1 span::before {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: -10px;
-    right: -10px;
-    height: 1px;
-    background: rgba(255, 255, 255, 0.2);
-    z-index: -1;
-    transform: translateY(-50%);
-}
-
-h1 span::after {
-    content: '';
-    position: absolute;
-    bottom: -10px;
-    left: 50%;
-    width: 50px;
-    height: 4px; 
-    background: #fff;
-    border-radius: 2px;
-    transform: translateX(-50%);
-}
-
-h2 {
-    color: #495057; 
-    background-color: #f8f9fa;
-    border-left: 5px solid #ced4da;
-    padding: 10px 15px;
-    border-radius: 5px;
-    font-size: 1.5em;
-    margin-top: 20px;
-    margin-bottom: 10px;
-    text-align: left;
-    font-weight: bold;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-table {
     width: 100%;
-    border-collapse: collapse;
-    margin: 20px 0;
+    height: auto; /* Ensure the height adjusts to the content */
+    margin: 0;
+    padding: 20px;
+    background: none; /* Ensure no background is set here */
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-table th, table td {
-    border: 1px solid #dee2e6;
-    padding: 12px;
+/* Form Box */
+.form-box {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    padding: 20px;
+    max-width: 600px; /* Ensure it doesn't exceed the page width */
+    width: 100%;
+}
+
+/* General Form Styles */
+.signup-form, .forgot-password-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+/* Form Title Container */
+.form-title-container {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.signup-form h2, .forgot-password-form h2 {
+    font-size: 24px;
+    margin: 0;
+}
+
+/* Form Row Styles */
+.form-row {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 15px;
+    width: 100%;
+}
+
+.form-row label {
+    margin-bottom: 5px;
+    font-weight: bold;
     text-align: left;
+    width: 100%;
 }
 
-table th {
-    background-color: #f1f1f1;
+/* Input Styles */
+
+.signup-form input[type="text"],
+.signup-form input[type="email"],
+.signup-form input[type="password"],
+.forgot-password-form input[type="text"],
+.forgot-password-form input[type="password"],
+.forgot-password-form input[type="email"] {
+    width: 100%;
+    max-width: 500px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
 }
 
-table tbody tr:nth-child(odd) {
-    background-color: #f9f9f9;
-}
 
-button {
-    background-color: #17a2b8;
+
+/* Button Styles */
+
+.signup-form button.submit-button,
+.forgot-password-form button.submit-button {
+    background-color: #007bff;
     color: #fff;
-    border: none;
+    border: 1px solid #007bff;
+    border-radius: 4px;
     padding: 10px 20px;
     cursor: pointer;
-    border-radius: 4px;
-    transition: background-color 0.3s;
+    font-size: 16px;
+    text-align: center;
+    display: inline-block;
+    margin-top: 20px;
 }
 
-button:hover {
-    background-color: #138496;
+/* Ensure the form-row containing the button is centered */
+
+.signup-form .form-row:last-child,
+.forgot-password-form .form-row:last-child {
+    margin-top: 20px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+/* Link Styles */
+.link-container {
+    margin-top: 15px;
+    text-align: center;
+}
+
+
+.signup-form button.switch-button,
+.signup-form button.forgot-password,
+.forgot-password-form button.switch-button,
+.forgot-password-form button.forgot-password {
+    background: none;
+    border: none;
+    color: #007bff;
+    cursor: pointer;
+    font-size: 16px;
+    text-decoration: underline;
+    margin: 5px 0;
+}
+
+
+.signup-form button.switch-button:hover,
+.signup-form button.forgot-password:hover,
+.forgot-password-form button.switch-button:hover,
+.forgot-password-form button.forgot-password:hover {
+    color: #0056b3;
+    text-decoration: none;
 }
 
 /* Footer */
 footer {
-    background-color: #343a40;
-    color: #fff;
+    background: #111;
+    color: white;
     padding: 20px 0;
     text-align: center;
-    margin-top: 20px;
-}
-
-.footer-content {
-    max-width: 1200px;
-    margin: 0 auto;
 }
 
 .footer-content h3 {
-    margin-bottom: 20px;
-    color: #17a2b8;
+    margin: 0;
+    padding-bottom: 10px;
 }
 
 .footer-links {
@@ -268,161 +289,36 @@ footer {
 
 .footer-links li {
     display: inline;
-    margin: 0 10px;
+    margin: 0 15px;
 }
 
 .footer-links a {
-    color: #fff;
+    color: white;
     text-decoration: none;
-    transition: color 0.3s;
-}
-
-.footer-links a:hover {
-    color: #17a2b8;
-}
-
-.social-media a {
-    display: inline-block;
-    margin: 0 10px;
-}
-
-.social-media img {
-    width: 24px;
-    height: 24px;
-    transition: transform 0.3s;
-}
-
-.social-media img:hover {
-    transform: scale(1.1);
-}
-
-.footer-bottom {
-    margin-top: 20px;
-    color: #ccc;
+    text-transform: uppercase;
     font-size: 14px;
 }
 
+.social-media a {
+    margin: 0 10px;
+    display: inline-block;
+}
+
+.social-media img {
+    width: 20px;
+    height: 20px;
+}
+
+.footer-bottom {
+    padding-top: 10px;
+    font-size: 12px;
+}
+
+.footer-bottom span {
+    color: red;
+}
+
 .footer-bottom a {
-    color: #17a2b8;
+    color: #00ff00;
     text-decoration: none;
-}
-
-.footer-bottom a:hover {
-    text-decoration: underline;
-}
-
-/* Modal */
-.modal {
-    display: none;
-    position: fixed;
-    z-index: 1000;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    overflow: auto;
-    background-color: rgba(0, 0, 0, 0.4);
-}
-
-.modal-content {
-    background-color: #fff;
-    margin: 15% auto;
-    padding: 20px;
-    border: 1px solid #888;
-    width: 80%;
-    max-width: 600px;
-    border-radius: 8px;
-}
-
-.close {
-    color: #aaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
-}
-
-.close:hover,
-.close:focus {
-    color: #000;
-    text-decoration: none;
-    cursor: pointer;
-}
-
-.modal-content h2 {
-    margin-top: 0;
-}
-
-.modal-content table {
-    width: 100%;
-    border-collapse: collapse;
-}
-
-.modal-content table th,
-.modal-content table td {
-    border: 1px solid #dee2e6;
-    padding: 8px;
-    text-align: left;
-}
-
-.modal-content table th {
-    background-color: #f1f1f1;
-}
-
-.modal-content table tbody tr:nth-child(odd) {
-    background-color: #f9f9f9;
-}
-
-.modal-content button {
-    background-color: #17a2b8;
-    color: #fff;
-    border: none;
-    padding: 10px 20px;
-    cursor: pointer;
-    border-radius: 4px;
-    transition: background-color 0.3s;
-}
-
-.modal-content button:hover {
-    background-color: #138496;
-}
-
-/* Staff Profile Page Styles */
-.profile-info {
-    background: #fff;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.profile-info h2 {
-    color: #495057;
-    background-color: #f8f9fa;
-    border-left: 5px solid #ced4da;
-    padding: 10px 15px;
-    border-radius: 5px;
-    font-size: 1.5em;
-    margin-top: 0;
-    margin-bottom: 20px;
-    text-align: left;
-    font-weight: bold;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.profile-info table {
-    width: 100%;
-    border-collapse: collapse;
-}
-
-.profile-info th, .profile-info td {
-    border: 1px solid #dee2e6;
-    padding: 12px;
-    text-align: left;
-}
-
-.profile-info th {
-    background-color: #f1f1f1;
-}
-
-.profile-info tbody tr:nth-child(odd) {
-    background-color: #f9f9f9;
 }
