@@ -5,7 +5,7 @@ if (cookie("type") == 'member') {
 
 loader = callApi2("GET", 'http://127.0.0.1:5000/getInventory', 
     { 'data': JSON.stringify("") });
-
+console.log(loader)
 document.addEventListener('click', function (event) {
     var dropdowns = document.querySelectorAll('.dropdown');
     dropdowns.forEach(function (dropdown) {
