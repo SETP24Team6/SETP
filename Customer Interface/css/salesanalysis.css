@@ -1,0 +1,251 @@
+/* General Styles */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f8f9fc;
+}
+nav {
+    top: 0;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    padding: 10px 20px; 
+    box-sizing: border-box;
+}
+
+nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+nav ul li {
+    margin: 0 10px;
+}
+
+nav ul li a {
+    color: white;
+    text-decoration: none;
+    padding: 15px;
+    display: block;
+    text-transform: uppercase;
+    transition: background-color 0.3s;
+}
+
+nav ul li a:hover {
+    background-color: rgba(0, 255, 255, 0.5);
+}
+
+nav .nav-items {
+    display: flex;
+    flex-grow: 1;
+    justify-content: center;
+}
+
+nav .staff-view {
+    margin-left: auto;
+    margin-right: 30px;
+}
+
+nav .staff-view b {
+    color: white;
+    text-transform: uppercase;
+    font-weight: bold;
+    padding: 15px;
+    display: block;
+}
+
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0px;
+    background: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+/* Styles for the Inventory Section */
+#sales {
+    padding: 20px 0;
+    background-color: #f8f9fc;
+}
+
+/* Container within Inventory Section */
+#sales .container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Flexbox for Ingredient Navigation */
+.salesanalysis-nav {
+    display: flex;
+    justify-content: space-around; /* Spread out links evenly */
+    align-items: center;
+    margin: 20px 0;
+    padding: 10px 0;
+    background-color: #ffffff; /* Optional: background for the nav */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Optional: shadow for the nav */
+    border-radius: 8px; /* Optional: rounded corners */
+}
+
+/* Individual Links */
+.salesanalysis-nav a {
+    color: #007bff; /* Adjust to your desired color */
+    text-decoration: none;
+    font-size: 1.2em;
+    padding: 10px 20px;
+    text-transform: uppercase;
+    transition: color 0.3s ease;
+}
+
+/* Hover Effect for Links */
+.salesanalysis-nav a:hover {
+    color: #0056b3;
+    text-decoration: underline;
+}
+
+
+#page-top {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* Page Wrapper */
+#wrapper {
+    flex: 1;
+}
+
+/* Content Wrapper */
+#content-wrapper {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+/* Main Content */
+#content {
+    padding: 2rem;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+/* Header */
+h1 {
+    color: #fff;
+    text-align: center;
+    font-size: 2.5em;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 20px 0;
+    background: linear-gradient(135deg, #17a2b8, #138496);
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin: 20px 0;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Horizontal Line */
+hr {
+    border: 0;
+    height: 1px;
+    background: #e3e6f0;
+    margin-bottom: 1.5rem;
+}
+
+/* Card Styles */
+.card {
+    border: 1px solid #e3e6f0;
+    border-radius: 8px;
+    background-color: #ffffff;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.card-body {
+    padding: 1.5rem;
+}
+
+.border-left-primary {
+    border-left: 4px solid #4e73df;
+}
+
+.text-primary {
+    color: #4e73df;
+}
+
+.text-gray-800 {
+    color: #5a5c69;
+}
+
+.card-header h3 {
+    margin-left: 30px; /* Adjust the spacing as needed */
+}
+
+
+/* Earnings Cards */
+.earnings-yearly {
+    border-left-color: #1cc88a; /* Green for yearly earnings */
+}
+
+.earnings-monthly {
+    border-left-color: #36b9cc; /* Blue for monthly earnings */
+}
+
+
+
+/* Footer */
+.sticky-footer {
+    background-color: #ffffff;
+    padding: 1rem;
+    box-shadow: 0 -1px 3px rgba(0,0,0,0.1);
+}
+
+footer .copyright {
+    color: #5a5c69;
+}
+
+/* Scroll to Top Button */
+.scroll-to-top {
+    position: fixed;
+    bottom: 1rem;
+    right: 1rem;
+    background-color: #4e73df;
+    color: #ffffff;
+    border-radius: 50%;
+    padding: 0.5rem;
+    text-align: center;
+    cursor: pointer;
+}
+
+.scroll-to-top:hover {
+    background-color: #2e59d9;
+}
+
+/* Flexbox Layout for Row */
+.row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem; /* Space between columns */
+}
+
+.col-xl-6 {
+    flex: 1 1 calc(50% - 1rem); /* 50% width minus the gap */
+    max-width: calc(50% - 1rem);
+}
+
+/* Responsive Layout */
+@media (max-width: 768px) {
+    .col-xl-6 {
+        flex: 1 1 100%;
+        max-width: 100%;
+    }
+}
