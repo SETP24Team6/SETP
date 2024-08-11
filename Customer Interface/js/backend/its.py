@@ -13,7 +13,7 @@ def get_all_inventory(conn):
             "INNER JOIN inventory i ON i.products_id = p.products_id " +
             "INNER JOIN uom u ON u.uom_id = i.uom_id " +
             "where order_timestamp BETWEEN " +
-                "NOW()::DATE-EXTRACT(DOW FROM NOW())::INTEGER-14 " +
+                "NOW()::DATE-EXTRACT(DOW FROM NOW())::INTEGER-3 " +
                 "AND NOW()::DATE-EXTRACT(DOW from NOW())::INTEGER " +
             "group by ii.products_id,product_name,quantity_amount, uom_name " +
             "order by ii.products_id " )
