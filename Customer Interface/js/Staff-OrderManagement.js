@@ -89,11 +89,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const logout = document.getElementById('logout-btn');
     const preparingOrdersTableBody = document.getElementById('preparing');
     const readyOrdersTableBody = document.getElementById('ready');
-    const completedOrdersTableBody = document.getElementById('completed');
 
     function checkIfTableIsEmpty(tableBody, message) {
         if (tableBody && tableBody.children.length === 0) {
-            console.log(`Table Body ID: ${tableBody.id} is empty, adding message.`);
+            // console.log(`Table Body ID: ${tableBody.id} is empty, adding message.`);
             const row = document.createElement('tr');
             const cell = document.createElement('td');
             cell.colSpan = 7; // Adjust this number according to the number of columns in the table
@@ -102,7 +101,7 @@ document.addEventListener('DOMContentLoaded', () => {
             row.appendChild(cell);
             tableBody.appendChild(row);
         } else {
-            console.log(`Table Body ID: ${tableBody.id} is not empty or does not exist.`);
+            // console.log(`Table Body ID: ${tableBody.id} is not empty or does not exist.`);
         }
     }
 
@@ -122,10 +121,10 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     function populateFields(){
-        console.time();
+        // console.time();
         let populator = callApi2("GET", 'http://127.0.0.1:5000/get_all_orders', {'data': JSON.stringify("")});
-        console.timeEnd();
-        console.time();
+        // console.timeEnd();
+        // console.time();
         if(populator){
             const orders = {preparing:"", ready:""}
             $.each(populator, function(index, order) {
@@ -165,17 +164,16 @@ document.addEventListener('DOMContentLoaded', () => {
             
             checkIfTableIsEmpty(preparingOrdersTableBody, "There are currently no new orders to process.");
             checkIfTableIsEmpty(readyOrdersTableBody, "There are currently no ready orders for pickup.");
-            checkIfTableIsEmpty(completedOrdersTableBody, "There are currently no completed orders.");
             setTimeout(populateFields, 60000)
         }else{
             
         }
-        console.timeEnd();
-        console.time();
+        // console.timeEnd();
+        // console.time();
         $(".ready").click(function () {
             var $row = $(this).closest("tr");
             var $Area = $row.find(".order_id").text();
-            console.log($Area)
+            // console.log($Area)
             callApi("POST", 'http://127.0.0.1:5000/ready_order', {'data': JSON.stringify($Area)});
             
          });
@@ -186,7 +184,7 @@ document.addEventListener('DOMContentLoaded', () => {
             
          });
          
-        console.timeEnd();
+        // console.timeEnd();
     
     }
     // console.time();
