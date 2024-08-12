@@ -27,8 +27,85 @@ document.querySelectorAll('.dropdown-toggle').forEach(function (toggle) {
     });
 });
 
+// document.addEventListener('DOMContentLoaded', function() {
+//     const preparingOrdersTableBody = document.getElementById('preparing');
+//     const readyOrdersTableBody = document.getElementById('ready');
+//     const completedOrdersTableBody = document.getElementById('completed');
+
+//     function checkIfTableIsEmpty(tableBody, message) {
+//         if (tableBody && tableBody.children.length === 0) {
+//             console.log(`Table Body ID: ${tableBody.id} is empty, adding message.`);
+//             const row = document.createElement('tr');
+//             const cell = document.createElement('td');
+//             cell.colSpan = 7; // Adjust this number according to the number of columns in the table
+//             cell.textContent = message;
+//             cell.style.textAlign = 'center';
+//             row.appendChild(cell);
+//             tableBody.appendChild(row);
+//         } else {
+//             console.log(`Table Body ID: ${tableBody.id} is not empty or does not exist.`);
+//         }
+//     }
+
+//     checkIfTableIsEmpty(preparingOrdersTableBody, "There are currently no new orders to process.");
+//     checkIfTableIsEmpty(readyOrdersTableBody, "There are currently no ready orders for pickup.");
+//     checkIfTableIsEmpty(completedOrdersTableBody, "There are currently no completed orders.");
+// });
+
+
+function updateTable(id, data) {
+    const tableBody = document.getElementById(id);
+    let messageRow = tableBody.querySelector('.no-data-message');
+    
+    if (!messageRow) {
+        messageRow = document.createElement('tr');
+        messageRow.classList.add('no-data-message');
+        const cell = document.createElement('td');
+        cell.colSpan = 7; // Adjust this number as needed
+        cell.style.textAlign = 'center';
+        messageRow.appendChild(cell);
+        tableBody.appendChild(messageRow);
+    }
+    
+    // Clear existing rows
+    while (tableBody.firstChild) {
+        tableBody.removeChild(tableBody.firstChild);
+    }
+
+    if (data.length === 0) {
+        messageRow.querySelector('td').textContent = 'There are currently no data available.';
+        messageRow.style.display = 'table-row';
+    } else {
+        data.forEach(item => {
+            const row = document.createElement('tr');
+            // Add cells and content to row
+            tableBody.appendChild(row);
+        });
+        messageRow.style.display = 'none';
+    }
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     const logout = document.getElementById('logout-btn');
+    const preparingOrdersTableBody = document.getElementById('preparing');
+    const readyOrdersTableBody = document.getElementById('ready');
+    const completedOrdersTableBody = document.getElementById('completed');
+
+    function checkIfTableIsEmpty(tableBody, message) {
+        if (tableBody && tableBody.children.length === 0) {
+            console.log(`Table Body ID: ${tableBody.id} is empty, adding message.`);
+            const row = document.createElement('tr');
+            const cell = document.createElement('td');
+            cell.colSpan = 7; // Adjust this number according to the number of columns in the table
+            cell.textContent = message;
+            cell.style.textAlign = 'center';
+            row.appendChild(cell);
+            tableBody.appendChild(row);
+        } else {
+            console.log(`Table Body ID: ${tableBody.id} is not empty or does not exist.`);
+        }
+    }
+
 
     logout.addEventListener('click', () => {
         cookie.remove("userid")
@@ -83,7 +160,12 @@ document.addEventListener('DOMContentLoaded', () => {
             for (let x in orders) {
                 const filler = document.getElementById(x);
                 filler.innerHTML = orders[x] 
+                
             };
+            
+            checkIfTableIsEmpty(preparingOrdersTableBody, "There are currently no new orders to process.");
+            checkIfTableIsEmpty(readyOrdersTableBody, "There are currently no ready orders for pickup.");
+            checkIfTableIsEmpty(completedOrdersTableBody, "There are currently no completed orders.");
             setTimeout(populateFields, 60000)
         }else{
             

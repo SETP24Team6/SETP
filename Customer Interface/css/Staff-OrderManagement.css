@@ -307,52 +307,11 @@ table .status.high {
     box-sizing: border-box;
 }
 
-/* Close Button */
-.close {
-    color: #aaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
+.no-data-message {
+    display: none;
 }
 
-.close:hover,
-.close:focus {
-    color: #000;
-    text-decoration: none;
-    cursor: pointer;
-}
-
-/* Modal Header */
-.modal-content h2 {
-    margin-top: 0;
-    font-size: 1.5em;
-    color: #333;
-}
-
-/* Form Elements */
-.modal-content label {
-    display: block;
-    margin-bottom: 8px;
-    font-weight: bold;
-}
-
-.modal-content input,
-.modal-content select,
-.modal-content textarea {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 10px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    box-sizing: border-box;
-}
-
-.modal-content textarea {
-    resize: vertical;
-}
-
-/* Send Email Button */
-#sendEmail {
+button {
     background-color: #17a2b8;
     color: #fff;
     border: none;
