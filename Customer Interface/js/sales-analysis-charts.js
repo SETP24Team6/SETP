@@ -1,3 +1,10 @@
+if (cookie("type") == 'member') {
+  window.location.href = 'create-sandwich.html';
+}
+if (!cookie("userid")) {
+  window.location.href = 'order-now.html';
+}
+
 let sales = callApi2("POST", 'http://127.0.0.1:5000/getSales', 
     {'data': JSON.stringify()});
 let moneyFormat = new Intl.NumberFormat('en-US', {style: 'currency', currency: 'SGD'})

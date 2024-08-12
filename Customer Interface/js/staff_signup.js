@@ -1,3 +1,7 @@
+if (cookie("type") == 'member') {
+    window.location.href = 'create-sandwich.html';
+}
+
 document.addEventListener("DOMContentLoaded", function () {
 
 

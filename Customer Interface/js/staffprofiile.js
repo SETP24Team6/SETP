@@ -1,3 +1,10 @@
+if (cookie("type") == 'member') {
+    window.location.href = 'create-sandwich.html';
+  }
+  if (!cookie("userid")) {
+    window.location.href = 'order-now.html';
+  }
+
 document.addEventListener('DOMContentLoaded', function () {
     let staffProfile = callApi2("POST", 'http://127.0.0.1:5000/staff_profile', 
         {'data': JSON.stringify(cookie("userid"))});

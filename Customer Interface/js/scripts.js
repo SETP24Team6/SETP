@@ -15,12 +15,12 @@ document.addEventListener("DOMContentLoaded", function () {
     const signupTitle = document.getElementById('signup-title');
     const forgotPasswordTitle = document.getElementById('forgot-password-title');
 	
-    if (cookie("employeeBool")) {
-        window.location.href = 'Staff-OrderManagement.html';
-    }
-    if (cookie("userid")){
+    if (cookie("type") == 'staff') {
         window.location.href = 'create-sandwich.html';
-    }
+      }
+      if (!cookie("userid")) {
+        window.location.href = 'order-now.html';
+      }
 
     dropdownContent.forEach(item => {
         item.addEventListener('click', function (event) {
