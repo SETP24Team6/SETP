@@ -2,6 +2,8 @@ let sales = callApi2("POST", 'http://127.0.0.1:5000/getSales',
     {'data': JSON.stringify()});
 let moneyFormat = new Intl.NumberFormat('en-US', {style: 'currency', currency: 'SGD'})
 console.log(sales)
+currentYear = new Date()
+currentYear = currentYear.getFullYear()
 const yearlySales = document.getElementById('yearlySales');
 yearlySales.innerHTML = moneyFormat.format(sales.yearly)
 
@@ -216,7 +218,7 @@ var MOMR = new Chart(mr, {
     labels: ["Jan","Feb", "Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],
     datasets: [
       {
-        label: "Previous",
+        label: currentYear-1,
         lineTension: 0.3,
         backgroundColor: "rgba(78, 115, 223, 0.05)",
         borderColor: "rgba(78, 115, 223, 1)",
@@ -231,7 +233,7 @@ var MOMR = new Chart(mr, {
         data: sales.lastYearMonthly,
       },
       {
-        label: "Current", // New dataset for Expenses
+        label: currentYear, // New dataset for Expenses
         lineTension: 0.3,
         backgroundColor: "rgba(255, 99, 132, 0.05)",
         borderColor: "rgba(255, 99, 132, 1)",
@@ -347,7 +349,7 @@ var QOQR = new Chart(qr, {
     labels: ["1st Qtr","2nd Qtr", "3rd Qtr","4th Qtr"],
     datasets: [
       {
-        label: "Previous",
+        label: currentYear-1,
         lineTension: 0.3,
         backgroundColor: "rgba(78, 115, 223, 0.05)",
         borderColor: "rgba(78, 115, 223, 1)",
@@ -362,7 +364,7 @@ var QOQR = new Chart(qr, {
         data: lastYearQtr,
       },
       {
-        label: "Current", // New dataset for Expenses
+        label: currentYear, // New dataset for Expenses
         lineTension: 0.3,
         backgroundColor: "rgba(255, 99, 132, 0.05)",
         borderColor: "rgba(255, 99, 132, 1)",
