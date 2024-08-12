@@ -76,6 +76,10 @@ var currentYearRevenue = new Chart(cyr, {
             maxTicksLimit: 12
           },
           maxBarThickness: 30,
+          scaleLabel: {
+            display: true,
+            labelString: 'Month'
+        }
         }],
         yAxes: [{
           ticks: {
@@ -94,7 +98,11 @@ var currentYearRevenue = new Chart(cyr, {
             drawBorder: false,
             borderDash: [2],
             zeroLineBorderDash: [2]
-          }
+          },
+          scaleLabel: {
+            display: true,
+            labelString: 'Total Revenue by Month($)'
+          } 
         }],
       },
       legend: {
@@ -156,6 +164,8 @@ var hourlySales = new Chart(hs, {
         time: {
           unit: 'dollars'
         },
+
+      
         gridLines: {
           display: false,
           drawBorder: false
@@ -163,7 +173,13 @@ var hourlySales = new Chart(hs, {
         ticks: {
           maxTicksLimit: 10
         },
+
+        
         maxBarThickness: 25,
+        scaleLabel: {
+          display: true,
+          labelString: 'Operating Hour Sale'
+      }
       }],
       yAxes: [{
         ticks: {
@@ -182,6 +198,10 @@ var hourlySales = new Chart(hs, {
           drawBorder: false,
           borderDash: [2],
           zeroLineBorderDash: [2]
+        },
+        scaleLabel: {
+          display: true,
+          labelString: 'Total Revenue by Hour($)'
         }
       }],
     },
@@ -270,7 +290,11 @@ var MOMR = new Chart(mr, {
         },
         ticks: {
           maxTicksLimit: 12
-        }
+        },
+        scaleLabel: {
+          display: true,
+          labelString: 'Month'
+      }
       }],
       yAxes: [{
         ticks: {
@@ -286,7 +310,11 @@ var MOMR = new Chart(mr, {
           drawBorder: false,
           borderDash: [2],
           zeroLineBorderDash: [2]
-        }
+        },
+        scaleLabel: {
+          display: true,
+          labelString: 'Total Revenue by Month($)'
+        } 
       }],
     },
     legend: {
@@ -401,7 +429,11 @@ var QOQR = new Chart(qr, {
         },
         ticks: {
           maxTicksLimit: 4
-        }
+        },
+        scaleLabel: {
+          display: true,
+          labelString: 'Quarterly'
+      }
       }],
       yAxes: [{
         ticks: {
@@ -417,6 +449,10 @@ var QOQR = new Chart(qr, {
           drawBorder: false,
           borderDash: [2],
           zeroLineBorderDash: [2]
+        },
+        scaleLabel: {
+          display: true,
+          labelString: 'Total Revenue by Quarter($)'
         }
       }],
     },
@@ -477,7 +513,7 @@ var topTenIngred = new Chart(tti, {
       }
     },
     scales: {
-      x: {
+      x: [{
         ticks: {
           min: 0,
           max: 250,
@@ -493,17 +529,26 @@ var topTenIngred = new Chart(tti, {
           drawBorder: false,
           borderDash: [2],
           zeroLineBorderDash: [2]
-        }
-      },
-      y: {
+        },
+        scaleLabel: {
+          display: true,
+          labelString: 'Item Count'
+        } 
+      }],
+
+      y: [{
         grid: {
           display: false,
           drawBorder: false
         },
         ticks: {
           maxTicksLimit: 5
-        }
-      }
+        },
+        scaleLabel: {
+          display: true,
+          labelString: 'Sandwich Ingrendient'
+        } 
+      }]
     },
     legend: {
       display: false
@@ -658,7 +703,11 @@ var spendbyAge = new Chart(sba, {
         },
         ticks: {
           maxTicksLimit: 7
-        }
+        },
+        scaleLabel: {
+          display: true,
+          labelString: 'Age Range By Group'
+      }
       }],
       yAxes: [{
         ticks: {
@@ -675,7 +724,11 @@ var spendbyAge = new Chart(sba, {
           drawBorder: false,
           borderDash: [2],
           zeroLineBorderDash: [2]
-        }
+        },
+        scaleLabel: {
+          display: true,
+          labelString: 'Total Revenue spend by Age Group($)'
+        } 
       }],
     },
     legend: {
