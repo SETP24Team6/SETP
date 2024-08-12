@@ -81,7 +81,7 @@ document.addEventListener("DOMContentLoaded", function () {
             let change_success = callApi2("POST", 'http://127.0.0.1:5000/staff_change_pw', {'data': JSON.stringify(requestPayload)});
             if(change_success.row_updated){
                 alert('Password reset successfully!');
-            
+                window.location.href = 'staff-signin.html';
             }else{
                 //wrong email and birthday combo
                 alert('YOU WERE WRONG BOO');

@@ -133,20 +133,21 @@ def cart_out(conn, order):
     ts = datetime.datetime.now()
     cursor.execute("ROLLBACK")
     print(order)
-    query = ("INSERT INTO points_redemption " +
-             "(member_id, timestamp_redeemed, points_redeemed) VALUES "
-             "(%s, %s, %s)")
-    data = (order[0], ts, order[2])
-    cursor.execute(query, data)
-    query = ("select points from member " +
-             "where member_id = {0} ")
-    cursor.execute(query.format(order[0]))
-    current_points = cursor.fetchone()[0]
+    if order[2] != '0':
+        query = ("INSERT INTO points_redemption " +
+                "(member_id, timestamp_redeemed, points_redeemed) VALUES "
+                "(%s, %s, %s)")
+        data = (order[0], ts, order[2])
+        cursor.execute(query, data)
+        query = ("select points from member " +
+                "where member_id = {0} ")
+        cursor.execute(query.format(order[0]))
+        current_points = cursor.fetchone()[0]
 
-    query = ("UPDATE member SET points = %s " +
-             "WHERE member_id = %s ")
-    data = (current_points-int(order[2]), order[0])
-    cursor.execute(query, data)
+        query = ("UPDATE member SET points = %s " +
+                "WHERE member_id = %s ")
+        data = (current_points-int(order[2]), order[0])
+        cursor.execute(query, data)
 
     query = ("UPDATE orders SET order_status = %s, order_timestamp = %s, "
              "order_price = %s "

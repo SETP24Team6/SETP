@@ -45,7 +45,8 @@ document.addEventListener('DOMContentLoaded', function () {
     pointsHolder += '<th class="details-column">DETAILS</th>'
     pointsHolder += '</tr></thead><tbody>'
     $.each(pointsLoader.expended, function(index, points) {
-        var redeemDate=new Date(points[0]);
+        var testme = new Date(points[0]);
+        var redeemDate = new Date(testme.getTime() - (28800000))
         var redeemMonth = parseInt(redeemDate.getMonth()+1)
         if (redeemMonth.toString().length == 1){
             redeemMonth = '0' +redeemMonth.toString()

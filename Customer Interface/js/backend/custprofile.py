@@ -84,15 +84,15 @@ def reorderitems(conn, order):
         cursor.execute(query, data)
         orderid_tracker = cursor.fetchone()[0]
     
-    query = ("SELECT item_type, item_price, string_agg(products_id::varchar, ',') "
+    query = ("SELECT item_ingredients.item_id, item_type, item_price, string_agg(products_id::varchar, ',') "
                  "FROM item_ingredients "
                  "INNER JOIN orders_items on item_ingredients.item_id = orders_items.item_id "
                  "where order_id = {0} "
-                 "GROUP BY item_type, item_price")
+                 "GROUP BY item_ingredients.item_id, item_type, item_price")
     print(order[0])
     cursor.execute(query.format(order[0]))
 
-    for (item_type, item_price, ingred_list) in cursor:
+    for (unneeded, item_type, item_price, ingred_list) in cursor:
         cursor2 = conn.cursor()
         query = ("INSERT INTO orders_items "
                 "(order_id, item_type, item_price)"
