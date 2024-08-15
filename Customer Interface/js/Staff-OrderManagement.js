@@ -27,13 +27,89 @@ document.querySelectorAll('.dropdown-toggle').forEach(function (toggle) {
     });
 });
 
+// document.addEventListener('DOMContentLoaded', function() {
+//     const preparingOrdersTableBody = document.getElementById('preparing');
+//     const readyOrdersTableBody = document.getElementById('ready');
+//     const completedOrdersTableBody = document.getElementById('completed');
+
+//     function checkIfTableIsEmpty(tableBody, message) {
+//         if (tableBody && tableBody.children.length === 0) {
+//             console.log(`Table Body ID: ${tableBody.id} is empty, adding message.`);
+//             const row = document.createElement('tr');
+//             const cell = document.createElement('td');
+//             cell.colSpan = 7; // Adjust this number according to the number of columns in the table
+//             cell.textContent = message;
+//             cell.style.textAlign = 'center';
+//             row.appendChild(cell);
+//             tableBody.appendChild(row);
+//         } else {
+//             console.log(`Table Body ID: ${tableBody.id} is not empty or does not exist.`);
+//         }
+//     }
+
+//     checkIfTableIsEmpty(preparingOrdersTableBody, "There are currently no new orders to process.");
+//     checkIfTableIsEmpty(readyOrdersTableBody, "There are currently no ready orders for pickup.");
+//     checkIfTableIsEmpty(completedOrdersTableBody, "There are currently no completed orders.");
+// });
+
+
+function updateTable(id, data) {
+    const tableBody = document.getElementById(id);
+    let messageRow = tableBody.querySelector('.no-data-message');
+    
+    if (!messageRow) {
+        messageRow = document.createElement('tr');
+        messageRow.classList.add('no-data-message');
+        const cell = document.createElement('td');
+        cell.colSpan = 7; // Adjust this number as needed
+        cell.style.textAlign = 'center';
+        messageRow.appendChild(cell);
+        tableBody.appendChild(messageRow);
+    }
+    
+    // Clear existing rows
+    while (tableBody.firstChild) {
+        tableBody.removeChild(tableBody.firstChild);
+    }
+
+    if (data.length === 0) {
+        messageRow.querySelector('td').textContent = 'There are currently no data available.';
+        messageRow.style.display = 'table-row';
+    } else {
+        data.forEach(item => {
+            const row = document.createElement('tr');
+            // Add cells and content to row
+            tableBody.appendChild(row);
+        });
+        messageRow.style.display = 'none';
+    }
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     const logout = document.getElementById('logout-btn');
+    const preparingOrdersTableBody = document.getElementById('preparing');
+    const readyOrdersTableBody = document.getElementById('ready');
+
+    function checkIfTableIsEmpty(tableBody, message) {
+        if (tableBody && tableBody.children.length === 0) {
+            console.log(`Table Body ID: ${tableBody.id} is empty, adding message.`);
+            const row = document.createElement('tr');
+            const cell = document.createElement('td');
+            cell.colSpan = 7; // Adjust this number according to the number of columns in the table
+            cell.textContent = message;
+            cell.style.textAlign = 'center';
+            row.appendChild(cell);
+            tableBody.appendChild(row);
+        } else {
+            // console.log(`Table Body ID: ${tableBody.id} is not empty or does not exist.`);
+        }
+    }
+
 
     logout.addEventListener('click', () => {
         cookie.remove("userid")
         cookie.remove("username")
-        cookie.remove("employeeBool")
+        cookie.remove("type")
         window.location.href = 'order-now.html';
     });
 
@@ -45,9 +121,12 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     function populateFields(){
+        // console.time();
         let populator = callApi2("GET", 'http://127.0.0.1:5000/get_all_orders', {'data': JSON.stringify("")});
+        // console.timeEnd();
+        // console.time();
         if(populator){
-            const orders = {preparing:"", ready:"", completed:""}
+            const orders = {preparing:"", ready:""}
             $.each(populator, function(index, order) {
                 orders[order.order_status] += '<tr> <td class="order_id" >'+order.order_id+'</td>'
                 orders[order.order_status] += '<td>'
@@ -72,10 +151,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     case 'ready':
                         orders[order.order_status] += '<td><button class="complete">Complete!</button></td>'
                         break;
-                    case 'completed':
-                        orders[order.order_status] += '<td><button class="Done">Done!</button></td>'
-                    break;
-                      default:
+                    default:
                         // code block
                     }
                 
@@ -83,15 +159,21 @@ document.addEventListener('DOMContentLoaded', () => {
             for (let x in orders) {
                 const filler = document.getElementById(x);
                 filler.innerHTML = orders[x] 
+                
             };
+            
+            checkIfTableIsEmpty(preparingOrdersTableBody, "There are currently no new orders to process.");
+            checkIfTableIsEmpty(readyOrdersTableBody, "There are currently no ready orders for pickup.");
             setTimeout(populateFields, 60000)
         }else{
             
         }
+        // console.timeEnd();
+        // console.time();
         $(".ready").click(function () {
             var $row = $(this).closest("tr");
             var $Area = $row.find(".order_id").text();
-            console.log($Area)
+            // console.log($Area)
             callApi("POST", 'http://127.0.0.1:5000/ready_order', {'data': JSON.stringify($Area)});
             
          });
@@ -101,9 +183,13 @@ document.addEventListener('DOMContentLoaded', () => {
             callApi("POST", 'http://127.0.0.1:5000/complete_order', {'data': JSON.stringify($Area)});
             
          });
+         
+        // console.timeEnd();
     
     }
+    // console.time();
     populateFields()
+    
 
     
     const closeButtons = document.querySelectorAll('.close');

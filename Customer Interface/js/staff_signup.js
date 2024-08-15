@@ -1,3 +1,18 @@
+if (cookie("type") == 'member') {
+    window.location.href = 'create-sandwich.html';
+  }
+  if (!cookie("userid")) {
+    window.location.href = 'order-now.html';
+  }
+
+  const logout = document.getElementById('logout-btn');
+    
+  logout.addEventListener('click', () => {
+      cookie.remove("userid")
+      cookie.remove("username")
+      cookie.remove("type")
+      window.location.href = 'order-now.html';
+  });
 document.addEventListener("DOMContentLoaded", function () {
 
 
@@ -42,7 +57,7 @@ document.addEventListener("DOMContentLoaded", function () {
             phone: document.getElementById('phone').value
         }
         
-        let checker = callApi2("POST", 'http://127.0.0.1:5000/checkuser',
+        let checker = callApi2("POST", 'http://127.0.0.1:5000/staff_checkuser',
             {'data': JSON.stringify(requestUser)});
         
         if (!checker.exists){
@@ -55,7 +70,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 birthday: document.getElementById('birthday').value,
                 passwordhash: hash
             };
-            callApi("POST", 'http://127.0.0.1:5000/signup',
+            callApi("POST", 'http://127.0.0.1:5000/staff_signup',
                 {'data': JSON.stringify(requestPayload)});
             
             alert('Account created successfully!');
@@ -78,10 +93,10 @@ document.addEventListener("DOMContentLoaded", function () {
                 passwordhash: hash
             };
         if(hash === rehash){
-            let change_success = callApi2("POST", 'http://127.0.0.1:5000/change_pw', {'data': JSON.stringify(requestPayload)});
+            let change_success = callApi2("POST", 'http://127.0.0.1:5000/staff_change_pw', {'data': JSON.stringify(requestPayload)});
             if(change_success.row_updated){
                 alert('Password reset successfully!');
-            
+                window.location.href = 'staff-signin.html';
             }else{
                 //wrong email and birthday combo
                 alert('YOU WERE WRONG BOO');

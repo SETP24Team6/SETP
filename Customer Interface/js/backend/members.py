@@ -44,17 +44,6 @@ def member_login(conn,member):
         result["member_id"] = member_id
     return result
 
-def employee_login(conn,employee):
-    cursor = conn.cursor()
-    query = ("select firstname, employee_id from employee where email = %s and passwordhash = %s")
-    data = (employee['email'], employee['passwordhash'])
-    cursor.execute(query, data)
-    result = {}
-    for (firstname, employee_id) in cursor:
-        result["firstname"] = firstname
-        result["employee_id"] = employee_id
-    return result
-
 def change_password(conn,member):
     cursor = conn.cursor()
     cursor.execute("ROLLBACK")

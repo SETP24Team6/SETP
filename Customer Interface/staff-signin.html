@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Staff Sign Up</title>
+    <link rel="stylesheet" href="css/staffstyle.css">
+    
+    <script src="js/md5.js"></script>
+    <script src="js/packages/jquery.min.js"></script>
+    <script src="js/cookie.umd.js"></script>
+    <script src="js/api.js" defer></script>
+    <script src="js/staff_signup.js" defer></script>
+</head>
+
+<body>
+    <nav>
+        <div class="nav-items">
+            <ul>
+                <li><a href="sales-analysis.html">Analytics</a></li>
+                <li><a href="SmartInventory.html">Inventory</a></li>
+                <li><a href="Staff-OrderManagement.html">Manage Orders (OMS)</a></li>
+                <li><a href="#contact">CONTACT</a></li>
+            </ul>
+        </div>
+        <div class="dropdown">
+            <a href="#" class="dropdown-toggle">Staff View</a>
+            <ul class="dropdown-menu">
+                <li><a href="staff-profile.html">Staff Profile</a></li>
+                <li><a href="staff-signin.html">New Staff Sign Up</a></li>
+                <li><a href="customer-home.html" id="logout-btn">Logout</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    
+    <div class="container">
+        <div class="form-box">
+            <div class="signup-login-container">
+                <div class="container" id="ss-container">
+                    
+                
+                    <form id="signup-form" class="signup-form" >
+                        <div class="form-title-container">
+                            <h2 id="signup-title">SIGN UP</h2>
+                        </div>
+                        
+                        <div class="form-row">
+                            <label for="first-name">First Name:</label>
+                            <input type="text" id="first-name" name="first-name" required>
+                        </div>
+                
+                        <div class="form-row">
+                            <label for="last-name">Last Name:</label>
+                            <input type="text" id="last-name" name="last-name" required>
+                        </div>
+                
+                        <div class="form-row">
+                            <label for="birthday">Birthday (DD/MM/YYYY):</label>
+                            <input type="text" id="birthday" name="birthday" pattern="\d{2}/\d{2}/\d{4}" required>
+                        </div>
+                
+                        <div class="form-row">
+                            <label for="phone">Phone Number:</label>
+                            <input type="text" id="phone" name="phone" pattern="\d{8}" maxlength="8" required>
+                        </div>
+                
+                        <div class="form-row">
+                            <label for="email-signup">Email:</label>
+                            <input type="email" id="email-signup" name="email-signup" required>
+                        </div>
+                
+                        <div class="form-row">
+                            <label for="password-signup">Password:</label>
+                            <input type="password" id="password-signup" name="password-signup" required>
+                        </div>
+                        
+                        <div class="form-row">
+                            <button type="submit" class="submit-button">Sign Up</button>
+                        </div>
+
+                        <div class="form-row">
+                            <button type="button" class="switch-button" id="switch-to-forgot-password">Forgot Password</button>
+                        </div>
+                    </form>
+                
+                    <form id="forgot-password-form" class="signup-form" style="display:none;">
+                        <div class="form-title-container">
+                            <h2 id="forgot-password-title">RESET PASSWORD</h2>
+                        </div>
+                        
+                        <div class="form-row">
+                            <label for="email-forgot">Email:</label>
+                            <input type="email" id="email-forgot" name="email-forgot" required>
+                        </div>
+                
+                        <div class="form-row">
+                            <label for="birthday-forgot">Birthday (DD/MM/YYYY):</label>
+                            <input type="text" id="birthday-forgot" name="birthday-forgot" pattern="\d{2}/\d{2}/\d{4}" required>
+                        </div>
+                
+                        <div class="form-row">
+                            <label for="new-password">New Password:</label>
+                            <input type="password" id="new-password" name="new-password" maxlength="15" required>
+                        </div>
+                
+                        <div class="form-row">
+                            <label for="re-password">Retype Password:</label>
+                            <input type="password" id="re-password" name="re-password" maxlength="15" required>
+                        </div>
+                
+                        <div class="form-row">
+                            <button type="submit" class="submit-button">Submit</button>
+                        </div>
+                
+                        <div class="form-row">
+                            <button type="button" class="switch-button" id="switch-to-signup-from-forgot">Back</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <h3>Find Out More!</h3>
+            <ul class="footer-links">
+                <li><a href="#customer-home.html#home">Home</a></li>
+                <li><a href="#customer-home.html#about">About</a></li>
+                <li><a href="customer-home.html#locations">Locations</a></li>
+                <li><a href="customer-home.html#contact">Contact</a></li>
+            </ul>
+            <div class="social-media">
+                <a href="#"><img src="asset/footer/twitter-icon.png" alt="Twitter"></a>
+                <a href="#"><img src="asset/footer/facebook-icon.png" alt="Facebook"></a>
+                <a href="#"><img src="asset/footer/instagram-icon.png" alt="Instagram"></a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 All Rights Reserved | Bite & Delight </a></p>
+        </div>
+    </footer>
+</body>
+
+</html>

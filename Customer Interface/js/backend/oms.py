@@ -10,8 +10,8 @@ def get_all_orders(conn):
              "store_name, order_status, order_price from orders " + 
              "INNER JOIN member ON orders.member_id = member.member_id " +
              "INNER JOIN stores on stores.store_id = orders.store_id " +
-             "where NOT order_status = 'cart' " +
-             "ORDER BY orders.order_id DESC LIMIT 30")
+             "where NOT order_status IN ('cart', 'completed') " +
+             "ORDER BY orders.order_id ")
     cursor.execute(query)
     response = []
     for (order_id, firstName, order_timestamp, store_name, order_status, order_price) in cursor:
@@ -74,8 +74,29 @@ def ready_order(conn,order):
     return cursor.lastrowid
 
 def complete_order(conn,order):
+    
     cursor = conn.cursor()
     cursor.execute("ROLLBACK")
+
+    query = ("UPDATE orders SET order_status = 'completed' where order_id = {0} RETURNING order_price, member_id")
+    data = (order)
+    cursor.execute(query.format(data))
+    member_data = cursor.fetchone()
+    points_to_add = member_data[0] // 4
+    member_cursor = member_data[1]
+
+    query = ("select points from member " +
+             "where member_id = {0} ")
+    cursor.execute(query.format(member_cursor))
+    current_points = cursor.fetchone()[0]
+
+    query = ("UPDATE member SET points = %s " +
+             "WHERE member_id = %s ")
+    data = (current_points+points_to_add, member_cursor)
+    
+    # print(query.format(order))
+    cursor.execute(query, data)
+
     query = ("UPDATE orders SET order_status = 'completed' where order_id = {0} ")
     data = (order)
     cursor.execute(query.format(data))

@@ -1,15 +1,14 @@
 if (cookie("type") == 'member') {
     window.location.href = 'create-sandwich.html';
-}
+  }
+  if (!cookie("userid")) {
+    window.location.href = 'order-now.html';
+  }
 
-console.log(cookie('userid)'))
-console.log(cookie('username)'))
-console.log(cookie('type)'))
 
 loader = callApi2("GET", 'http://127.0.0.1:5000/getInventory', 
     { 'data': JSON.stringify("") });
-
-
+console.log(loader)
 document.addEventListener('click', function (event) {
     var dropdowns = document.querySelectorAll('.dropdown');
     dropdowns.forEach(function (dropdown) {
@@ -40,7 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
     logout.addEventListener('click', () => {
         cookie.remove("userid")
         cookie.remove("username")
-        cookie.remove("employeeBool")
+        cookie.remove("type")
         window.location.href = 'order-now.html';
     });
     const sandwichIngred = document.getElementById('sandwichIngredients');
@@ -61,7 +60,7 @@ document.addEventListener('DOMContentLoaded', () => {
     sandwichLoader = ""
     smoothieLoader = ""
     for (let i = 0; i < 30; i++) {
-        if (i < 19){
+        if (i < 18){
             currentInv = loader[i]["quantity_amount"]/1000
             optInv = loader[i]["amount"]*loader[i]["uom"]/1000 
             sandwichLoader += "<tr>"

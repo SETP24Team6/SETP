@@ -1,3 +1,10 @@
+if (cookie("type") == 'staff') {
+    window.location.href = 'Staff-OrderManagement.html';
+}
+if (!cookie("userid")) {
+    window.location.href = 'order-now.html';
+}
+
 document.addEventListener('DOMContentLoaded', function () {
     if (!cookie("userid")) {
         window.location.href = 'order-now.html';
@@ -27,7 +34,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Calculate and display points earned
     // const pointsEarned = Math.floor(parseFloat(totalAmount));
-    document.getElementById('reward_points').textContent = `not implemented yet`;
+    document.getElementById('reward_points').textContent = Math.floor(parseFloat(lastCheckOut[0]["order_price"])/4) ;
 
     document.querySelectorAll('.toggle-ingredients').forEach(button => {
         button.addEventListener('click', function () {

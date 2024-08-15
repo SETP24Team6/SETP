@@ -1,3 +1,9 @@
+if (cookie("type") == 'member') {
+    window.location.href = 'create-sandwich.html';
+  }
+if (cookie("type") == 'staff') {
+window.location.href = 'Staff-OrderManagement.html';
+}
 document.addEventListener("DOMContentLoaded", function () {
     const dropdownContent = document.querySelectorAll('.dropdown-content a');
     const selectedLocation = document.getElementById('selected-location');
@@ -15,13 +21,6 @@ document.addEventListener("DOMContentLoaded", function () {
     const signupTitle = document.getElementById('signup-title');
     const forgotPasswordTitle = document.getElementById('forgot-password-title');
 	
-    if (cookie("employeeBool")) {
-        window.location.href = 'Staff-OrderManagement.html';
-    }
-    if (cookie("userid")){
-        window.location.href = 'create-sandwich.html';
-    }
-
     dropdownContent.forEach(item => {
         item.addEventListener('click', function (event) {
             event.preventDefault();

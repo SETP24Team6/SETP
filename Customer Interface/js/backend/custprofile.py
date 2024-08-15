@@ -84,15 +84,15 @@ def reorderitems(conn, order):
         cursor.execute(query, data)
         orderid_tracker = cursor.fetchone()[0]
     
-    query = ("SELECT item_type, item_price, string_agg(products_id::varchar, ',') "
+    query = ("SELECT item_ingredients.item_id, item_type, item_price, string_agg(products_id::varchar, ',') "
                  "FROM item_ingredients "
                  "INNER JOIN orders_items on item_ingredients.item_id = orders_items.item_id "
                  "where order_id = {0} "
-                 "GROUP BY item_type, item_price")
+                 "GROUP BY item_ingredients.item_id, item_type, item_price")
     print(order[0])
     cursor.execute(query.format(order[0]))
 
-    for (item_type, item_price, ingred_list) in cursor:
+    for (unneeded, item_type, item_price, ingred_list) in cursor:
         cursor2 = conn.cursor()
         query = ("INSERT INTO orders_items "
                 "(order_id, item_type, item_price)"
@@ -114,8 +114,8 @@ def cust_profile(conn,member):
     cursor = conn.cursor()
     query = ("SELECT firstname, lastname, email, phone, birthday "
              "from member "
-             "where member_id = %s ")
-    cursor.execute(query, member)
+             "where member_id = {0} ")
+    cursor.execute(query.format(member))
     result = {}
     for (firstname, lastname, email, phone, birthday) in cursor:
         result["firstname"] = firstname
@@ -132,3 +132,24 @@ def update_cust_profile(conn,member):
     cursor.execute(query, member)
 
     return cursor.lastrowid
+
+def get_points(conn,member):
+    cursor = conn.cursor()
+    query = ("SELECT points from member where member_id = {0} ")
+    cursor.execute(query.format(member))
+    member_points = cursor.fetchone()[0]
+    response = {}
+    results = []
+    query = ("select timestamp_redeemed, points_redeemed from points_redemption " +
+            "where member_id = {0} " +
+            "order by timestamp_redeemed desc " + 
+            "limit 10 ")
+    cursor.execute(query.format(member))
+
+    for (timestamp, points) in cursor:
+        results.append((timestamp, points))
+    
+    response["current"] = member_points
+    response["expended"] = results
+
+    return response
