@@ -1,3 +1,9 @@
+if (cookie("type") == 'staff') {
+    window.location.href = 'Staff-OrderManagement.html';
+}
+if (!cookie("userid")) {
+    window.location.href = 'order-now.html';
+}
 document.addEventListener('DOMContentLoaded', function () {
     const accountOptions = document.querySelectorAll('.account-option');
     const sections = document.querySelectorAll('.update-profile-section, .order-history-section, .reward-points-section');

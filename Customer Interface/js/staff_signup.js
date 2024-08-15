@@ -1,7 +1,18 @@
 if (cookie("type") == 'member') {
     window.location.href = 'create-sandwich.html';
-}
+  }
+  if (!cookie("userid")) {
+    window.location.href = 'order-now.html';
+  }
 
+  const logout = document.getElementById('logout-btn');
+    
+  logout.addEventListener('click', () => {
+      cookie.remove("userid")
+      cookie.remove("username")
+      cookie.remove("type")
+      window.location.href = 'order-now.html';
+  });
 document.addEventListener("DOMContentLoaded", function () {
 
 

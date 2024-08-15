@@ -120,6 +120,6 @@ def update_points(conn):
         
     return 0
 
-item_get(connection)
+# item_get(connection)
 order_get(connection)
 update_points(connection)

@@ -1,9 +1,7 @@
 if (cookie("type") == 'member') {
     window.location.href = 'create-sandwich.html';
-  }
-  if (!cookie("userid")) {
-    window.location.href = 'order-now.html';
-  }
+}
+
 
 document.addEventListener('click', function (event) {
     var dropdowns = document.querySelectorAll('.dropdown');
@@ -94,7 +92,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function checkIfTableIsEmpty(tableBody, message) {
         if (tableBody && tableBody.children.length === 0) {
-            // console.log(`Table Body ID: ${tableBody.id} is empty, adding message.`);
+            console.log(`Table Body ID: ${tableBody.id} is empty, adding message.`);
             const row = document.createElement('tr');
             const cell = document.createElement('td');
             cell.colSpan = 7; // Adjust this number according to the number of columns in the table
@@ -111,7 +109,7 @@ document.addEventListener('DOMContentLoaded', () => {
     logout.addEventListener('click', () => {
         cookie.remove("userid")
         cookie.remove("username")
-        cookie.remove("employeeBool")
+        cookie.remove("type")
         window.location.href = 'order-now.html';
     });
 

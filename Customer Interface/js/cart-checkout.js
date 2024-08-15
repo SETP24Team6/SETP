@@ -1,3 +1,10 @@
+if (cookie("type") == 'staff') {
+    window.location.href = 'Staff-OrderManagement.html';
+}
+if (!cookie("userid")) {
+    window.location.href = 'order-now.html';
+}
+
 document.addEventListener('DOMContentLoaded', function () {
     if (!cookie("userid")) {
         window.location.href = 'order-now.html';

@@ -4,7 +4,14 @@ if (cookie("type") == 'member') {
 if (!cookie("userid")) {
   window.location.href = 'order-now.html';
 }
-
+const logout = document.getElementById('logout-btn');
+    
+    logout.addEventListener('click', () => {
+        cookie.remove("userid")
+        cookie.remove("username")
+        cookie.remove("type")
+        window.location.href = 'order-now.html';
+    });
 let sales = callApi2("POST", 'http://127.0.0.1:5000/getSales', 
     {'data': JSON.stringify()});
 let moneyFormat = new Intl.NumberFormat('en-US', {style: 'currency', currency: 'SGD'})

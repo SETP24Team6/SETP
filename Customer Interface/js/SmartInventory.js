@@ -1,6 +1,9 @@
 if (cookie("type") == 'member') {
     window.location.href = 'create-sandwich.html';
-}
+  }
+  if (!cookie("userid")) {
+    window.location.href = 'order-now.html';
+  }
 
 
 loader = callApi2("GET", 'http://127.0.0.1:5000/getInventory', 
@@ -36,7 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
     logout.addEventListener('click', () => {
         cookie.remove("userid")
         cookie.remove("username")
-        cookie.remove("employeeBool")
+        cookie.remove("type")
         window.location.href = 'order-now.html';
     });
     const sandwichIngred = document.getElementById('sandwichIngredients');

@@ -5,6 +5,14 @@ if (cookie("type") == 'member') {
     window.location.href = 'order-now.html';
   }
 
+  const logout = document.getElementById('logout-btn');
+    
+  logout.addEventListener('click', () => {
+      cookie.remove("userid")
+      cookie.remove("username")
+      cookie.remove("type")
+      window.location.href = 'order-now.html';
+  });
 document.addEventListener('DOMContentLoaded', function () {
     let staffProfile = callApi2("POST", 'http://127.0.0.1:5000/staff_profile', 
         {'data': JSON.stringify(cookie("userid"))});
